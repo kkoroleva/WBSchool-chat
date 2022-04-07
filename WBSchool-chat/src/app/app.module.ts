@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
+import { FriendsComponent } from './friends/friends.component';
 
 
 /*Modules*/
@@ -23,10 +24,13 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule, } from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FriendsComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatTabsModule,
     MatChipsModule,
     MatIconModule,
+    MatDividerModule,
+    MatRippleModule,
 
     //Forms
     FormsModule,
