@@ -11,16 +11,25 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
+import { AuthNav } from './auth/navigation';
+import { ReactiveFormsModule } from '@angular/forms';
 
-
+export const authRoutes: Routes = [
+  {path: '', component: AuthComponent, children: [
+    { path: '', redirectTo: '/login', pathMatch: 'full'},
+    {path: 'login', component: LoginComponent},
+    {path: 'register', component: RegisterComponent}
+  ]}
+];
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    AuthComponent
+    AuthComponent,
+    AuthNav
   ],
   imports: [
     CommonModule,
@@ -33,13 +42,8 @@ import { AuthComponent } from './auth/auth.component';
     MatTabsModule,
     MatChipsModule,
     MatIconModule,
-    RouterModule.forChild([
-      {path: '', component: AuthComponent, children: [
-        { path: '', redirectTo: '/login', pathMatch: 'full'},
-        {path: 'login', component: LoginComponent},
-        {path: 'register', component: RegisterComponent}
-      ]}
-    ])
+    ReactiveFormsModule,
+    RouterModule.forChild(authRoutes)
   ],
   exports: [
     AuthComponent

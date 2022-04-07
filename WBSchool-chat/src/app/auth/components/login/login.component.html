@@ -1,19 +1,22 @@
- <form action="">
+<auth-nav></auth-nav>
+<form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <h3>Autorization</h3>
+    <p class="small"><small>If you haven't an account, you can register new account</small></p>
     <p>
         <mat-form-field appearance="fill">
           <mat-label>Enter your username or email</mat-label>
-          <input matInput placeholder="example: user10">
+          <input matInput placeholder="example: user10" formControlName="username">
           <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-          <mat-hint>Validation</mat-hint>
+          <mat-hint *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.invalid">Username is too short</mat-hint>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Enter your password</mat-label>
-          <input type="password" matInput placeholder="password">
+          <input type="password" matInput placeholder="password" formControlName="password">
           <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-          <mat-hint>Validation</mat-hint>
+          <mat-hint *ngIf="loginForm.get('password')!.touched && loginForm.get('password')!.invalid">Password is too short</mat-hint>
         </mat-form-field>
       </p>
-      <button mat-raised-button color="access" type="submit">Login</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
  </form>

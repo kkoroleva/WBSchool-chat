@@ -1,35 +1,34 @@
-<form action="">
+<auth-nav></auth-nav>
+<form [formGroup]="registerForm" (ngSubmit)="submit()">
+  <h3>Registration</h3>
+  <p class="small"><small>Create a new account</small></p>
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Enter your email</mat-label>
-      <input type="email" matInput placeholder="example: example@email.com">
-      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-      <mat-hint>Validation</mat-hint>
+      <input type="email" matInput placeholder="example: example@email.com" formControlName="email">
+      <mat-hint *ngIf="registerForm.get('email')!.touched && registerForm.get('email')!.invalid">Email is invalid</mat-hint>
     </mat-form-field>
   </p>
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Enter your username</mat-label>
-      <input matInput placeholder="example: user10">
-      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-      <mat-hint>Validation</mat-hint>
+      <input matInput placeholder="example: user10" formControlName="username">
+      <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.invalid">Username is too short</mat-hint>
     </mat-form-field>
   </p>
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Enter your password</mat-label>
-      <input type="password" matInput placeholder="password">
-      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-      <mat-hint>Validation</mat-hint>
+      <input type="password" matInput placeholder="password" formControlName="password">
+      <mat-hint *ngIf="registerForm.get('password')!.touched && registerForm.get('password')!.invalid">Password is too short</mat-hint>
     </mat-form-field>
   </p>
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Repeat your password</mat-label>
-      <input type="password" matInput placeholder="password">
-      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-      <mat-hint>Validation</mat-hint>
+      <input type="password" matInput placeholder="password" formControlName="password">
+      <mat-hint *ngIf="registerForm.get('password')!.touched && registerForm.get('password')!.invalid">Password is not match</mat-hint>
     </mat-form-field>
   </p>
-  <button mat-raised-button color="access" type="submit">Create a new account</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
 </form>

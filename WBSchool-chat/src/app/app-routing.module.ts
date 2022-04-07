@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthComponent } from './auth/auth/auth.component';
+import { authRoutes } from './auth/auth.module';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/auth', pathMatch: 'full'},
-  { path: 'auth', component: AuthComponent},
+  { path: '', redirectTo: '/auth', pathMatch: 'full'},
+  { path: 'auth', children: [...authRoutes]},
 ];
 
 @NgModule({
