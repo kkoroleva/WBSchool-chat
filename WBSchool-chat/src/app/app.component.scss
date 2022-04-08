@@ -5,6 +5,10 @@ $tablet-width: 768px;
 $desktop-width: 1280px;
 $max-width: 1440px;
 
+* {
+  box-sizing: border-box;
+}
+
 .main__header {
   min-width: $min-width;
   max-width: $max-width;

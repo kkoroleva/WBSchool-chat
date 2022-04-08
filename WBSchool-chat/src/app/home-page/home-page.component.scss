@@ -1,0 +1,102 @@
+$section-background: white;
+
+/*Break-points*/
+$min-width: 320px;
+$mobile-width: 495px;
+$tablet-width: 768px;
+$desktop-width: 1280px;
+$max-width: 1440px;
+
+.home-page__wrapper {
+  min-width: $min-width;
+  max-width: $desktop-width;
+  display: grid;
+  grid-template-columns: minmax($min-width, $mobile-width);
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  gap: 30px;
+
+  @media (min-width: $mobile-width) {
+    grid-template-columns: minmax($min-width, $mobile-width);
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  @media (min-width: $tablet-width) {
+    grid-template-columns: minmax($min-width, ) minmax($min-width);
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+
+  @media (min-width: $desktop-width) {
+    grid-template-columns: minmax($min-width, $mobile-width) minmax($min-width, $mobile-width) minmax($min-width, $mobile-width);
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+.home-page__search {
+  border-radius: 20px;
+  background-color: $section-background;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  grid-row: 1/2;
+  grid-column: 1/2;
+
+  @media (min-width: $mobile-width) {
+    grid-row: 1/2;
+    grid-column: 1/2;
+  }
+
+  @media (min-width: $desktop-width) {
+    grid-row: 1/2;
+    grid-column: 1/2;
+  }
+}
+
+.home-page__groups {
+  border-radius: 20px;
+  background-color: $section-background;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  grid-row: 2/3;
+  grid-column: 1/2;
+}
+
+.home-page__recents {
+  border-radius: 20px;
+  background-color: $section-background;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  grid-row: 3/4;
+  grid-column: 1/2;
+}
+
+.home-page__friends {
+  border-radius: 20px;
+  background-color: $section-background;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  grid-row: 4/5;
+  grid-column: 1/2;
+
+  @media (min-width: $mobile-width) {
+    grid-row: 1/2;
+    grid-column: 2/3;
+  }
+
+  @media (min-width: $desktop-width) {
+    grid-row: 1/4;
+    grid-column: 2/3;
+  }
+}
+
+.home-page__section {
+  border-radius: 20px;
+  background-color: $section-background;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  grid-row: 5/6;
+  grid-column: 1/2;
+
+  @media (min-width: $mobile-width) {
+    grid-row: 2/3;
+    grid-column: 2/3;
+  }
+
+  @media (min-width: $desktop-width) {
+    grid-row: 1/4;
+    grid-column: 3/4;
+  }
+}
