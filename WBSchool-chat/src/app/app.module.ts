@@ -22,7 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
-import {MatChipsModule, } from '@angular/material/chips';
+import {MatChipsModule } from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
