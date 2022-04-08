@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,6 +24,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule, } from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  multi: true,
+  useClass: AuthInterceptor
+}
 
 @NgModule({
   declarations: [
@@ -52,7 +59,7 @@ import { AuthModule } from './auth/auth.module';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
