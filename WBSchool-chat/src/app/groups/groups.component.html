@@ -6,25 +6,11 @@
         <mat-icon class="groups__menu">more_vert</mat-icon>
     </mat-card-header>
     <mat-card-content class="groups__list">
-        <div class="groups__item">
-            <img class="groups__img" src="/assets/images/img.svg" alt="Аватар пользователя">
+        <div class="groups__item" *ngFor="let group of groups">
+            <img class="groups__img" src="{{group.image}}" alt="Фото группы">
             <div class="groups__info">
-                <h2>Friends Reunion</h2>
-                <p>Hi Guys, Wassup!</p>
-            </div>
-        </div>
-        <div class="groups__item">
-            <img class="groups__img" src="/assets/images/img2.svg" alt="Аватар пользователя">
-            <div class="groups__info">
-                <h2>Friends Forever</h2>
-                <p>Good to see you.</p>
-            </div>
-        </div>
-        <div class="groups__item">
-            <img class="groups__img" src="/assets/images/img3.svg" alt="Аватар пользователя">
-            <div class="groups__info">
-                <h2>Crazy Cousins</h2>
-                <p>What plans today?</p>
+                <h2>{{group.title}}</h2>
+                <p>{{group.lastMessage}}</p>
             </div>
         </div>
     </mat-card-content>
