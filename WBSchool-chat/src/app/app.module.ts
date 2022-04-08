@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 
 /*Modules*/
@@ -26,7 +27,8 @@ import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainPageComponent,
   ],
   imports: [
     BrowserModule,
