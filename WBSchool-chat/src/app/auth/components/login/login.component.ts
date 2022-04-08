@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { AuthService } from '../../auth.service';
-import { User } from '../../user.interface';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../interfaces';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     const user: User = {
-      username: this.loginForm.value.username,
+      emailOrUser: this.loginForm.value.username,
       password: this.loginForm.value.password
     }
 
@@ -48,7 +48,8 @@ export class LoginComponent implements OnInit {
     )
     .subscribe(() => {
       this.loginForm.reset();
-      // this.router.navigate(['/dashboard']);
+      alert(`Welcome to the club, ${localStorage.getItem('username')}`)
+      this.router.navigate(['test']);
       this.submitted = false;
     },
     () => {

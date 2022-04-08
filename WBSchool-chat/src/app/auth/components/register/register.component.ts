@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { AuthService } from '../../auth.service';
-import { User } from '../../user.interface';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../interfaces';
 
 @Component({
   selector: 'app-register',
@@ -20,8 +20,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      username: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
+      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(100)]),
+      repeatPassword: new FormControl(null, [Validators.required]),
     })
   }
 
@@ -49,7 +50,8 @@ export class RegisterComponent implements OnInit {
     )
     .subscribe(() => {
       this.registerForm.reset();
-      this.router.navigate(['/login']);
+      alert(`Now you can login with your username or email, ${localStorage.getItem('email')}`)
+      this.router.navigate(['login']);
       this.submitted = false;
     },
     () => {

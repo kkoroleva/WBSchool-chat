@@ -26,9 +26,9 @@
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Repeat your password</mat-label>
-      <input type="password" matInput placeholder="password" formControlName="password">
-      <mat-hint *ngIf="registerForm.get('password')!.touched && registerForm.get('password')!.invalid">Password is not match</mat-hint>
+      <input type="password" matInput placeholder="password" formControlName="repeatPassword">
+      <mat-hint *ngIf="registerForm.get('repeatPassword')!.touched && registerForm.get('repeatPassword')!.value !== registerForm.get('password')!.value">Password is not match</mat-hint>
     </mat-form-field>
   </p>
-  <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid || registerForm.get('repeatPassword')!.value != registerForm.get('password')!.value">Register</button>
 </form>

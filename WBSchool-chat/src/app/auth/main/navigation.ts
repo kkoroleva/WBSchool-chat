@@ -16,6 +16,9 @@ import { Component } from '@angular/core';
     margin-bottom: 10px;
     width: 180px;
   }
+  .active {
+    border: 1px solid red;
+  }
   `]
 })
 export class AuthNav{}
