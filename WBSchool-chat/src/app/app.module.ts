@@ -9,7 +9,7 @@ import {AppRoutingModule} from './app-routing.module';
 /*Components */
 import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
-
+import {NavbarComponent} from './navbar/navbar.component';
 
 
 /*Modules*/
@@ -25,8 +25,6 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule,} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
-import {NavbarComponent} from './navbar/navbar.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
@@ -53,7 +51,6 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatTabsModule,
     MatChipsModule,
     MatIconModule,
-    MatSidenavModule,
     MatButtonToggleModule,
 
 
