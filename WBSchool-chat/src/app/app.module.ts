@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 /*Components */
 import { AppComponent } from './app.component';
 import { RecentsComponent } from './recents/recents.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 /*Modules*/
 
@@ -28,7 +29,8 @@ import {MatBadgeModule} from '@angular/material/badge';
 @NgModule({
   declarations: [
     AppComponent,
-    RecentsComponent
+    RecentsComponent,
+    MainPageComponent,
   ],
   imports: [
     BrowserModule,
