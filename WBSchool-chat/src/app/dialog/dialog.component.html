@@ -2,15 +2,19 @@
     <div class="container">
         <!-- header -->
         <div class="header">
-            <div class="header__avatar">
-                <span></span>
+            <div class="header__info">
+                <div class="header__avatar">
+                    <img src="../../assets/avatar.svg" alt="">
+                    <span></span>
+                </div>
+                <div class="header__name">
+                    <p class="name">
+                        Swathi
+                    </p>
+                    <span>Online</span>
+                </div>
             </div>
-            <div class="header__name">
-                <p class="name">
-                    Swathi
-                </p>
-                <span>Online</span>
-            </div>
+        
             <div class="header__icon">
                 <button (click)="callPhone()"><img src="../../assets/phone.svg" alt="phone" class="phone" ></button>
                 <button ><img src="../../assets/camera.svg" alt="camera" class="camera"></button>
@@ -19,44 +23,55 @@
             </div>
         </div>
         <hr>
+
         <!-- message -->
+
         <div class="message">
-            <div class="message__user">
-                <img src="../../assets/mess1.svg" alt="">
-               <!-- <p>Hey There !</p> -->
+            <div class="message__wrapperG">
+                <div class="message__user">
+                   <p>Hey There !</p>
+                </div>
+                <span>Today, 2:01pm</span>
             </div>
-            <!-- <span>Today, 2:01pm</span> -->
 
-            <div class="message__user2">
-                <img src="../../assets/mess2.svg" alt="">
-               <!-- <p>How are you doing?</p> -->
+            <div class="message__wrapperG">
+                <div class="message__user">
+                   <p>How are you doing?</p>
+                </div>
+                <span>Today, 2:02pm</span>
             </div>
-            <!-- <span>Today, 2:02pm</span> -->
             
-            <div class="message__user3">
-                <img src="../../assets/mess3.svg" alt="">
-               <!-- <p>Hello...</p> -->
+            <div class="message__wrapperB">
+                <div class="message__answer">
+                   <p>Hello...</p>
+                </div>
+                <span>Today, 2:12pm</span>
             </div>
-            <!-- <span>Today, 2:12pm</span> -->
 
-            <div class="message__user4">
-                <img src="../../assets/mess4.svg" alt="">
-                <!-- <p>I am good  and hoew about you?</p> -->
+            <div class="message__wrapperB">
+                <div class="message__answer">
+                    <p>I am good  and hoew about you?</p>
+                </div>
+                <span>Today, 2:12pm</span>
             </div>
-            <!-- <span>Today, 2:12pm</span> -->
 
-            <div class="message__user5">
-                <img src="../../assets/mess5.svg" alt="">
-                <!-- <p>I am doing well. Can we meet up tomorrow?</p> -->
+            <div class="message__wrapperG">
+                <div class="message__user">
+                    <p>I am doing well. Can we meet up tomorrow?</p>
+                </div>
+                <span>Today, 2:12pm</span>
             </div>
-            <!-- <span>Today, 2:12pm</span> -->
 
-            <div class="message__user6">
-                <img src="../../assets/mess6.svg" alt="">
-                <!-- <p>Sure!</p> -->
+            <div class="message__wrapperB">
+                <div class="message__answer">
+                    <p>Sure!</p>
+                </div>
+                <span>Today, 2:14pm</span>
             </div>
-            <!-- <span>Today, 2:14pm</span> -->
+
             <hr>
+            <!-- message-send -->
+
             <div class="message__send">
                 <div class="wrapper__send">
                     <img src="../../assets/icon-one.svg" class="btn">
@@ -64,9 +79,7 @@
                     <img src="../../assets/smile.svg" alt="">
                     <img src="../../assets/photo.svg" class="photo">
                 </div>
-                <div class="voice">
                     <img src="../../assets/voice.svg" alt="">
-                </div>
             </div>
         </div>
     </div>
