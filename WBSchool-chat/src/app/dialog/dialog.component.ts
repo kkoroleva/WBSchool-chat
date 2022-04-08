@@ -12,4 +12,7 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  callPhone(){
+    console.log("call")
+  }
 }
