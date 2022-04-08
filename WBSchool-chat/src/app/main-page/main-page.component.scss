@@ -1,0 +1,25 @@
+/*Break-points*/
+$min-width: 320px;
+$mobile-width: 495px;
+$tablet-width: 768px;
+$desktop-width: 1280px;
+$max-width: 1440px;
+
+.main__wrapper {
+  min-width: $min-width;
+  max-width: $desktop-width;
+  margin: 0 auto;
+
+  @media (min-width: $mobile-width) {
+    padding: 10px;
+  }
+
+  @media (min-width: $tablet-width) {
+    padding: 20px;
+  }
+
+  @media (min-width: $desktop-width) {
+    padding: 30px;
+  }
+}
+
