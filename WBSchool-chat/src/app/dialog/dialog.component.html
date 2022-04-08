@@ -1,6 +1,8 @@
 <ng-container>
     <div class="container">
+
         <!-- header -->
+
         <div class="header">
             <div class="header__info">
                 <div class="header__avatar">
@@ -16,7 +18,7 @@
             </div>
         
             <div class="header__icon">
-                <button (click)="callPhone()"><img src="../../assets/phone.svg" alt="phone" class="phone" ></button>
+                <button ><img src="../../assets/phone.svg" alt="phone" class="phone" ></button>
                 <button ><img src="../../assets/camera.svg" alt="camera" class="camera"></button>
                 <button ><img src="../../assets/menu.svg" alt="menu" class="menu"></button>
 
@@ -25,57 +27,26 @@
         <hr>
 
         <!-- message -->
+        
 
         <div class="message">
-            <div class="message__wrapperG">
-                <div class="message__user">
-                   <p>Hey There !</p>
-                </div>
-                <span>Today, 2:01pm</span>
-            </div>
 
-            <div class="message__wrapperG">
-                <div class="message__user">
-                   <p>How are you doing?</p>
+            <div *ngFor="let item of messageData"
+                [ngClass]="item.owner === myId ? 'message__wrapperB' : 'message__wrapperG'">
+                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
+                    <p>{{item.text}}</p>
                 </div>
-                <span>Today, 2:02pm</span>
-            </div>
-            
-            <div class="message__wrapperB">
-                <div class="message__answer">
-                   <p>Hello...</p>
-                </div>
-                <span>Today, 2:12pm</span>
-            </div>
-
-            <div class="message__wrapperB">
-                <div class="message__answer">
-                    <p>I am good  and hoew about you?</p>
-                </div>
-                <span>Today, 2:12pm</span>
-            </div>
-
-            <div class="message__wrapperG">
-                <div class="message__user">
-                    <p>I am doing well. Can we meet up tomorrow?</p>
-                </div>
-                <span>Today, 2:12pm</span>
-            </div>
-
-            <div class="message__wrapperB">
-                <div class="message__answer">
-                    <p>Sure!</p>
-                </div>
-                <span>Today, 2:14pm</span>
+                <span>{{item.date}}</span>
             </div>
 
             <hr>
-            <!-- message-send -->
+
+         <!-- message-send -->
 
             <div class="message__send">
                 <div class="wrapper__send">
                     <img src="../../assets/icon-one.svg" class="btn">
-                    <input type="text">
+                    <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
                     <img src="../../assets/smile.svg" alt="">
                     <img src="../../assets/photo.svg" class="photo">
                 </div>
