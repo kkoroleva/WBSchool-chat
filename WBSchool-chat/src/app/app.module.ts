@@ -23,10 +23,12 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule, } from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

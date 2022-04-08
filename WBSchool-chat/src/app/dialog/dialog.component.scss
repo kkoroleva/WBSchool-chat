@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;500&display=swap');
+.container{
+    margin: 0 auto;
+    border-radius: 20px;
+    width: 100%;
+    height:auto;
+    max-width: 699px;
+    // max-height: 100%;
+    display: flex;
+    box-sizing: border-box;
+    padding-top: 24.15px;
+    padding-left: 51.74px;
+    padding-right: 33.48px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    flex-direction: column;
+
+    .header{
+        display: flex;
+        align-items: center;
+        margin-bottom: 24.65px;
+        
+
+        &__avatar{
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            position: relative;
+            margin-right: 33.48px;
+            background-image: url(../../assets/avatar.svg);
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+            span{
+                position: absolute;
+                background: #00FF75;
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                right: 0;
+                bottom: 4px;
+                border: 2px solid white;
+            }
+        }
+
+        &__name{
+            margin-right: 252px;
+            p{
+                font-family: 'Poppins';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 24px;
+                line-height: 36px;
+                margin: 0;
+            }
+            span{
+                font-family: 'Poppins';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 21px;
+                color: rgba(0, 0, 0, 0.85);
+            }
+        }
+
+        &__icon{
+            display: flex;
+            align-items: center;
+
+
+            .phone{
+                width: 20px;
+                height: 20px;
+                margin-right: 46.67px;
+            }
+            .camera{
+                width: 28px;
+                height: 20px;
+                margin-right: 47px;
+            }
+            .menu{
+                width: 5px;
+                height: 25px;
+            }
+        }
+    }
+    hr{
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        width: 606.72px;
+    }
+    .message{
+        position: relative;
+        margin-top: 56.85px;
+
+        span{
+            text-align: left;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 18px;
+            color: rgba(0, 0, 0, 0.25);
+
+
+        }
+        
+        &__user{
+            margin-bottom: 29.18px;
+            // width: 196.82px;
+            // height: 50.31px;
+            // background: #CFCFCF;
+            // border-radius: 10px;
+
+            p{
+                font-family: 'Poppins';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                color: black;
+            }
+        }
+        &__user2{
+            margin-bottom: 54.36px;
+            // width: 235.22px;
+            // height: 50.31px;
+            // background: #CFCFCF;
+            // border-radius: 10px;
+            p{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                color: black;
+            }
+        }
+        &__user3{
+            margin-bottom: 25.16px;
+            margin-left: 78%;
+            // width: 125.77px;
+            // height: 50.31px;
+            // background: #1A66FF;
+            // border-radius: 10px;
+            // transform: matrix(-1, 0, 0, 1, 0, 0);
+            p{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                color: white;
+            }
+        }
+        &__user4{
+            margin-bottom: 35.22px;
+            margin-left: 46%;
+            // width: 314.91px;
+            // height: 50.31px;
+            // background: #1A66FF;
+            // border-radius: 10px;
+            // transform: matrix(-1, 0, 0, 1, 0, 0);
+             p{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                color: black;
+            }
+
+        }
+        &__user5{
+            margin-bottom: 20.3px;
+            // width: 414.94px;
+            // height: 50.31px;
+            // background: #CFCFCF;
+            // border-radius: 10px;
+            p{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                color: black;
+            }
+
+        }
+        &__user6{
+            margin-bottom: 45px;
+            margin-left: 78%;
+            // width: 125.77px;
+            // height: 50.31px;
+            // background: #1A66FF;
+            // border-radius: 10px;
+            // transform: matrix(-1, 0, 0, 1, 0, 0);
+        
+            p{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 24px;
+                color: white;
+            }
+        }
+        hr{
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            width: 606.72px;
+            margin-bottom: 35.22px;
+        }
+
+        &__send{
+            display: flex;
+            align-items: center;
+            padding: 0;
+            margin-bottom: 34px;
+
+            .wrapper__send{
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding-left: 13px;
+                padding-right: 15px;
+                width: 524.79px;
+                height: 45.28px;
+                background: #E0E0E0;
+                border-radius: 10px;
+                margin-right: 20px;
+
+                input{
+                    border: none;
+                    background: #E0E0E0;
+                    cursor: pointer;
+                    outline: none;
+                    width: 100%;
+                }
+            }
+            .photo{
+                margin-left: 13.19px;
+             }
+
+        }
+
+    }
+
+}
