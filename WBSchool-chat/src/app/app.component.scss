@@ -12,6 +12,7 @@ $max-width: 1440px;
 .main__header {
   min-width: $min-width;
   max-width: $max-width;
+  margin: 0 auto;
   padding: 30px;
   overflow: hidden;
   text-align: center;
