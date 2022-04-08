@@ -1,19 +1,24 @@
 <section class="recents">
-  <h2 class="recents__header">Friends</h2>
+  <h2 class="recents__header">Recents</h2>
   <a href="" class="recents__more-button">
     <mat-icon>more_vert</mat-icon>
   </a>
   <mat-list class="recents__list">
     <mat-list-item class="recents__item" *ngFor="let recent of recentList; index as i;">
       <a href="" class="recents__chat-link" >
-        <img matListAvatar class="recents__thumbnail" src="{{recent.thumbnail}}" alt="Your best friend face" width="52"
-          height="52">
+        <img matListAvatar class="recents__thumbnail"  src="{{recent.thumbnail}}" alt="Your best friend face" width="52"
+          height="52" matBadge="7" matBadgeColor="primary">
         <div class="recents__item-text">
           <b matLine class="recents__name">{{recent.name}}</b>
           <p class="recents__last-active">{{recent.lastActive}}</p>
-          <p class="recents__last-message">{{recent.lastMessage}}</p>
+          <p  class="recents__last-message">{{recent.lastMessage}}
+            <span class="recents__message-status">{{recent.newMessages}}</span>
+          </p>
         </div>
       </a>
     </mat-list-item>
   </mat-list>
+  <button mat-raised-button matBadge="7" [matBadgeHidden]="hidden" (click)="toggleBadgeVisibility()">
+    Hide
+</button>
 </section>

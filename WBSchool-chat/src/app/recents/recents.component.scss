@@ -14,8 +14,8 @@ $thumbnail-size: 52px;
 
 
 
-.friends {
-  max-width: 345px;
+.recents {
+  max-width: 445px;
   min-width: 320px;
 
   max-height: 90vh;
@@ -37,19 +37,19 @@ $thumbnail-size: 52px;
 
 }
 
-.friends::-webkit-scrollbar {
+.recents::-webkit-scrollbar {
   width: 0px;
 }
 
-.friends::-webkit-scrollbar-track {
-  background-color: white;
+.recents::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
-.friends::-webkit-scrollbar-thumb {
-  background-color: white;
+.recents::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }
 
-.friends__header {
+.recents__header {
   padding: 0 16px;
   margin-bottom: 15px;
   font-family: $main-font;
@@ -60,30 +60,36 @@ $thumbnail-size: 52px;
   color: $main-text-color;
 }
 
-.friends__more-button:hover {
+.recents__more-button:hover {
   opacity: 0.7;
 }
 
-.friends__list {
+.recents__list {
   width: 100%;
   padding: 0;
 
 }
 
-.friends__item {
+.recents__item {
   min-height: 72px;
   max-height: fit-content;
 
   display: flex;
 
   height: fit-content;
-  border-bottom: 1px solid $divider;
 
-  .friends__item-text {
+
+  .recents__item-text {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     flex: 1;
+  }
+
+  //Костыль для материала
+  .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    right: 0px;
+    bottom: 0px;
   }
 
   .mat-list-avatar {
@@ -92,33 +98,45 @@ $thumbnail-size: 52px;
     margin-right: 10px;
   }
 
-  .friends__divider {
-    width: 70%;
-    color: $divider;
-  }
 }
 
-.friends__item:last-of-type {
+.recents__item:last-of-type {
   border: none;
 }
 
-.friends__chat-link {
+.recents__chat-link {
   display: flex;
   flex-wrap: wrap;
   flex: 1;
   padding-top: 20px;
+  padding-bottom: 10px;
   text-decoration: none;
+  border-bottom: 1px solid $divider;
 }
 
-.friends__chat-link:hover {
+.recents__chat-link:hover {
   opacity: 0.7;
 }
 
-.friends__thumbnail {
+.recents__thumbnail {
   border-radius: 50%;
+  position: relative;
 }
 
-.friends__name {
+.recents__thumbnail--active::before {
+  content: "meow";
+  width: 15px;
+  height: 15px;
+  display: block;
+  position: absolute;
+
+  background: #00FF75;
+  border: 2px solid #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.recents__name {
   font-family: $main-font;
   font-style: normal;
   font-weight: 600;
@@ -127,7 +145,7 @@ $thumbnail-size: 52px;
   color: $main-text-color;
 }
 
-.friends__last-message {
+.recents__last-message {
   margin: 0;
   width: 100%;
   overflow: hidden;
@@ -139,7 +157,7 @@ $thumbnail-size: 52px;
   color: $last-message-color;
 }
 
-.friends__last-active {
+.recents__last-active {
   margin: 0;
   max-width: 100px;
   overflow: hidden;

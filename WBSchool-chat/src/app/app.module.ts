@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
-
+import { RecentsComponent } from './recents/recents.component';
 
 /*Modules*/
 
@@ -23,7 +23,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule, } from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
-import { RecentsComponent } from './recents/recents.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -47,6 +47,7 @@ import { RecentsComponent } from './recents/recents.component';
     MatTabsModule,
     MatChipsModule,
     MatIconModule,
+    MatBadgeModule,
 
     //Forms
     FormsModule,
