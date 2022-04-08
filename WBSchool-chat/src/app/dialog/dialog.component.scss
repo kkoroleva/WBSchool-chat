@@ -15,16 +15,15 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     flex-direction: column;
 
-    @media (max-device) {
-        
-    }
-
+    
     .header{
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 24.65px;
 
+
+        
         &__info{
             display: flex;
             align-items: center;
@@ -44,7 +43,7 @@
             position: relative;
             margin-right: 33.48px;
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-
+            
             span{
                 position: absolute;
                 background: #00FF75;
@@ -55,8 +54,24 @@
                 bottom: 4px;
                 border: 2px solid white;
             }
-        }
+       
+            @media (max-width: 460px) { 
+                width: 45px;
+                height: 45px;
+                margin-right: 10px;
 
+                span {
+                    width: 10px;
+                    height: 10px;
+                }
+
+                img {
+                    width: 45px;
+                    height: 45px;
+                }
+        }
+        }
+        
         &__name{
             p{
                 font-family: 'Poppins';
@@ -74,12 +89,23 @@
                 line-height: 21px;
                 color: rgba(0, 0, 0, 0.85);
             }
+
+            @media (max-width: 460px) { 
+                p{
+                    font-size: 18px;
+                    margin: 0;
+                    line-height: 12px;
+                }
+                span{
+                    font-size: 12px;
+                }
+            }
         }
 
         &__icon{
             display: flex;
             align-items: center;
-
+            
 
             .phone{
                 width: 20px;
@@ -92,13 +118,34 @@
                 height: 20px;
                 margin-right: 47px;
                 filter: grayscale(100);
-
+                
             }
             .menu{
                 width: 5px;
                 height: 25px;
             }
+            @media (max-width: 460px) { 
+                .phone{
+                    width: 15px;
+                    height: 15px;
+                    margin-right: 20.67px;
+                    
+                }
+                .camera{
+                    width: 18px;
+                    height: 14px;
+                    margin-right: 22px;
+                }
+                .menu{
+                    width: 3px;
+                    height: 18px;
+                }
+            }
         }
+        @media (max-width: 460px) { 
+            margin-bottom: 12px;
+        }
+
     }
     hr{
         border: 1px solid rgba(0, 0, 0, 0.25);
@@ -149,7 +196,7 @@
             border-radius: 10px;
             display: inline-block;
             padding: 13px 20px;
-
+            
             p{
                 margin: 0%;
                 font-family: 'Poppins';
@@ -160,7 +207,7 @@
                 color: black;
             }
         }
- 
+        
         &__answer{
             display: inline-block;
             background: #1A66FF;
@@ -183,7 +230,7 @@
             width: 100%;
             margin-bottom: 35.22px;
         }
-
+        
         &__send{
             display: flex;
             padding: 0;
@@ -201,7 +248,7 @@
                 background: #E0E0E0;
                 border-radius: 10px;
                 margin-right: 20px;
-
+                
                 input{
                     border: none;
                     background: #E0E0E0;
@@ -214,10 +261,10 @@
             }
             .photo{
                 margin-left: 13.19px;
-             }
-
+            }
+            
         }
-
+        
     }
-
+    
 }
