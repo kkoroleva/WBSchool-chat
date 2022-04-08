@@ -7,7 +7,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 
 /*Components */
-import {AppComponent} from './app.component';
+import { AppComponent } from './app.component';
+import { MainPageComponent } from './main-page/main-page.component';
+
 
 
 /*Modules*/
@@ -30,7 +32,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    MainPageComponent,
   ],
   imports: [
     BrowserModule,
