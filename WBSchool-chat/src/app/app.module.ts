@@ -33,6 +33,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
   declarations: [
     AppComponent,
     MainPageComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
