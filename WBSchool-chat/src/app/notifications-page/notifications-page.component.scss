@@ -8,6 +8,7 @@ $desktop-width: 1024px;
 $max-width: 1440px;
 
 .notificatons-page__wrapper {
+  padding: 10px 0;
   min-width: $min-width;
   max-width: $desktop-width;
   margin: 0 auto;
@@ -15,6 +16,13 @@ $max-width: 1440px;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 30px;
+
+  @media (min-width: $tablet-width) {
+    padding: 20px 0;
+  }
+  @media (min-width: $desktop-width) {
+    padding: 30px 0;
+  }
 }
 
 .notificatons-page__search {

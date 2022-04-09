@@ -8,6 +8,7 @@ $desktop-width: 1024px;
 $max-width: 1440px;
 
 .messages-page__wrapper {
+  padding: 10px 0;
   min-width: $min-width;
   max-width: $desktop-width;
   display: grid;
@@ -21,6 +22,7 @@ $max-width: 1440px;
   }
 
   @media (min-width: $tablet-width) {
+    padding: 20px 0;
     max-width: $tablet-width;
     margin: 0 auto;
     align-items: center;
@@ -29,6 +31,7 @@ $max-width: 1440px;
   }
 
   @media (min-width: $desktop-width) {
+    padding: 30px 0;
     max-width: $max-width;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;

@@ -8,11 +8,12 @@ $desktop-width: 1024px;
 $max-width: 1440px;
 
 .profile-page__wrapper {
+  padding: 10px 0;
   min-width: $min-width;
   max-width: $desktop-width;
   display: grid;
   grid-template-columns: minmax($min-width, $mobile-width);
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 30px;
 
   @media (min-width: $mobile-width) {
@@ -21,12 +22,14 @@ $max-width: 1440px;
   }
 
   @media (min-width: $tablet-width) {
+    padding: 20px 0;
     max-width: $tablet-width;
     grid-template-columns: 1fr 1fr;
     align-items: center;
   }
 
   @media (min-width: $desktop-width) {
+    padding: 30px 0;
     max-width: $max-width;
   }
 }
