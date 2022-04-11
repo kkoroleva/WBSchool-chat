@@ -19,7 +19,7 @@ import { RedirectHomeGuardService } from './guards/redirect-home-guard.service';
 
 export const authRoutes: Routes = [
   {path: '', component: AuthComponent, children: [
-    { path: '', redirectTo: '/login', pathMatch: 'full'},
+    { path: '', redirectTo: 'login', pathMatch: 'full'},
     {path: 'login', component: LoginComponent, canActivate: [RedirectHomeGuardService]},
     {path: 'register', component: RegisterComponent, canActivate: [RedirectHomeGuardService]}
   ]}
