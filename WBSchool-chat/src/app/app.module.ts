@@ -30,6 +30,7 @@ import { NotificationsPageComponent } from './notifications-page/notifications-p
 import { MessagesPageComponent } from './messages-page/messages-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MessagesPageComponent,
     ProfilePageComponent,
     NavbarComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

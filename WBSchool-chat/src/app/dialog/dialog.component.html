@@ -1,0 +1,57 @@
+<ng-container>
+    <div class="container">
+
+        <!-- header -->
+
+        <div class="header">
+            <div class="header__info">
+                <div class="header__avatar">
+                    <img src="../../assets/avatar.svg" alt="">
+                    <span></span>
+                </div>
+                <div class="header__name">
+                    <p class="name">
+                        Swathi
+                    </p>
+                    <span>Online</span>
+                </div>
+            </div>
+        
+            <div class="header__icon">
+                <button ><img src="../../assets/phone.svg" alt="phone" class="phone" ></button>
+                <button ><img src="../../assets/camera.svg" alt="camera" class="camera"></button>
+                <button ><img src="../../assets/menu.svg" alt="menu" class="menu"></button>
+
+            </div>
+        </div>
+        <hr>
+
+        <!-- message -->
+        
+
+        <div class="message">
+
+            <div *ngFor="let item of messageData"
+                [ngClass]="item.owner === myId ? 'message__wrapperB' : 'message__wrapperG'">
+                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
+                    <p>{{item.text}}</p>
+                </div>
+                <span>{{item.date}}</span>
+            </div>
+
+            <hr>
+
+         <!-- message-send -->
+
+            <div class="message__send">
+                <div class="wrapper__send">
+                    <img src="../../assets/icon-one.svg" class="btn">
+                    <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
+                    <img src="../../assets/smile.svg" alt="">
+                    <img src="../../assets/photo.svg" class="photo">
+                </div>
+                    <img src="../../assets/voice.svg" alt="">
+            </div>
+        </div>
+    </div>
+</ng-container>
