@@ -4,10 +4,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import {NavbarComponent} from './navbar/navbar.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
+import { MessagesPageComponent } from './messages-page/messages-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 
 /*Modules*/
@@ -21,8 +27,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
-import {MatChipsModule, } from '@angular/material/chips';
+import {MatChipsModule,} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 
@@ -34,7 +42,13 @@ const INTERCEPTOR_PROVIDER: Provider = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainPageComponent,
+    HomePageComponent,
+    NotificationsPageComponent,
+    MessagesPageComponent,
+    ProfilePageComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +56,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     BrowserAnimationsModule,
     HttpClientModule,
     AuthModule,
+
 
     //Material UI
     BrowserAnimationsModule,
@@ -54,6 +69,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatTabsModule,
     MatChipsModule,
     MatIconModule,
+    MatButtonToggleModule,
 
     //Forms
     FormsModule,
@@ -62,4 +78,5 @@ const INTERCEPTOR_PROVIDER: Provider = {
   providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

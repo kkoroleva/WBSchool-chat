@@ -18,5 +18,5 @@
           <mat-hint *ngIf="loginForm.get('password')!.touched && loginForm.get('password')!.invalid">Password is too short</mat-hint>
         </mat-form-field>
       </p>
-      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
+      <button mat-raised-button type="submit" [disabled]="loginForm.invalid">Login</button>
  </form>

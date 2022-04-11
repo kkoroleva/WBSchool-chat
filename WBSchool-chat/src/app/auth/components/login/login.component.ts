@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     .subscribe(() => {
       this.loginForm.reset();
       alert(`Welcome to the club, ${localStorage.getItem('username')}`)
-      this.router.navigate(['test']);
+      this.router.navigate(['home']);
       this.submitted = false;
     },
     () => {

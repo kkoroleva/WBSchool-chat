@@ -30,5 +30,5 @@
       <mat-hint *ngIf="registerForm.get('repeatPassword')!.touched && registerForm.get('repeatPassword')!.value !== registerForm.get('password')!.value">Password is not match</mat-hint>
     </mat-form-field>
   </p>
-  <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid || registerForm.get('repeatPassword')!.value != registerForm.get('password')!.value">Register</button>
+  <button mat-raised-button type="submit" [disabled]="registerForm.invalid || registerForm.get('repeatPassword')!.value != registerForm.get('password')!.value">Register</button>
 </form>

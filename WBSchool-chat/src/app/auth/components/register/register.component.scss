@@ -2,6 +2,7 @@ button {
     width: 250px;
     display: block;
     margin: 0 auto;
+    background: blue;
 }
 
 h3 {
@@ -11,11 +12,32 @@ h3 {
 }
 
 mat-form-field {
-    width: 400px;
+    width: 360px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+mat-hint {
+    color: red;
+}
+
+mat-label {
+    color: grey;
+    border-bottom: 1px solid black;
 }
 
 .small  {
     text-align: center;
     margin-bottom: 5px;
     color: grey;
+}
+
+@media(max-width: 420px) {
+    mat-form-field {
+        width: 260px;
+    }
+    button {
+        width: 200px;
+    }
 }

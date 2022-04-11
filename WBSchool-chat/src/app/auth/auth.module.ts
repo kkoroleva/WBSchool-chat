@@ -15,14 +15,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './main/auth.component';
 import { AuthNav } from './main/navigation';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TestComponent } from './components/test/test.component';
 
 export const authRoutes: Routes = [
   {path: '', component: AuthComponent, children: [
     { path: '', redirectTo: '/login', pathMatch: 'full'},
     {path: 'login', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
-    {path: 'test', component: TestComponent},
+    {path: 'register', component: RegisterComponent}
   ]}
 ];
 
@@ -31,8 +29,7 @@ export const authRoutes: Routes = [
     LoginComponent,
     RegisterComponent,
     AuthComponent,
-    AuthNav,
-    TestComponent
+    AuthNav
   ],
   imports: [
     CommonModule,
