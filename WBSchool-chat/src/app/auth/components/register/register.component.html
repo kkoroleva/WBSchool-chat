@@ -1,0 +1,37 @@
+<auth-nav></auth-nav>
+<form [formGroup]="registerForm" (ngSubmit)="submit()">
+  <h3>Registration</h3>
+  <p class="small"><small>Create a new account</small></p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your email</mat-label>
+      <input type="email" matInput placeholder="example: example@email.com" formControlName="email" autocomplete="off">
+      <mat-hint *ngIf="registerForm.get('email')!.touched && registerForm.get('email')!.invalid">Email is invalid</mat-hint>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your username</mat-label>
+      <input matInput placeholder="Bill_Clinton" formControlName="username" autocomplete="off">
+      <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.invalid">
+        <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['minlength']">Username is too short &nbsp;</mat-hint>
+        <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['pattern']">Enter only latin or cyrillic symbols and numbers</mat-hint>
+      </mat-hint>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your password</mat-label>
+      <input type="password" matInput placeholder="password" formControlName="password" autocomplete="off">
+      <mat-hint *ngIf="registerForm.get('password')!.touched && registerForm.get('password')!.invalid">Password is too short</mat-hint>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Repeat your password</mat-label>
+      <input type="password" matInput placeholder="password" formControlName="repeatPassword" autocomplete="off">
+      <mat-hint *ngIf="registerForm.get('repeatPassword')!.touched && registerForm.get('repeatPassword')!.value !== registerForm.get('password')!.value">Password is not match</mat-hint>
+    </mat-form-field>
+  </p>
+  <button mat-raised-button type="submit" [disabled]="registerForm.invalid || registerForm.get('repeatPassword')!.value != registerForm.get('password')!.value">Register</button>
+</form>
