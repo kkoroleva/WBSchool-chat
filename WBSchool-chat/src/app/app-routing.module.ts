@@ -7,7 +7,6 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: './**', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomePageComponent},
   {path: 'chat', component: MessagesPageComponent},
   {path: 'alerts', component: NotificationsPageComponent},

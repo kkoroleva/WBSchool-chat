@@ -14,7 +14,7 @@ $max-width: 1440px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
   gap: 30px;
 
   @media (min-width: $tablet-width) {
