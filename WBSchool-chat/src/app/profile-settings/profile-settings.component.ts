@@ -17,7 +17,8 @@ export class ProfileSettingsComponent implements OnInit {
   pictureSrc: string = "https://vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png";
   name: string = "Name Name"
   status: string = "status status"
-  output: boolean = false;
+  output: boolean = false; // если false, показвает настройки пользователя, если true, показывает информацию о нём
+  // VVV Dummy data VVV
   settingsList: btnList[] = [
     {
       "icon": "account_circle",
