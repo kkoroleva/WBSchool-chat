@@ -1,9 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
 
-  constructor() { }
+  private urlApi:string = "http://51.250.28.102:3001" 
+
+  constructor(private http:HttpClient) { }
+
+  getMessages():Observable<any>{
+    return this.http.get(`${this.urlApi}/messages`)
+  } 
 }

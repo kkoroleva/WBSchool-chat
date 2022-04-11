@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IMessage } from './dialog';
+import { DialogService } from './dialog.service';
 
 @Component({
   selector: 'app-dialog',
@@ -48,12 +49,21 @@ export class DialogComponent implements OnInit {
 
 ]
 
+  data:any 
   
 
-  constructor() { }
+  constructor(private service:DialogService) { }
 
   ngOnInit(): void {
+    this.getMessages()
   }
+  getMessages(){
+    this.service.getMessages().subscribe((res)=>{
+      console.log(res, "this")
+    })
+  }
+
+
 
   sendMessage(event:KeyboardEvent) {
     if (this.message.value.trim() && event.key === 'Enter') {
