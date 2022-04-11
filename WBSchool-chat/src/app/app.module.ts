@@ -9,8 +9,9 @@ import {AppRoutingModule} from './app-routing.module';
 /*Components */
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { MainPageComponent } from './main-page/main-page.component';
-import {NavbarComponent} from './navbar/navbar.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { MessagesPageComponent } from './messages-page/messages-page.component';
