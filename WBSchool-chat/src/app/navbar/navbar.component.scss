@@ -1,17 +1,24 @@
 .nav {
   background-color: rgba(26, 102, 255, 1);
-  height: 80px;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: 0 auto;
   border-radius: 5px;
+  padding: 15px 40px;
+
+  .mat-icon:hover {
+    color: chartreuse;
+  }
 
   .nav__list {
     list-style: none;
+    width: -webkit-fill-available;
     display: flex;
+    margin: 0;
+    padding: 0;
     flex-direction: row;
-    width: 80%;
+    justify-content: space-around;
   }
 
   .nav__list-link {
@@ -19,31 +26,17 @@
   }
 
   .nav__list-item {
-    margin: 0 9%;
+    min-width: 45px;
   }
 
   .material-icons {
     font-size: 40px;
-
-  }
-
-  .mat-icon:hover {
-    color: chartreuse;
-  }
-
-  .nav__img {
-    margin-left: 3%;
-    width: 60px;
-    height: 60px;
-  }
-
-  .nav__svg {
-    height: 40px;
-    padding-top: 0.5%;
   }
 
   @media (max-device-width: 768px) {
+    padding: 0 20px;
     height: 50px;
+
     .nav__img {
       height: 30px;
       width: 30px;
@@ -52,31 +45,18 @@
       font-size: 25px;
       margin-top: 5px;
     }
-    .nav__svg {
-      height: 25px;
-    }
-    .nav__list-item{
-      margin: 0 8%;
-    }
   }
 
   @media (max-device-width: 425px) {
-    .nav__list-item {
-      margin: 0 6%;
-    }
-    .nav__svg {
-      margin-right: 4%;
+    padding: 0 10px;
+    .nav__list {
+      padding-left: 20px;
     }
   }
+
   @media (max-device-width: 320px) {
-    .nav__list {
-      padding-left: 10px;
-    }
     .nav__svg {
       padding-top: 5px;
-    }
-    .nav__list-item{
-      margin: 0 6%;
     }
   }
 }
