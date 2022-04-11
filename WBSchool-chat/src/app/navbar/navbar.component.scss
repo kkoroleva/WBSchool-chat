@@ -14,12 +14,12 @@
     width: 80%;
   }
 
-  a{
-    color: #000;
+  .nav__list-link {
+    color: #fff;
   }
 
-  .nav__list__item {
-    margin: 0 10%;
+  .nav__list-item {
+    margin: 0 9%;
   }
 
   .material-icons {
@@ -55,11 +55,14 @@
     .nav__svg {
       height: 25px;
     }
+    .nav__list-item{
+      margin: 0 8%;
+    }
   }
 
   @media (max-device-width: 425px) {
-    .nav__list__item {
-      margin: 0 7%;
+    .nav__list-item {
+      margin: 0 6%;
     }
     .nav__svg {
       margin-right: 4%;
@@ -71,6 +74,9 @@
     }
     .nav__svg {
       padding-top: 5px;
+    }
+    .nav__list-item{
+      margin: 0 6%;
     }
   }
 }
