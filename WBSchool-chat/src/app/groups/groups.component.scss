@@ -5,6 +5,16 @@
   padding: 0;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
+  &__heading {
+    margin-top: 13px;
+    margin-bottom: 0;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
   &__menu {
     margin-top: 17px;
     margin-right: 22px;
@@ -12,24 +22,14 @@
     color: #1A66FF;
   }
 
-  &__title {
-    margin-bottom: 0 !important;
+  .mat-card-title {
+    margin-bottom: 0;
   }
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    h2 {
-      margin-top: 13px;
-      margin-bottom: 0;
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 20px;
-      line-height: 30px;
-    }
   }
 
   &__list {
@@ -38,30 +38,30 @@
     padding-right: 27px;
   }
 
+  &__message {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: rgba(77, 77, 77, 0.75);
+    margin: 0;
+  }
+
+  &__title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    margin: 0;
+  }
+
   &__item {
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     display: flex;
     margin-bottom: 14.5px;
     padding-bottom: 13.5px;
-
-    h2 {
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 27px;
-      margin: 0;
-    }
-
-    p {
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 21px;
-      color: rgba(77, 77, 77, 0.75);
-      margin: 0;
-    }
 
     &:last-child {
       border-bottom: none;
