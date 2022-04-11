@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
 
@@ -10,71 +11,73 @@ import { DialogService } from './dialog.service';
 })
 export class DialogComponent implements OnInit {
 
+  editMessageID = ''
+
+  isEditMessage = false
+
   message = new FormControl('');
 
-  myId:number = 264; 
+  myId:string = '625426411a25022b2ae1c7b1'; 
 
-  messageData:IMessage[] =[
-
-    {
-    text: "Hey There !",
-    owner: 263,
-    date:'Today, 2:01pm'
-    },
-    {
-    text: "How are you doing? ",
-    owner: 263,
-    date:'Today, 2:02pm'
-    },
-    {
-    text: "Hello...",
-    owner: 264,
-    date:'Today, 2:12pm'
-    },
-    {
-    text: "I am good  and hoew about you?",
-    owner: 264,
-    date:'Today, 2:12pm'
-    },
-    {
-    text: "I am doing well. Can we meet up tomorrow?",
-    owner: 263,
-    date:'Today, 2:12pm'
-    },
-    {
-    text: "Sure!",
-    owner: 264,
-    date:'Today, 2:14pm'
-    }
-
-]
-
-  data:any 
+  data!:IMessage[]
   
 
   constructor(private service:DialogService) { }
 
   ngOnInit(): void {
     this.getMessages()
+    
   }
-  getMessages(){
+  getMessages()
+  {///==============для получение сообщение 
     this.service.getMessages().subscribe((res)=>{
-      console.log(res, "this")
+      this.data = res 
     })
   }
 
 
 
-  sendMessage(event:KeyboardEvent) {
+deleteMessage(id:string){
+  this.service.deleteMessage(id).subscribe(
+    () => {
+      this.getMessages()
+    }
+  )
+}
+editMessage(text:string, id:string){
+  this.service.editMessage(text, id).subscribe(
+    () => {
+      this.getMessages()
+      this.isEditMessage = false
+    }
+  )
+}
+
+getMessage(id:string, text:string){///================для получение сообщение в инпуте 
+  this.isEditMessage = true
+  this.editMessageID = id
+  this.message.setValue(text)
+}
+
+
+
+sendMessage(event:KeyboardEvent)
+  {
     if (this.message.value.trim() && event.key === 'Enter') {
-      this.messageData.push({
-        text: this.message.value,
-        owner: this.myId,
-        date: 'Today, 7:12pm',
-      });
+      if(this.isEditMessage){
+        this.editMessage(this.message.value, this.editMessageID)
+      }else{
+        this.service.sendMessage(this.message.value).subscribe(
+          () => {
+            this.getMessages()
+          }
+        )
+      }
 
       this.message.setValue('');
     }
   }
+
+
  
 }

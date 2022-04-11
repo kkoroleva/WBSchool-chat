@@ -31,14 +31,22 @@
 
         <div class="message">
 
-            <div *ngFor="let item of messageData"
+            <div  *ngFor="let item of data"  [matMenuTriggerFor]="block"
                 [ngClass]="item.owner === myId ? 'message__wrapperB' : 'message__wrapperG'">
                 <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
                     <p>{{item.text}}</p>
                 </div>
-                <span>{{item.date}}</span>
+                <!-- <span>{{item.date}}</span> -->
+                <mat-menu #block="matMenu" >
+                    <button (click)="deleteMessage(item._id)" mat-menu-item>
+                      <span>Удалить</span>
+                    </button>
+                    <button (click)="getMessage(item._id,item.text)" mat-menu-item>
+                      <span>Изменить</span>
+                    </button>
+                  </mat-menu>
             </div>
-
+               
             <hr>
 
          <!-- message-send -->

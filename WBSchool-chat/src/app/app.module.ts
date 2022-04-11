@@ -10,10 +10,6 @@ import {AppRoutingModule} from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import {NavbarComponent} from './navbar/navbar.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
-import { MessagesPageComponent } from './messages-page/messages-page.component';
-import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 
 /*Modules*/

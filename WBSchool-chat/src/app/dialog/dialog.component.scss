@@ -157,8 +157,10 @@
         position: relative;
         margin-top: 56.85px;
 
+
         
         &__wrapperG{
+            cursor: pointer;
             display: flex;
             max-width: max-content;
             flex-direction: column;
@@ -175,6 +177,8 @@
             }
         }
         &__wrapperB{
+            cursor: pointer;
+            position: relative;
             display: flex;
             max-width: max-content;
             flex-direction: column;
@@ -190,6 +194,7 @@
                 line-height: 18px;
                 color: rgba(0, 0, 0, 0.25);
             }
+   
         }
         
         &__user{
@@ -207,6 +212,7 @@
                 line-height: 24px;
                 color: black;
             }
+            
         }
         
         &__answer{

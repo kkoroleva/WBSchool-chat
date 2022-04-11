@@ -1,5 +1,7 @@
 export interface IMessage {
     text:string, 
-    owner:number, 
-    date:string
+    owner:string, 
+    _id:string
+    // date:string
 }
+
