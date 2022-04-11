@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap");
+
 .groups {
   width: 100%;
   border-radius: 20px;
@@ -7,7 +9,7 @@
   &__heading {
     margin-top: 13px;
     margin-bottom: 0;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
@@ -38,7 +40,7 @@
   }
 
   &__message {
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -48,7 +50,7 @@
   }
 
   &__title {
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
@@ -59,8 +61,8 @@
   &__item {
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     display: flex;
-    margin-bottom: 14.5px;
-    padding-bottom: 13.5px;
+    margin-bottom: 14px;
+    padding-bottom: 13px;
 
     &:last-child {
       border-bottom: none;
