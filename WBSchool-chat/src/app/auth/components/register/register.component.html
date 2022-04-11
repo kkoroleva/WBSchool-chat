@@ -13,8 +13,10 @@
     <mat-form-field appearance="fill">
       <mat-label>Enter your username</mat-label>
       <input matInput placeholder="example: user10" formControlName="username" autocomplete="off">
-      <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['minlength']">Username is too short &nbsp;</mat-hint>
-      <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['pattern']">Enter only latin symbols and numbers</mat-hint>
+      <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.invalid">
+        <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['minlength']">Username is too short &nbsp;</mat-hint>
+        <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['pattern']">Enter only latin or cyrillic symbols and numbers</mat-hint>
+      </mat-hint>
     </mat-form-field>
   </p>
   <p>
