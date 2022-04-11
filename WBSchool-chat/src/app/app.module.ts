@@ -25,12 +25,20 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule,} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import { HomePageComponent } from './home-page/home-page.component';
+import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
+import { MessagesPageComponent } from './messages-page/messages-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
+    HomePageComponent,
+    NotificationsPageComponent,
+    MessagesPageComponent,
+    ProfilePageComponent,
     NavbarComponent,
   ],
   imports: [
