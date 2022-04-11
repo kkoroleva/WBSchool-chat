@@ -10,10 +10,7 @@ interface btnList {
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent implements OnInit {
-
-  constructor() { }
-
+export class ProfileSettingsComponent {
   pictureSrc: string = "https://vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png";
   name: string = "Name Name"
   status: string = "status status"
@@ -83,8 +80,4 @@ export class ProfileSettingsComponent implements OnInit {
   changeOutput() {
     this.output = !this.output
   }
-
-  ngOnInit(): void {
-  }
-
 }
