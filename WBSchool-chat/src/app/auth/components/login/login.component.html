@@ -5,7 +5,7 @@
     <p>
         <mat-form-field appearance="fill">
           <mat-label>Enter your username or email</mat-label>
-          <input matInput placeholder="example: user10" formControlName="username">
+          <input matInput placeholder="Bill_Clinton" formControlName="username">
           <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
           <mat-hint *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.invalid">
             <mat-hint *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.errors!['minlength']">Username is too short &nbsp;</mat-hint>

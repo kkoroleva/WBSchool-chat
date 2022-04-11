@@ -22,6 +22,10 @@ mat-hint {
     color: red;
 }
 
+input::placeholder {
+    color: grey;
+}
+
 mat-label {
     color: grey;
     border-bottom: 1px solid black;

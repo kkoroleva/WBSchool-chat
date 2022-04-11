@@ -11,12 +11,7 @@ export class NavbarComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   isAuthenticated() {
-    if (localStorage.getItem('token')) {
-      return true
-    }
-    else {
-      return false
-    }
+    return !!localStorage.getItem('token')
   }
   
   logout() {
