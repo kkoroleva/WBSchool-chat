@@ -8,6 +8,7 @@ import {AppRoutingModule} from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
+import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -27,7 +28,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
-import {MatChipsModule,} from '@angular/material/chips';
+import {MatChipsModule } from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -48,13 +49,14 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
+    SearchComponent,
     ProfileSettingsComponent,
     MainPageComponent,
     HomePageComponent,
     NotificationsPageComponent,
     MessagesPageComponent,
     ProfilePageComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
