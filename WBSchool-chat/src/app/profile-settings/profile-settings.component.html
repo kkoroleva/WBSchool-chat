@@ -21,59 +21,14 @@
 		</div>
 	</div>
 	<div class="profile-settings__line"></div>
-	<div class="profile-settings__info" *ngIf="output else settings">
-		<div class="profile-settings__menu" >
-			<div class="profile-settings__menu_item" *ngFor="let item of profileInfoList" (click)="click(item.title)">
-				<mat-icon>{{ item.icon }}</mat-icon>
-				<div class="profile-settings__menu_item_title">{{ item.title }}</div>
-			</div>
-		</div>
-	</div>
-	<ng-template #settings>
+	<div class="profile-settings__info">
 		<div class="profile-settings__menu" >
 			<div class="profile-settings__menu_item" *ngFor="let item of settingsList" (click)="click(item.title)">
 				<mat-icon>{{ item.icon }}</mat-icon>
 				<div class="profile-settings__menu_item_title">{{ item.title }}</div>
 			</div>
 		</div>
-		<!-- <div class="profile-settings__menu">
-			<div class="profile-settings__menu_item">
-				<mat-icon>account_circle</mat-icon>
-				<div class="profile-settings__menu_item_title">Profile</div>
-			</div>
-	
-			<div class="profile-settings__menu_item">
-				<mat-icon>edit</mat-icon>
-				<div class="profile-settings__menu_item_title">Edit Profile Name</div>
-			</div>
-	
-			<div class="profile-settings__menu_item">
-				<mat-icon>textsms</mat-icon>
-				<div class="profile-settings__menu_item_title">Edit Profile Status Info</div>
-			</div>
-	
-			<div class="profile-settings__menu_item">
-				<mat-icon>add_photo_alternate</mat-icon>
-				<div class="profile-settings__menu_item_title">Edit Profile Photo</div>
-			</div>
-	
-			<div class="profile-settings__menu_item">
-				<mat-icon>help_outline</mat-icon>
-				<div class="profile-settings__menu_item_title">Help</div>
-			</div>
-	
-			<div class="profile-settings__menu_item">
-				<mat-icon>wallpaper</mat-icon>
-				<div class="profile-settings__menu_item_title">Change Wallpaper</div>
-			</div>
-	
-			<div class="profile-settings__menu_item">
-				<mat-icon>share</mat-icon>
-				<div class="profile-settings__menu_item_title">Invite</div>
-			</div>
-		</div> -->
-	</ng-template>
-	
+	</div>
 	<div class="profile-settings__footer">
 		WB School Chat
 	</div>
