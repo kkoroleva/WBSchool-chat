@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { ProfileSettingsService } from './service/profile-settings.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { ModalHelpComponent } from './modal-help/modal-help.component';
 
 interface btnList {
   "id": number,
@@ -22,10 +24,10 @@ export class ProfileSettingsComponent {
   description: string = "I'm gangstar, bitch!"
   selectedItem!: btnList;
   toggle: boolean = false;
-  output: boolean = false; // если false, показвает настройки пользователя, если true, показывает информацию о нём
   formData: any = {}
   wallpaper: string = "some text";
-  // VVV Dummy data VVV
+  output: boolean = false;
+
   settingsList: btnList[] = [
     {
       "id": 1,
@@ -62,7 +64,7 @@ export class ProfileSettingsComponent {
   help: btnList = {
     "id": 1,
     "icon": "help_outline",
-    "title": "help",
+    "title": "Help",
     "description": "some text"
   }
 
@@ -106,16 +108,13 @@ export class ProfileSettingsComponent {
     }
   ]
 
-  constructor(private profileServ: ProfileSettingsService) {}
+  constructor(private profileServ: ProfileSettingsService, public dialog: MatDialog) {}
 
   click(str: string) {
     console.log(str)
     // и тут через switch распределить по методам наши нажатия
   }
 
-  changeOutput() {
-    this.output = !this.output
-  }
 
   onSelect(item: btnList): void { 
     this.selectedItem = item;
@@ -137,6 +136,7 @@ export class ProfileSettingsComponent {
     else if (inputData.id == 5) {
       this.formData.wallpaper = inputData.value;
     }
+    console.log(this.formData)
   }
 
   submit() {
@@ -153,5 +153,19 @@ export class ProfileSettingsComponent {
       this.description = response.description;
       this.wallpaper = response.wallpaper;
     })
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalHelpComponent, {
+      panelClass: 'modal-help'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  changeOutput() {
+    this.output = !this.output
   }
 }

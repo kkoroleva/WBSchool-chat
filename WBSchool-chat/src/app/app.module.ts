@@ -19,23 +19,42 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 /*Modules*/
 
 /*Material UI modules */
-
-import { GroupsComponent } from './groups/groups.component';
-import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatChipsModule } from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
+import { GroupsComponent } from './groups/groups.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+
+// import { GroupsComponent } from './groups/groups.component';
+// import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+// import { MatButtonModule } from '@angular/material/button';
+// import { MatCardModule } from '@angular/material/card';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatListModule } from '@angular/material/list';
+// import { MatMenuModule } from '@angular/material/menu';
+// import { MatTabsModule } from '@angular/material/tabs';
+// import { MatChipsModule } from '@angular/material/chips';
+// import { MatIconModule } from '@angular/material/icon';
+// import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
+// import { AuthModule } from './auth/auth.module';
+// import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+// import { AccountSettingsComponent } from './account-settings/account-settings.component';
+
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -46,18 +65,16 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-
     GroupsComponent,
-
     SearchComponent,
     ProfileSettingsComponent,
-
     MainPageComponent,
     HomePageComponent,
     NotificationsPageComponent,
     MessagesPageComponent,
     ProfilePageComponent,
     NavbarComponent,
+    ModalHelpComponent,
     AccountSettingsComponent
   ],
   imports: [
@@ -79,6 +96,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatChipsModule,
     MatIconModule,
     MatButtonToggleModule,
+    MatDialogModule,
 
     //Forms
     FormsModule,
