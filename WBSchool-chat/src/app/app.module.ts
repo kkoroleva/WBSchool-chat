@@ -35,6 +35,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -52,7 +53,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NotificationsPageComponent,
     MessagesPageComponent,
     ProfilePageComponent,
-    NavbarComponent
+    NavbarComponent,
+    AccountSettingsComponent
   ],
   imports: [
     BrowserModule,
