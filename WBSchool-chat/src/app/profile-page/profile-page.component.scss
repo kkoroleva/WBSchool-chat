@@ -14,6 +14,7 @@ $max-width: 1440px;
   display: grid;
   grid-template-columns: minmax($min-width, $mobile-width);
   grid-template-rows: auto, repeat(2, 1fr);
+  align-items: flex-start;
   gap: 30px;
 
   @media (min-width: $mobile-width) {
