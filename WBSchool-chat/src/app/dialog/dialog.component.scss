@@ -5,12 +5,11 @@
     width: 100%;
     height:auto;
     max-width: 699px;
-    // max-height: 100%;
     display: flex;
     box-sizing: border-box;
-    padding-top: 24.15px;
-    padding-left: 51.74px;
-    padding-right: 33.48px;
+    padding-top: 24px;
+    padding-left: 51px;
+    padding-right: 33px;
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     flex-direction: column;
@@ -21,7 +20,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 24.65px;
+        margin-bottom: 24px;
 
 
         
@@ -39,10 +38,10 @@
 
         &__avatar{
             width: 76px;
-            height: 75.60px;
+            height: 75px;
             border-radius: 50%;
             position: relative;
-            margin-right: 33.48px;
+            margin-right: 33px;
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
             
             span{
@@ -56,7 +55,7 @@
                 border: 2px solid white;
             }
        
-            @media (max-width: 460px) { 
+            @media (max-width: 495px) { 
                 width: 45px;
                 height: 45px;
                 margin-right: 10px;
@@ -75,7 +74,7 @@
         
         &__name{
             p{
-                font-family: 'Poppins';
+                font-family: 'Poppins', sans-serif;
                 font-style: normal;
                 font-weight: 600;
                 font-size: 24px;
@@ -83,7 +82,7 @@
                 margin: 0;
             }
             span{
-                font-family: 'Poppins';
+                font-family: 'Poppins', sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 14px;
@@ -91,7 +90,7 @@
                 color: rgba(0, 0, 0, 0.85);
             }
 
-            @media (max-width: 460px) { 
+            @media (max-width: 495px) { 
                 p{
                     font-size: 18px;
                     margin: 0;
@@ -111,7 +110,7 @@
             .phone{
                 width: 20px;
                 height: 20px;
-                margin-right: 46.67px;
+                margin-right: 46px;
                 filter: grayscale(100);
             }
             .camera{
@@ -125,11 +124,11 @@
                 width: 5px;
                 height: 25px;
             }
-            @media (max-width: 460px) { 
+            @media (max-width: 495px) { 
                 .phone{
                     width: 15px;
                     height: 15px;
-                    margin-right: 20.67px;
+                    margin-right: 20px;
                     
                 }
                 .camera{
@@ -143,23 +142,27 @@
                 }
             }
         }
-        @media (max-width: 460px) { 
+        @media (max-width: 495px) { 
             margin-bottom: 12px;
         }
 
     }
     hr{
         border: 1px solid rgba(0, 0, 0, 0.25);
-        max-width: 606.72px;
+        max-width: 606px;
         width: 100%;
     }
     .message{
         position: relative;
-        margin-top: 56.85px;
+        margin-top: 56px;
 
+        &__wrapper{
+            height: 723px;
+            overflow-y: scroll;
+        }
 
         
-        &__wrapperG{
+        &__wrapperGrey{
             cursor: pointer;
             display: flex;
             max-width: max-content;
@@ -168,7 +171,7 @@
             span{
                 margin-top: 7px;
                 text-align: left;
-                font-family: 'Poppins';
+                font-family: 'Poppins', sans-serif;
                 font-style: normal;
                 font-weight: 500;
                 font-size: 12px;
@@ -176,7 +179,7 @@
                 color: rgba(0, 0, 0, 0.25);
             }
         }
-        &__wrapperB{
+        &__wrapperBlue{
             cursor: pointer;
             position: relative;
             display: flex;
@@ -187,7 +190,7 @@
             span{
                 margin-top: 7px;
                 text-align: right;
-                font-family: 'Poppins';
+                font-family: 'Poppins', sans-serif;
                 font-style: normal;
                 font-weight: 500;
                 font-size: 12px;
@@ -205,7 +208,7 @@
             
             p{
                 margin: 0%;
-                font-family: 'Poppins';
+                font-family: 'Poppins', sans-serif;
                 font-style: normal;
                 font-weight: 500;
                 font-size: 16px;
@@ -220,7 +223,6 @@
             background: #1A66FF;
             border-radius: 10px;
             padding: 13px 20px;
-            // transform: matrix(-1, 0, 0, 1, 0, 0);
             p{
                 margin: 0%;
                 font-style: normal;
@@ -233,9 +235,9 @@
     
         hr{
             border: 1px solid rgba(0, 0, 0, 0.25);
-            max-width: 606.72px;
+            max-width: 606px;
             width: 100%;
-            margin-bottom: 35.22px;
+            margin-bottom: 35px;
         }
         
         &__send{
@@ -250,8 +252,8 @@
                 width: 100%;
                 padding-left: 13px;
                 padding-right: 15px;
-                width: 524.79px;
-                height: 45.28px;
+                width: 524px;
+                height: 45px;
                 background: #E0E0E0;
                 border-radius: 10px;
                 margin-right: 20px;
@@ -267,7 +269,7 @@
                 }
             }
             .photo{
-                margin-left: 13.19px;
+                margin-left: 13px;
             }
             
         }

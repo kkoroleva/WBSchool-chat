@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
 
@@ -11,61 +10,70 @@ import { DialogService } from './dialog.service';
 })
 export class DialogComponent implements OnInit {
 
-  editMessageID = ''
+  editMessageID:string = '';
 
-  isEditMessage = false
+  isEditMessage:boolean = false;
 
-  message = new FormControl('');
+  message:FormControl = new FormControl('');
 
   myId:string = '625426411a25022b2ae1c7b1'; 
 
-  data!:IMessage[]
+  data:IMessage[] = [];
   
 
   constructor(private service:DialogService) { }
 
   ngOnInit(): void {
     this.getMessages()
-    
-  }
-  getMessages()
+  };
+  
+  getMessages():void
   {///==============для получение сообщение 
     this.service.getMessages().subscribe((res)=>{
       this.data = res 
     })
-  }
+  };
 
 
 
-deleteMessage(id:string){
+deleteMessage(id:string):void
+{
   this.service.deleteMessage(id).subscribe(
     () => {
       this.getMessages()
     }
   )
-}
-editMessage(text:string, id:string){
+};
+
+
+editMessage(text:string, id:string):void
+{
   this.service.editMessage(text, id).subscribe(
     () => {
       this.getMessages()
       this.isEditMessage = false
     }
   )
-}
-
-getMessage(id:string, text:string){///================для получение сообщение в инпуте 
-  this.isEditMessage = true
-  this.editMessageID = id
-  this.message.setValue(text)
-}
+};
 
 
+getMessage(id:string, text:string):void
+{///================для получение сообщение в инпуте привязен к кнопке изменить 
+  this.isEditMessage = true;
+  this.editMessageID = id;
+  this.message.setValue(text);
+};
 
-sendMessage(event:KeyboardEvent)
+
+
+sendMessage(event:KeyboardEvent):void
   {
     if (this.message.value.trim() && event.key === 'Enter') {
+
       if(this.isEditMessage){
+
         this.editMessage(this.message.value, this.editMessageID)
+
       }else{
         this.service.sendMessage(this.message.value).subscribe(
           () => {
@@ -73,11 +81,7 @@ sendMessage(event:KeyboardEvent)
           }
         )
       }
-
-      this.message.setValue('');
+      this.message.setValue('')
     }
   }
-
-
- 
 }
