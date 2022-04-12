@@ -10,7 +10,7 @@ interface btnList {
   templateUrl: './account-settings.component.html',
   styleUrls: ['./account-settings.component.scss']
 })
-export class AccountSettingsComponent implements OnInit {
+export class AccountSettingsComponent {
 
   constructor() { }
   settingsList: btnList[] = [
@@ -56,7 +56,9 @@ export class AccountSettingsComponent implements OnInit {
     }
   ]
   
-  ngOnInit(): void {
+  click(str: string) {
+    console.log(str)
+    // и тут через switch распределить по методам наши нажатия
   }
 
 }
