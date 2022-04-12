@@ -13,7 +13,7 @@ export class NavbarComponent {
   isAuthenticated() {
     return !!localStorage.getItem('token')
   }
-  
+
   logout() {
     this.auth.logout()
     this.router.navigate(["login"])
