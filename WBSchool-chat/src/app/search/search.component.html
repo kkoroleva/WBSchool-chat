@@ -1,0 +1,12 @@
+<div class="searchbar">
+	<mat-icon class="searchbar__search-icon" (click)="blankClick()">search</mat-icon>
+	<input type="text" placeholder="Search">
+
+	<button mat-button [matMenuTriggerFor]="menu" class="searchbar__menu-wrapper">
+		<mat-icon class="searchbar__menu-wrapper_more-icon">more_vert</mat-icon>
+	</button>
+	<mat-menu #menu="matMenu">
+		<button mat-menu-item (click)="blankClick()">Menu option 1</button>
+		<button mat-menu-item (click)="blankClick()">Menu option 2</button>
+	</mat-menu>
+</div>

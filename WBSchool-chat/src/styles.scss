@@ -1,4 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+$main-background: #EAEAEA;
+
+body {
+  background-color: $main-background;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.auth {
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 0px;
+  width: 400px;
+  padding: 20px;
+  background-color:aliceblue;
+  box-shadow: 1px 2px 4px rgb(177, 151, 229);
+  border-radius: 20px;
+}
+
+@media(max-width: 420px) {
+  .auth {
+    margin-top: 20px;
+    width: 300px;
+    padding: 15px;
+  }
+}
