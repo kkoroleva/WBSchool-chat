@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
-=======
-import { Component } from '@angular/core';
->>>>>>> f651d8245e585c5f8c8a8a69b5b149b4c43aba4f
 
 interface btnList {
   "id": number,
@@ -19,12 +15,11 @@ interface btnList {
   styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent {
-<<<<<<< HEAD
   constructor(public dialog: MatDialog) {}
 
-=======
+
   // pictureSrc: string = "https://vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png";
->>>>>>> f651d8245e585c5f8c8a8a69b5b149b4c43aba4f
+
   pictureSrc: string = "https://avatars.mds.yandex.net/get-zen_doc/4636135/pub_601e93fd86f4e222081ccbe2_601e94715fadcc22a9dd0e1e/scale_1200";
   name: string = localStorage.getItem('username')!
   status: string = localStorage.getItem('userRights')!
