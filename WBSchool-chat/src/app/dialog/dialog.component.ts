@@ -42,10 +42,13 @@ deleteMessage(id:string):void
   this.service.deleteMessage(id).subscribe(
     () => {
       this.getMessages()
+
     }
   )
 };
-
+deleteChat(){
+  console.log('удалить чат')
+}
 
 editMessage(text:string, id:string):void
 {

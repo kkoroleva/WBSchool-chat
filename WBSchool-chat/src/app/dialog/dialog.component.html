@@ -20,8 +20,12 @@
             <div class="header__icon">
                 <a><img src="../../assets/phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
                 <a><img src="../../assets/camera.svg" alt="camera" class="camera" width="28px" height="20px"></a>
-                <a><img src="../../assets/menu.svg" alt="menu" class="menu" width="5px" height="25px"></a>
-
+                <a [matMenuTriggerFor]="blockMenu" ><img src="../../assets/menu.svg" alt="menu" class="menu" width="5px" height="25px"></a>
+                    <mat-menu #blockMenu="matMenu" >
+                        <button (click)="deleteChat()" mat-menu-item>
+                          <span>Очистить чат</span>
+                        </button>
+                    </mat-menu>
             </div>
         </div>
         <hr>
