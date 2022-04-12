@@ -1,0 +1,18 @@
+<div class="container">
+
+  <div class="notification" 
+  *ngFor="let notification of arrNotifications">
+
+    <mat-icon class="notification__icon-notif">notifications</mat-icon>
+    <span class="notification__text">{{ notification.text }}</span>
+    <button mat-icon-button
+      class="notification__icon-x"
+      color="Icon"
+      (click)="deleteNotification()"
+      >
+      <mat-icon>close</mat-icon>
+    </button>
+
+  </div>
+  
+</div>

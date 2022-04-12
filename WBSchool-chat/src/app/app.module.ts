@@ -1,13 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
+import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
@@ -15,10 +16,17 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
+import { HomePageComponent } from './home-page/home-page.component';
+import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
+import { MessagesPageComponent } from './messages-page/messages-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 /*Modules*/
 
 /*Material UI modules */
+
+import { GroupsComponent } from './groups/groups.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,13 +42,39 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
+import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { NotificationsComponent } from './notifications/notifications.component';
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  multi: true,
+  useClass: AuthInterceptor,
+};
+
 @NgModule({
-  declarations: [AppComponent, MainPageComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+
+    GroupsComponent,
+
+    SearchComponent,
+    ProfileSettingsComponent,
+
+    MainPageComponent,
+    HomePageComponent,
+    NotificationsPageComponent,
+    MessagesPageComponent,
+    ProfilePageComponent,
+    NavbarComponent,
+    NotificationsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AuthModule,
 
     //Material UI
     BrowserAnimationsModule,
@@ -74,7 +108,9 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     EffectsModule.forRoot([AppEffects]),
     StoreRouterConnectingModule.forRoot(),
   ],
-  providers: [],
+
+  providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {}
