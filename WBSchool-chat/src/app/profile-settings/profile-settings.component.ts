@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 interface btnList {
+  "id": number,
   "icon": string,
-  "title": string
+  "title": string,
+  "description": string
 }
 
 @Component({
@@ -11,73 +13,142 @@ interface btnList {
   styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent {
-  pictureSrc: string = "https://vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png";
-  name: string = "Name Name"
-  status: string = "status status"
+  // pictureSrc: string = "https://vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png";
+  pictureSrc: string = "https://avatars.mds.yandex.net/get-zen_doc/4636135/pub_601e93fd86f4e222081ccbe2_601e94715fadcc22a9dd0e1e/scale_1200";
+  name: string = localStorage.getItem('username')!
+  status: string = localStorage.getItem('userRights')!
+  description: string = "I'm gangstar, bitch!"
+  selectedItem!: btnList;
+  toggle: boolean = false;
   output: boolean = false; // если false, показвает настройки пользователя, если true, показывает информацию о нём
   // VVV Dummy data VVV
   settingsList: btnList[] = [
     {
-      "icon": "account_circle",
-      "title": "Profile"
-    },
-    {
+      "id": 1,
       "icon": "edit",
-      "title": "Edit Profile Name"
+      "title": "Edit Profile Name",
+      "description": this.name
     },
     {
+      "id": 2,
       "icon": "textsms",
-      "title": "Edit Profile Status Info"
+      "title": "Edit Profile Status Info",
+      "description": this.status
     },
     {
+      "id": 3,
       "icon": "add_photo_alternate",
-      "title": "Edit Profile Photo"
+      "title": "Edit Profile Photo",
+      "description": this.pictureSrc
     },
     {
-      "icon": "help_outline",
-      "title": "help"
+      "id": 4,
+      "icon": "edit",
+      "title": "Edit Description",
+      "description": this.description
     },
     {
+      "id": 5,
       "icon": "wallpaper",
-      "title": "Change wallpaper"
-    },
-    {
-      "icon": "share",
-      "title": "Invite"
-    },
-  ]
-  profileInfoList: btnList[] = [
-    {
-      "icon": "person",
-      "title": "Username: " + "User User"
-    },
-    {
-      "icon": "phone",
-      "title": "Phone: " + " 8(999)123-45-67"
-    },
-    {
-      "icon": "people",
-      "title": "Friend status: " + "Added/Not added"
-    },
-    {
-      "icon": "email",
-      "title": "Messages sent: " + "6348"
-    },
-    {
-      "icon": "delete",
-      "title": "Delete contact"
-    },
-    {
-      "icon": "block",
-      "title": "Block user"
+      "title": "Change wallpaper",
+      "description": "some text"
     }
   ]
 
-  blankClick() {
-    console.log('click')
+  help: btnList = {
+    "id": 1,
+    "icon": "help_outline",
+    "title": "help",
+    "description": "some text"
+  }
+
+  
+  profileInfoList: btnList[] = [
+    {
+      "id": 1,
+      "icon": "person",
+      "title": "Username: " + "User User",
+      "description": "some text"
+    },
+    {
+      "id": 2,
+      "icon": "phone",
+      "title": "Phone: " + " 8(999)123-45-67",
+      "description": "some text"
+    },
+    {
+      "id": 3,
+      "icon": "people",
+      "title": "Friend status: " + "Added/Not added",
+      "description": "some text"
+    },
+    {
+      "id": 4,
+      "icon": "email",
+      "title": "Messages sent: " + "6348",
+      "description": "some text"
+    },
+    {
+      "id": 5,
+      "icon": "delete",
+      "title": "Delete contact",
+      "description": "some text"
+    },
+    {
+      "id": 6,
+      "icon": "block",
+      "title": "Block user",
+      "description": "some text"
+    }
+  ]
+
+  click(str: string) {
+    console.log(str)
+    // и тут через switch распределить по методам наши нажатия
   }
 
   changeOutput() {
     this.output = !this.output
+  }
+
+  onSelect(item: btnList): void { 
+    this.selectedItem = item;
+  }
+
+  submit(event: any) {
+    const formData: any = {};
+    if (event.target[0].id == 1) {
+      formData.username = event.target[0].value;
+    }
+    else if (event.target[0].id == 2) {
+      formData.status = event.target[0].value;
+    }
+    else if (event.target[0].id == 3) {
+      formData.pictureSrc = event.target[0].value;
+    }
+    else if (event.target[0].id == 4) {
+      formData.description = event.target[0].value;
+    }
+    else if (event.target[0].id == 5) {
+      formData.wallpaper = event.target[0].value;
+    }
+    // switch (event.target[0].id) {
+    //   case 1:
+    //     formData.username = event.target[0].value;
+    //     break;
+    //   case 2:
+    //     formData.status = event.target[0].value;
+    //     break;
+    //   case 3:
+    //     formData.pictureSrc = event.target[0].value;
+    //     break;
+    //   case 4:
+    //     formData.description = event.target[0].value;
+    //     break;
+    //   case 5:
+    //     formData.wallpaper = event.target[0].value;
+    //     break;
+    // }
+    console.log(formData)
   }
 }

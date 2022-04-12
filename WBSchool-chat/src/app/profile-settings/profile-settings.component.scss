@@ -75,6 +75,7 @@
 		.profile-settings__menu_item {
 			display: flex;
 			flex-direction: row;
+			flex-wrap: wrap;
 			height: 30px;
 			margin-bottom: 39px;
 			cursor: pointer;
@@ -82,6 +83,13 @@
 			mat-icon {
 				font-size: 30px;
 				margin-right: 39px;
+			}
+
+			mat-form-field {
+				border: 1px solid gray;
+				border-radius: 10px;
+				box-shadow: 1px 1px 2px blue;
+				padding: 0 10px;
 			}
 
 			.profile-settings__menu_item_title {
