@@ -33,8 +33,6 @@ export class DialogComponent implements OnInit {
     })
   };
 
-
-
 deleteMessage(id:string):void {
   this.service.deleteMessage(id).subscribe(
     () => {
@@ -55,14 +53,11 @@ editMessage(text:string, id:string):void {
   )
 };
 
-
 getMessage(id:string, text:string):void {///================для получение сообщение в инпуте привязен к кнопке изменить 
   this.isEditMessage = true;
   this.editMessageID = id;
   this.message.setValue(text);
 };
-
-
 
 sendMessage(event:KeyboardEvent):void {
     if (this.message.value.trim() && event.key === 'Enter') {
