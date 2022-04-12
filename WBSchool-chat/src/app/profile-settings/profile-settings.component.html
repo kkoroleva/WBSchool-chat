@@ -18,6 +18,9 @@
 			<span class="profile-settings__user-info_name_status">
 				{{status}}
 			</span>
+			<span class="profile-settings__user-info_name_status">
+				{{description}}
+			</span>
 		</div>
 	</div>
 	<div class="profile-settings__line"></div>
@@ -31,9 +34,22 @@
 	</div>
 	<ng-template #settings>
 		<div class="profile-settings__menu" >
-			<div class="profile-settings__menu_item" *ngFor="let item of settingsList">
+			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index">
 				<mat-icon>{{ item.icon }}</mat-icon>
-				<div class="profile-settings__menu_item_title">{{ item.title }}</div>
+				<div class="profile-settings__menu_item_title" (click)="[onSelect(item), toggle = !toggle]" 
+				[class.selected]="item === selectedItem">{{ item.title }}</div>
+				<form [formGroup]="form" (ngSubmit)="submit($event)" *ngIf="toggle && selectedItem.id == i+1">
+					<mat-form-field appearance="fill">
+					    <input matInput type="text" id={{item.id}} value={{item.description}}>
+						<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
+			        </mat-form-field>
+					<button mat-raised-button color="primary" type="submit">V</button>
+				    <button mat-raised-button color="warn">X</button>
+				</form>
+			</div>
+		    <div class="profile-settings__menu_item">
+				<mat-icon>{{ help.icon }}</mat-icon>
+				<div class="profile-settings__menu_item_title">{{ help.title }}</div>
 			</div>
 		</div>
 		<!-- <div class="profile-settings__menu">
@@ -65,13 +81,13 @@
 			<div class="profile-settings__menu_item">
 				<mat-icon>wallpaper</mat-icon>
 				<div class="profile-settings__menu_item_title">Change Wallpaper</div>
-			</div>
+			</div> -->
 	
-			<div class="profile-settings__menu_item">
+			<!-- <div class="profile-settings__menu_item">
 				<mat-icon>share</mat-icon>
 				<div class="profile-settings__menu_item_title">Invite</div>
-			</div>
-		</div> -->
+			</div> -->
+		<!-- </div> -->
 	</ng-template>
 	
 	<div class="profile-settings__footer">
