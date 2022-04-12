@@ -64,7 +64,7 @@ export class ProfileSettingsComponent {
   help: btnList = {
     "id": 1,
     "icon": "help_outline",
-    "title": "help",
+    "title": "Help",
     "description": "some text"
   }
 
