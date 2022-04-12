@@ -10,7 +10,6 @@ import { DialogService } from './dialog.service';
 })
 export class DialogComponent implements OnInit {
 
-
   editMessageID:string = '';
 
   isEditMessage:boolean = false;
@@ -28,8 +27,7 @@ export class DialogComponent implements OnInit {
     this.getMessages()
   };
   
-  getMessages():void
-  {///==============для получение сообщение 
+  getMessages():void {///==============для получение сообщение 
     this.service.getMessages().subscribe((res)=>{
       this.data = res 
     })
@@ -37,12 +35,10 @@ export class DialogComponent implements OnInit {
 
 
 
-deleteMessage(id:string):void
-{
+deleteMessage(id:string):void {
   this.service.deleteMessage(id).subscribe(
     () => {
       this.getMessages()
-
     }
   )
 };
@@ -50,8 +46,7 @@ deleteChat(){
   console.log('удалить чат')
 }
 
-editMessage(text:string, id:string):void
-{
+editMessage(text:string, id:string):void {
   this.service.editMessage(text, id).subscribe(
     () => {
       this.getMessages()
@@ -61,8 +56,7 @@ editMessage(text:string, id:string):void
 };
 
 
-getMessage(id:string, text:string):void
-{///================для получение сообщение в инпуте привязен к кнопке изменить 
+getMessage(id:string, text:string):void {///================для получение сообщение в инпуте привязен к кнопке изменить 
   this.isEditMessage = true;
   this.editMessageID = id;
   this.message.setValue(text);
@@ -70,8 +64,7 @@ getMessage(id:string, text:string):void
 
 
 
-sendMessage(event:KeyboardEvent):void
-  {
+sendMessage(event:KeyboardEvent):void {
     if (this.message.value.trim() && event.key === 'Enter') {
 
       if(this.isEditMessage){
