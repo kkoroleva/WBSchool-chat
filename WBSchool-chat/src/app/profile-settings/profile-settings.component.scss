@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.profile-settings {
+	background: #FFFFFF;
+	// box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 20px;
+	// position: absolute;
+	// height: fit-content;
+	min-width: 320px;
+	width: 100%;
+
+	.profile-settings__title {
+		padding: 26px 0 0 39px;
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 600;
+		font-size: 20px;
+		line-height: 30px;
+	}
+
+	.profile-settings__user-info {
+		margin: 49px 0 0 38px;
+		display: flex;
+		flex-direction: row;
+
+		.profile-settings__user-info_img {
+			height: 100px;
+			width: 100px;
+			border: 3px solid #FFFFFF;
+			border-radius: 50px;
+			box-sizing: border-box;
+			filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.5));
+
+			img {
+				border-radius: 50px;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.profile-settings__user-info_name {
+			margin: auto 0 auto 31px;
+			display: flex;
+			flex-direction: column;
+
+			.profile-settings__user-info_name_username {
+				font-family: 'Poppins';
+				font-style: normal;
+				font-weight: 600;
+				font-size: 25px;
+				line-height: 38px;
+			}
+
+			.profile-settings__user-info_name_status {
+				font-family: 'Poppins';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 20px;
+				line-height: 30px;
+			}
+		}
+	}
+
+	.profile-settings__line {
+		margin: 29px 40px 1px;
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		width: calc(100% - 80px);
+	}
+
+	.profile-settings__menu {
+		margin: 60px 20px 25px 55px;
+		display: flex;
+		flex-direction: column;
+
+		.profile-settings__menu_item {
+			display: flex;
+			flex-direction: row;
+			height: 30px;
+			margin-bottom: 39px;
+			cursor: pointer;
+
+			mat-icon {
+				font-size: 30px;
+				margin-right: 39px;
+			}
+
+			.profile-settings__menu_item_title {
+				font-family: 'Poppins';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 20px;
+				line-height: 30px;
+			}
+
+			&:active {	
+				.profile-settings__menu_item_title {
+					font-family: 'Poppins';
+					font-style: normal;
+					font-weight: 700;
+					font-size: 20px;
+					line-height: 30px;
+				}
+			}
+			
+		}
+
+		@media (max-width: 460px) {
+			margin-left: 15%;
+		}
+	}
+
+	.profile-settings__footer {
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 20px;
+		line-height: 30px;
+		color: rgba(0, 0, 0, 0.5);
+		margin: 0 auto 38px;
+		text-align: center;
+	}
+}
