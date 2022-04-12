@@ -10,6 +10,7 @@ import { DialogService } from './dialog.service';
 })
 export class DialogComponent implements OnInit {
 
+
   editMessageID:string = '';
 
   isEditMessage:boolean = false;
