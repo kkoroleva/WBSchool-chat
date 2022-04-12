@@ -15,7 +15,6 @@ $main-blue: #1A66FF;
 
 .friends {
   width: 100%;
-  overflow: scroll;
   padding: 20px 20px 0 25px;
 
   display: flex;
@@ -29,18 +28,6 @@ $main-blue: #1A66FF;
     box-sizing: border-box;
   }
 
-}
-
-.friends::-webkit-scrollbar {
-  width: 0;
-}
-
-.friends::-webkit-scrollbar-track {
-  background-color: white;
-}
-
-.friends::-webkit-scrollbar-thumb {
-  background-color: white;
 }
 
 .friends__header {
@@ -65,10 +52,13 @@ $main-blue: #1A66FF;
   width: 100%;
   padding: 0;
   margin: 0;
+  max-height: 400px;
+  overflow-y: scroll;
+
 }
 
 .friends__item {
-  padding: 15px 0;
+  padding: 15px 10px 15px 0;
   min-height: 72px;
   max-height: fit-content;
 
@@ -132,7 +122,7 @@ $main-blue: #1A66FF;
   background: #00FF75;
   border-radius: 50%;
   border: 2px solid #FFFFFF;
-  box-shadow: 04px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .friends__name {

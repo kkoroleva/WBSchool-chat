@@ -30,7 +30,7 @@ const mockRecents: Recent[] = [
     lastMessage: "Sounds fun."
   },
   {
-    isRead: true,
+    isRead: false,
     isActive: true,
     newMessages: 0,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
