@@ -18,7 +18,7 @@ import { MessagesPageComponent } from './messages-page/messages-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
-
+import { DialogComponent } from './dialog/dialog.component';
 /*Modules*/
 
 /*Material UI modules */
@@ -56,6 +56,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NotificationsPageComponent,
     MessagesPageComponent,
     ProfilePageComponent,
+    DialogComponent,
     NavbarComponent,
   ],
   imports: [
