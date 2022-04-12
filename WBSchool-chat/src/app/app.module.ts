@@ -16,8 +16,6 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { MessagesPageComponent } from './messages-page/messages-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
-import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
-
 
 /*Modules*/
 
