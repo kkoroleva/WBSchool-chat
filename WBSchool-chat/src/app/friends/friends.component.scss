@@ -16,7 +16,7 @@ $main-blue: #1A66FF;
 .friends {
   width: 100%;
   overflow: scroll;
-  padding: 20px 25px 0;
+  padding: 20px 20px 0 25px;
 
   display: flex;
   flex-wrap: wrap;
@@ -55,10 +55,6 @@ $main-blue: #1A66FF;
 
 .friends__more-button {
   color: $main-blue;
-
-  .mat-icon {
-    width: 10px;
-  }
 }
 
 .friends__more-button:hover {

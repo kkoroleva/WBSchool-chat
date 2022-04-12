@@ -14,7 +14,7 @@ const mockRecents: Recent[] = [
   {
     isRead: true,
     isActive: true,
-    newMessages: 0,
+    newMessages: 2,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Sasha",
     lastActive: "today, 8:01AM",
@@ -23,7 +23,7 @@ const mockRecents: Recent[] = [
   {
     isRead: true,
     isActive: false,
-    newMessages: 0,
+    newMessages: 4,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Lenya",
     lastActive: "today, 8:30AM",

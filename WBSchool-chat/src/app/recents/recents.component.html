@@ -8,13 +8,13 @@
       <a href="" class="recents__chat-link">
         <div class="recents__online" [ngClass]="{recents__online:recent.isActive}">
           <img class="recents__thumbnail" src="{{recent.thumbnail}}" alt="Your best friend face"
-            width="52" height="52">
+            width="70" height="70">
         </div>
         <div class="recents__item-text">
           <b class="recents__name">{{recent.name}}</b>
           <p class="recents__last-active">{{recent.lastActive}}</p>
           <p class="recents__last-message">{{recent.lastMessage}}
-            <span class="recents__message-status">{{recent.newMessages}}</span>
+            <span class="recents__new-messages" *ngIf="recent.newMessages&&recent.newMessages!==0" class="recents__message-status">{{recent.newMessages}}</span>
           </p>
         </div>
       </a>

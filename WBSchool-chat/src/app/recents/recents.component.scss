@@ -1,7 +1,9 @@
 //Подключить шрифт глобально потом
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
 
-$main-font: "Poppins", Arial, sans-serif;
+$main-font: "Poppins",
+Arial,
+sans-serif;
 $main-text-color: #000000;
 $box-shadow: rgba(0, 0, 0, 0.25);
 $background-color: #FFFFFF;
@@ -12,7 +14,7 @@ $thumbnail-size: 52px;
 
 .recents {
   min-width: 320px;
-  overflow: scroll;
+  overflow: hidden;
   padding: 20px;
   margin: 0 auto;
 
@@ -30,6 +32,7 @@ $thumbnail-size: 52px;
 
 }
 
+/*
 .recents::-webkit-scrollbar {
   width: 2px;
 }
@@ -40,11 +43,11 @@ $thumbnail-size: 52px;
 
 .recents::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 1);
-}
+}*/
 
 .recents__header {
-  padding: 0 16px;
-  margin-bottom: 15px;
+  padding: 0;
+  margin-bottom: 5px;
   font-family: $main-font;
   font-style: normal;
   font-weight: 600;
@@ -60,7 +63,7 @@ $thumbnail-size: 52px;
 .recents__list {
   width: 100%;
   padding: 0;
-
+  margin: 0;
 }
 
 .recents__item {
@@ -80,7 +83,11 @@ $thumbnail-size: 52px;
   }
 
   .recents__online {
+    width: fit-content;
+    height: fit-content;
     position: relative;
+
+
   }
 
   .recents__online::after {
@@ -99,6 +106,12 @@ $thumbnail-size: 52px;
 
 }
 
+.recents__thumbnail {
+  border-radius: 50%;
+  position: relative;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+}
+
 .recents__item:last-of-type {
   border: none;
 }
@@ -106,6 +119,7 @@ $thumbnail-size: 52px;
 .recents__chat-link {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   flex: 1;
   padding-top: 20px;
   padding-bottom: 10px;
@@ -117,23 +131,7 @@ $thumbnail-size: 52px;
   opacity: 0.7;
 }
 
-.recents__thumbnail {
-  border-radius: 50%;
-  position: relative;
-}
 
-.recents__thumbnail--active::before {
-  content: "meow";
-  width: 15px;
-  height: 15px;
-  display: block;
-  position: absolute;
-
-  background: #00FF75;
-  border: 2px solid #FFFFFF;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
 
 .recents__name {
   font-family: $main-font;
@@ -145,6 +143,7 @@ $thumbnail-size: 52px;
 }
 
 .recents__last-message {
+  position: relative;
   margin: 0;
   width: 100%;
   overflow: hidden;
@@ -154,6 +153,11 @@ $thumbnail-size: 52px;
   font-size: 14px;
   line-height: 21px;
   color: $last-message-color;
+}
+
+.recents__new-messages {
+  position: absolute;
+  right: 0;
 }
 
 .recents__last-active {
