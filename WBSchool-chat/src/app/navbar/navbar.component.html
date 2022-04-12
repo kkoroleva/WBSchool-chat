@@ -1,16 +1,20 @@
 <nav class="nav">
   <img src="../../assets/ava.svg" alt="avatar" class="nav__img" width="60" height="60"/>
   <ul class="nav__list">
-    <li class="nav__list-item"><a routerLink="./home" class="nav__list-link">
+    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'home'}">
+      <a routerLink="./home" class="nav__list-link">
       <mat-icon>home</mat-icon>
     </a></li>
-    <li class="nav__list-item"><a routerLink="./chat" class="nav__list-link">
+    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'chat'}">
+      <a routerLink="./chat" class="nav__list-link">
       <mat-icon>message</mat-icon>
     </a></li>
-    <li class="nav__list-item"><a routerLink="./alerts" class="nav__list-link">
+    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'alerts'}">
+      <a routerLink="./alerts" class="nav__list-link">
       <mat-icon>notifications_none</mat-icon>
     </a></li>
-    <li class="nav__list-item"><a routerLink="./profile" class="nav__list-link">
+    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'profile'}">
+      <a routerLink="./profile" class="nav__list-link">
       <mat-icon>settings</mat-icon>
     </a></li>
     <li class="nav__list-item"><a href="" class="nav__list-link">
