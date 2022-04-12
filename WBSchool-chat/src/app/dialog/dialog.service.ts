@@ -15,7 +15,6 @@ export class DialogService {
   getMessages():Observable<IMessage[]>{///================получение ответа из апи
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`)
   };
-
  
 
   sendMessage(text:string):Observable<IMessage>{
