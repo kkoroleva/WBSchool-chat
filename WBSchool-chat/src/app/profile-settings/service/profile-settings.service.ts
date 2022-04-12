@@ -1,20 +1,29 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+import { IProfileData, IServerResponse } from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileSettingsService {
-  private url = "http://www.wbschool-chat.ru/"
+  private url = "http://www.wbschool-chat.ru/users/me"
 
   constructor(private http: HttpClient) { }
 
-  editProfileSettings(formData: any) {
-    return this.http.patch(this.url, formData)
+  getUsersData(): Observable<IServerResponse>{
+    return this.http.get<IServerResponse>(this.url)
     .pipe(
-      catchError(error => {
-        console.log("Error: ", error);
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    )
+  }
+
+  editProfileSettings(formData: IProfileData): Observable<IServerResponse> {
+    return this.http.patch<IServerResponse>(this.url, formData)
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
         return throwError(() => error);
       })
     )

@@ -1,122 +1,91 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { ProfileSettingsService } from './service/profile-settings.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
-
-interface btnList {
-  "id": number,
-  "icon": string,
-  "title": string,
-  "description": string
-}
+import { IProfileData, IServerResponse, ISettingsList } from './interfaces/interface';
 
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent {
-  // pictureSrc: string = "https://vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png";
-  pictureSrc: string = "https://avatars.mds.yandex.net/get-zen_doc/4636135/pub_601e93fd86f4e222081ccbe2_601e94715fadcc22a9dd0e1e/scale_1200";
-  name: string = localStorage.getItem('username')!
-  status: string = localStorage.getItem('userRights')!
-  description: string = "I'm gangstar, bitch!"
-  selectedItem!: btnList;
+export class ProfileSettingsComponent implements OnInit{
+  profileData: IProfileData = {
+    username: '',
+    status: 'Не беспокоить',
+    avatar: '',
+    email: '',
+    about: '',
+    wallpaper: 'some text'
+  };
+  formData: IProfileData = {};
+  selectedItem!: ISettingsList;
   toggle: boolean = false;
-  formData: any = {}
-  wallpaper: string = "some text";
-  output: boolean = false;
 
-  settingsList: btnList[] = [
-    {
-      "id": 1,
-      "icon": "edit",
-      "title": "Edit Profile Name",
-      "description": this.name
-    },
-    {
-      "id": 2,
-      "icon": "textsms",
-      "title": "Edit Profile Status Info",
-      "description": this.status
-    },
-    {
-      "id": 3,
-      "icon": "add_photo_alternate",
-      "title": "Edit Profile Photo",
-      "description": this.pictureSrc
-    },
-    {
-      "id": 4,
-      "icon": "edit",
-      "title": "Edit Description",
-      "description": this.description
-    },
-    {
-      "id": 5,
-      "icon": "wallpaper",
-      "title": "Change wallpaper",
-      "description": "some text"
-    }
-  ]
+  settingsList: ISettingsList[];
 
-  help: btnList = {
-    "id": 1,
-    "icon": "help_outline",
-    "title": "Help",
-    "description": "some text"
+  constructor(private profileServ: ProfileSettingsService, public dialog: MatDialog) {
+    this.settingsList = [
+      {
+        "id": 1,
+        "icon": "edit",
+        "title": "Edit Profile Name",
+        "description": this.profileData.username
+      },
+      {
+        "id": 2,
+        "icon": "textsms",
+        "title": "Edit Profile Status Info",
+        "description": this.profileData.status
+      },
+      {
+        "id": 3,
+        "icon": "add_photo_alternate",
+        "title": "Edit Profile Photo",
+        "description": this.profileData.avatar
+      },
+      {
+        "id": 4,
+        "icon": "edit",
+        "title": "Edit Description",
+        "description": this.profileData.about
+      },
+      {
+        "id": 5,
+        "icon": "edit",
+        "title": "Edit Email",
+        "description": this.profileData.email
+      },
+      {
+        "id": 6,
+        "icon": "wallpaper",
+        "title": "Change wallpaper",
+        "description": "some text"
+      }
+    ]
   }
 
-  
-  profileInfoList: btnList[] = [
-    {
-      "id": 1,
-      "icon": "person",
-      "title": "Username: " + "User User",
-      "description": "some text"
-    },
-    {
-      "id": 2,
-      "icon": "phone",
-      "title": "Phone: " + " 8(999)123-45-67",
-      "description": "some text"
-    },
-    {
-      "id": 3,
-      "icon": "people",
-      "title": "Friend status: " + "Added/Not added",
-      "description": "some text"
-    },
-    {
-      "id": 4,
-      "icon": "email",
-      "title": "Messages sent: " + "6348",
-      "description": "some text"
-    },
-    {
-      "id": 5,
-      "icon": "delete",
-      "title": "Delete contact",
-      "description": "some text"
-    },
-    {
-      "id": 6,
-      "icon": "block",
-      "title": "Block user",
-      "description": "some text"
-    }
-  ]
-
-  constructor(private profileServ: ProfileSettingsService, public dialog: MatDialog) {}
-
-  click(str: string) {
-    console.log(str)
-    // и тут через switch распределить по методам наши нажатия
+  ngOnInit(): void {
+    this.getUsersData();
+    console.log(this.profileData)
   }
 
+  getUsersData(): IProfileData {
+    this.profileServ.getUsersData()
+    .subscribe((response: IServerResponse) => {
+      this.profileData = Object.assign({}, {
+        username: response.username,
+        about: response.about,
+        avatar: atob(response.avatar),
+        email: response.email
+      })
+      console.log(response)
+    })
+    return this.profileData;
+  }
 
-  onSelect(item: btnList): void { 
+  onSelect(item: ISettingsList): void { 
     this.selectedItem = item;
   }
 
@@ -128,31 +97,33 @@ export class ProfileSettingsComponent {
       this.formData.status = inputData.value;
     }
     else if (inputData.id == 3) {
-      this.formData.pictureSrc = inputData.value;
+      this.formData.avatar = btoa(inputData.value);
     }
     else if (inputData.id == 4) {
-      this.formData.description = inputData.value;
+      this.formData.about = inputData.value;
     }
     else if (inputData.id == 5) {
       this.formData.wallpaper = inputData.value;
     }
-    console.log(this.formData)
   }
 
-  submit() {
+  submit(): IProfileData {
     this.profileServ.editProfileSettings(this.formData)
     .pipe(
       catchError((error) => {
         return throwError(() => error);
       })
     )
-    .subscribe((response: any) => {
-      this.name = response.username;
-      this.status = response.status;
-      this.pictureSrc = response.pictureSrc;
-      this.description = response.description;
-      this.wallpaper = response.wallpaper;
+    .subscribe((response: IServerResponse) => {
+      this.profileData.username = response.username;
+      // this.status = response.status;
+      this.profileData.avatar = atob(response.avatar);
+      this.profileData.about = response.about;
+      this.profileData.email = response.email;
+      // this.wallpaper = response.wallpaper;
     })
+    this.formData = {};
+    return this.profileData;
   }
 
   openDialog(): void {
@@ -160,12 +131,8 @@ export class ProfileSettingsComponent {
       panelClass: 'modal-help'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
     });
-  }
-
-  changeOutput() {
-    this.output = !this.output
   }
 }
