@@ -73,8 +73,9 @@ export class ProfileSettingsComponent {
     }
   ]
 
-  blankClick() {
-    console.log('click')
+  click(str: string) {
+    console.log(str)
+    // и тут через switch распределить по методам наши нажатия
   }
 
   changeOutput() {
