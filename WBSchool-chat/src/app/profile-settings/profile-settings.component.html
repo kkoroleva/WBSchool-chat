@@ -24,14 +24,15 @@
 		</div>
 	</div>
 	<div class="profile-settings__line"></div>
-	<div class="profile-settings__info" *ngIf="output else settings">
+	<div class="profile-settings__info">
 		<div class="profile-settings__menu" >
-			<div class="profile-settings__menu_item" *ngFor="let item of profileInfoList">
+			<div class="profile-settings__menu_item" *ngFor="let item of settingsList" (click)="click(item.title)">
 				<mat-icon>{{ item.icon }}</mat-icon>
 				<div class="profile-settings__menu_item_title">{{ item.title }}</div>
 			</div>
 		</div>
 	</div>
+
 	<ng-template #settings>
 		<div class="profile-settings__menu" >
 			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index">
@@ -53,7 +54,7 @@
 			</div>
 		</div>
 	</ng-template>
-	
+
 	<div class="profile-settings__footer">
 		WB School Chat
 	</div>
