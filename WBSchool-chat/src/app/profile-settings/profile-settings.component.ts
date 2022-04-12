@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
 
 interface btnList {
   "id": number,
@@ -13,10 +12,9 @@ interface btnList {
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent implements OnInit {
+export class ProfileSettingsComponent {
   // pictureSrc: string = "https://vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png";
   pictureSrc: string = "https://avatars.mds.yandex.net/get-zen_doc/4636135/pub_601e93fd86f4e222081ccbe2_601e94715fadcc22a9dd0e1e/scale_1200";
-  form!: FormGroup;
   name: string = localStorage.getItem('username')!
   status: string = localStorage.getItem('userRights')!
   description: string = "I'm gangstar, bitch!"
@@ -103,10 +101,6 @@ export class ProfileSettingsComponent implements OnInit {
       "description": "some text"
     }
   ]
-
-  ngOnInit() {
-    this.form = new FormGroup({})
-  }
 
   blankClick() {
     console.log('click')
