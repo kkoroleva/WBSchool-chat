@@ -1,0 +1,19 @@
+<div class="account-settings">
+	<div class="account-settings__title">
+		<span>
+			Account settings
+		</span>
+	</div>
+
+	<div class="account-settings__line"></div>
+		<div class="account-settings__menu" >
+			<div class="account-settings__menu_item" *ngFor="let item of settingsList" (click)="click(item.title)">
+				<mat-icon>{{ item.icon }}</mat-icon>
+				<div class="account-settings__menu_item_title">{{ item.title }}</div>
+			</div>
+		</div>
+	
+	<div class="account-settings__footer">
+		WB School Chat
+	</div>
+</div>
