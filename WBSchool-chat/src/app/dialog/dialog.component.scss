@@ -4,7 +4,6 @@
     border-radius: 20px;
     width: 100%;
     height:auto;
-    max-width: 699px;
     display: flex;
     box-sizing: border-box;
     padding-top: 24px;
@@ -13,9 +12,9 @@
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     flex-direction: column;
-    
 
-    
+
+
     .header{
         display: flex;
         justify-content: space-between;
@@ -23,12 +22,12 @@
         margin-bottom: 24px;
 
 
-        
+
         &__info{
             display: flex;
             align-items: center;
         }
-        
+
         button{
             border: none;
             background: none;
@@ -43,7 +42,7 @@
             position: relative;
             margin-right: 33px;
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-            
+
             span{
                 position: absolute;
                 background: #00FF75;
@@ -54,8 +53,8 @@
                 bottom: 4px;
                 border: 2px solid white;
             }
-       
-            @media (max-width: 495px) { 
+
+            @media (max-width: 495px) {
                 width: 45px;
                 height: 45px;
                 margin-right: 10px;
@@ -71,7 +70,7 @@
                 }
         }
         }
-        
+
         &__name{
             p{
                 font-family: 'Poppins', sans-serif;
@@ -90,7 +89,7 @@
                 color: rgba(0, 0, 0, 0.85);
             }
 
-            @media (max-width: 495px) { 
+            @media (max-width: 495px) {
                 p{
                     font-size: 18px;
                     margin: 0;
@@ -105,7 +104,7 @@
         &__icon{
             display: flex;
             align-items: center;
-            
+
 
             .phone{
                 width: 20px;
@@ -118,18 +117,18 @@
                 height: 20px;
                 margin-right: 47px;
                 filter: grayscale(100);
-                
+
             }
             .menu{
                 width: 5px;
                 height: 25px;
             }
-            @media (max-width: 495px) { 
+            @media (max-width: 495px) {
                 .phone{
                     width: 15px;
                     height: 15px;
                     margin-right: 20px;
-                    
+
                 }
                 .camera{
                     width: 18px;
@@ -142,7 +141,7 @@
                 }
             }
         }
-        @media (max-width: 495px) { 
+        @media (max-width: 495px) {
             margin-bottom: 12px;
         }
 
@@ -163,7 +162,7 @@
             overflow-y: scroll;
         }
 
-        
+
         &__wrapperGrey{
             cursor: pointer;
             display: flex;
@@ -199,15 +198,15 @@
                 line-height: 18px;
                 color: rgba(0, 0, 0, 0.25);
             }
-   
+
         }
-        
+
         &__user{
             background: #CFCFCF;
             border-radius: 10px;
             display: inline-block;
             padding: 13px 20px;
-            
+
             p{
                 margin: 0%;
                 font-family: 'Poppins', sans-serif;
@@ -217,9 +216,9 @@
                 line-height: 24px;
                 color: black;
             }
-            
+
         }
-        
+
         &__answer{
             display: inline-block;
             background: #1A66FF;
@@ -234,14 +233,14 @@
                 color: white;
             }
         }
-    
+
         hr{
             border: 1px solid rgba(0, 0, 0, 0.25);
             max-width: 606px;
             width: 100%;
             margin-bottom: 35px;
         }
-        
+
         &__send{
             display: flex;
             padding: 0;
@@ -259,7 +258,7 @@
                 background: #E0E0E0;
                 border-radius: 10px;
                 margin-right: 20px;
-                
+
                 input{
                     border: none;
                     background: #E0E0E0;
@@ -273,9 +272,9 @@
             .photo{
                 margin-left: 13px;
             }
-            
+
         }
-        
+
     }
-    
+
 }

@@ -121,11 +121,11 @@ $main-blue: #1A66FF;
   border: 2px solid $divider;
 }
 
-.friends__active {
+.friends__online {
   position: relative;
 }
 
-.friends__active::after {
+.friends__online::after {
   display: block;
   content: "";
   position: absolute;

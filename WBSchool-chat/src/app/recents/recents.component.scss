@@ -1,9 +1,7 @@
 //Подключить шрифт глобально потом
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
 
-$main-font: "Poppins",
-Arial,
-sans-serif;
+$main-font: "Poppins", Arial, sans-serif;
 $main-text-color: #000000;
 $box-shadow: rgba(0, 0, 0, 0.25);
 $background-color: #FFFFFF;
@@ -12,15 +10,10 @@ $last-active-color: rgba(0, 0, 0, 0.5);
 $divider: rgba(0, 0, 0, 0.25);
 $thumbnail-size: 52px;
 
-
-
 .recents {
-  max-width: 445px;
   min-width: 320px;
-
-  max-height: 90vh;
   overflow: scroll;
-  padding: 20px 0;
+  padding: 20px;
   margin: 0 auto;
 
   display: flex;
@@ -38,15 +31,15 @@ $thumbnail-size: 52px;
 }
 
 .recents::-webkit-scrollbar {
-  width: 0px;
+  width: 2px;
 }
 
 .recents::-webkit-scrollbar-track {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .recents::-webkit-scrollbar-thumb {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 1);
 }
 
 .recents__header {
@@ -86,16 +79,22 @@ $thumbnail-size: 52px;
     flex: 1;
   }
 
-  //Костыль для материала
-  .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
-    right: 0px;
-    bottom: 0px;
+  .recents__online {
+    position: relative;
   }
 
-  .mat-list-avatar {
-    width: 52px;
-    height: 52px;
-    margin-right: 10px;
+  .recents__online::after {
+    display: block;
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    bottom: 0px;
+    right: 0px;
+    background: #00FF75;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
 }
@@ -140,8 +139,8 @@ $thumbnail-size: 52px;
   font-family: $main-font;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 21px;
+  font-size: 18px;
+  line-height: 27px;
   color: $main-text-color;
 }
 
@@ -152,8 +151,8 @@ $thumbnail-size: 52px;
   font-family: $main-font;
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 21px;
   color: $last-message-color;
 }
 

@@ -13,7 +13,7 @@ const mockRecents: Recent[] = [
   },
   {
     isRead: true,
-    isActive: false,
+    isActive: true,
     newMessages: 0,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Sasha",
@@ -31,7 +31,7 @@ const mockRecents: Recent[] = [
   },
   {
     isRead: true,
-    isActive: false,
+    isActive: true,
     newMessages: 0,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Nikita",
@@ -46,42 +46,6 @@ const mockRecents: Recent[] = [
     name: "Dima",
     lastActive: "today, ...",
     lastMessage: "..."
-  },
-  {
-    isRead: true,
-    isActive: false,
-    newMessages: 0,
-    thumbnail: "https://i.ibb.co/3p37FtX/male.png",
-    name: "Pasha",
-    lastActive: "today, 10:00AM",
-    lastMessage: "I'll try!"
-  },
-  {
-    isRead: true,
-    isActive: false,
-    newMessages: 0,
-    thumbnail: "https://i.ibb.co/3p37FtX/male.png",
-    name: "Sergey",
-    lastActive: "today, 12:00PM",
-    lastMessage: "Love the idea"
-  },
-  {
-    isRead: true,
-    isActive: false,
-    newMessages: 0,
-    thumbnail: "https://i.ibb.co/3p37FtX/male.png",
-    name: "Karina",
-    lastActive: "yesterday",
-    lastMessage: "Let's build an app?!"
-  },
-  {
-    isRead: true,
-    isActive: false,
-    newMessages: 0,
-    thumbnail: "https://i.ibb.co/3p37FtX/male.png",
-    name: "Karina",
-    lastActive: "2 days before",
-    lastMessage: "Let's build an app?!"
   }
 ];
 
