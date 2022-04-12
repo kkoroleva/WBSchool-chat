@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
+import { RecentsComponent } from './recents/recents.component';
+import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -17,28 +19,29 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { MessagesPageComponent } from './messages-page/messages-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { GroupsComponent } from './groups/groups.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { DialogComponent } from './dialog/dialog.component';
+/*Modules*/
+
+/*Material UI modules */
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatChipsModule, } from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatRippleModule} from '@angular/material/core';
 
 /*Store*/
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
 
-/*Modules*/
-
-/*Material UI modules */
-import { DialogComponent } from './dialog/dialog.component';
-
-import { GroupsComponent } from './groups/groups.component';
-import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -57,12 +60,11 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-
+    RecentsComponent,
+    FriendsComponent,
     GroupsComponent,
-
     SearchComponent,
     ProfileSettingsComponent,
-
     MainPageComponent,
     HomePageComponent,
     NotificationsPageComponent,
@@ -91,6 +93,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatTabsModule,
     MatChipsModule,
     MatIconModule,
+    MatDividerModule,
+    MatRippleModule,
     MatButtonToggleModule,
 
     //Forms
