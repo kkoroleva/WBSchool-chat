@@ -1,19 +1,22 @@
-<section class="friends">
-  <h2 class="friends__header">Friends</h2>
+<div class="friends">
+  <h3 class="friends__header">Friends</h3>
   <a href="" class="friends__more-button">
     <mat-icon>more_vert</mat-icon>
   </a>
-  <mat-list class="friends__list">
-    <mat-list-item class="friends__item" *ngFor="let friend of friendList; index as i;">
-      <a href="" class="friends__chat-link" >
-        <img matListAvatar class="friends__thumbnail" src="{{friend.thumbnail}}" alt="Your best friend face" width="52"
-          height="52">
+  <ul class="friends__list">
+    <li class="friends__item" *ngFor="let friend of friendList; index as i;">
+      <a href="" class="friends__chat-link">
+        <div class="friends__active" [ngClass]="{friends__active:friend.isActive}">
+          <img class="friends__thumbnail" src="{{friend.thumbnail}}" alt="Your best friend face" width="52" height="52">
+        </div>
         <div class="friends__item-text">
-          <b matLine class="friends__name">{{friend.name}}</b>
+          <b class="friends__name">{{friend.name}}</b>
           <p class="friends__last-active">{{friend.lastActive}}</p>
-          <p class="friends__last-message">{{friend.lastMessage}}</p>
+          <p class="friends__last-message">{{friend.lastMessage}}
+            <span class="friends__newMessages"></span>
+          </p>
         </div>
       </a>
-    </mat-list-item>
-  </mat-list>
-</section>
+    </li>
+  </ul>
+</div>

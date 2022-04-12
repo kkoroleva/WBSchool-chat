@@ -11,24 +11,18 @@ $last-message-color: rgba(77, 77, 77, 0.75);
 $last-active-color: rgba(0, 0, 0, 0.5);
 $divider: rgba(0, 0, 0, 0.25);
 $thumbnail-size: 52px;
-
-
+$main-blue: #1A66FF;
 
 .friends {
-  max-width: 345px;
-  min-width: 320px;
-
-  max-height: 90vh;
+  width: 100%;
   overflow: scroll;
-  padding: 20px 0;
-  margin: 0 auto;
+  padding: 20px 25px 0;
 
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 
   background: $background-color;
-  box-shadow: 0px 4px 4px $box-shadow;
   border-radius: 20px;
 
   * {
@@ -50,7 +44,6 @@ $thumbnail-size: 52px;
 }
 
 .friends__header {
-  padding: 0 16px;
   margin-bottom: 15px;
   font-family: $main-font;
   font-style: normal;
@@ -60,6 +53,14 @@ $thumbnail-size: 52px;
   color: $main-text-color;
 }
 
+.friends__more-button {
+  color: $main-blue;
+
+  .mat-icon {
+    width: 10px;
+  }
+}
+
 .friends__more-button:hover {
   opacity: 0.7;
 }
@@ -67,46 +68,47 @@ $thumbnail-size: 52px;
 .friends__list {
   width: 100%;
   padding: 0;
-
+  margin: 0;
 }
 
 .friends__item {
+  padding: 15px 0;
   min-height: 72px;
   max-height: fit-content;
 
   display: flex;
 
-  height: fit-content;
-  border-bottom: 1px solid $divider;
+  position: relative;
 
   .friends__item-text {
     display: flex;
+
     flex-wrap: wrap;
     justify-content: space-between;
     flex: 1;
   }
-
-  .mat-list-avatar {
-    width: 52px;
-    height: 52px;
-    margin-right: 10px;
-  }
-
-  .friends__divider {
-    width: 70%;
-    color: $divider;
-  }
 }
 
-.friends__item:last-of-type {
-  border: none;
+.friends__item::after {
+  display: block;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  right: 7%;
+  width: 86%;
+  height: 2px;
+  background-color: $divider;
+}
+
+.friends__item:last-of-type::after {
+  display: none;
 }
 
 .friends__chat-link {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   flex: 1;
-  padding-top: 20px;
   text-decoration: none;
 }
 
@@ -116,6 +118,25 @@ $thumbnail-size: 52px;
 
 .friends__thumbnail {
   border-radius: 50%;
+  border: 2px solid $divider;
+}
+
+.friends__active {
+  position: relative;
+}
+
+.friends__active::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  bottom: 0px;
+  right: 0px;
+  background: #00FF75;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .friends__name {

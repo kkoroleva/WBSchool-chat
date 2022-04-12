@@ -11,7 +11,7 @@ const mockFriends: Friend[] = [
     lastMessage: "Let's build an app?!"
   },
   {
-    isActive: true,
+    isActive: false,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Sasha",
     lastActive: "today, 8:01AM",
@@ -32,7 +32,7 @@ const mockFriends: Friend[] = [
     lastMessage: "Count me in!"
   },
   {
-    isActive: true,
+    isActive: false,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Dima",
     lastActive: "today, ...",
@@ -46,7 +46,7 @@ const mockFriends: Friend[] = [
     lastMessage: "I'll try!"
   },
   {
-    isActive: true,
+    isActive: false,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Sergey",
     lastActive: "today, 12:00PM",
@@ -81,6 +81,7 @@ export class FriendsComponent implements OnInit {
   constructor() {
     this.friendList = mockFriends;
   }
+
 
   ngOnInit(): void {
   }
