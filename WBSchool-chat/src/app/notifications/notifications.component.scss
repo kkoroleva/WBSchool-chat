@@ -1,0 +1,42 @@
+.container {
+  margin: 0 auto;
+  padding: 0 41px 92px;
+  width: 100%;
+}
+
+.notification {
+  position: relative;
+
+  display: flex;
+
+  min-height: 50px;
+  align-items: center;
+  padding: 33px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+.notification:last-child {
+  border-bottom: 0;
+  padding: 33px 0 0;
+}
+
+.notification__icon-bell {
+  color: black;
+  font-size: 35px;
+  margin-right: 42.5px;
+  padding-bottom: 30px;
+}
+
+.notification__text {
+  width: 1011px;
+
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.notification__icon-x {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}

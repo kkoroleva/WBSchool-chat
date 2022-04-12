@@ -1,4 +1,4 @@
-<nav class="nav">
+<nav class="nav" *ngIf="isAuthenticated()">
   <img src="../../assets/ava.svg" alt="avatar" class="nav__img" width="60" height="60"/>
   <ul class="nav__list">
     <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'home'}">
