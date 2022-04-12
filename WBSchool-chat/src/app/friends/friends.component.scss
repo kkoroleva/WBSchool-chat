@@ -1,6 +1,13 @@
 //Подключить шрифт глобально потом
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
 
+/*Break-points*/
+$min-width: 320px;
+$mobile-width: 495px;
+$tablet-width: 768px;
+$desktop-width: 1024px;
+$max-width: 1440px;
+
 $main-font: "Poppins",
 Arial,
 sans-serif;
@@ -52,9 +59,13 @@ $main-blue: #1A66FF;
   width: 100%;
   padding: 0;
   margin: 0;
-  max-height: 400px;
   overflow-y: scroll;
+  max-height: 400px;
 
+  @media (min-width: $desktop-width) {
+    max-height: 100%;
+    overflow-y: hidden;
+  }
 }
 
 .friends__item {
