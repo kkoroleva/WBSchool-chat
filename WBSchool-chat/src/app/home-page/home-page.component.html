@@ -1,9 +1,10 @@
-<div class="home-page__wrapper">
+<section class="home-page__wrapper">
+  <h2 class="visually-hidden">Home: groups, friends, threads</h2>
   <!--TO DO: Блоки компонентов временно будут обозначены div.
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="home-page__search"></app-search>
   <app-groups class="home-page__groups">Groups</app-groups>
-  <div class="home-page__recents">Recents</div>
-  <div class="home-page__friends">Friends</div>
-  <div class="home-page__section">Threads</div>
-</div>
+  <app-recents class="home-page__recents">Recents</app-recents>
+  <app-friends class="home-page__friends friends">Friends</app-friends>
+  <div class="home-page__threads">Threads</div>
+</section>

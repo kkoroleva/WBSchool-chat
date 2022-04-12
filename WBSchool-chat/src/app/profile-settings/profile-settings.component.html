@@ -31,7 +31,6 @@
 				<div *ngIf="toggle && selectedItem.id == i+1" class="profile-settings__menu_item_form-field">
 					<mat-form-field appearance="fill">
 					    <input matInput type="text" id={{item.id}} value={{item.description}} #input>
-						<span>{{item | json}}</span>
 						<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
 			        </mat-form-field>
 					<div class="form-field__btn-wrapper">

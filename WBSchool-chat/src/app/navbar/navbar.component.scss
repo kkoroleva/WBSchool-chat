@@ -5,7 +5,9 @@
   align-items: center;
   margin: 0 auto;
   border-radius: 5px;
-  padding: 15px 40px;
+  padding: 0 40px;
+  height: 100px;
+
 
   .mat-icon:hover {
     color: chartreuse;
@@ -18,16 +20,33 @@
     margin: 0;
     padding: 0;
     flex-direction: row;
+    align-items: flex-end;
     justify-content: space-around;
+    height: 100%;
   }
 
   .nav__list-link {
     color: #fff;
   }
 
+  mat-icon {
+    margin: 20px 15px auto;
+  }
+
   .nav__list-item {
     min-width: 45px;
+    height: 70px;
+    width: 70px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
   }
+
+  .nav__list-item_active {
+      background-color: rgba(255, 255, 255, 0.199);
+      mat-icon {
+        color: black
+      }
+    }
 
   .material-icons {
     font-size: 40px;

@@ -1,0 +1,170 @@
+//Подключить шрифт глобально потом
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+
+$main-font: "Poppins",
+Arial,
+sans-serif;
+$main-text-color: #000000;
+$box-shadow: rgba(0, 0, 0, 0.25);
+$background-color: #FFFFFF;
+$last-message-color: rgba(77, 77, 77, 0.75);
+$last-active-color: rgba(0, 0, 0, 0.5);
+$divider: rgba(0, 0, 0, 0.25);
+$thumbnail-size: 52px;
+$main-blue: #1A66FF;
+
+.friends {
+  width: 100%;
+  overflow: scroll;
+  padding: 20px 20px 0 25px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  background: $background-color;
+  border-radius: 20px;
+
+  * {
+    box-sizing: border-box;
+  }
+
+}
+
+.friends::-webkit-scrollbar {
+  width: 0;
+}
+
+.friends::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.friends::-webkit-scrollbar-thumb {
+  background-color: white;
+}
+
+.friends__header {
+  margin-bottom: 15px;
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  color: $main-text-color;
+}
+
+.friends__more-button {
+  color: $main-blue;
+}
+
+.friends__more-button:hover {
+  opacity: 0.7;
+}
+
+.friends__list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.friends__item {
+  padding: 15px 0;
+  min-height: 72px;
+  max-height: fit-content;
+
+  display: flex;
+
+  position: relative;
+
+  .friends__item-text {
+    display: flex;
+
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex: 1;
+  }
+}
+
+.friends__item::after {
+  display: block;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  right: 7%;
+  width: 86%;
+  height: 2px;
+  background-color: $divider;
+}
+
+.friends__item:last-of-type::after {
+  display: none;
+}
+
+.friends__chat-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 1;
+  text-decoration: none;
+}
+
+.friends__chat-link:hover {
+  opacity: 0.7;
+}
+
+.friends__thumbnail {
+  border-radius: 50%;
+  border: 2px solid $divider;
+}
+
+.friends__online {
+  position: relative;
+}
+
+.friends__online::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  bottom: 0;
+  right: 0;
+  background: #00FF75;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  box-shadow: 04px 4px rgba(0, 0, 0, 0.25);
+}
+
+.friends__name {
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: $main-text-color;
+}
+
+.friends__last-message {
+  margin: 0;
+  width: 100%;
+  overflow: hidden;
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: $last-message-color;
+}
+
+.friends__last-active {
+  margin: 0;
+  max-width: 100px;
+  overflow: hidden;
+  font-family: $main-font;
+  text-align: right;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 15px;
+  color: $last-active-color;
+}

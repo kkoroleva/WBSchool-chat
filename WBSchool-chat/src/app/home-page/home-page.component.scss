@@ -13,8 +13,8 @@ $max-width: 1440px;
   max-width: $desktop-width;
   display: grid;
   grid-template-columns: minmax($min-width, $mobile-width);
-  grid-template-rows: repeat(5, 1fr);
-  gap: 30px;
+  grid-template-rows: auto auto minmax(300px, 500px) minmax(300px, 500px) minmax(300px, 500px);
+  gap: 25px;
 
   @media (min-width: $mobile-width) {
     max-width: $mobile-width;
@@ -23,18 +23,15 @@ $max-width: 1440px;
 
   @media (min-width: $tablet-width) {
     padding: 20px 0;
-    max-width: $tablet-width;
-    margin: 0 auto;
-    align-items: center;
-    grid-template-columns: auto auto;
-    grid-template-rows: repeat(3, 1fr);
+    max-width: $max-width;
+    grid-template-columns: minmax(300px, 500px) minmax(300px, 500px);
+    grid-template-rows: auto minmax(300px, 500px) minmax(300px, 400px);
   }
 
   @media (min-width: $desktop-width) {
     padding: 30px 0;
-    max-width: $max-width;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: minmax(300px, 450px) minmax(300px, 450px) minmax(300px, 450px);
+    grid-template-rows: auto auto;
   }
 }
 
@@ -55,13 +52,23 @@ $max-width: 1440px;
 
 .home-page__groups {
   border-radius: 20px;
-  background-color: $section-background;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   grid-row: 2/3;
   grid-column: 1/2;
+
+  @media (min-width: $tablet-width) {
+    grid-row: 3/4;
+    grid-column: 2/3;
+  }
+
+  @media (min-width: $desktop-width) {
+    grid-row: 2/3;
+    grid-column: 1/2;
+  }
 }
 
 .home-page__recents {
+  max-height: 490px;
+  overflow: hidden;
   border-radius: 20px;
   background-color: $section-background;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -71,14 +78,15 @@ $max-width: 1440px;
 
 .home-page__friends {
   border-radius: 20px;
+  overflow: hidden;
   background-color: $section-background;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   grid-row: 4/5;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
+    grid-column: 1/2;
     grid-row: 2/3;
-    grid-column: 2/3;
   }
 
   @media (min-width: $desktop-width) {
@@ -88,7 +96,7 @@ $max-width: 1440px;
   }
 }
 
-.home-page__section {
+.home-page__threads {
   border-radius: 20px;
   background-color: $section-background;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -96,7 +104,7 @@ $max-width: 1440px;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
-    grid-row: 3/4;
+    grid-row: 2/3;
     grid-column: 2/3;
     align-self: stretch;
   }

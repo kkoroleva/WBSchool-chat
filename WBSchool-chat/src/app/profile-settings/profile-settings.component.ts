@@ -10,7 +10,7 @@ import { IProfileData, IServerResponse, ISettingsList } from './interfaces/inter
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent implements OnInit{
+export class ProfileSettingsComponent implements OnInit {
   profileData: IProfileData = {
     username: '',
     status: 'Не беспокоить',
@@ -23,55 +23,52 @@ export class ProfileSettingsComponent implements OnInit{
   selectedItem!: ISettingsList;
   toggle: boolean = false;
 
-  settingsList: ISettingsList[];
+  settingsList: ISettingsList[] = [
+    {
+      "id": 1,
+      "icon": "edit",
+      "title": "Edit Profile Name",
+      "description": this.profileData.username
+    },
+    {
+      "id": 2,
+      "icon": "textsms",
+      "title": "Edit Profile Status Info",
+      "description": this.profileData.status
+    },
+    {
+      "id": 3,
+      "icon": "add_photo_alternate",
+      "title": "Edit Profile Photo",
+      "description": this.profileData.avatar
+    },
+    {
+      "id": 4,
+      "icon": "edit",
+      "title": "Edit Description",
+      "description": this.profileData.about
+    },
+    {
+      "id": 5,
+      "icon": "edit",
+      "title": "Edit Email",
+      "description": this.profileData.email
+    },
+    {
+      "id": 6,
+      "icon": "wallpaper",
+      "title": "Change wallpaper",
+      "description": "some text"
+    }
+  ]
 
-  constructor(private profileServ: ProfileSettingsService, public dialog: MatDialog) {
-    this.settingsList = [
-      {
-        "id": 1,
-        "icon": "edit",
-        "title": "Edit Profile Name",
-        "description": this.profileData.username
-      },
-      {
-        "id": 2,
-        "icon": "textsms",
-        "title": "Edit Profile Status Info",
-        "description": this.profileData.status
-      },
-      {
-        "id": 3,
-        "icon": "add_photo_alternate",
-        "title": "Edit Profile Photo",
-        "description": this.profileData.avatar
-      },
-      {
-        "id": 4,
-        "icon": "edit",
-        "title": "Edit Description",
-        "description": this.profileData.about
-      },
-      {
-        "id": 5,
-        "icon": "edit",
-        "title": "Edit Email",
-        "description": this.profileData.email
-      },
-      {
-        "id": 6,
-        "icon": "wallpaper",
-        "title": "Change wallpaper",
-        "description": "some text"
-      }
-    ]
-  }
+  constructor(private profileServ: ProfileSettingsService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getUsersData();
-    console.log(this.profileData)
   }
 
-  getUsersData(): IProfileData {
+  getUsersData() {
     this.profileServ.getUsersData()
     .subscribe((response: IServerResponse) => {
       this.profileData = Object.assign({}, {
@@ -80,9 +77,10 @@ export class ProfileSettingsComponent implements OnInit{
         avatar: atob(response.avatar),
         email: response.email
       })
-      console.log(response)
+      // this.settingsList[0].description = response.username;
+      // this.settingsList[3].description = response.about;
+      // this.settingsList[4].description = response.email;
     })
-    return this.profileData;
   }
 
   onSelect(item: ISettingsList): void { 
@@ -107,7 +105,7 @@ export class ProfileSettingsComponent implements OnInit{
     }
   }
 
-  submit(): IProfileData {
+  submit() {
     this.profileServ.editProfileSettings(this.formData)
     .pipe(
       catchError((error) => {
@@ -123,7 +121,6 @@ export class ProfileSettingsComponent implements OnInit{
       // this.wallpaper = response.wallpaper;
     })
     this.formData = {};
-    return this.profileData;
   }
 
   openDialog(): void {
