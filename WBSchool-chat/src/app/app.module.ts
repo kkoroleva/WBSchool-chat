@@ -25,17 +25,17 @@ import { DialogComponent } from './dialog/dialog.component';
 /*Modules*/
 
 /*Material UI modules */
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatListModule} from '@angular/material/list';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatChipsModule, } from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatRippleModule} from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRippleModule } from '@angular/material/core';
 
 /*Store*/
 import { StoreModule } from '@ngrx/store';
@@ -73,7 +73,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     DialogComponent,
     NavbarComponent,
     NotificationsComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -120,5 +120,4 @@ const INTERCEPTOR_PROVIDER: Provider = {
   providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],
 })
-
 export class AppModule {}
