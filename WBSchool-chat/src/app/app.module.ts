@@ -20,6 +20,8 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 /*Material UI modules */
 
+import { DialogComponent } from './dialog/dialog.component';
+
 import { GroupsComponent } from './groups/groups.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -56,6 +58,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NotificationsPageComponent,
     MessagesPageComponent,
     ProfilePageComponent,
+    DialogComponent,
     NavbarComponent,
   ],
   imports: [

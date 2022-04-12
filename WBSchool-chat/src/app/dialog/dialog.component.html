@@ -1,0 +1,66 @@
+<ng-container>
+    <div class="container">
+
+        <!-- header -->
+
+        <div class="header">
+            <div class="header__info">
+                <div class="header__avatar">
+                    <img src="../../assets/avatar.svg" alt="avatar" width="" height="">
+                    <span></span>
+                </div>
+                <div class="header__name">
+                    <p class="name">
+                        Swathi
+                    </p>
+                    <span>Online</span>
+                </div>
+            </div>
+        
+            <div class="header__icon">
+                <a><img src="../../assets/phone.svg" alt="phone" class="phone" width="" height="" ></a>
+                <a><img src="../../assets/camera.svg" alt="camera" class="camera" width="" height=""></a>
+                <a><img src="../../assets/menu.svg" alt="menu" class="menu" width="" height=""></a>
+
+            </div>
+        </div>
+        <hr>
+
+        <!-- message -->
+        
+
+        <div class="message">
+            <div class="message__wrapper">
+                <div  *ngFor="let item of data"  [matMenuTriggerFor]="block"
+                    [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
+                    <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
+                        <p>{{item.text}}</p>
+                    </div>
+                    <!-- <span>{{item.date}}</span> -->
+
+                    <mat-menu #block="matMenu" >
+                        <button (click)="deleteMessage(item._id)" mat-menu-item>
+                        <span>Удалить</span>
+                        </button>
+                        <button (click)="getMessage(item._id,item.text)" mat-menu-item>
+                        <span>Изменить</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>    
+            <hr>
+
+         <!-- message-send -->
+
+            <div class="message__send">
+                <div class="wrapper__send">
+                    <img src="../../assets/icon-one.svg" alt="icon-send" class="btn">
+                    <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
+                    <img src="../../assets/smile.svg" alt="smile" width="" height="">
+                    <img src="../../assets/photo.svg" alt="photo" class="photo" width="" height="">
+                </div>
+                    <img src="../../assets/voice.svg" alt="voice" width="" height="">
+            </div>
+        </div>
+    </div>
+</ng-container>
