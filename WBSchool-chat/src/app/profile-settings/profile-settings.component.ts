@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
+import { ProfileSettingsService } from './service/profile-settings.service';
 
 interface btnList {
   "id": number,
@@ -21,6 +23,8 @@ export class ProfileSettingsComponent {
   selectedItem!: btnList;
   toggle: boolean = false;
   output: boolean = false; // если false, показвает настройки пользователя, если true, показывает информацию о нём
+  formData: any = {}
+  wallpaper: string = "some text";
   // VVV Dummy data VVV
   settingsList: btnList[] = [
     {
@@ -102,6 +106,8 @@ export class ProfileSettingsComponent {
     }
   ]
 
+  constructor(private profileServ: ProfileSettingsService) {}
+
   click(str: string) {
     console.log(str)
     // и тут через switch распределить по методам наши нажатия
@@ -115,40 +121,37 @@ export class ProfileSettingsComponent {
     this.selectedItem = item;
   }
 
-  submit(event: any) {
-    const formData: any = {};
-    if (event.target[0].id == 1) {
-      formData.username = event.target[0].value;
+  addToFormData(inputData: any) {
+    if (inputData.id == 1) {
+      this.formData.username = inputData.value;
     }
-    else if (event.target[0].id == 2) {
-      formData.status = event.target[0].value;
+    else if (inputData.id == 2) {
+      this.formData.status = inputData.value;
     }
-    else if (event.target[0].id == 3) {
-      formData.pictureSrc = event.target[0].value;
+    else if (inputData.id == 3) {
+      this.formData.pictureSrc = inputData.value;
     }
-    else if (event.target[0].id == 4) {
-      formData.description = event.target[0].value;
+    else if (inputData.id == 4) {
+      this.formData.description = inputData.value;
     }
-    else if (event.target[0].id == 5) {
-      formData.wallpaper = event.target[0].value;
+    else if (inputData.id == 5) {
+      this.formData.wallpaper = inputData.value;
     }
-    // switch (event.target[0].id) {
-    //   case 1:
-    //     formData.username = event.target[0].value;
-    //     break;
-    //   case 2:
-    //     formData.status = event.target[0].value;
-    //     break;
-    //   case 3:
-    //     formData.pictureSrc = event.target[0].value;
-    //     break;
-    //   case 4:
-    //     formData.description = event.target[0].value;
-    //     break;
-    //   case 5:
-    //     formData.wallpaper = event.target[0].value;
-    //     break;
-    // }
-    console.log(formData)
+  }
+
+  submit() {
+    this.profileServ.editProfileSettings(this.formData)
+    .pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    )
+    .subscribe((response: any) => {
+      this.name = response.username;
+      this.status = response.status;
+      this.pictureSrc = response.pictureSrc;
+      this.description = response.description;
+      this.wallpaper = response.wallpaper;
+    })
   }
 }
