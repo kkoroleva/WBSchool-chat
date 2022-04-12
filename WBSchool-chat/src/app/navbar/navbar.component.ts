@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; 
 import { AuthService } from '../auth/services/auth.service';
 
 @Component({
@@ -8,7 +8,9 @@ import { AuthService } from '../auth/services/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  constructor(private auth: AuthService, private router: Router) {}
+  path: string = window.location.pathname.substring(1);
+  constructor(private auth: AuthService, private router: Router) {
+  }
 
   isAuthenticated() {
     return !!localStorage.getItem('token')
@@ -17,5 +19,8 @@ export class NavbarComponent {
   logout() {
     this.auth.logout()
     this.router.navigate(["login"])
+  }
+  ngDoCheck() {
+    this.path = window.location.pathname.substring(1);
   }
 }
