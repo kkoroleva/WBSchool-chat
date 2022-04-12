@@ -8,9 +8,11 @@ import { IMessage } from './dialog';
 })
 export class DialogService {
 
-  private urlApi:string = "http://51.250.28.102:3001" ;
+  private urlApi:string = "http://www.wbschool-chat.ru" ;
   
-  constructor(private http:HttpClient) {};
+  constructor(private http:HttpClient) {
+    console.log(this.urlApi, "this")
+  };
   
   getMessages():Observable<IMessage[]>{///================получение ответа из апи
     return this.http.get<IMessage[]>(`${this.urlApi}/messages`)
