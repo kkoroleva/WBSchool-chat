@@ -11,20 +11,21 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
-
-/*Store*/
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './store/reducers';
-import { AppEffects } from './store/effects/app.effects';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { MessagesPageComponent } from './messages-page/messages-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 
+/*Store*/
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store/reducers';
+import { AppEffects } from './store/effects/app.effects';
+
 /*Modules*/
 
 /*Material UI modules */
-
 import { DialogComponent } from './dialog/dialog.component';
 
 import { GroupsComponent } from './groups/groups.component';
@@ -46,7 +47,6 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
-import { NotificationsComponent } from './notifications/notifications.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -71,6 +71,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     DialogComponent,
     NavbarComponent,
     NotificationsComponent,
+    AccountSettingsComponent
   ],
   imports: [
     BrowserModule,
