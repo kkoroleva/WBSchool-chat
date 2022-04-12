@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Friend } from './friend';
 
@@ -73,17 +73,13 @@ const mockFriends: Friend[] = [
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.scss']
 })
-export class FriendsComponent implements OnInit {
+export class FriendsComponent {
 
 
   friendList: Friend[];
 
   constructor() {
     this.friendList = mockFriends;
-  }
-
-
-  ngOnInit(): void {
   }
 
 }

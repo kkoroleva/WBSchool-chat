@@ -63,15 +63,6 @@ export class RecentsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  hidden = false;
-
-  toggleBadgeVisibility() {
-    this.hidden = !this.hidden;
-  }
-
-  isNewMessages(newmessages: number | null) : boolean {
-    return (newmessages === 0 || !newmessages)? false : true;
-  }
 }
 
 
