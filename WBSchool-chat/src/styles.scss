@@ -1,8 +1,8 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
 $main-background: #EAEAEA;
+$main-blue: #1A66FF;
 
 body {
   background-color: $main-background;
@@ -10,6 +10,19 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 3px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $main-blue;
+  opacity: 0.5;
 }
 
 .visually-hidden {
@@ -31,7 +44,7 @@ body {
   margin-bottom: 0px;
   width: 400px;
   padding: 20px;
- 
+
  background-color:aliceblue;
   box-shadow: 1px 2px 4px rgb(177, 151, 229);
   border-radius: 20px;
