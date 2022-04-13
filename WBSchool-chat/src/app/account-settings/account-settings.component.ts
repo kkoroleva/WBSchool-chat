@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfilePageService } from '../profile-page/service/profile-page.service';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
+import { PasswordModalComponent } from './password-modal/password-modal.component';
 
 interface btnList {
   "icon": string,
@@ -73,9 +74,19 @@ export class AccountSettingsComponent {
     }
   ]
   
-  openDialog(): void {
+  openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteModalComponent, {
       panelClass: 'delete-modal'
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openAccountDialog(): void {
+    const dialogRef = this.dialog.open(PasswordModalComponent, {
+      panelClass: 'password-modal'
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -87,10 +98,11 @@ export class AccountSettingsComponent {
     switch (str) {
       case 'Account':
         console.log('Вызов Account')
+        this.openAccountDialog()
         break;
       case 'Delete Account':
         console.log('Вызов Delete Account')
-        this.openDialog()
+        this.openDeleteDialog()
         break;
       default:
         break;

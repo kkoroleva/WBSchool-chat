@@ -1,3 +1,11 @@
-.delete-modal {
-	
+.delete-modal__wrapper {
+	mat-dialog-actions {
+		.close-btn {
+			background: rgba(128, 128, 128, 0.2);
+			color: black;
+		}
+		.delete-btn {
+			background: rgba(255, 0, 0, 0.2);
+		}
+	}
 }

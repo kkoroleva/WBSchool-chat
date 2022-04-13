@@ -52,6 +52,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
+import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -78,7 +79,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AccountSettingsComponent,
     NotificationsComponent,
     AccountSettingsComponent,
-    DeleteModalComponent
+    DeleteModalComponent,
+    PasswordModalComponent
   ],
   imports: [
     BrowserModule,
