@@ -33,7 +33,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   }
  
   
-  getMessages():void {///==============для получение сообщение 
+  getMessages():void {
     this.service.getMessages().subscribe((res)=>{
       this.data = res 
     })
@@ -59,7 +59,7 @@ editMessage(text:string, id:string):void {
   )
 };
 
-getMessage(id:string, text:string):void {///================для получение сообщение в инпуте привязен к кнопке изменить 
+getMessage(id:string, text:string):void {
   this.isEditMessage = true;
   this.editMessageID = id;
   this.message.setValue(text);
