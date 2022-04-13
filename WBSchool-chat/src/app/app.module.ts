@@ -113,7 +113,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([AppEffects, ]),
     StoreRouterConnectingModule.forRoot(),
   ],
 
