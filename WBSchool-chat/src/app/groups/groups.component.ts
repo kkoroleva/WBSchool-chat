@@ -24,6 +24,21 @@ export class GroupsComponent implements OnInit {
       lastMessage: 'What plans today?',
       image: '/assets/images/img3.svg',
     },
+    {
+      title: 'Crazy Cousins',
+      lastMessage: 'What plans today?',
+      image: '/assets/images/img3.svg',
+    },
+    {
+      title: 'Crazy Cousins',
+      lastMessage: 'What plans today?',
+      image: '/assets/images/img3.svg',
+    },
+    {
+      title: 'Crazy Cousins',
+      lastMessage: 'What plans today?',
+      image: '/assets/images/img3.svg',
+    },
   ];
 
   constructor(private groupsService: GroupsService) {}
