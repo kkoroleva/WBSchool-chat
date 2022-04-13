@@ -20,8 +20,7 @@ export class DialogService {
  
 
   sendMessage(text:string):Observable<IMessage>{
-    const x = this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {text})
-    return x
+    return this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {text})
   };
 
 

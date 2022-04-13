@@ -40,7 +40,7 @@
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
                         <p>{{item.text}}</p>
                     </div>
-                    <span>{{item.expiresIn | date}}</span>
+                    <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
 
                     <mat-menu #block="matMenu" >
                         <button (click)="deleteMessage(item._id)" mat-menu-item>
