@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IMessage } from './dialog';
+import { IMessage, User } from './dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,12 @@ export class DialogService {
   private urlApi:string = "http://www.wbschool-chat.ru" ;
   
   constructor(private http:HttpClient) { };
+
+  getMe():Observable<User>{
+    return this.http.get<User>(`${this.urlApi}/users/me`)
+  }
   
-  getMessages():Observable<IMessage[]>{///================получение ответа из апи
+  getMessages():Observable<IMessage[]>{
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`)
   };
  

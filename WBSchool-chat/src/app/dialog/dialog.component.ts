@@ -1,5 +1,6 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatMenuTrigger } from '@angular/material/menu/';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
 
@@ -9,7 +10,9 @@ import { DialogService } from './dialog.service';
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnInit, AfterViewChecked {
-  @ViewChild("wrapper") wrapper!:ElementRef
+  @ViewChild("wrapper") wrapper!:ElementRef;
+
+  @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
 
   editMessageID:string = '';
 
@@ -17,9 +20,11 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   message:FormControl = new FormControl('');
 
-  myId:string = '625426411a25022b2ae1c7b1'; 
+  myId:string = ''; 
 
   data:IMessage[] = [];
+
+  myUserName:string = '';
   
   
   constructor(private service:DialogService) { }
@@ -27,11 +32,22 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   
   ngOnInit(): void {
     this.getMessages();
+    this.getMe();
   };
+
   ngAfterViewChecked(): void {
     this.changeScroll();
   }
  
+  getMe():void{
+    this.service.getMe().subscribe(
+      (response)=>{
+        console.log(response, "this")
+        this.myId = response._id
+        this.myUserName = response.username
+      }
+    )
+  }
   
   getMessages():void {
     this.service.getMessages().subscribe((res)=>{
@@ -66,8 +82,16 @@ getMessage(id:string, text:string):void {
   this.message.setValue(text);
 };
 
-changeScroll(){
+changeScroll():void{
   this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+}
+
+toggleMenu(id:string):void{
+  if(this.myId === id){
+    this.blockTrigger.openMenu()
+  }else{
+    this.blockTrigger.closeMenu()
+  }
 }
 
 sendMessage(event:KeyboardEvent):void {

@@ -5,3 +5,11 @@ export interface IMessage {
     expiresIn:string;
 }
 
+export interface User {
+    _id:string;
+    username:string;
+    avatar:string;
+    email:string;
+    about:string;
+}
+

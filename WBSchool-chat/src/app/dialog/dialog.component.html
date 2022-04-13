@@ -17,7 +17,7 @@
         
             <div class="header__icon">
                 <a><img src="../../assets/icon-phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
-                <a [matMenuTriggerFor]="blockMenu" ><img src="../../assets/icon-menu.svg" alt="menu" class="menu" width="5px" height="25px"></a>
+                <a [matMenuTriggerFor]="blockMenu"class="menu"><mat-icon>more_vert</mat-icon></a>
                     <mat-menu #blockMenu="matMenu" >
                         <button (click)="deleteChat()" mat-menu-item>
                           <span>Очистить чат</span>
@@ -32,12 +32,13 @@
 
         <div class="message">
             <div class="message__wrapper" #wrapper>
-                <div  *ngFor="let item of data"  [matMenuTriggerFor]="block"
-                    [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
-                    <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
-                        <p class="message__text">{{item.text}}</p>
-                    </div>
-                    <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
+                <div  *ngFor="let item of data" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="block" (click)="toggleMenu(item._id)"
+                [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
+                <span *ngIf="item.owner === myId">{{myUserName}}</span>
+                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
+                    <p class="message__text">{{item.text}}</p>
+                </div>
+                <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
 
                     <mat-menu #block="matMenu" >
                         <button (click)="deleteMessage(item._id)" mat-menu-item>
@@ -55,12 +56,12 @@
 
             <div class="message__send">
                 <div class="wrapper__send">
-                    <img src="../../assets/icon-send.svg" alt="icon-send" class="btn">
+                    <!-- <img src="../../assets/icon-send.svg" alt="icon-send" class="btn"> убрали на время-->
                     <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
-                    <img src="../../assets/icon-smile.svg" alt="icon-smile" width="" height="">
+                    <img src="../../assets/icon-smile.svg" alt="icon-smile" width="" height="" class="smile">
                     <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="" height="">
                 </div>
-                    <img src="../../assets/icon-voice.svg" alt="icon-voice" width="" height="">
+                    <img src="../../assets/icon-voice.svg" alt="icon-voice" class="voice" width="" height="">
             </div>
         </div>
     </div>
