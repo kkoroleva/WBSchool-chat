@@ -14,12 +14,19 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   flex-direction: column;
 
+    @media(max-width:495px) {
+        padding-left: 10px;
+        padding-right: 10px;
+        max-height: 100vh;
+    }
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
 
+   
     &__info {
       display: flex;
       align-items: center;
@@ -111,14 +118,6 @@
         filter: grayscale(100);
       }
 
-      .camera {
-        width: 28px;
-        height: 20px;
-        margin-right: 47px;
-        filter: grayscale(100);
-
-      }
-
       .menu {
         width: 5px;
         height: 25px;
@@ -129,12 +128,6 @@
           width: 15px;
           height: 15px;
           margin-right: 20px;
-        }
-
-        .camera {
-          width: 18px;
-          height: 14px;
-          margin-right: 22px;
         }
 
         .menu {
@@ -157,13 +150,22 @@
 
   .message {
     position: relative;
-    margin-top: 56px;
+    margin-top: 20px;
+
+         @media (max-width:495px) {
+        height: 70vh;
+    }
 
     &__wrapper {
-      height: 723px;
+      max-height: 723px;
       padding-left: 10px;
       padding-right: 10px;
       overflow-y: scroll;
+
+        @media (max-width:495px) {
+          height: 50vh;
+      }
+
     }
 
     &__wrapperGrey {
@@ -171,7 +173,7 @@
       display: flex;
       max-width: max-content;
       flex-direction: column;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
 
       span {
         margin-top: 7px;
@@ -191,21 +193,21 @@
       display: flex;
       max-width: max-content;
       flex-direction: column;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       margin-left: auto;
-
+      
       span {
-        margin-top: 7px;
-        text-align: right;
-        font-family: 'Poppins', sans-serif;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 18px;
-        color: rgba(0, 0, 0, 0.25);
-      }
+          margin-top: 7px;
+          text-align: right;
+          font-family: 'Poppins', sans-serif;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 18px;
+          color: rgba(0, 0, 0, 0.25);
+        }
     }
-
+    
     &__user {
       background: #CFCFCF;
       border-radius: 10px;
@@ -244,6 +246,9 @@
       max-width: 606px;
       width: 100%;
       margin-bottom: 35px;
+      @media (max-width:495px) {
+          margin-bottom: 15px;
+      }
     }
 
     &__send {

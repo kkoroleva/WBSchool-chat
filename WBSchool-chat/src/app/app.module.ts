@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
@@ -22,34 +21,36 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { DialogComponent } from './dialog/dialog.component';
-/*Modules*/
 
 /*Material UI modules */
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatChipsModule } from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDialogModule} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+
+/*Modules*/
+import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
+
 
 /*Store*/
 import { Store, StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
-
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-
-import { AuthModule } from './auth/auth.module';
-import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -72,8 +73,10 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ProfilePageComponent,
     DialogComponent,
     NavbarComponent,
-    NotificationsComponent,
+    ModalHelpComponent,
     AccountSettingsComponent,
+    NotificationsComponent,
+    AccountSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +99,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatDividerModule,
     MatRippleModule,
     MatButtonToggleModule,
+    MatDialogModule,
 
     //Forms
     FormsModule,
