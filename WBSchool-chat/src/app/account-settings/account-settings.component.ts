@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfilePageService } from '../profile-page/service/profile-page.service';
 
 interface btnList {
   "icon": string,
-  "title": string
+  "title": string,
+  "disabled": boolean
 }
 
 @Component({
@@ -12,47 +14,58 @@ interface btnList {
 })
 export class AccountSettingsComponent {
 
-  constructor() { }
+  constructor(
+    public settServ: ProfilePageService) { }
   settingsList: btnList[] = [
     {
       "icon": "key",
-      "title": "Account"
+      "title": "Account",
+      "disabled": false
     },
     {
       "icon": "dark_mode",
-      "title": "Theme"
+      "title": "Theme",
+      "disabled": true
     },
     {
       "icon": "security",
-      "title": "Security"
+      "title": "Security",
+      "disabled": true
     },
     {
       "icon": "privacy_tip",
-      "title": "Privacy"
+      "title": "Privacy",
+      "disabled": true
     },
     {
       "icon": "domain_verification",
-      "title": "Verification"
+      "title": "Verification",
+      "disabled": true
     },
     {
       "icon": "autorenew",
-      "title": "Change number"
+      "title": "Change number",
+      "disabled": true
     },
     {
       "icon": "backup",
-      "title": "Backup"
+      "title": "Backup",
+      "disabled": true
     },
     {
       "icon": "sms",
-      "title": "Message settings"
+      "title": "Message settings",
+      "disabled": true
     },
     {
       "icon": "public",
-      "title": "App language"
+      "title": "App language",
+      "disabled": true
     },
     {
       "icon": "delete",
-      "title": "Delete Account"
+      "title": "Delete Account",
+      "disabled": false
     }
   ]
   

@@ -39,9 +39,13 @@
 		}
 
 		.profile-settings__user-info_name {
-			margin: auto 0 auto 31px;
+			margin: auto auto auto 31px;
 			display: flex;
 			flex-direction: column;
+			width: 70%;
+			max-width: calc(100vw - 188px);
+			margin-right: 10px;
+			-webkit-mask-image: linear-gradient(90deg, #000 60%, transparent);
 
 			.profile-settings__user-info_name_username {
 				font-family: 'Poppins';
@@ -49,6 +53,9 @@
 				font-weight: 600;
 				font-size: 25px;
 				line-height: 38px;
+				text-overflow: clip;
+				overflow: hidden;
+				white-space: nowrap;
 			}
 
 			.profile-settings__user-info_name_status {
@@ -57,7 +64,15 @@
 				font-weight: 400;
 				font-size: 20px;
 				line-height: 30px;
+				text-overflow: clip;
+				overflow: hidden;
+				white-space: nowrap;
 			}
+
+			// @media (max-width: 320px) {
+			// 	max-width: 120px;
+			// 	-webkit-mask-image: linear-gradient(90deg, #000 60%, transparent);
+			// }
 		}
 	}
 
@@ -153,7 +168,15 @@
 		}
 
 		@media (max-width: 460px) {
-			margin-left: 15%;
+			margin-left: 40px;
+		}
+
+		@media (max-width: 390px) {
+			margin-left: 30px;
+		}
+
+		@media (max-width: 330px) {
+			margin-left: 20px;
 		}
 	}
 

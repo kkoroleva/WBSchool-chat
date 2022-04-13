@@ -4,6 +4,7 @@ import { ProfileSettingsService } from './service/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
 import { IProfileData, IServerResponse, ISettingsList } from './interfaces/interface';
+import { ProfilePageService } from '../profile-page/service/profile-page.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -62,7 +63,11 @@ export class ProfileSettingsComponent implements OnInit {
     }
   ]
 
-  constructor(private profileServ: ProfileSettingsService, public dialog: MatDialog) {}
+  constructor(
+    private profileServ: ProfileSettingsService, 
+    public dialog: MatDialog,
+    public settServ: ProfilePageService
+  ) {}
 
   ngOnInit(): void {
     this.getUsersData();

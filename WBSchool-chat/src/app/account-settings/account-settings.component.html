@@ -7,9 +7,17 @@
 
 	<div class="account-settings__line"></div>
 		<div class="account-settings__menu" >
-			<div class="account-settings__menu_item" *ngFor="let item of settingsList" (click)="click(item.title)">
+			<div class="account-settings__menu_item" 
+				 *ngFor="let item of settingsList" 
+				 (click)="click(item.title)" 
+				 [ngClass]="{'account-settings__menu_item_disabled':item.disabled}"
+			>
 				<mat-icon>{{ item.icon }}</mat-icon>
 				<div class="account-settings__menu_item_title">{{ item.title }}</div>
+			</div>
+			<div class="account-settings__menu_item" (click)="settServ.switchSettings()">
+				<mat-icon>{{ "account_circle" }}</mat-icon>
+				<div class="account-settings__menu_item_title">Profile settings</div>
 			</div>
 		</div>
 	
