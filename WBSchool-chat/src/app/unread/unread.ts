@@ -1,5 +1,4 @@
-export interface Recent {
-  isRead: boolean;
+export interface Unread {
   isActive: boolean;
   newMessages: number;
   thumbnail: string;
