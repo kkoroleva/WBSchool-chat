@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { User } from '../interfaces';
 
 @Injectable({
@@ -43,6 +43,7 @@ export class AuthService {
       localStorage.setItem('userRights', response.newUser.userRights);
       localStorage.setItem('avatar', response.newUser.avatar);
       localStorage.setItem('about', response.newUser.about);
+      localStorage.setItem('id', response.newUser._id);
       localStorage.setItem('date', expiresDate.toString());
       // if (response.refreshToken != null) {
       //   localStorage.setItem('refreshToken', response.refreshToken);
