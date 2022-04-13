@@ -46,6 +46,7 @@ deleteMessage(id:string):void {
     }
   )
 };
+
 deleteChat(){
   console.log('удалить чат')
 }
