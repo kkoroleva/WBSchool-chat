@@ -1,3 +1,4 @@
+import { GroupsService } from './groups.service';
 import { Component, OnInit } from '@angular/core';
 import { IGroup } from './group';
 
@@ -25,7 +26,11 @@ export class GroupsComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  constructor(private groupsService: GroupsService) {}
 
   ngOnInit(): void {}
+
+  getChats(): void {
+    this.groupsService.getChats().subscribe((chats) => (this.groups = chats));
+  }
 }

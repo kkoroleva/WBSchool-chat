@@ -3,7 +3,10 @@
         <mat-card-title class="groups__title">
             <h2 class="groups__heading">Groups</h2>
         </mat-card-title>
-        <mat-icon class="groups__menu">more_vert</mat-icon>
+        <mat-icon class="groups__menu" [matMenuTriggerFor]="menu">more_vert</mat-icon>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Создать чат</button>
+        </mat-menu>
     </mat-card-header>
     <mat-card-content class="groups__list">
         <div class="groups__item" *ngFor="let group of groups">
