@@ -1,61 +1,53 @@
-<!-- DELETE ON PROD -->
-<!-- <button (click)="changeOutput()" mat-button color="primary">Изменить вывод</button> -->
-<!-- DELETE ON PROD -->
 <div class="profile-settings">
 	<div class="profile-settings__title">
-		<span>
-			Profile settings
-		</span>
+	  <span>
+		Profile settings
+	  </span>
 	</div>
 	<div class="profile-settings__user-info">
-		<div class="profile-settings__user-info_img">
-			<img src={{pictureSrc}} alt="user pic" />
-		</div>
-		<div class="profile-settings__user-info_name" >
-			<span class="profile-settings__user-info_name_username">
-				{{name}}
-			</span>
-			<span class="profile-settings__user-info_name_status">
-				{{status}}
-			</span>
-			<span class="profile-settings__user-info_name_status">
-				{{description}}
-			</span>
-		</div>
+	  <div class="profile-settings__user-info_img">
+		<img src={{profileData.avatar}} alt="user pic" />
+	  </div>
+	  <div class="profile-settings__user-info_name" >
+		<span class="profile-settings__user-info_name_username">
+		  {{ profileData.username }}
+		</span>
+		<span class="profile-settings__user-info_name_status">
+		  {{ profileData.status }}
+		</span>
+		<span class="profile-settings__user-info_name_status">
+		  {{ profileData.about }}
+		</span>
+	  </div>
 	</div>
 	<div class="profile-settings__line"></div>
-	<div class="profile-settings__info">
-		<div class="profile-settings__menu" >
-			<div class="profile-settings__menu_item" *ngFor="let item of settingsList" (click)="click(item.title)">
-				<mat-icon>{{ item.icon }}</mat-icon>
-				<div class="profile-settings__menu_item_title">{{ item.title }}</div>
-			</div>
-		</div>
-	</div>
-
-	<ng-template #settings>
-		<div class="profile-settings__menu" >
+		<div class="profile-settings__menu">
 			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index">
+				<div class="profile-settings__menu_item_name">
 				<mat-icon>{{ item.icon }}</mat-icon>
 				<div class="profile-settings__menu_item_title" (click)="[onSelect(item), toggle = !toggle]" 
 				[class.selected]="item === selectedItem">{{ item.title }}</div>
-				<form (ngSubmit)="submit($event)" *ngIf="toggle && selectedItem.id == i+1">
+			</div>
+				<div *ngIf="toggle && selectedItem.id == i+1" class="profile-settings__menu_item_form-field">
 					<mat-form-field appearance="fill">
-					    <input matInput type="text" id={{item.id}} value={{item.description}}>
+					    <input matInput type="text" id={{item.id}} value={{item.description}} #input>
 						<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
 			        </mat-form-field>
-					<button mat-raised-button color="primary" type="submit">V</button>
-				    <button mat-raised-button color="warn">X</button>
-				</form>
+					<div class="form-field__btn-wrapper">
+					<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">V</button>
+				    <button mat-raised-button color="warn" (click)="toggle = !toggle">X</button>
+				</div>
+				</div>
 			</div>
 		    <div class="profile-settings__menu_item">
-				<mat-icon>{{ help.icon }}</mat-icon>
-				<div class="profile-settings__menu_item_title">{{ help.title }}</div>
+				<div class="profile-settings__menu_item_name">
+				<mat-icon>{{ "help_outline" }}</mat-icon>
+				<div class="profile-settings__menu_item_title" (click)="openDialog()">Help</div>
 			</div>
+			</div>
+			<form (ngSubmit)="submit()">
+				<button mat-raised-button color="primary" type="submit">Save Changes</button>
+			</form>
 		</div>
-	</ng-template>
-
-	<div class="profile-settings__footer">
-		WB School Chat
-	</div>
-</div>
+	<div class="profile-settings__footer">WB School Chat</div>
+  </div>
