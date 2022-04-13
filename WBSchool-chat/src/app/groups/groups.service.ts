@@ -1,6 +1,8 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IGroup } from './group';
+import { IUser } from './user';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,19 @@ export class GroupsService {
 
   constructor(private http: HttpClient) {}
 
-  getChats(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/chats`);
+  getGroupChats(): Observable<IGroup[]> {
+    return this.http.get<IGroup[]>(`${this.apiUrl}/chats`);
+  }
+
+  createGroupChat(
+    name: string,
+    users: IUser[],
+    about: string
+  ): Observable<IGroup> {
+    return this.http.post<IGroup>(`${this.apiUrl}/chats`, {
+      name,
+      users,
+      about,
+    });
   }
 }
