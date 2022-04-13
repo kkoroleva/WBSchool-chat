@@ -1,0 +1,24 @@
+<section class="unreads">
+  <h3 class="unreads__header">Unread messages</h3>
+  <a href="" class="unreads__more-button">
+    <mat-icon>more_vert</mat-icon>
+  </a>
+  <ul class="unreads__list">
+    <li class="unreads__item" *ngFor="let unread of unreadList; index as i;">
+      <a href="" class="unreads__chat-link">
+        <div class="unreads__online" [ngClass]="{unreads__online:unread.isActive}">
+          <img class="unreads__thumbnail" src="{{unread.thumbnail}}" alt="Your best friend face" width="70" height="70">
+        </div>
+        <div class="unreads__item-text">
+          <b class="unreads__name">{{unread.name}}</b>
+          <p class="unreads__last-active">{{unread.lastActive}}</p>
+          <p class="unreads__last-message">
+            <span class="unreads__last-message-text">{{unread.lastMessage}}</span>
+            <span class="unreads__new-messages"
+              *ngIf="unread.newMessages&&unread.newMessages!==0">{{unread.newMessages}}</span>
+          </p>
+        </div>
+      </a>
+    </li>
+  </ul>
+</section>
