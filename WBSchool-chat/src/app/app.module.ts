@@ -50,6 +50,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -76,6 +77,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AccountSettingsComponent,
     NotificationsComponent,
     AccountSettingsComponent,
+    CreateGroupChatComponent,
   ],
   imports: [
     BrowserModule,
