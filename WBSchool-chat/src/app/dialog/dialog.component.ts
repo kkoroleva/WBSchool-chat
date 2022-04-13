@@ -20,7 +20,7 @@ export class DialogComponent implements OnInit {
 
   data:IMessage[] = [];
   
-
+  
   constructor(private service:DialogService) { }
 
   ngOnInit(): void {
