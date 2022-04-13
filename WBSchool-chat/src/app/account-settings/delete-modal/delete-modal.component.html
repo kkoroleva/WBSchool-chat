@@ -1,0 +1,11 @@
+<div class="delete-modal__wrapper">
+	<h2 mat-dialog-title>Удаление аккаунта</h2>
+	<mat-dialog-content class="mat-typography">
+		<h3>Вы уверены что хотите удалить аккаунт?</h3>
+		<p>Его не получится восстановить никаким способом.</p>
+	</mat-dialog-content>
+	<mat-dialog-actions align="end">
+		<button mat-button color="warn" (click)="deleteAcc()">Удалить</button>
+		<button mat-button mat-dialog-close>Передумал</button>
+	</mat-dialog-actions>
+</div>

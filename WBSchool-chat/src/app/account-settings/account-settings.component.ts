@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ProfilePageService } from '../profile-page/service/profile-page.service';
+import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 
 interface btnList {
   "icon": string,
@@ -13,9 +15,11 @@ interface btnList {
   styleUrls: ['./account-settings.component.scss']
 })
 export class AccountSettingsComponent {
-
   constructor(
-    public settServ: ProfilePageService) { }
+    public settServ: ProfilePageService, 
+    public dialog: MatDialog
+  ) { }
+
   settingsList: btnList[] = [
     {
       "icon": "key",
@@ -69,9 +73,28 @@ export class AccountSettingsComponent {
     }
   ]
   
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      panelClass: 'delete-modal'
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+
   click(str: string) {
-    console.log(str)
-    // и тут через switch распределить по методам наши нажатия
+    switch (str) {
+      case 'Account':
+        console.log('Вызов Account')
+        break;
+      case 'Delete Account':
+        console.log('Вызов Delete Account')
+        this.openDialog()
+        break;
+      default:
+        break;
+    }
   }
 
 }
