@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
@@ -8,7 +8,8 @@ import { DialogService } from './dialog.service';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, AfterViewChecked {
+  @ViewChild("wrapper") wrapper!:ElementRef
 
   editMessageID:string = '';
 
@@ -23,9 +24,14 @@ export class DialogComponent implements OnInit {
   
   constructor(private service:DialogService) { }
 
+  
   ngOnInit(): void {
-    this.getMessages()
+    this.getMessages();
   };
+  ngAfterViewChecked(): void {
+    this.changeScroll();
+  }
+ 
   
   getMessages():void {///==============для получение сообщение 
     this.service.getMessages().subscribe((res)=>{
@@ -59,8 +65,14 @@ getMessage(id:string, text:string):void {///================для получе�
   this.message.setValue(text);
 };
 
+changeScroll(){
+  this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+}
+
 sendMessage(event:KeyboardEvent):void {
     if (this.message.value.trim() && event.key === 'Enter') {
+
+
 
       if(this.isEditMessage){
 

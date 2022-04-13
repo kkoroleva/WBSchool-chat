@@ -10,16 +10,13 @@
                     <span></span>
                 </div>
                 <div class="header__name">
-                    <p class="name">
-                        Swathi
-                    </p>
+                    <p class="name">Swathi</p>
                     <span>Online</span>
                 </div>
             </div>
         
             <div class="header__icon">
                 <a><img src="../../assets/icon-phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
-                <a><img src="../../assets/icon-camera.svg" alt="camera" class="camera" width="28px" height="20px"></a>
                 <a [matMenuTriggerFor]="blockMenu" ><img src="../../assets/icon-menu.svg" alt="menu" class="menu" width="5px" height="25px"></a>
                     <mat-menu #blockMenu="matMenu" >
                         <button (click)="deleteChat()" mat-menu-item>
@@ -34,11 +31,11 @@
         
 
         <div class="message">
-            <div class="message__wrapper">
+            <div class="message__wrapper" #wrapper>
                 <div  *ngFor="let item of data"  [matMenuTriggerFor]="block"
                     [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
-                        <p>{{item.text}}</p>
+                        <p class="message__text">{{item.text}}</p>
                     </div>
                     <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
 
