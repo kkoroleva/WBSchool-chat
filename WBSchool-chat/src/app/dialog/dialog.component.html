@@ -6,7 +6,7 @@
         <div class="header">
             <div class="header__info">
                 <div class="header__avatar">
-                    <img src="../../assets/avatar.svg" alt="avatar" width="" height="">
+                    <img src="../../assets/avatar.svg" alt="avatar" width="76px" height="75px">
                     <span></span>
                 </div>
                 <div class="header__name">
@@ -18,10 +18,14 @@
             </div>
         
             <div class="header__icon">
-                <a><img src="../../assets/phone.svg" alt="phone" class="phone" width="" height="" ></a>
-                <a><img src="../../assets/camera.svg" alt="camera" class="camera" width="" height=""></a>
-                <a><img src="../../assets/menu.svg" alt="menu" class="menu" width="" height=""></a>
-
+                <a><img src="../../assets/phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
+                <a><img src="../../assets/camera.svg" alt="camera" class="camera" width="28px" height="20px"></a>
+                <a [matMenuTriggerFor]="blockMenu" ><img src="../../assets/menu.svg" alt="menu" class="menu" width="5px" height="25px"></a>
+                    <mat-menu #blockMenu="matMenu" >
+                        <button (click)="deleteChat()" mat-menu-item>
+                          <span>Очистить чат</span>
+                        </button>
+                    </mat-menu>
             </div>
         </div>
         <hr>
@@ -36,7 +40,7 @@
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
                         <p>{{item.text}}</p>
                     </div>
-                    <!-- <span>{{item.date}}</span> -->
+                    <span>{{item.expiresIn | date}}</span>
 
                     <mat-menu #block="matMenu" >
                         <button (click)="deleteMessage(item._id)" mat-menu-item>
