@@ -82,8 +82,8 @@ export class ProfileSettingsComponent implements OnInit {
         avatar: atob(response.avatar),
         email: response.email
       })
-      // this.settingsList[0].description = response.username;
-      // this.settingsList[3].description = response.about;
+      this.settingsList[0].description = response.username;
+      this.settingsList[3].description = response.about;
       // this.settingsList[4].description = response.email;
     })
   }
@@ -125,6 +125,7 @@ export class ProfileSettingsComponent implements OnInit {
       this.profileData.email = response.email;
       // this.wallpaper = response.wallpaper;
     })
+    this.getUsersData()
     this.formData = {};
   }
 
