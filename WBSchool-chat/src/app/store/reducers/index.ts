@@ -1,13 +1,13 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import {
-  INotification,
+  INotifications,
   notificationNode,
   notificationsReducer,
 } from './notifications.reducers';
 
 export interface State {
-  [notificationNode]: INotification[];
+  [notificationNode]: INotifications;
 }
 
 export const reducers: ActionReducerMap<State> = {

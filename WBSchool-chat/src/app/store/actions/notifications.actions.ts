@@ -1,18 +1,5 @@
-import { Action } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
-export enum notificationsActionsType {
-  load = '[NOTIFICATIONS] load',
-  delete = '[NOTIFICATIONS] delete',
-}
-
-export class LoadNotificationsAction implements Action {
-  readonly type = notificationsActionsType.load;
-}
-
-export class DeleteNotificationsAction implements Action {
-  readonly type = notificationsActionsType.delete;
-}
-
-export type NotificationsActions =
-  | LoadNotificationsAction
-  | DeleteNotificationsAction;
+export const load = createAction('[NOTIFICATIONS] load');
+export const remove = createAction('[NOTIFICATIONS] remove');
+export const clear = createAction('[NOTIFICATIONS] clear');

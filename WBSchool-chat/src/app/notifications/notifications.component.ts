@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { INotification } from '../store/reducers/notifications.reducers';
+import { clear } from '../store/actions/notifications.actions';
+import { INotifications } from '../store/reducers/notifications.reducers';
 import { selectNotifications } from '../store/selectors/notifications.selectors';
 
 @Component({
@@ -10,24 +11,25 @@ import { selectNotifications } from '../store/selectors/notifications.selectors'
   styleUrls: ['./notifications.component.scss'],
 })
 export class NotificationsComponent implements OnInit {
-  constructor(private store$: Store<INotification[]>) {}
+  constructor(private store$: Store<INotifications>) {}
 
-  public notificationsList$: Observable<INotification[]> = this.store$.pipe(select(selectNotifications));
+  public notificationsList$: Observable<INotifications> = this.store$.pipe(
+    select(selectNotifications)
+  );
 
-  notificationsList: INotification[] = [];
+  notificationsList: INotifications = { notifications: [] };
 
   getNotificationsList(): void {
     this.notificationsList$.subscribe((el) => {
-      this.notificationsList = el
-    })
+      this.notificationsList = el;
+    });
   }
 
-  deleteNotification(i: number): void {
-    // this.notificationsList.slice(i, 1);
-    // console.log(this.notificationsList)
+  deleteNotifications(): void {
+    this.store$.dispatch(clear());
   }
 
   ngOnInit(): void {
-    this.getNotificationsList()
+    this.getNotificationsList();
   }
 }

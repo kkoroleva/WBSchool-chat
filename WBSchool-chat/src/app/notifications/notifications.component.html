@@ -1,13 +1,13 @@
 <div class="container">
 
   <div class="notification" 
-  *ngFor="let notification of notificationsList, let i = index">
+  *ngFor="let notification of notificationsList.notifications, let i = index">
     <mat-icon class="notification__icon-bell">notifications</mat-icon>
     <span class="notification__text">{{ notification.text }}</span>
     <button mat-icon-button
       class="notification__container__icon-x"
       color="Icon"
-      (click)="deleteNotification(i)"
+      (click)="deleteNotifications()"
       >
       <mat-icon>close</mat-icon>
     </button>
