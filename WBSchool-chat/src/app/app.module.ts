@@ -38,7 +38,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
 
 /*Store*/
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
 
@@ -101,7 +101,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     FormsModule,
     ReactiveFormsModule,
 
-//Store
+    //Store
+    
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

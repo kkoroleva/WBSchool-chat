@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; 
+import { Store } from '@ngrx/store';
 import { AuthService } from '../auth/services/auth.service';
 
 @Component({
@@ -9,7 +10,9 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class NavbarComponent {
   path: string = window.location.pathname.substring(1);
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(private auth: AuthService, private router: Router, private store$: Store) {}
+
+  dispatchNotificationsList() {
   }
 
   isAuthenticated() {
