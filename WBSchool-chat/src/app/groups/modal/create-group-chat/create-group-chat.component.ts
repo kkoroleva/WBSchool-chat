@@ -57,7 +57,7 @@ export class CreateGroupChatComponent implements OnInit {
 
       this.groupsService
         .createGroupChat(name, [], about)
-        .subscribe(() => this.dialogRef.close());
+        .subscribe((group) => this.dialogRef.close(group));
     }
   }
 }

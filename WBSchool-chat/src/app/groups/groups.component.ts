@@ -27,6 +27,10 @@ export class GroupsComponent implements OnInit {
   createGroupChat(): void {
     const dialogRef = this.dialog.open(CreateGroupChatComponent);
 
-    dialogRef.afterClosed().subscribe(() => this.getGroupChats());
+    dialogRef.afterClosed().subscribe((group: IGroup) => {
+      if (group) {
+        this.getGroupChats();
+      }
+    });
   }
 }
