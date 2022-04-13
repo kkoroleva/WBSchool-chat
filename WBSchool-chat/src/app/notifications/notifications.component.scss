@@ -1,3 +1,5 @@
+$mobile-width: 495px;
+
 .container {
   margin: 0 auto;
   padding: 0 41px 92px;
@@ -24,6 +26,10 @@
   font-size: 35px;
   margin-right: 42.5px;
   padding-bottom: 30px;
+
+  @media (max-width: $mobile-width) {
+    display: none;
+  }
 }
 
 .notification__text {
@@ -35,8 +41,11 @@
   line-height: 24px;
 }
 
+.notification__container__icon-x {
+  position: relative;
+}
+
 .notification__icon-x {
   position: absolute;
-  right: 0;
-  top: 10px;
+  bottom: 36px;
 }

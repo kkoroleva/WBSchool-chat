@@ -7,14 +7,16 @@
     <li class="recents__item" *ngFor="let recent of recentList; index as i;">
       <a href="" class="recents__chat-link">
         <div class="recents__online" [ngClass]="{recents__online:recent.isActive}">
-          <img class="recents__thumbnail" src="{{recent.thumbnail}}" alt="Your best friend face"
-            width="70" height="70">
+          <img class="recents__thumbnail" src="{{recent.thumbnail}}" alt="Your best friend face" width="70" height="70">
         </div>
         <div class="recents__item-text">
           <b class="recents__name">{{recent.name}}</b>
           <p class="recents__last-active">{{recent.lastActive}}</p>
-          <p class="recents__last-message">{{recent.lastMessage}}
-            <span class="recents__new-messages" *ngIf="recent.newMessages&&recent.newMessages!==0" class="recents__message-status">{{recent.newMessages}}</span>
+          <p class="recents__last-message">
+            <span class="recents__last-message-text">{{recent.lastMessage}}</span>
+            <span class="recents__new-messages"
+              *ngIf="recent.newMessages&&recent.newMessages!==0">{{recent.newMessages}}</span>
+            <mat-icon class="recents__read-status" [ngClass]="{'recents__read-status--read':recent.isRead}">done_all</mat-icon>
           </p>
         </div>
       </a>
