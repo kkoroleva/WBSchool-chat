@@ -10,7 +10,9 @@ export class DialogService {
 
   private urlApi:string = "http://www.wbschool-chat.ru" ;
   
-  constructor(private http:HttpClient) { };
+  constructor(private http:HttpClient) { 
+    console.log(this.urlApi, "this")
+  };
   
   getMessages():Observable<IMessage[]>{///================получение ответа из апи
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`)
@@ -18,7 +20,8 @@ export class DialogService {
  
 
   sendMessage(text:string):Observable<IMessage>{
-    return this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {text})
+    const x = this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {text})
+    return x
   };
 
 

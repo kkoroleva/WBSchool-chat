@@ -18,9 +18,9 @@
             </div>
         
             <div class="header__icon">
-                <a><img src="../../assets/phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
-                <a><img src="../../assets/camera.svg" alt="camera" class="camera" width="28px" height="20px"></a>
-                <a [matMenuTriggerFor]="blockMenu" ><img src="../../assets/menu.svg" alt="menu" class="menu" width="5px" height="25px"></a>
+                <a><img src="../../assets/icon-phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
+                <a><img src="../../assets/icon-camera.svg" alt="camera" class="camera" width="28px" height="20px"></a>
+                <a [matMenuTriggerFor]="blockMenu" ><img src="../../assets/icon-menu.svg" alt="menu" class="menu" width="5px" height="25px"></a>
                     <mat-menu #blockMenu="matMenu" >
                         <button (click)="deleteChat()" mat-menu-item>
                           <span>Очистить чат</span>
@@ -58,12 +58,12 @@
 
             <div class="message__send">
                 <div class="wrapper__send">
-                    <img src="../../assets/icon-one.svg" alt="icon-send" class="btn">
+                    <img src="../../assets/icon-send.svg" alt="icon-send" class="btn">
                     <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
-                    <img src="../../assets/smile.svg" alt="smile" width="" height="">
-                    <img src="../../assets/photo.svg" alt="photo" class="photo" width="" height="">
+                    <img src="../../assets/icon-smile.svg" alt="icon-smile" width="" height="">
+                    <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="" height="">
                 </div>
-                    <img src="../../assets/voice.svg" alt="voice" width="" height="">
+                    <img src="../../assets/icon-voice.svg" alt="icon-voice" width="" height="">
             </div>
         </div>
     </div>
