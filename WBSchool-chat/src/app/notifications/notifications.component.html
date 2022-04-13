@@ -5,13 +5,12 @@
     <mat-icon class="notification__icon-bell">notifications</mat-icon>
     <span class="notification__text">{{ notification.text }}</span>
     <button mat-icon-button
-      class="notification__icon-x"
+      class="notification__container__icon-x"
       color="Icon"
       (click)="deleteNotification()"
       >
-      <mat-icon>close</mat-icon>
+      <mat-icon class="notification__icon-x">close</mat-icon>
     </button>
-
   </div>
   
 </div>
