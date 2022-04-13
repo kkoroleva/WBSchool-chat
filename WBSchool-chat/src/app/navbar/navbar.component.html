@@ -3,22 +3,22 @@
     <li class="nav__list-item nav__list-img"><a href="" class="nav__list-link">
       <img src="../../assets/ava.svg" alt="avatar" class="nav__img" width="60" height="60"/>
     </a></li>
-    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'home'}">
+    <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'home' }">
       <a routerLink="./home" class="nav__list-link">
-      <mat-icon>home</mat-icon>
-    </a></li>
-    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'chat'}">
+        <mat-icon>home</mat-icon>
+      </a></li>
+    <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'chat'  }">
       <a routerLink="./chat" class="nav__list-link">
-      <mat-icon>message</mat-icon>
-    </a></li>
-    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'alerts'}">
+        <mat-icon>message</mat-icon>
+      </a></li>
+    <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'alerts'}">
       <a routerLink="./alerts" class="nav__list-link">
-      <mat-icon>notifications_none</mat-icon>
-    </a></li>
-    <li class="nav__list-item"  [ngClass]="{'nav__list-item_active' : path == 'profile'}">
+        <mat-icon>notifications_none</mat-icon>
+      </a></li>
+    <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'profile'}">
       <a routerLink="./profile" class="nav__list-link">
-      <mat-icon>settings</mat-icon>
-    </a></li>
+        <mat-icon>settings</mat-icon>
+      </a></li>
     <li class="nav__list-item"><a href="" class="nav__list-link">
       <mat-icon (click)="logout()">exit_to_app</mat-icon>
     </a></li>
