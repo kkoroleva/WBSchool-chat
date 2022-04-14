@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
-import { RecentsComponent } from './recents/recents.component';
+import { UnreadsComponent } from './unread/unread.component';
 import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -61,7 +61,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    RecentsComponent,
+    UnreadsComponent,
     FriendsComponent,
     GroupsComponent,
     SearchComponent,
