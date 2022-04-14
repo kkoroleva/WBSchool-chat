@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatMenuTrigger } from '@angular/material/menu/';
+import { ActiveChatService } from '../active-chat.service';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
 
@@ -25,12 +26,20 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   data:IMessage[] = [];
 
   myUserName:string = '';
+
+  chatID:string = '625555ea8ef822301dab93c8';
   
-  constructor(private service:DialogService) { }
+  constructor(private service:DialogService, private activeService:ActiveChatService ) { }
   
   ngOnInit(): void {
-    this.getMessages();
     this.getMe();
+    this.activeService.activeChatSubject.subscribe(
+      (id)=>{
+        console.log(id, "idddddddddd")
+        this.chatID = id;
+        this.getMessages(id);
+      }
+    )
   };
 
   ngAfterViewChecked(): void {
@@ -55,28 +64,29 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   };
   
   
-  getMessages():void {
-    this.service.getMessages().subscribe((res)=>{
+  getMessages(idChat:string):void {
+    this.service.getMessages(idChat).subscribe((res)=>{
       this.data = res 
     })
   };
   
 
 editMessage(text:string, id:string):void {
-    this.service.editMessage(text, id).subscribe(
-      () => {
-        this.getMessages()
-        this.isEditMessage = false
-      }
-      )
+  this.service.editMessage(text, id, this.chatID).subscribe(
+    () => {
+      this.getMessages(this.chatID)
+      this.isEditMessage = false
+     }
+    )
 };
     
 deleteMessage(id:string):void {
-      this.service.deleteMessage(id).subscribe(
-        () => {
-          this.getMessages()
-        }
-        )
+  this.service.deleteMessage(id,this.chatID).subscribe(
+    () => {
+      this.getMessages(this.chatID)
+    }
+    )
+
 };
       
       
@@ -86,7 +96,7 @@ getMessage(id:string, text:string):void {
         this.message.setValue(text);
 };
 
-sendMessage(event:KeyboardEvent):void {
+sendMessage(event:KeyboardEvent):void{
   if (this.message.value.trim() && event.key === 'Enter') {
 
       if(this.isEditMessage){
@@ -94,9 +104,10 @@ sendMessage(event:KeyboardEvent):void {
         this.editMessage(this.message.value, this.editMessageID)
 
       }else{
-        this.service.sendMessage(this.message.value).subscribe(
+        this.service.sendMessage(this.message.value, this.chatID).subscribe(
           () => {
-            this.getMessages()
+            console.log(this.chatID, "thischat")
+            this.getMessages(this.chatID)
           }
         )
       }
