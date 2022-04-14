@@ -15,7 +15,7 @@
 
             <div class="header__icon">
                 <a><img src="../../assets/icon-phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
-                <a [matMenuTriggerFor]="blockMenu"class="menu"><mat-icon>more_vert</mat-icon></a>
+                <a [matMenuTriggerFor]="blockMenu" class="menu"><mat-icon>more_vert</mat-icon></a>
                     <mat-menu #blockMenu="matMenu" >
                         <button (click)="deleteChat()" mat-menu-item>
                           <span>Очистить чат</span>
@@ -33,7 +33,7 @@
                 <div  *ngFor="let item of data" 
                 [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                 <span *ngIf="item.owner === myId">{{myUserName}}</span>
-                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" #blockTrigger>
+                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
                     <p class="message__text">{{item.text}}</p>
                 </div>
                 <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
