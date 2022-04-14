@@ -1,8 +1,6 @@
 <ng-container>
     <div class="container">
-
         <!-- header -->
-
         <div class="header">
             <div class="header__info">
                 <div class="header__avatar">
@@ -16,6 +14,13 @@
             </div>
 
             <div class="header__icon">
+                <a><img src="../../assets/icon-phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
+                <a [matMenuTriggerFor]="blockMenu"class="menu"><mat-icon>more_vert</mat-icon></a>
+                    <mat-menu #blockMenu="matMenu" >
+                        <button (click)="deleteChat()" mat-menu-item>
+                          <span>Очистить чат</span>
+                        </button>
+                    </mat-menu>
 
                 <a><img src="../../assets/icon-phone.svg" alt="phone" class="phone" width="20px" height="20px"></a>
                 <a [matMenuTriggerFor]="blockMenu"><img src="../../assets/icon-menu.svg" alt="menu" class="menu"
@@ -36,6 +41,13 @@
         <div class="message">
 
             <div class="message__wrapper" #wrapper>
+                <div  *ngFor="let item of data" 
+                [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
+                <span *ngIf="item.owner === myId">{{myUserName}}</span>
+                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
+                    <p class="message__text">{{item.text}}</p>
+                </div>
+                <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
                 <div *ngFor="let item of data" [matMenuTriggerFor]="block"
                     [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
@@ -59,15 +71,14 @@
 
             <div class="message__send">
                 <div class="wrapper__send">
-                    <img src="../../assets/icon-send.svg" alt="icon-send" class="btn">
+                    <!-- <img src="../../assets/icon-send.svg" alt="icon-send" class="btn"> убрали на время-->
                     <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
-                    <img src="../../assets/icon-smile.svg" alt="icon-smile" width="" height="">
+                    <img src="../../assets/icon-smile.svg" alt="icon-smile" width="" height="" class="smile">
                     <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="" height="">
                 </div>
-
-                <img src="../../assets/icon-voice.svg" alt="icon-voice" width="" height="">
-
+                    <img src="../../assets/icon-voice.svg" alt="icon-voice" class="voice" width="" height="">
             </div>
         </div>
+    </div>
     </div>
 </ng-container>

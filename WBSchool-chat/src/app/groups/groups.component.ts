@@ -42,6 +42,7 @@ export class GroupsComponent implements OnInit {
   }
 
   openGroupChat(id: string): void {
+    console.log(id, "tjjgk")
     this.activeChatService.activeChatSubject.next(id);
 
     this.router.navigateByUrl('/chat');
