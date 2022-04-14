@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IServerResponse } from 'src/app/profile-settings/interfaces/interface';
-import { IPasswordEditData } from '../interface/account-settings';
+import { IPasswordEditData, IPasswordOnly, IUserDeleteData } from '../interface/account-settings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { IPasswordEditData } from '../interface/account-settings';
 export class AccountSettingsService {
   private getDataUrl = "http://www.wbschool-chat.ru/users/me"
   private editPswUrl = "http://www.wbschool-chat.ru/users/me/newPass"
+  private delUserUrl = "http://www.wbschool-chat.ru/users/"
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +25,20 @@ export class AccountSettingsService {
 
   editPassword(newPassData: IPasswordEditData): Observable<IServerResponse> {
     return this.http.patch<IServerResponse>(this.editPswUrl, newPassData)
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    )
+  }
+
+  deleteUser(delUserData: IUserDeleteData): Observable<any> {
+    const deletionOptions: IPasswordOnly = {
+      body: {
+        password: delUserData.password
+      }
+    }
+    return this.http.delete<IServerResponse>(this.delUserUrl + delUserData.id, deletionOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error);

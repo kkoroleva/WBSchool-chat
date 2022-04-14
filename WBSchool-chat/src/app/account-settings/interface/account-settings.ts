@@ -13,3 +13,9 @@ export interface IFormData {
 	oldPsw: string,
 	newPsw: string
 }
+
+export interface IPasswordOnly {
+	body: {
+		password: string
+	}
+}
