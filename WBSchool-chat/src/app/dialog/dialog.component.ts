@@ -12,7 +12,7 @@ import { DialogService } from './dialog.service';
 export class DialogComponent implements OnInit, AfterViewChecked {
   @ViewChild("wrapper") wrapper!:ElementRef;
 
-  @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
+  // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
 
   editMessageID:string = '';
 
