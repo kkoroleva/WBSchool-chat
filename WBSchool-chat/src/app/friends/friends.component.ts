@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
-import { Friend } from './friend';
+import { IFriend } from './friend';
 import { Router } from '@angular/router';
 import { ActiveChatService } from '../active-chat.service';
 
-const mockFriends: Friend[] = [
+const mockFriends: IFriend[] = [
   {
     chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: true,
@@ -86,7 +86,7 @@ const mockFriends: Friend[] = [
 })
 export class FriendsComponent {
 
-  friendList: Friend[];
+  friendList: IFriend[];
 
   constructor(private router: Router, private activeChat: ActiveChatService) {
     this.friendList = mockFriends;

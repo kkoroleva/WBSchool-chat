@@ -1,4 +1,4 @@
-export interface Friend {
+export interface IFriend {
   chatId: string;
   isActive: boolean;
   thumbnail: string;
