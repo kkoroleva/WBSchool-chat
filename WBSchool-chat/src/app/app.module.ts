@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 /*Components */
 import { AppComponent } from './app.component';
-import { RecentsComponent } from './recents/recents.component';
+import { UnreadsComponent } from './unread/unread.component';
 import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -23,17 +23,17 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
 import { DialogComponent } from './dialog/dialog.component';
 
 /*Material UI modules */
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatListModule} from '@angular/material/list';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatChipsModule } from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
 
@@ -41,7 +41,6 @@ import { MatRippleModule } from '@angular/material/core';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
-
 
 /*Store*/
 import { StoreModule } from '@ngrx/store';
@@ -53,6 +52,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
 import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
+import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -63,7 +63,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    RecentsComponent,
+    UnreadsComponent,
     FriendsComponent,
     GroupsComponent,
     SearchComponent,
@@ -80,7 +80,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NotificationsComponent,
     AccountSettingsComponent,
     DeleteModalComponent,
-    PasswordModalComponent
+    PasswordModalComponent,
+    CreateGroupChatComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +110,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     FormsModule,
     ReactiveFormsModule,
 
-//Store
+    //Store
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

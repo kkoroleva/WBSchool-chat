@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
@@ -8,7 +8,8 @@ import { DialogService } from './dialog.service';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, AfterViewChecked {
+  @ViewChild("wrapper") wrapper!:ElementRef
 
   editMessageID:string = '';
 
@@ -20,14 +21,19 @@ export class DialogComponent implements OnInit {
 
   data:IMessage[] = [];
   
-
+  
   constructor(private service:DialogService) { }
 
-  ngOnInit(): void {
-    this.getMessages()
-  };
   
-  getMessages():void {///==============для получение сообщение 
+  ngOnInit(): void {
+    this.getMessages();
+  };
+  ngAfterViewChecked(): void {
+    this.changeScroll();
+  }
+ 
+  
+  getMessages():void {
     this.service.getMessages().subscribe((res)=>{
       this.data = res 
     })
@@ -40,6 +46,7 @@ deleteMessage(id:string):void {
     }
   )
 };
+
 deleteChat(){
   console.log('удалить чат')
 }
@@ -53,14 +60,20 @@ editMessage(text:string, id:string):void {
   )
 };
 
-getMessage(id:string, text:string):void {///================для получение сообщение в инпуте привязен к кнопке изменить 
+getMessage(id:string, text:string):void {
   this.isEditMessage = true;
   this.editMessageID = id;
   this.message.setValue(text);
 };
 
+changeScroll(){
+  this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+}
+
 sendMessage(event:KeyboardEvent):void {
     if (this.message.value.trim() && event.key === 'Enter') {
+
+
 
       if(this.isEditMessage){
 

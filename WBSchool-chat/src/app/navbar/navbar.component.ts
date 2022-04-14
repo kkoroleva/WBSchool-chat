@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; 
-import { AuthService } from '../auth/services/auth.service';
+
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,17 +10,19 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class NavbarComponent {
   path: string = window.location.pathname.substring(1);
+
   constructor(private auth: AuthService, private router: Router) {
   }
 
-  isAuthenticated() {
-    return !!localStorage.getItem('token')
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token');
   }
-  
+
   logout() {
     this.auth.logout()
     this.router.navigate(["login"])
   }
+
   ngDoCheck() {
     this.path = window.location.pathname.substring(1);
   }

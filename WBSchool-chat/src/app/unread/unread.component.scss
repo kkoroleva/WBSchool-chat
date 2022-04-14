@@ -13,8 +13,8 @@ $divider: rgba(0, 0, 0, 0.25);
 $main-blue: #1A66FF;
 $thumbnail-size: 52px;
 
-.recents {
-  min-width: 320px;
+.unreads {
+  min-width: 300px;
   overflow: hidden;
   padding: 20px;
   margin: 0 auto;
@@ -32,7 +32,7 @@ $thumbnail-size: 52px;
   }
 }
 
-.recents__header {
+.unreads__header {
   padding: 0;
   margin-bottom: 5px;
   font-family: $main-font;
@@ -43,21 +43,21 @@ $thumbnail-size: 52px;
   color: $main-text-color;
 }
 
-.recents__more-button {
+.unreads__more-button {
   color: $main-blue;
 }
 
-.recents__more-button:hover {
+.unreads__more-button:hover {
   opacity: 0.7;
 }
 
-.recents__list {
+.unreads__list {
   width: 100%;
   padding: 0;
   margin: 0;
 }
 
-.recents__item {
+.unreads__item {
   min-height: 72px;
   max-height: fit-content;
 
@@ -66,20 +66,20 @@ $thumbnail-size: 52px;
   height: fit-content;
   border-bottom: 1px solid $divider;
 
-  .recents__item-text {
+  .unreads__item-text {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     flex: 1;
   }
 
-  .recents__online {
+  .unreads__online {
     width: fit-content;
     height: fit-content;
     position: relative;
   }
 
-  .recents__online::after {
+  .unreads__online::after {
     display: block;
     content: "";
     position: absolute;
@@ -94,17 +94,17 @@ $thumbnail-size: 52px;
   }
 }
 
-.recents__item:last-child {
+.unreads__item:last-child {
   border-bottom: none;
 }
 
-.recents__thumbnail {
+.unreads__thumbnail {
   border-radius: 50%;
   position: relative;
   border: 2px solid rgba(0, 0, 0, 0.25);
 }
 
-.recents__chat-link {
+.unreads__chat-link {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -115,13 +115,13 @@ $thumbnail-size: 52px;
 
 }
 
-.recents__chat-link:hover {
+.unreads__chat-link:hover {
   opacity: 0.7;
 }
 
 
 
-.recents__name {
+.unreads__name {
   font-family: $main-font;
   font-style: normal;
   font-weight: 600;
@@ -130,7 +130,7 @@ $thumbnail-size: 52px;
   color: $main-text-color;
 }
 
-.recents__last-message {
+.unreads__last-message {
   position: relative;
   margin: 0;
   width: 100%;
@@ -144,26 +144,12 @@ $thumbnail-size: 52px;
   color: $last-message-color;
 }
 
-.recents__last-message-text {
+.unreads__last-message-text {
   display: block;
   max-width: 80%;
 }
 
-.recents__read-status {
-  display: block;
-  position: absolute;
-  content: "";
-  width: 22px;
-  height: 22px;
-  right: 5px;
-  top: 0;
-}
-
-.recents__read-status--read {
-  color: $main-blue;
-}
-
-.recents__new-messages {
+.unreads__new-messages {
   display: block;
   position: absolute;
   width: 30px;
@@ -177,7 +163,7 @@ $thumbnail-size: 52px;
   color: $background-color;
 }
 
-.recents__last-active {
+.unreads__last-active {
   margin: 0;
   max-width: 100px;
   overflow: hidden;
