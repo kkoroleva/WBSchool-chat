@@ -28,7 +28,10 @@ export class GroupsComponent implements OnInit {
   getGroupChats(): void {
     this.groupsService
       .getGroupChats()
-      .subscribe((groups) => (this.groups = groups));
+      .subscribe((groups) => {
+        this.groups = groups;
+        this.activeChatService.activeChatSubject.next(this.groups[0]._id);
+      });
   }
 
   createGroupChat(): void {
