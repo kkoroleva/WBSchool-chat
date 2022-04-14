@@ -34,12 +34,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.getMe();
     this.activeService.activeChatSubject.subscribe(
-<<<<<<< HEAD
-      (id) => {
-        console.log(id, "idddddddddd")
-=======
       (id)=>{
->>>>>>> 825acfb3304a8aa96fcbbb64a3327e98f7d52d9d
         this.chatID = id;
         this.getMessages(id);
       }
@@ -55,7 +50,6 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       (response) => {
         this.myId = response._id
         this.myUserName = response.username
-        console.log(response)
       }
     )
   };

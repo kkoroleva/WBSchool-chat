@@ -1,8 +1,10 @@
 export interface IFriend {
-  chatId: string;
-  isActive: boolean;
-  thumbnail: string;
-  name: string;
-  lastActive: string;
-  lastMessage: string;
+  _id: string;
+  owner: string;
+  isActive?: boolean;
+  isRead: boolean;
+  thumbnail?: string;
+  users: string[];
+  lastActive?: string;
+  lastMessage?: string;
 }
