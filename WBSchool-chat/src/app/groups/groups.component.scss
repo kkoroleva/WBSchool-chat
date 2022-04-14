@@ -62,6 +62,7 @@ $thumbnail-size: 52px;
     display: flex;
     height: fit-content;
     border-bottom: 1px solid $divider;
+    cursor: pointer;
   }
   
   &__item-text {
