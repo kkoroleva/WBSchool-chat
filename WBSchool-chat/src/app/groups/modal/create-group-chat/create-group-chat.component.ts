@@ -2,7 +2,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GroupsService } from './../../groups.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Observable, Subscriber } from 'rxjs';
+import { catchError, Observable, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
 
 @Component({
@@ -12,6 +12,7 @@ import { IGroup } from '../../group';
 })
 export class CreateGroupChatComponent implements OnInit {
   form!: FormGroup;
+  errMessage = '';
   private imageInBase64 = '';
 
   constructor(
@@ -29,6 +30,10 @@ export class CreateGroupChatComponent implements OnInit {
       about: new FormControl('', [
         Validators.minLength(4),
         Validators.maxLength(100),
+      ]),
+      users: new FormControl('', [
+        Validators.required,
+        Validators.minLength(49),
       ]),
     });
   }
@@ -53,14 +58,24 @@ export class CreateGroupChatComponent implements OnInit {
     }
   }
 
+  getUsersErrors(): string | void {
+    if (
+      this.form.get('users')?.hasError('required') ||
+      this.form.get('users')?.hasError('minlength')
+    ) {
+      return 'You must add at least two users';
+    }
+  }
+
   createGroupChat(): void {
     if (this.form.valid) {
       const name = this.form.get('name')?.value;
       const about = this.form.get('about')?.value;
+      const users: string[] = this.form.get('users')?.value.split(' ');
 
       const group: IGroup = {
         name,
-        users: ['62585b0718f57fe19830b189', '62585adb18f57fe19830b181'],
+        users,
       };
 
       if (about) {
@@ -71,7 +86,12 @@ export class CreateGroupChatComponent implements OnInit {
 
       this.groupsService
         .createGroupChat(group)
-        .subscribe((group) => this.dialogRef.close(group));
+        .pipe(catchError((err) => (this.errMessage = err.error.message)))
+        .subscribe((group) => {
+          if (!this.errMessage) {
+            this.dialogRef.close(group);
+          }
+        });
     }
   }
 
