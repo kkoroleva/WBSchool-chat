@@ -8,7 +8,7 @@
     </a>
     <ul class="groups__list">
         <li class="groups__item" *ngFor="let group of groups.reverse()">
-            <a href="" class="groups__chat-link">
+            <a (click)="openGroupChat(group._id!)" class="groups__chat-link">
                 <img class="groups__thumbnail"
                     [src]="group.avatar ? 'data:image/png;base64,' + group.avatar : '/assets/not-found.png'"
                     alt="Group chat image" width="70" height="70">

@@ -14,6 +14,8 @@
                 <mat-error *ngIf="form.get('about')?.invalid">{{getAboutErrors()}}</mat-error>
             </mat-form-field>
         </form>
+
+        <input type="file" (change)="uploadImage($event)">
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
