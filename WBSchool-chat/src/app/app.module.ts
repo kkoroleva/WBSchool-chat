@@ -81,7 +81,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AccountSettingsComponent,
     DeleteModalComponent,
     PasswordModalComponent,
-    CreateGroupChatComponent,
+    CreateGroupChatComponent
   ],
   imports: [
     BrowserModule,
