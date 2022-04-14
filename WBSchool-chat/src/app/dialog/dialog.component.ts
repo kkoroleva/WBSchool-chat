@@ -35,7 +35,6 @@ export class DialogComponent implements OnInit, AfterViewChecked {
     this.getMe();
     this.activeService.activeChatSubject.subscribe(
       (id)=>{
-        console.log(id, "idddddddddd")
         this.chatID = id;
         this.getMessages(id);
       }
@@ -51,6 +50,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       (response)=>{
         this.myId = response._id
         this.myUserName = response.username
+        console.log(response)
       }
     )
   };
@@ -106,7 +106,6 @@ sendMessage(event:KeyboardEvent):void{
       }else{
         this.service.sendMessage(this.message.value, this.chatID).subscribe(
           () => {
-            console.log(this.chatID, "thischat")
             this.getMessages(this.chatID)
           }
         )
