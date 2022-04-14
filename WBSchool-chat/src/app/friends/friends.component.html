@@ -5,7 +5,7 @@
   </a>
   <ul class="friends__list">
     <li class="friends__item" *ngFor="let friend of friendList; index as i;">
-      <a href="" class="friends__chat-link">
+      <a (click)="goToChat(friend.chatId)" class="friends__chat-link">
         <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
           <img class="friends__thumbnail" src="{{friend.thumbnail}}" alt="Your best friend face" width="52" height="52">
         </div>

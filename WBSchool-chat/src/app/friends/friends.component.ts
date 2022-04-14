@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 
 import { Friend } from './friend';
+import { Router } from '@angular/router';
+import { ActiveChatService } from '../active-chat.service';
 
 const mockFriends: Friend[] = [
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: true,
     thumbnail: "https://i.ibb.co/vdcywBn/female.jpg",
     name: "Karina",
@@ -11,6 +14,7 @@ const mockFriends: Friend[] = [
     lastMessage: "Let's build an app?!"
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: false,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Sasha",
@@ -18,6 +22,7 @@ const mockFriends: Friend[] = [
     lastMessage: "No probs. Give me more. Details."
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: true,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Lenya",
@@ -25,6 +30,7 @@ const mockFriends: Friend[] = [
     lastMessage: "Sounds fun."
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: true,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Nikita",
@@ -32,6 +38,7 @@ const mockFriends: Friend[] = [
     lastMessage: "Count me in!"
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: false,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Dima",
@@ -39,6 +46,7 @@ const mockFriends: Friend[] = [
     lastMessage: "..."
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: true,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Pasha",
@@ -46,6 +54,7 @@ const mockFriends: Friend[] = [
     lastMessage: "I'll try!"
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: false,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Sergey",
@@ -53,6 +62,7 @@ const mockFriends: Friend[] = [
     lastMessage: "Love the idea"
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: true,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Karina",
@@ -60,6 +70,7 @@ const mockFriends: Friend[] = [
     lastMessage: "Let's build an app?!"
   },
   {
+    chatId: 'dfghjkl;kjhgfdfghjkl',
     isActive: true,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Karina",
@@ -75,11 +86,15 @@ const mockFriends: Friend[] = [
 })
 export class FriendsComponent {
 
-
   friendList: Friend[];
 
-  constructor() {
+  constructor(private router: Router, private activeChat: ActiveChatService) {
     this.friendList = mockFriends;
+  }
+
+  goToChat(chatId: string) {
+    this.activeChat.activeChatSubject.next(chatId);
+    this.router.navigateByUrl('/chat');
   }
 
 }
