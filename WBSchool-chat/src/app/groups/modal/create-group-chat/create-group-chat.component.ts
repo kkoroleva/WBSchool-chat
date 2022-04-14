@@ -60,7 +60,7 @@ export class CreateGroupChatComponent implements OnInit {
 
       const group: IGroup = {
         name,
-        users: [],
+        users: ['62585b0718f57fe19830b189', '62585adb18f57fe19830b181'],
       };
 
       if (about) {
