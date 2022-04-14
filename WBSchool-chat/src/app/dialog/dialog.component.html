@@ -38,13 +38,6 @@
                     <p class="message__text">{{item.text}}</p>
                 </div>
                 <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
-                <div *ngFor="let item of data" [matMenuTriggerFor]="block"
-                    [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
-                    <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
-                        <p class="message__text">{{item.text}}</p>
-                    </div>
-                    <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
-
                     <mat-menu #block="matMenu">
                         <button (click)="deleteMessage(item._id)" mat-menu-item>
                             <span>Удалить</span>
@@ -53,7 +46,6 @@
                             <span>Изменить</span>
                         </button>
                     </mat-menu>
-                </div>
             </div>
             <hr>
 
