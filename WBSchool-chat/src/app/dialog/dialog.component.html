@@ -32,7 +32,7 @@
 
         <div class="message">
             <div class="message__wrapper" #wrapper>
-                <div  *ngFor="let item of data" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="block" (click)="toggleMenu(item._id)"
+                <div  *ngFor="let item of data" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="block" 
                 [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                 <span *ngIf="item.owner === myId">{{myUserName}}</span>
                 <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">

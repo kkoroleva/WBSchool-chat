@@ -26,9 +26,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   myUserName:string = '';
   
-  
   constructor(private service:DialogService) { }
-
   
   ngOnInit(): void {
     this.getMessages();
@@ -37,67 +35,59 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.changeScroll();
-  }
+  };
  
   getMe():void{
     this.service.getMe().subscribe(
       (response)=>{
-        console.log(response, "this")
         this.myId = response._id
         this.myUserName = response.username
       }
     )
-  }
+  };
+  
+  deleteChat(){
+    console.log('удалить чат')
+  };
+  
+  changeScroll():void{
+    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+  };
+  
   
   getMessages():void {
     this.service.getMessages().subscribe((res)=>{
       this.data = res 
     })
   };
-
-deleteMessage(id:string):void {
-  this.service.deleteMessage(id).subscribe(
-    () => {
-      this.getMessages()
-    }
-  )
-};
-
-deleteChat(){
-  console.log('удалить чат')
-}
+  
 
 editMessage(text:string, id:string):void {
-  this.service.editMessage(text, id).subscribe(
-    () => {
-      this.getMessages()
-      this.isEditMessage = false
-    }
-  )
+    this.service.editMessage(text, id).subscribe(
+      () => {
+        this.getMessages()
+        this.isEditMessage = false
+      }
+      )
 };
-
+    
+deleteMessage(id:string):void {
+      this.service.deleteMessage(id).subscribe(
+        () => {
+          this.getMessages()
+        }
+        )
+};
+      
+      
 getMessage(id:string, text:string):void {
-  this.isEditMessage = true;
-  this.editMessageID = id;
-  this.message.setValue(text);
+        this.isEditMessage = true;
+        this.editMessageID = id;
+        this.message.setValue(text);
 };
-
-changeScroll():void{
-  this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
-}
-
-toggleMenu(id:string):void{
-  if(this.myId === id){
-    this.blockTrigger.openMenu()
-  }else{
-    this.blockTrigger.closeMenu()
-  }
-}
 
 sendMessage(event:KeyboardEvent):void {
-    if (this.message.value.trim() && event.key === 'Enter') {
-
-
+  if (this.message.value.trim() && event.key === 'Enter') {
 
       if(this.isEditMessage){
 
@@ -114,3 +104,11 @@ sendMessage(event:KeyboardEvent):void {
     }
   }
 }
+
+// toggleMenu(id:string):void{
+//   if(this.myId === id){
+//     this.blockTrigger.openMenu()
+//   }else{
+//     this.blockTrigger.closeMenu()
+//   }
+// }
