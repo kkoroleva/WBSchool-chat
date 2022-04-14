@@ -29,15 +29,15 @@
 
 
         <div class="message">
-
             <div class="message__wrapper" #wrapper>
                 <div  *ngFor="let item of data"
                 [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                 <span *ngIf="item.owner === myId">{{myUserName}}</span>
-                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
+                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" #blockTrigger>
                     <p class="message__text">{{item.text}}</p>
                 </div>
                 <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
+                <a class="comments" href="#">#comments</a>
                     <mat-menu #block="matMenu">
                         <button (click)="deleteMessage(item._id)" mat-menu-item>
                             <span>Удалить</span>
@@ -47,10 +47,10 @@
                         </button>
                     </mat-menu>
             </div>
-            <hr>
-
-            <!-- message-send -->
-
+            
+        </div>
+        <!-- message-send -->
+        <hr>
             <div class="message__send">
                 <div class="wrapper__send">
                     <!-- <img src="../../assets/icon-send.svg" alt="icon-send" class="btn"> убрали на время-->
@@ -60,7 +60,6 @@
                 </div>
                     <img src="../../assets/icon-voice.svg" alt="icon-voice" class="voice" width="" height="">
             </div>
-        </div>
     </div>
     </div>
 </ng-container>
