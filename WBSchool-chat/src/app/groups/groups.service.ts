@@ -10,11 +10,12 @@ import { IFriend } from '../friends/friend';
 export class GroupsService {
   private apiUrl = 'http://www.wbschool-chat.ru';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getGroupChats(): Observable<IGroup[]> {
     return this.http.get<IGroup[]>(`${this.apiUrl}/chats/groups`);
   }
+
 
   getPrivateChats(): Observable<IFriend[]> {
     return this.http.get<IFriend[]>(`${this.apiUrl}/chats`);
