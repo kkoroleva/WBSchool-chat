@@ -1,13 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-  INotifications,
+  INotificationsState,
   notificationNode,
 } from '../reducers/notifications.reducers';
 
 export const selectNotificationsFeature =
-  createFeatureSelector<INotifications>(notificationNode);
+  createFeatureSelector<INotificationsState>(notificationNode);
 
 export const selectNotifications = createSelector(
   selectNotificationsFeature,
-  (state: INotifications): INotifications => state
+  (state: INotificationsState): INotificationsState => state
 );

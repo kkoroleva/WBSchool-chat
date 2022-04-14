@@ -6,6 +6,18 @@ $mobile-width: 495px;
   width: 100%;
 }
 
+.notifications__null {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 16px;
+  top: 45px;
+}
+
 .notification {
   position: relative;
 
@@ -19,6 +31,18 @@ $mobile-width: 495px;
 .notification:last-child {
   border-bottom: 0;
   padding: 33px 0 0;
+}
+
+.notification__container__icon-clear {
+  display: flex;
+  justify-content: end;
+
+  width: 100%;
+}
+
+.notification__icon-clear {
+  position: relative;
+  left: 40px;
 }
 
 .notification__icon-bell {
@@ -35,7 +59,7 @@ $mobile-width: 495px;
 .notification__text {
   width: 1011px;
 
-  font-family: Poppins;
+  font-family: "Poppins";
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;

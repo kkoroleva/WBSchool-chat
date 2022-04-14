@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Recent } from './recent';
+import { Unread } from './unread';
 
-const mockRecents: Recent[] = [
+const mockunreads: Unread[] = [
   {
-    isRead: true,
     isActive: false,
-    newMessages: 0,
+    newMessages: 100,
     thumbnail: "https://i.ibb.co/vdcywBn/female.jpg",
     name: "Karina",
     lastActive: "today, 7:55AM",
     lastMessage: "Let's build an app?!"
   },
   {
-    isRead: true,
     isActive: true,
     newMessages: 2,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
@@ -21,7 +19,6 @@ const mockRecents: Recent[] = [
     lastMessage: "No probs. Give me more. Details."
   },
   {
-    isRead: true,
     isActive: false,
     newMessages: 4,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
@@ -30,18 +27,16 @@ const mockRecents: Recent[] = [
     lastMessage: "Sounds fun."
   },
   {
-    isRead: false,
     isActive: true,
-    newMessages: 0,
+    newMessages: 10,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Nikita",
     lastActive: "today, 8:40",
     lastMessage: "Count me in!"
   },
   {
-    isRead: true,
     isActive: false,
-    newMessages: 0,
+    newMessages: 4,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
     name: "Dima",
     lastActive: "today, ...",
@@ -50,13 +45,13 @@ const mockRecents: Recent[] = [
 ];
 
 @Component({
-  selector: 'app-recents',
-  templateUrl: './recents.component.html',
-  styleUrls: ['./recents.component.scss']
+  selector: 'app-unread',
+  templateUrl: './unread.component.html',
+  styleUrls: ['./unread.component.scss']
 })
-export class RecentsComponent implements OnInit {
+export class UnreadsComponent implements OnInit {
 
-  recentList: Recent[] = mockRecents;
+  unreadList: Unread[] = mockunreads;
 
   constructor() { }
 

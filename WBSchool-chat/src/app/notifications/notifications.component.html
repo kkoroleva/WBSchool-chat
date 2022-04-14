@@ -1,13 +1,33 @@
 <div class="container">
 
-  <div class="notification" 
+  <div 
+  *ngIf="!notificationsList.notifications.length" 
+  class="notifications__null"
+  >
+  You don't have notifications
+  </div>
+
+  <div 
+  *ngIf="notificationsList.notifications.length" 
+  class="notification__container__icon-clear">
+    <button mat-icon-button
+      class="notification__icon-clear"
+      color="Icon"
+      (click)="clearNotifications()"
+      >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  <div
+  class="notification" 
   *ngFor="let notification of notificationsList.notifications, let i = index">
     <mat-icon class="notification__icon-bell">notifications</mat-icon>
     <span class="notification__text">{{ notification.text }}</span>
     <button mat-icon-button
       class="notification__container__icon-x"
       color="Icon"
-      (click)="deleteNotifications()"
+      (click)="removeNotification()"
       >
       <mat-icon>close</mat-icon>
     </button>

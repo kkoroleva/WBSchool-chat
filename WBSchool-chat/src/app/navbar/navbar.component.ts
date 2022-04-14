@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth/services/auth.service';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+import { State, Store } from '@ngrx/store';
+import {AuthService} from '../auth/services/auth.service';
+import { loadGroups } from '../store/actions/groups.actions';
+import { loadNotifications } from '../store/actions/notifications.actions';
+import { IGroupsState } from '../store/reducers/groups.reducers';
+import { INotificationsState } from '../store/reducers/notifications.reducers';
 
 @Component({
   selector: 'app-navbar',
@@ -9,10 +14,18 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class NavbarComponent {
   path: string = window.location.pathname.substring(1);
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private store$: Store<INotificationsState | IGroupsState>) {}
 
-  isAuthenticated() {
-    return !!localStorage.getItem('token')
+  loadNotifications(): void {
+    this.store$.dispatch(loadNotifications());
+  }
+
+  loadGroups(): void {
+    this.store$.dispatch(loadGroups());
+  }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token');
   }
 
   logout() {
@@ -24,4 +37,3 @@ export class NavbarComponent {
     this.path = window.location.pathname.substring(1);
   }
 }
-

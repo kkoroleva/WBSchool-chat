@@ -1,40 +1,43 @@
 import { createReducer, on } from '@ngrx/store';
-import { clear, load, remove } from '../actions/notifications.actions';
+import { changeLoadNotifications, clearNotifications, loadNotifications, removeNotifications } from '../actions/notifications.actions';
 
 export const notificationNode = 'notifications';
 
-export interface INotifications {
-  notifications: INotificationState[];
+export interface INotificationsState {
+  notifications: INotification[];
 }
-
-export interface INotificationState {
+export interface INotification {
   _id: string;
   expiresIn: string;
   text: string;
 }
 
-const initialState: INotifications = {
+const initialState: INotificationsState = {
   notifications: [
     {
       _id: '0',
       expiresIn: '22.01.2022',
-      text: 'test case',
+      text: 'initialState case',
     },
   ],
 };
 
 export const notificationsReducer = createReducer(
   initialState,
-  //   on(load, (state, action) => ({
-  //     ...state,
-  //     notifications: state.notifications.concat(action.payload),
-  //   })),
-  //   on(remove, (state, action) => ({
-  //     ...state,
-  //     notifications: state.notifications.filter(
-  //       (notification) => notification._id !== action.payload),
-  //   })),
-  on(clear, (state) => ({
+    on(loadNotifications, (state) => ({
+      ...state,
+      notifications: state.notifications
+    })),
+    on(changeLoadNotifications, (state, action) => ({
+      ...state,
+      notifications: action.notifications
+    })),
+    // on(remove, (state, action) => ({
+    //   ...state,
+    //   notifications: state.notifications.filter(
+    //     (notification) => notification._id !== action.payload),
+    // })),
+  on(clearNotifications, (state) => ({
     ...state,
     notifications: [],
   }))
