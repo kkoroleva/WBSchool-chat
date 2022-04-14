@@ -1,5 +1,11 @@
+import { IUser } from './user';
+
 export interface IGroup {
-  title: string;
-  lastMessage: string;
-  image: string;
+  _id?: string;
+  name: string;
+  about?: string;
+  owner?: string;
+  lastMessage?: string;
+  avatar?: string;
+  users?: IUser[];
 }

@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(newReq)
         .pipe(
           catchError((err: HttpErrorResponse) => {
-            if (err.status === 401) {
+            if (err.status === 401 && err.url != "http://www.wbschool-chat.ru/users/me/newPass") {
               this.auth.logout();
               this.router.navigateByUrl('/login');
             }

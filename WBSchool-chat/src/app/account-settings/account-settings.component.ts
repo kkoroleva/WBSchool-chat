@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProfilePageService } from '../profile-page/service/profile-page.service';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
+import { AccountSettingsService } from './service/account-settings.service';
 
 interface btnList {
   "icon": string,
@@ -86,7 +87,8 @@ export class AccountSettingsComponent {
 
   openAccountDialog(): void {
     const dialogRef = this.dialog.open(PasswordModalComponent, {
-      panelClass: 'password-modal'
+      panelClass: 'password-modal',
+      width: '250'
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -108,5 +110,4 @@ export class AccountSettingsComponent {
         break;
     }
   }
-
 }
