@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecentsComponent } from './recents.component';
+import { RecentsComponent } from './unread.component';
 
 describe('RecentsComponent', () => {
   let component: RecentsComponent;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IMessage } from './dialog';
@@ -9,7 +9,8 @@ import { DialogService } from './dialog.service';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, AfterViewChecked {
+  @ViewChild("wrapper") wrapper!:ElementRef
 
   editMessageID:string = '';
 
@@ -34,6 +35,10 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
     this.getMessages()
   };
+
+  ngAfterViewChecked(): void {
+    this.changeScroll();
+  }
 
   addImage(input: any) {
     console.log(this.formData.imageOrFile)
@@ -64,6 +69,7 @@ deleteMessage(id:string):void {
     }
   )
 };
+
 deleteChat(){
   console.log('удалить чат')
 }
@@ -77,15 +83,21 @@ editMessage(text:string, id:string):void {
   )
 };
 
-getMessage(id:string, text:string): void {///================для получение сообщение в инпуте привязен к кнопке изменить 
+getMessage(id:string, text:string):void {
   this.isEditMessage = true;
   this.editMessageID = id;
   this.message.setValue(text);
   this.image = btoa(this.formData.image);
 };
 
+changeScroll(){
+  this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+}
+
 sendMessage(event:KeyboardEvent):void {
     if (this.message.value.trim() && event.key === 'Enter' || this.formData.image) {
+
+
 
       if(this.isEditMessage){
         this.editMessage(this.message.value, this.editMessageID)

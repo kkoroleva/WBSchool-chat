@@ -8,9 +8,12 @@
   padding: 0 40px;
   height: 100px;
 
-
   .mat-icon:hover {
     color: chartreuse;
+  }
+
+  .nav__img {
+    margin-top: 10%;
   }
 
   .nav__list {
@@ -20,7 +23,7 @@
     margin: 0;
     padding: 0;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-around;
     height: 100%;
   }
@@ -37,16 +40,17 @@
     min-width: 45px;
     height: 70px;
     width: 70px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    border-radius: 10px;
   }
 
   .nav__list-item_active {
-      background-color: rgba(255, 255, 255, 0.199);
-      mat-icon {
-        color: black
-      }
+    background-color: rgba(255, 255, 255, 0.199);
+    pointer-events: none;
+
+    mat-icon {
+      color: black
     }
+  }
 
   .material-icons {
     font-size: 40px;
@@ -55,11 +59,16 @@
   @media (max-device-width: 768px) {
     padding: 0 20px;
     height: 50px;
+    .nav__list-item_active, .nav__list-item {
+      height: initial;
+      text-align: center;
+    }
 
     .nav__img {
       height: 30px;
       width: 30px;
     }
+
     .material-icons {
       font-size: 25px;
       margin-top: 5px;
@@ -68,14 +77,21 @@
 
   @media (max-device-width: 425px) {
     padding: 0 10px;
-    .nav__list {
-      padding-left: 20px;
+  }
+
+  @media (max-device-width: 375px) {
+    .nav__list-img {
+      display: none;
     }
   }
 
   @media (max-device-width: 320px) {
-    .nav__svg {
-      padding-top: 5px;
+    .nav__list-img {
+      display: none;
+    }
+
+    .nav__list-item_active, .nav__list-item {
+      height: initial;
     }
   }
 }

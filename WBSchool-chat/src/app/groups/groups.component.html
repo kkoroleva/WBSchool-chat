@@ -1,17 +1,24 @@
-<mat-card class="groups">
-    <mat-card-header class="groups__header">
-        <mat-card-title class="groups__title">
-            <h2 class="groups__heading">Groups</h2>
-        </mat-card-title>
-        <mat-icon class="groups__menu">more_vert</mat-icon>
-    </mat-card-header>
-    <mat-card-content class="groups__list">
-        <div class="groups__item" *ngFor="let group of groups">
-            <img class="groups__img" src="{{group.image}}" alt="Фото группы">
-            <div class="groups__info">
-                <h2 class="groups__title">{{group.title}}</h2>
-                <p class="groups__message">{{group.lastMessage}}</p>
-            </div>
-        </div>
-    </mat-card-content>
-</mat-card>
+<div class="groups">
+    <h3 class="groups__header">Groups</h3>
+    <a class="groups__more-button" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="createGroupChat()">Create chat</button>
+        </mat-menu>
+        <mat-icon>more_vert</mat-icon>
+    </a>
+    <ul class="groups__list">
+        <li class="groups__item" *ngFor="let group of groups.reverse()">
+            <a (click)="openGroupChat(group._id!)" class="groups__chat-link">
+                <img class="groups__thumbnail"
+                    [src]="group.avatar ? 'data:image/png;base64,' + group.avatar : '/assets/not-found.png'"
+                    alt="Group chat image" width="70" height="70">
+                <div class="groups__item-text">
+                    <b class="groups__name">{{group.name}}</b>
+                    <p class="groups__last-message">
+                        <span class="groups__last-message-text">{{group.lastMessage}}</span>
+                    </p>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
