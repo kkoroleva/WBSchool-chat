@@ -12,7 +12,7 @@ export class GroupsService {
   constructor(private http: HttpClient) {}
 
   getGroupChats(): Observable<IGroup[]> {
-    return this.http.get<IGroup[]>(`${this.apiUrl}/chats`);
+    return this.http.get<IGroup[]>(`${this.apiUrl}/chats/groups`);
   }
 
   createGroupChat(group: IGroup): Observable<IGroup> {

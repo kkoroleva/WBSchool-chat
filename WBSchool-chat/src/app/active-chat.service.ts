@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveChatService {
-  activeChatSubject = new Subject<string>();
+  activeChatSubject = new BehaviorSubject<string>('625555ea8ef822301dab93c8');
 
   constructor() {}
 }
