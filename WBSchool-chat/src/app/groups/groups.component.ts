@@ -1,5 +1,8 @@
+import { GroupsService } from './groups.service';
 import { Component, OnInit } from '@angular/core';
 import { IGroup } from './group';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
 
 @Component({
   selector: 'app-groups',
@@ -7,25 +10,27 @@ import { IGroup } from './group';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-  groups: IGroup[] = [
-    {
-      title: 'Friends Reunion',
-      lastMessage: 'Hi Guys, Wassup!',
-      image: '/assets/images/img.svg',
-    },
-    {
-      title: 'Friends Forever',
-      lastMessage: 'Good to see you.',
-      image: '/assets/images/img2.svg',
-    },
-    {
-      title: 'Crazy Cousins',
-      lastMessage: 'What plans today?',
-      image: '/assets/images/img3.svg',
-    },
-  ];
+  groups: IGroup[] = [];
 
-  constructor() {}
+  constructor(private groupsService: GroupsService, public dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getGroupChats();
+  }
+
+  getGroupChats(): void {
+    this.groupsService
+      .getGroupChats()
+      .subscribe((groups) => (this.groups = groups));
+  }
+
+  createGroupChat(): void {
+    const dialogRef = this.dialog.open(CreateGroupChatComponent);
+
+    dialogRef.afterClosed().subscribe((group: IGroup) => {
+      if (group) {
+        this.getGroupChats();
+      }
+    });
+  }
 }
