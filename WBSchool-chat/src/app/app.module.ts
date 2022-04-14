@@ -51,6 +51,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { SafeUrlPipe } from './dialog/pipes/SafeUrl.pipe';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -76,7 +77,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ModalHelpComponent,
     AccountSettingsComponent,
     NotificationsComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    SafeUrlPipe
   ],
   imports: [
     BrowserModule,

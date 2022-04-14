@@ -38,7 +38,12 @@
                 <div  *ngFor="let item of data"  [matMenuTriggerFor]="block"
                     [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
-                        <p>{{item.text}}</p>
+                        <div>
+                            <!-- <img [src]="'data:image/gif;base64,' + class.img_base64"/> -->
+                            <img *ngIf="!!item.imageOrFile" src={{item.imageOrFile}} alt="">
+                            <img *ngIf="itemFormat(item.text)" src={{item.text}} alt="">
+                            <p *ngIf="!itemFormat(item.text)">{{item.text}}</p>
+                        </div>
                     </div>
                     <span>{{item.expiresIn | date}}</span>
 
@@ -55,10 +60,21 @@
             <hr>
 
          <!-- message-send -->
+         <div>
+            <p *ngIf="formData.image">Image loaded: {{formData.image}}</p>
+            <div class="form_save_image" *ngIf="toggle">
+                <input type="file" id="fileElem" multiple accept="image/*" #input>
+                <!-- <input type="text" #input> -->
+                <button type="button" (click)="[addImage(input), toggle = !toggle]">V</button>
+                <button type="button" (click)="toggle = !toggle">X</button>
+            </div> 
+         </div>
 
             <div class="message__send">
                 <div class="wrapper__send">
-                    <img src="../../assets/icon-one.svg" alt="icon-send" class="btn">
+                    <div (click)="toggle = !toggle">
+                        <img src="../../assets/icon-one.svg" alt="icon-send" class="btn">
+                    </div>
                     <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
                     <img src="../../assets/smile.svg" alt="smile" width="" height="">
                     <img src="../../assets/photo.svg" alt="photo" class="photo" width="" height="">

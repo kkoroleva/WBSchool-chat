@@ -3,5 +3,6 @@ export interface IMessage {
     owner:string; 
     _id:string;
     expiresIn:string;
+    imageOrFile?: any;
 }
 
