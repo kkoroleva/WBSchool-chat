@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap, Observable } from 'rxjs';
-import { changeLoadGroups, loadGroups } from '../actions/groups.actions';
+import { changeLoadGroups, createChatGroup, loadGroups, pushToGroups } from '../actions/groups.actions';
 import {
   changeLoadNotifications,
   loadNotifications,
@@ -12,7 +12,7 @@ import { IGroup } from '../reducers/groups.reducers';
 @Injectable()
 export class AppEffects {
   private apiUrl = 'http://www.wbschool-chat.ru';
-  public getGroups: IGroup[] = []; 
+  public getGroups: IGroup[] = [];
 
   constructor(private actions$: Actions, private http: HttpClient) {}
 
@@ -43,6 +43,17 @@ export class AppEffects {
       )
     }
   );
+
+  createGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createChatGroup),
+      mergeMap(({ group }) => this.http.post<IGroup>(`${this.apiUrl}/chats`, group).pipe(
+        map(() =>  pushToGroups( {group} ))
+      )
+      )
+    )
+  })
+
 }
 
 // loadMovies$ = createEffect(() => this.actions$.pipe(
