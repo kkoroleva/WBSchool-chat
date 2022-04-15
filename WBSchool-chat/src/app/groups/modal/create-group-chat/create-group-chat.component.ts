@@ -1,9 +1,17 @@
+import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GroupsService } from './../../groups.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { catchError, Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
+import { select, Store } from '@ngrx/store';
+import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import {
+  chatGroupError,
+  createChatGroup,
+  pushToGroups,
+} from 'src/app/store/actions/groups.actions';
+import { selectErrorChatGroup } from 'src/app/store/selectors/groups.selectors';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -11,13 +19,16 @@ import { IGroup } from '../../group';
   styleUrls: ['./create-group-chat.component.scss'],
 })
 export class CreateGroupChatComponent implements OnInit {
-  form!: FormGroup;
-  errMessage = '';
+  public form!: FormGroup;
   private imageInBase64 = '';
+  public errMessage$: Observable<string> = this.store$.pipe(
+    select(selectErrorChatGroup)
+  );
 
   constructor(
-    private groupsService: GroupsService,
-    private dialogRef: MatDialogRef<CreateGroupChatComponent>
+    private dialogRef: MatDialogRef<CreateGroupChatComponent>,
+    private store$: Store<IGroupsState>,
+    private actions$: Actions
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +46,10 @@ export class CreateGroupChatComponent implements OnInit {
         Validators.required,
         Validators.minLength(49),
       ]),
+    });
+
+    this.actions$.pipe(ofType(pushToGroups)).subscribe(() => {
+      this.dialogRef.close();
     });
   }
 
@@ -69,13 +84,11 @@ export class CreateGroupChatComponent implements OnInit {
 
   createGroupChat(): void {
     if (this.form.valid) {
-      const _id = '';
       const name = this.form.get('name')?.value;
       const about = this.form.get('about')?.value;
       const users: string[] = this.form.get('users')?.value.split(' ');
 
       const group: IGroup = {
-        _id,
         name,
         users,
       };
@@ -86,14 +99,11 @@ export class CreateGroupChatComponent implements OnInit {
         group.avatar = this.imageInBase64;
       }
 
-      this.groupsService
-        .createGroupChat(group)
-        .pipe(catchError((err) => (this.errMessage = err.error.message)))
-        .subscribe((group) => {
-          if (!this.errMessage) {
-            this.dialogRef.close(group);
-          }
-        });
+      this.store$.dispatch(createChatGroup({ group }));
+
+      this.dialogRef.afterClosed().subscribe(() => {
+        this.store$.dispatch(chatGroupError({ err: '' }));
+      });
     }
   }
 

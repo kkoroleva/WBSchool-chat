@@ -2,7 +2,7 @@
     <h1 mat-dialog-title>Create new group chat</h1>
     <mat-dialog-content>
         <form [formGroup]="form" class="modal__form">
-            <p class="modal__err" *ngIf="errMessage">{{errMessage}}</p>
+            <p class="modal__err" *ngIf="errMessage$ | async as err">{{err}}</p>
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Group chat name</mat-label>
                 <input matInput placeholder="Chat" formControlName="name">
