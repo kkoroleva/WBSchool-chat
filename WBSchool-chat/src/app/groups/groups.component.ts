@@ -9,7 +9,7 @@ import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
-import { loadGroups } from '../store/actions/groups.actions';
+import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
 
 @Component({
   selector: 'app-groups',
@@ -33,18 +33,18 @@ export class GroupsComponent implements OnInit {
     this.store$.dispatch(loadGroups());
   }
 
-  // createGroupChat(): void {
-  //   const dialogRef = this.dialog.open(CreateGroupChatComponent);
+  createGroupChat(): void {
+    const dialogRef = this.dialog.open(CreateGroupChatComponent);
 
-  //   dialogRef.afterClosed().subscribe((group: IGroup) => {
-  //     if (group) {
-  //       this.getGroupChats();
-  //     }
-  //   });
-  // }
+    // dialogRef.afterClosed().subscribe((group: IGroup) => {
+    //   if (group) {
+    //     this.getGroupChats();
+    //   }
+    // });
+  }
 
   openGroupChat(id: string): void {
-    this.activeChatService.activeChatSubject.next(id);
+    this.store$.dispatch(changeChatGroup({chatGroup: id}));
     localStorage.setItem('chatID', id);
 
     this.router.navigateByUrl('/chat');

@@ -1,7 +1,10 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatMenuTrigger } from '@angular/material/menu/';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { ActiveChatService } from '../active-chat.service';
+import { IGroupsState } from '../store/reducers/groups.reducers';
+import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
 
@@ -29,11 +32,19 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   chatID: string = '625555ea8ef822301dab93c8';
 
-  constructor(private service: DialogService, private activeService: ActiveChatService) { }
+  private chatGroup$: Observable<string> = this.store$.pipe(
+    select(selectChatGroup)
+  )
+
+  constructor(
+    private service: DialogService, 
+    private activeService: ActiveChatService,
+    private store$: Store<IGroupsState>,
+    ) {}
 
   ngOnInit(): void {
     this.getMe();
-    this.activeService.activeChatSubject.subscribe(
+    this.chatGroup$.subscribe(
       (id)=>{
         this.chatID = id;
         this.getMessages(id);
