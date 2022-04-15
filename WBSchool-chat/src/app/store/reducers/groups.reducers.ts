@@ -53,6 +53,6 @@ export const groupsReducer = createReducer(
   })),
   on(chatGroupError, (state, action) => ({
     ...state,
-    error: action.err,
+    error: action.error,
   }))
 );

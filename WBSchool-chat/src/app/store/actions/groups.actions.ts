@@ -24,5 +24,5 @@ export const pushToGroups = createAction(
 
 export const chatGroupError = createAction(
   '[GROUPS] chatGroupError',
-  props<{ err: string }>()
+  props<{ error: string }>()
 );
