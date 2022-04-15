@@ -4,6 +4,7 @@ import { ProfileSettingsService } from './service/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
 import { IProfileData, IServerResponse, ISettingsList } from './interfaces/interface';
+import { ProfilePageService } from '../profile-page/service/profile-page.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -62,7 +63,11 @@ export class ProfileSettingsComponent implements OnInit {
     }
   ]
 
-  constructor(private profileServ: ProfileSettingsService, public dialog: MatDialog) {}
+  constructor(
+    private profileServ: ProfileSettingsService, 
+    public dialog: MatDialog,
+    public settServ: ProfilePageService
+  ) {}
 
   ngOnInit(): void {
     this.getUsersData();
@@ -77,8 +82,8 @@ export class ProfileSettingsComponent implements OnInit {
         avatar: atob(response.avatar),
         email: response.email
       })
-      // this.settingsList[0].description = response.username;
-      // this.settingsList[3].description = response.about;
+      this.settingsList[0].description = response.username;
+      this.settingsList[3].description = response.about;
       // this.settingsList[4].description = response.email;
     })
   }
@@ -120,6 +125,7 @@ export class ProfileSettingsComponent implements OnInit {
       this.profileData.email = response.email;
       // this.wallpaper = response.wallpaper;
     })
+    this.getUsersData()
     this.formData = {};
   }
 

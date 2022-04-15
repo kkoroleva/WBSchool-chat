@@ -21,6 +21,9 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
+import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
+import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
@@ -50,7 +53,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -77,7 +79,9 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AccountSettingsComponent,
     NotificationsComponent,
     AccountSettingsComponent,
-    CreateGroupChatComponent,
+    DeleteModalComponent,
+    PasswordModalComponent,
+    CreateGroupChatComponent
   ],
   imports: [
     BrowserModule,

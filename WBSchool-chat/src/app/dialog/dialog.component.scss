@@ -238,6 +238,7 @@
 
         
       p {
+        max-width: 400px;
         margin: 0%;
         font-family: 'Poppins', sans-serif;
         font-style: normal;
@@ -319,4 +320,8 @@
       }
     }
   }
+}
+
+.form-save-image {
+  display: flex;
 }

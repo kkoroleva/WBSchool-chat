@@ -1,0 +1,21 @@
+<div class="delete-modal__wrapper">
+	<h2 mat-dialog-title>Удаление аккаунта</h2>
+	<mat-dialog-content class="mat-typography">
+		<h3>Вы уверены что хотите удалить аккаунт?</h3>
+		<p>Его не получится восстановить никаким способом.</p>
+
+		<mat-form-field appearance="fill">
+			<mat-label>введите пароль</mat-label>
+			<input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" class='password' required>
+			<button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+			  	<mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+			</button>
+			<mat-error *ngIf="password.invalid">Невалидное значение</mat-error>
+		</mat-form-field>
+
+	</mat-dialog-content>
+	<mat-dialog-actions align="end">
+		<button mat-button color="warn" type="submit" (click)="deleteAcc()" class="delete-btn" [disabled]="!password.valid">Удалить</button>
+		<button mat-button mat-dialog-close class="close-btn">Передумал</button>
+	</mat-dialog-actions>
+</div>
