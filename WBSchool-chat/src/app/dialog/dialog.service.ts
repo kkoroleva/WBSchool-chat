@@ -13,22 +13,11 @@ export class DialogService {
     return this.http.get<User>(`${this.urlApi}/users/me`)
   }
   
-  // getMessages(id:string):Observable<IMessage[]>{
-  //   const x =  this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
-  //   console.log(x, "this chats")
-  //   return x 
-  // };
- 
-
-  // sendMessage(text:string, id:string):Observable<IMessage>{
-  //   return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text})
-  
   constructor(private http: HttpClient) { };
   
   getMessages(id: string):Observable<IMessage[]>{
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
   };
- 
 
   sendMessage(text: string, id: string, imageOrFile?: string, formatImage?: string):Observable<IMessage>{
     if (imageOrFile && formatImage && text) {
@@ -41,7 +30,6 @@ export class DialogService {
       return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text})
     }
   };
-
 
   deleteMessage(id: string, idChat: string):Observable<IMessage>{
     return this.http.delete<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`)

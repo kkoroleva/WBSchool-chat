@@ -4,6 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, Observable, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
+import { Store } from '@ngrx/store';
+import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { createChatGroup } from 'src/app/store/actions/groups.actions';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -17,7 +20,8 @@ export class CreateGroupChatComponent implements OnInit {
 
   constructor(
     private groupsService: GroupsService,
-    private dialogRef: MatDialogRef<CreateGroupChatComponent>
+    private dialogRef: MatDialogRef<CreateGroupChatComponent>,
+    private store$: Store<IGroupsState>,
   ) {}
 
   ngOnInit(): void {
@@ -69,11 +73,13 @@ export class CreateGroupChatComponent implements OnInit {
 
   createGroupChat(): void {
     if (this.form.valid) {
+      const _id = '';
       const name = this.form.get('name')?.value;
       const about = this.form.get('about')?.value;
       const users: string[] = this.form.get('users')?.value.split(' ');
 
       const group: IGroup = {
+        _id,
         name,
         users,
       };
@@ -84,14 +90,16 @@ export class CreateGroupChatComponent implements OnInit {
         group.avatar = this.imageInBase64;
       }
 
-      this.groupsService
-        .createGroupChat(group)
-        .pipe(catchError((err) => (this.errMessage = err.error.message)))
-        .subscribe((group) => {
-          if (!this.errMessage) {
-            this.dialogRef.close(group);
-          }
-        });
+      this.store$.dispatch(createChatGroup({group}))
+
+      // this.groupsService
+      //   .createGroupChat(group)
+      //   .pipe(catchError((err) => (this.errMessage = err.error.message)))
+      //   .subscribe((group) => {
+      //     if (!this.errMessage) {
+      //       this.dialogRef.close(group);
+      //     }
+      //   });
     }
   }
 

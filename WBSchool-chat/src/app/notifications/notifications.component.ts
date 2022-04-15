@@ -1,31 +1,42 @@
-import { Component } from '@angular/core';
-import { INotification } from '../notifications/interface';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import {
+  clearNotifications,
+  removeNotifications,
+} from '../store/actions/notifications.actions';
+import { INotificationsState } from '../store/reducers/notifications.reducers';
+import { selectNotifications } from '../store/selectors/notifications.selectors';
 
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss'],
 })
-export class NotificationsComponent {
+export class NotificationsComponent implements OnInit {
+  notificationsList: INotificationsState = { notifications: [] };
 
-  deleteNotification(): void {}
+  public notificationsList$: Observable<INotificationsState> = this.store$.pipe(
+    select(selectNotifications)
+  );
 
-  notificationsList: INotification[] = [
-    {
-      expiresIn: '21.01.2022',
-      text: 'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.',
-    },
-    {
-      expiresIn: '22.01.2022',
-      text: 'So yes, the alcohol (ethanol) in hand sanitizers can be absorbed through the skin, but no, it would not cause intoxication.',
-    },
-    {
-      expiresIn: '23.01.2022',
-      text: 'How a visual artist redefines success in graphic design',
-    },
-    {
-      expiresIn: '24.01.2022',
-      text: 'ID: 22739',
-    },
-  ];
+  constructor(private store$: Store<INotificationsState>) {}
+
+  ngOnInit(): void {
+    this.getNotificationsList();
+  }
+
+  getNotificationsList(): void {
+    this.notificationsList$.subscribe((el) => {
+      this.notificationsList = el;
+    });
+  }
+
+  removeNotification(): void {
+    this.store$.dispatch(removeNotifications());
+  }
+
+  clearNotifications(): void {
+    this.store$.dispatch(clearNotifications());
+  }
 }

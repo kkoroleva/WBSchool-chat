@@ -25,6 +25,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
 import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
+import { ThreadsComponent } from './threads/threads.component';
 
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
@@ -47,7 +48,7 @@ import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
 
 /*Store*/
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -82,7 +83,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AccountSettingsComponent,
     DeleteModalComponent,
     PasswordModalComponent,
-    CreateGroupChatComponent
+    CreateGroupChatComponent,
+    ThreadsComponent,
   ],
   imports: [
     BrowserModule,
