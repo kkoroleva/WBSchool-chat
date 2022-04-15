@@ -56,7 +56,7 @@ export class AppEffects {
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.apiUrl}/chats`, group).pipe(
           map(() => pushToGroups({ group })),
-          catchError((err) => of(chatGroupError({ err: err.error.message })))
+          catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
       )
     );
