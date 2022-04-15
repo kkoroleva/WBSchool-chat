@@ -33,6 +33,15 @@ export class GroupsComponent implements OnInit {
     this.store$.dispatch(loadGroups());
   }
 
+  getGroupChats(): void {
+    this.groupsService
+      .getGroupChats()
+      .subscribe((groups) => {
+        this.groups = groups;
+        this.activeChatService.activeChatSubject.next(this.groups[0]._id);
+      });
+  }
+
   // createGroupChat(): void {
   //   const dialogRef = this.dialog.open(CreateGroupChatComponent);
 
