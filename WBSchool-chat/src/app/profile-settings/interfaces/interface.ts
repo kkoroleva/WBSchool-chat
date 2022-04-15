@@ -13,7 +13,7 @@ export interface IServerResponse {
     about: string;
     userRights: string,
     _v: number;
-    id: string;
+    _id: string;
     wallpaper?: string; 
 } 
 

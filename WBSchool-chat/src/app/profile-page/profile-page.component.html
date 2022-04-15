@@ -2,6 +2,9 @@
   <!--TO DO: Блоки компонентов временно будут обозначены div.
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="profile-page__search"></app-search>
-  <app-profile-settings class="profile-page__profile"></app-profile-settings>
-  <app-account-settings class="profile-page__account"></app-account-settings>
+  <app-profile-settings class="profile-page__profile" *ngIf="settServ.showProfSet; else accset"></app-profile-settings>
+  <ng-template #accset>
+    <app-account-settings class="profile-page__account"></app-account-settings>
+  </ng-template>
+  
 </div>
