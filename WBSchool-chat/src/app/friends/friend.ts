@@ -1,7 +1,10 @@
-export interface Friend {
-  isActive: boolean;
-  thumbnail: string;
-  name: string;
-  lastActive: string;
-  lastMessage: string;
+export interface IFriend {
+  _id: string;
+  owner: string;
+  isActive?: boolean;
+  isRead: boolean;
+  thumbnail?: string;
+  users: string[];
+  lastActive?: string;
+  lastMessage?: string;
 }

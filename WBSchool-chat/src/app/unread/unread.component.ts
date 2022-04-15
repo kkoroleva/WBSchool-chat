@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ActiveChatService } from '../active-chat.service';
 import { Unread } from './unread';
 
 const mockunreads: Unread[] = [
   {
+    chatId: 'dfghjklkjhgfdfghjk',
     isActive: false,
     newMessages: 100,
     thumbnail: "https://i.ibb.co/vdcywBn/female.jpg",
@@ -11,6 +14,7 @@ const mockunreads: Unread[] = [
     lastMessage: "Let's build an app?!"
   },
   {
+    chatId: 'dfghjklkjhgfdfghjk',
     isActive: true,
     newMessages: 2,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
@@ -19,6 +23,7 @@ const mockunreads: Unread[] = [
     lastMessage: "No probs. Give me more. Details."
   },
   {
+    chatId: 'dfghjklkjhgfdfghjk',
     isActive: false,
     newMessages: 4,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
@@ -27,6 +32,7 @@ const mockunreads: Unread[] = [
     lastMessage: "Sounds fun."
   },
   {
+    chatId: 'dfghjklkjhgfdfghjk',
     isActive: true,
     newMessages: 10,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
@@ -35,6 +41,7 @@ const mockunreads: Unread[] = [
     lastMessage: "Count me in!"
   },
   {
+    chatId: 'dfghjklkjhgfdfghjk',
     isActive: false,
     newMessages: 4,
     thumbnail: "https://i.ibb.co/3p37FtX/male.png",
@@ -53,9 +60,14 @@ export class UnreadsComponent implements OnInit {
 
   unreadList: Unread[] = mockunreads;
 
-  constructor() { }
+  constructor(private router: Router, private activeChat: ActiveChatService) { }
 
   ngOnInit(): void {
+  }
+
+  goToChat(chatId: string): void {
+    this.activeChat.activeChatSubject.next(chatId);
+    this.router.navigateByUrl('/chat');
   }
 
 }
