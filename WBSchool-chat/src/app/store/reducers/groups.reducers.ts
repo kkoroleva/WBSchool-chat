@@ -49,7 +49,7 @@ export const groupsReducer = createReducer(
   })),
   on(pushToGroups, (state, action) => ({
     ...state,
-    groups: [...state.groups, action.group],
+    groups: [action.group, ...state.groups],
   })),
   on(chatGroupError, (state, action) => ({
     ...state,

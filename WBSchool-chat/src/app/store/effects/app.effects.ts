@@ -45,7 +45,7 @@ export class AppEffects {
       mergeMap(() =>
         this.http
           .get<IGroup[]>(`${this.apiUrl}/chats/groups`)
-          .pipe(map((groups) => changeLoadGroups({ groups })))
+          .pipe(map((groups) => changeLoadGroups({ groups: groups.reverse() })))
       )
     );
   });
