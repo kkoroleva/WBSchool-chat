@@ -5,7 +5,15 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ActiveChatService {
-  activeChatSubject = new BehaviorSubject<string>('625555ea8ef822301dab93c8');
+  activeChatSubject: BehaviorSubject<string>;
 
-  constructor() {}
+  constructor() {
+    const chatIDFromLocalStorage = localStorage.getItem('chatID');
+
+    this.activeChatSubject = new BehaviorSubject<string>(
+      chatIDFromLocalStorage
+        ? chatIDFromLocalStorage
+        : '625555ea8ef822301dab93c8'
+    );
+  }
 }
