@@ -43,7 +43,7 @@ import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
 
 /*Store*/
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
