@@ -1,5 +1,6 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { ActiveChatService } from '../active-chat.service';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
@@ -28,7 +29,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   imageOrFile: string = '';
   formatImage: string = '';
 
-  constructor(private service: DialogService, private activeService: ActiveChatService) { }
+  constructor(private service: DialogService, private activeService: ActiveChatService, private imageCompress: NgxImageCompressService) { }
 
   ngOnInit(): void {
     this.getMe()
@@ -63,8 +64,13 @@ export class DialogComponent implements OnInit, AfterViewChecked {
     reader.onloadend = () => {
       if (typeof reader.result == "string") {
         imageOrFile = reader.result;
-        this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
-        this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+        console.log(this.imageCompress.byteCount(reader.result))
+        this.imageCompress.compressFile(imageOrFile, -1, 5, 5)
+          .then(result =>  {
+            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+            console.log(this.imageCompress.byteCount(this.imageOrFile))
+          });
       }
       else {
         alert("Вы отправляете не картинку!")
@@ -107,7 +113,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   sendMessage(event: KeyboardEvent): void {
     if (this.message.value.trim() && event.key === 'Enter' 
       || 
-      this.message.value.trim() && event.key === 'Enter' && this.imageOrFile.length > 0 && this.formatImage.length > 0 && event.key === 'Enter') {
+      this.message.value.trim() && event.key === 'Enter' && this.imageOrFile.length > 0 && event.key === 'Enter') {
 
       if(this.isEditMessage){
         this.editMessage(this.message.value, this.editMessageID)

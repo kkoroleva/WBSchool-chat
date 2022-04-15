@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 /*Components */
 import { AppComponent } from './app.component';
@@ -126,7 +127,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     StoreRouterConnectingModule.forRoot(),
   ],
 
-  providers: [INTERCEPTOR_PROVIDER],
+  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

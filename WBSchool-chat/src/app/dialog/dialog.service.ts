@@ -34,8 +34,8 @@ export class DialogService {
     if (imageOrFile && formatImage && text) {
       return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text, imageOrFile, formatImage})
     }
-    else if (imageOrFile && formatImage && !text){
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {imageOrFile, formatImage})
+    else if (imageOrFile && !formatImage && text){
+      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {imageOrFile, text})
     }
     else {
       return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text})
