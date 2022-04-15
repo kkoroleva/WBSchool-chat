@@ -1,9 +1,12 @@
-export interface Unread {
-  chatId: string;
-  isActive?: boolean;
-  newMessages?: number;
-  thumbnail?: string;
+export interface IUnread {
+  _id: string;
   name: string;
+  owner: string;
+  users: string[];
+  isRead: boolean;
+  isActive: boolean;
+  newMessages?: number;
   lastActive?: string;
   lastMessage?: string;
+  thumbnail?: string;
 }

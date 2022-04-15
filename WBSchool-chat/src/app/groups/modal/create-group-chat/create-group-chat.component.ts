@@ -73,11 +73,13 @@ export class CreateGroupChatComponent implements OnInit {
 
   createGroupChat(): void {
     if (this.form.valid) {
+      const _id = '';
       const name = this.form.get('name')?.value;
       const about = this.form.get('about')?.value;
       const users: string[] = this.form.get('users')?.value.split(' ');
 
       const group: IGroup = {
+        _id,
         name,
         users,
       };
