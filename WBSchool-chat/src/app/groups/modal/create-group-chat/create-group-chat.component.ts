@@ -11,7 +11,7 @@ import {
   createChatGroup,
   pushToGroups,
 } from 'src/app/store/actions/groups.actions';
-import { selectErrorChatGroup } from 'src/app/store/selectors/groups.selectors';
+import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -22,7 +22,7 @@ export class CreateGroupChatComponent implements OnInit {
   public form!: FormGroup;
   private imageInBase64 = '';
   public errMessage$: Observable<string> = this.store$.pipe(
-    select(selectErrorChatGroup)
+    select(selectChatGroupError)
   );
 
   constructor(
