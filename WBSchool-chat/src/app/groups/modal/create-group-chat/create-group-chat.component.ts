@@ -102,7 +102,7 @@ export class CreateGroupChatComponent implements OnInit {
       this.store$.dispatch(createChatGroup({ group }));
 
       this.dialogRef.afterClosed().subscribe(() => {
-        this.store$.dispatch(chatGroupError({ err: '' }));
+        this.store$.dispatch(chatGroupError({ error: '' }));
       });
     }
   }
