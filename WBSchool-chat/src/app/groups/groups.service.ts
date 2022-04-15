@@ -17,7 +17,7 @@ export class GroupsService {
   }
 
   getPrivateChats(): Observable<IFriend[]> {
-    return this.http.get<IFriend[]>(`${this.apiUrl}/chats`);
+    return this.http.get<IFriend[]>(`${this.apiUrl}/chats/friends`);
   }
 
   createGroupChat(group: IGroup): Observable<IGroup> {
