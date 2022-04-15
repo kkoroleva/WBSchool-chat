@@ -5,15 +5,15 @@
     </a></li>
     <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'home' }">
       <a routerLink="./home" class="nav__list-link">
-        <mat-icon>home</mat-icon>
+        <mat-icon (click)="loadGroups()">home</mat-icon>
       </a></li>
     <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'chat'  }">
       <a routerLink="./chat" class="nav__list-link">
-        <mat-icon>message</mat-icon>
+        <mat-icon (click)="loadGroups()">message</mat-icon>
       </a></li>
     <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'alerts'}">
       <a routerLink="./alerts" class="nav__list-link">
-        <mat-icon>notifications_none</mat-icon>
+        <mat-icon (click)="loadNotifications()">notifications_none</mat-icon>
       </a></li>
     <li class="nav__list-item" [ngClass]="{'nav__list-item_active' : path == 'profile'}">
       <a routerLink="./profile" class="nav__list-link">
