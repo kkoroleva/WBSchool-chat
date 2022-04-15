@@ -2,7 +2,7 @@
     <h3 class="groups__header">Groups</h3>
     <a class="groups__more-button" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu">
-            <button mat-menu-item>Create chat</button>
+            <button (click)="createGroupChat()" mat-menu-item>Create chat</button>
         </mat-menu>
         <mat-icon>more_vert</mat-icon>
     </a>
