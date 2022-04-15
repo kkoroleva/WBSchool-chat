@@ -1,4 +1,3 @@
-import { IUser } from './user';
 export interface IGroup {
   _id?: string;
   name: string;
@@ -6,5 +5,5 @@ export interface IGroup {
   owner?: string;
   lastMessage?: string;
   avatar?: string;
-  users?: IUser[];
+  users?: string[];
 }

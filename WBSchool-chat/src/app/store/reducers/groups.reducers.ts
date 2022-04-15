@@ -8,29 +8,17 @@ export interface IGroupsState {
 }
 
 export interface IGroup {
-  _id?: string;
+  _id: string;
   name: string;
   about?: string;
   owner?: string;
   lastMessage?: string;
   avatar?: string;
-  users?: IUser[];
-}
-export interface IUser {
-    _id: string;
-    email: string;
-    username: string;
-    userRights: string;
-    about: string;
-    avatar: string;
+  users?: string[];
 }
 
 const initialState: IGroupsState = {
-    groups: [
-        {
-            name: 'InitialState User'
-        }
-    ]
+    groups: []
 }
 
 export const groupsReducer = createReducer(

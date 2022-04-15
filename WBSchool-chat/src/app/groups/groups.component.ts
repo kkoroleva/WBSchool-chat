@@ -1,3 +1,5 @@
+import { ActiveChatService } from './../active-chat.service';
+import { Router } from '@angular/router';
 import { GroupsService } from './groups.service';
 import { Component, OnInit } from '@angular/core';
 import { IGroup } from './group';
@@ -7,6 +9,7 @@ import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
+import { loadGroups } from '../store/actions/groups.actions';
 
 @Component({
   selector: 'app-groups',
@@ -14,42 +17,36 @@ import { selectGroups } from '../store/selectors/groups.selectors';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-  groups: IGroup[] = [];
-  groupsState: IGroupsState = { groups: [] };
-  public groupsState$: Observable<IGroupsState> = this.store$.pipe(
+  public groupsState$: Observable<IGroup[]> = this.store$.pipe(
     select(selectGroups)
   );
 
   constructor(
     private groupsService: GroupsService,
     public dialog: MatDialog,
-    private store$: Store<IGroupsState>
+    private store$: Store<IGroupsState>,
+    private router: Router,
+    private activeChatService: ActiveChatService,
   ) {}
 
   ngOnInit(): void {
-    this.getGroups();
-    this.getGroupChats();
+    this.store$.dispatch(loadGroups());
   }
 
-  getGroups(): void {
-    this.groupsState$.subscribe((el) => {
-      this.groupsState = el;
-    });
-  }
+  // createGroupChat(): void {
+  //   const dialogRef = this.dialog.open(CreateGroupChatComponent);
 
-  getGroupChats(): void {
-    this.groupsService
-      .getGroupChats()
-      .subscribe((groups) => (this.groups = groups));
-  }
+  //   dialogRef.afterClosed().subscribe((group: IGroup) => {
+  //     if (group) {
+  //       this.getGroupChats();
+  //     }
+  //   });
+  // }
 
-  createGroupChat(): void {
-    const dialogRef = this.dialog.open(CreateGroupChatComponent);
+  openGroupChat(id: string): void {
+    this.activeChatService.activeChatSubject.next(id);
+    localStorage.setItem('chatID', id);
 
-    dialogRef.afterClosed().subscribe((group: IGroup) => {
-      if (group) {
-        this.getGroupChats();
-      }
-    });
+    this.router.navigateByUrl('/chat');
   }
 }

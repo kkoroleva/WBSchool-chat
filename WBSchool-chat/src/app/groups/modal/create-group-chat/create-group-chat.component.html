@@ -2,6 +2,7 @@
     <h1 mat-dialog-title>Create new group chat</h1>
     <mat-dialog-content>
         <form [formGroup]="form" class="modal__form">
+            <p class="modal__err" *ngIf="errMessage">{{errMessage}}</p>
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Group chat name</mat-label>
                 <input matInput placeholder="Chat" formControlName="name">
@@ -13,12 +14,18 @@
                     formControlName="about"></textarea>
                 <mat-error *ngIf="form.get('about')?.invalid">{{getAboutErrors()}}</mat-error>
             </mat-form-field>
+            <mat-form-field appearance="fill" class="modal__field">
+                <mat-label>Add users</mat-label>
+                <input matInput placeholder="Users ID" formControlName="users">
+                <mat-error *ngIf="form.get('users')?.invalid">{{getUsersErrors()}}</mat-error>
+            </mat-form-field>
         </form>
+
+        <input type="file" (change)="uploadImage($event)">
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button [mat-dialog-close]="true" (click)="createGroupChat()"
-            [disabled]="form.invalid">Create</button>
+        <button mat-button (click)="createGroupChat()" [disabled]="form.invalid">Create</button>
     </mat-dialog-actions>
 </div>

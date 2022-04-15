@@ -2,6 +2,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GroupsService } from './../../groups.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { catchError, Observable, Subscriber } from 'rxjs';
+import { IGroup } from '../../group';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -10,6 +12,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class CreateGroupChatComponent implements OnInit {
   form!: FormGroup;
+  errMessage = '';
+  private imageInBase64 = '';
 
   constructor(
     private groupsService: GroupsService,
@@ -26,6 +30,10 @@ export class CreateGroupChatComponent implements OnInit {
       about: new FormControl('', [
         Validators.minLength(4),
         Validators.maxLength(100),
+      ]),
+      users: new FormControl('', [
+        Validators.required,
+        Validators.minLength(49),
       ]),
     });
   }
@@ -50,14 +58,69 @@ export class CreateGroupChatComponent implements OnInit {
     }
   }
 
+  getUsersErrors(): string | void {
+    if (
+      this.form.get('users')?.hasError('required') ||
+      this.form.get('users')?.hasError('minlength')
+    ) {
+      return 'You must add at least two users';
+    }
+  }
+
   createGroupChat(): void {
     if (this.form.valid) {
       const name = this.form.get('name')?.value;
       const about = this.form.get('about')?.value;
+      const users: string[] = this.form.get('users')?.value.split(' ');
+
+      const group: IGroup = {
+        name,
+        users,
+      };
+
+      if (about) {
+        group.about = about;
+      } else if (this.imageInBase64) {
+        group.avatar = this.imageInBase64;
+      }
 
       this.groupsService
-        .createGroupChat(name, [], about)
-        .subscribe((group) => this.dialogRef.close(group));
+        .createGroupChat(group)
+        .pipe(catchError((err) => (this.errMessage = err.error.message)))
+        .subscribe((group) => {
+          if (!this.errMessage) {
+            this.dialogRef.close(group);
+          }
+        });
     }
+  }
+
+  uploadImage(e: Event): void {
+    const image = (e.target as HTMLInputElement).files![0];
+
+    this.imageToBase64(image);
+  }
+
+  imageToBase64(image: File) {
+    const observable = new Observable((sub: Subscriber<string>) =>
+      this.readFile(sub, image)
+    );
+
+    observable.subscribe((image) => (this.imageInBase64 = image.split(',')[1]));
+  }
+
+  readFile(sub: Subscriber<string | null | ArrayBuffer>, image: File) {
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(image);
+
+    fileReader.onload = () => {
+      sub.next(fileReader.result);
+      sub.complete();
+    };
+
+    fileReader.onerror = (err) => {
+      sub.error(err);
+    };
   }
 }

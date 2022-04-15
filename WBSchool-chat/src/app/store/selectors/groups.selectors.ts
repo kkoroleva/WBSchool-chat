@@ -1,10 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { groupsNode, IGroupsState } from '../reducers/groups.reducers';
+import { groupsNode, IGroup, IGroupsState } from '../reducers/groups.reducers';
 
 export const selectGroupsFeature =
   createFeatureSelector<IGroupsState>(groupsNode);
 
 export const selectGroups = createSelector(
   selectGroupsFeature,
-  (state: IGroupsState): IGroupsState => state
+  (state: IGroupsState): IGroup[] => state.groups
 );
