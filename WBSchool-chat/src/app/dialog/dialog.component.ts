@@ -10,49 +10,42 @@ import { DialogService } from './dialog.service';
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnInit {
-
   editMessageID:string = '';
-
   isEditMessage:boolean = false;
-
-  message: FormControl = new FormControl('');
-  
-  image!: string;
-
-  myId:string = '625426411a25022b2ae1c7b1'; 
-
-  data:IMessage[] = [];
-
   toggle!: boolean;
 
-  formData: any = {
-    imageOrFile: ''
-  }
+  message: FormControl = new FormControl('');
+  data: IMessage[] = [];
+  myId: string = '625426411a25022b2ae1c7b1'; 
 
-  constructor(private service:DialogService) { }
+  imageOrFile: string = '';
+  formatImage: string = '';
+
+  constructor(private service: DialogService) { }
 
   ngOnInit(): void {
     this.getMessages()
   };
 
   addImage(input: any) {
-    console.log(this.formData.imageOrFile)
-    let imageOrFile: string | ArrayBuffer| null | any = '';
+    let imageOrFile = '';
     let reader = new FileReader();
     let file = input.files[0];
     reader.onloadend = () => {
-      imageOrFile = reader.result;
-      this.formData.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+      if (typeof reader.result == "string") {
+        imageOrFile = reader.result;
+        this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
+        this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+      }
+      else {
+        alert("Вы отправляете не картинку!")
+      }
     }
     reader.readAsDataURL(file);
   }
   
   getMessages():void {
     this.service.getMessages().subscribe((res)=> {
-      // (res.includes(".png") || this.message.value.includes(".jpeg") || this.message.value.includes(".jpg") || this.message.value.includes(".svg"))
-      // res.forEach(elem => {
-      //   elem.imageOrFile = 'data:image/jpeg;base64,' + elem.imageOrFile
-      // })
       this.data = res
     })
   };
@@ -71,38 +64,41 @@ deleteChat(){
 editMessage(text:string, id:string):void {
   this.service.editMessage(text, id).subscribe(
     () => {
-      this.getMessages()
-      this.isEditMessage = false
+      this.getMessages();
+      this.isEditMessage = false;
     }
   )
 };
 
-getMessage(id:string, text:string): void {///================для получение сообщение в инпуте привязен к кнопке изменить 
+getMessage(id: string, text: string): void {
   this.isEditMessage = true;
   this.editMessageID = id;
   this.message.setValue(text);
-  this.image = btoa(this.formData.image);
 };
 
-sendMessage(event:KeyboardEvent):void {
-    if (this.message.value.trim() && event.key === 'Enter' || this.formData.image) {
+sendMessage(event:KeyboardEvent): void {
+    if (this.message.value.trim() && event.key === 'Enter' 
+      || 
+      this.message.value.trim() && event.key === 'Enter' && this.imageOrFile.length > 0 && this.formatImage.length > 0 && event.key === 'Enter') {
 
       if(this.isEditMessage){
         this.editMessage(this.message.value, this.editMessageID)
       }
       else {
-        this.service.sendMessage(this.message.value, this.formData.imageOrFile).subscribe(
-          () => {
+        this.service.sendMessage(this.message.value, this.imageOrFile, this.formatImage)
+        .subscribe(() => {
             this.getMessages()
           }
         )
       }
-      this.message.setValue('')
+      this.message.setValue('');
+      this.imageOrFile = '';
+      this.formatImage = '';
     }
   }
 
   itemFormat(item: string) {
-    if (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg")) {
+    if (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif")) {
       return true
     }
     return false

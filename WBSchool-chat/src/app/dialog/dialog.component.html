@@ -40,8 +40,7 @@
                     [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'">
                         <div>
-                            <!-- <img [src]="'data:image/gif;base64,' + class.img_base64"/> -->
-                            <img *ngIf="!!item.imageOrFile" src={{item.imageOrFile}} alt="">
+                            <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="">
                             <img *ngIf="itemFormat(item.text)" src={{item.text}} alt="">
                             <p class="message__text" *ngIf="!itemFormat(item.text)">{{item.text}}</p>
                         </div>
@@ -62,12 +61,10 @@
 
          <!-- message-send -->
          <div>
-            <!-- <p *ngIf="formData.image">Image loaded: {{formData.image}}</p> -->
             <div class="form_save_image" *ngIf="toggle">
                 <input type="file" id="fileElem" multiple accept="image/*" #input>
-                <!-- <input type="text" #input> -->
                 <button type="button" (click)="[addImage(input), toggle = !toggle]">V</button>
-                <button type="button" (click)="toggle = !toggle">X</button>
+                <button type="button" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
             </div> 
          </div>
 

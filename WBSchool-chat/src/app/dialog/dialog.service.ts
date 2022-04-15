@@ -13,27 +13,17 @@ export class DialogService {
   
   constructor(private http:HttpClient, private sanitazer: DomSanitizer) { };
   
-  getMessages():Observable<IMessage[]>{///================получение ответа из апи
+  getMessages():Observable<IMessage[]>{
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`)
-    .pipe(
-      map(resp => {
-        resp.forEach(item => {
-          if (item.imageOrFile) {
-            item.imageOrFile = 'data:image/jpeg;base64,' + item.imageOrFile
-          }
-        })
-        return resp
-      }) 
-    )
   };
  
 
-  sendMessage(text: string, imageOrFile?: string):Observable<IMessage>{
-    if (imageOrFile && text) {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {text, imageOrFile})
+  sendMessage(text: string, imageOrFile?: string, formatImage?: string):Observable<IMessage>{
+    if (imageOrFile && formatImage && text) {
+      return this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {text, imageOrFile, formatImage})
     }
-    else if (imageOrFile && !text){
-      return this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {imageOrFile})
+    else if (imageOrFile && formatImage && !text){
+      return this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {imageOrFile, formatImage})
     }
     else {
       return this.http.post<IMessage>(`${this.urlApi}/chats/625555ea8ef822301dab93c8/messages`, {text})
