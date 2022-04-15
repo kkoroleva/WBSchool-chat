@@ -3,6 +3,8 @@ export interface IMessage {
     owner:string; 
     _id:string;
     expiresIn:string;
+    imageOrFile?: string;
+    formatImage?: string;
 }
 
 export interface User {
