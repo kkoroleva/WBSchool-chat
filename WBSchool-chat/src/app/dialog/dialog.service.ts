@@ -17,9 +17,7 @@ export class DialogService {
   }
   
   getMessages(id:string):Observable<IMessage[]>{
-    const x =  this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
-    console.log(x, "this chats")
-    return x 
+    return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
   };
  
 

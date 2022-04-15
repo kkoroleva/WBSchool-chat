@@ -33,7 +33,7 @@
                 <div  *ngFor="let item of data" 
                 [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                 <span *ngIf="item.owner === myId">{{myUserName}}</span>
-                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
+                <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block" >
                     <p class="message__text">{{item.text}}</p>
                 </div>
                 <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
@@ -53,7 +53,7 @@
         <hr>
             <div class="message__send">
                 <div class="wrapper__send">
-                    <!-- <img src="../../assets/icon-send.svg" alt="icon-send" class="btn"> убрали на время-->
+                    <img src="../../assets/icon-send.svg" alt="icon-send" class="btn"> 
                     <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
                     <img src="../../assets/icon-smile.svg" alt="icon-smile" width="" height="" class="smile">
                     <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="" height="">

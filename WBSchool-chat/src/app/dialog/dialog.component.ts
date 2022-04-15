@@ -13,7 +13,7 @@ import { DialogService } from './dialog.service';
 export class DialogComponent implements OnInit, AfterViewChecked {
   @ViewChild("wrapper") wrapper!:ElementRef;
 
-  // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
+  @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
 
   editMessageID:string = '';
 
@@ -32,6 +32,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   constructor(private service:DialogService, private activeService:ActiveChatService ) { }
   
   ngOnInit(): void {
+    this.toggleMenu
     this.getMe();
     this.activeService.activeChatSubject.subscribe(
       (id)=>{
@@ -50,7 +51,6 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       (response)=>{
         this.myId = response._id
         this.myUserName = response.username
-        console.log(response)
       }
     )
   };
@@ -67,6 +67,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   getMessages(idChat:string):void {
     this.service.getMessages(idChat).subscribe((res)=>{
       this.data = res 
+      console.log(res, "this data")
     })
   };
   
@@ -89,6 +90,14 @@ deleteMessage(id:string):void {
 
 };
       
+toggleMenu(id:string):void{
+  console.log(id, "this my id")
+  if(this.myId !== id){
+    this.blockTrigger.closeMenu()
+  }else{
+    this.blockTrigger.openMenu()
+  }
+};
       
 getMessage(id:string, text:string):void {
         this.isEditMessage = true;
@@ -115,10 +124,3 @@ sendMessage(event:KeyboardEvent):void{
   }
 }
 
-// toggleMenu(id:string):void{
-//   if(this.myId === id){
-//     this.blockTrigger.openMenu()
-//   }else{
-//     this.blockTrigger.closeMenu()
-//   }
-// }

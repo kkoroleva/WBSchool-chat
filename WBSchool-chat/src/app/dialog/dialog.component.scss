@@ -123,6 +123,11 @@
         width: 5px;
         height: 25px;
         color: #1A66FF;
+        cursor: pointer;
+
+        :hover{
+          opacity: 0.7;
+        }
       }
 
       @media (max-width: 495px) {
