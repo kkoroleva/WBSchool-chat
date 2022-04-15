@@ -14,7 +14,7 @@ export const selectChatGroup = createSelector(
   (state: IGroupsState): string => state.chatGroup
 );
 
-export const selectErrorChatGroup = createSelector(
+export const selectChatGroupError = createSelector(
   selectGroupsFeature,
   (state: IGroupsState): string => state.error
 );
