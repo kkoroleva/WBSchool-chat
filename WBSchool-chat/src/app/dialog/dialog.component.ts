@@ -1,7 +1,11 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { select, Store } from '@ngrx/store';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { Observable } from 'rxjs';
 import { ActiveChatService } from '../active-chat.service';
+import { IGroupsState } from '../store/reducers/groups.reducers';
+import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { IMessage } from './dialog';
 import { DialogService } from './dialog.service';
 
@@ -13,8 +17,7 @@ import { DialogService } from './dialog.service';
 
 export class DialogComponent implements OnInit, AfterViewChecked {
   @ViewChild("wrapper") wrapper!:ElementRef;
-
-  @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
+  // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
 
   editMessageID: string = '';
   isEditMessage: boolean = false;
@@ -30,21 +33,26 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   imageOrFile: string = '';
   formatImage: string = '';
 
-  constructor(private service: DialogService, private activeService: ActiveChatService) { }
+  private chatGroup$: Observable<string> = this.store$.pipe(
+    select(selectChatGroup)
+  )
+
+  constructor(private service: DialogService, 
+    private activeService: ActiveChatService, 
+    private imageCompress: NgxImageCompressService,
+    private store$: Store<IGroupsState>) { }
 
   ngOnInit(): void {
-
     this.getMe()
-    this.activeService.activeChatSubject.subscribe(
-      (id)=>{
+    // this.chatGroup$.subscribe((id)=> { // в данный момент не работает
+    this.activeService.activeChatSubject.subscribe((id)=> {
         this.chatID = id;
         this.getMessages(id);
-      }
-    )
+      })
   };
 
   ngAfterViewChecked(): void {
-    this.changeScroll();
+    // this.changeScroll();
   };
 
   getMe(): void {
@@ -55,6 +63,10 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       })
   };
 
+  changeScroll(): void { // работает некорректно, при клике внутри чата, прокручивает вниз
+    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+  };
+
   addImage(input: any) {
     let imageOrFile = '';
     let reader = new FileReader();
@@ -62,8 +74,18 @@ export class DialogComponent implements OnInit, AfterViewChecked {
     reader.onloadend = () => {
       if (typeof reader.result == "string") {
         imageOrFile = reader.result;
-        this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
-        this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+        if (+this.imageCompress.byteCount(reader.result) > 1048576) {
+          this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
+          .then(result =>  {
+            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+            console.log(this.imageCompress.byteCount(this.imageOrFile))
+          });
+        }
+        else {
+          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
+        }
       }
       else {
         alert("Вы отправляете не картинку!")
@@ -78,39 +100,22 @@ export class DialogComponent implements OnInit, AfterViewChecked {
     })
   };
 
-  deleteMessage(id:string):void {
-    this.service.deleteMessage(id, this.chatID)
-    .subscribe(() => {
+  deleteMessage(id: string): void {
+    this.service.deleteMessage(id, this.chatID).subscribe(() => {
         this.getMessages(this.chatID)
      })
   };
-  
-  deleteChat(){
+
+  deleteChat() {
     console.log('удалить чат')
-  };
-  
-  changeScroll():void{
-    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
-  };
-  
-  editMessage(text:string, id:string):void {
-    this.service.editMessage(text, id, this.chatID).subscribe(
-      () => {
+  }
+
+  editMessage(text: string, id: string):void {
+    this.service.editMessage(text, id, this.chatID).subscribe(() => {
         this.getMessages(this.chatID);
         this.isEditMessage = false;
       })
   }
-
-      
-toggleMenu(id:string):void{
-  console.log(id, "this my id")
-  if(this.myId !== id){
-    this.blockTrigger.closeMenu()
-  }else{
-    this.blockTrigger.openMenu()
-  }
-};
-      
 
   getMessage(id: string, text: string): void {
     this.isEditMessage = true;
@@ -121,9 +126,9 @@ toggleMenu(id:string):void{
   sendMessage(event: KeyboardEvent): void {
     if (this.message.value.trim() && event.key === 'Enter' 
       || 
-      this.message.value.trim() && event.key === 'Enter' && this.imageOrFile.length > 0 && this.formatImage.length > 0 && event.key === 'Enter') {
+      this.message.value.trim() && event.key === 'Enter' && this.imageOrFile.length > 0 && event.key === 'Enter') {
 
-      if(this.isEditMessage){
+      if(this.isEditMessage) {
         this.editMessage(this.message.value, this.editMessageID)
       }
 
@@ -147,9 +152,3 @@ toggleMenu(id:string):void{
     return false
   }
 }
-
-// function editMessage(text: any, string: any, id: any, string: any) {
-//   throw new Error('Function not implemented.');
-// }
-
-

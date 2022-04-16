@@ -15,6 +15,7 @@ export class DialogService {
   
 <<<<<<< HEAD
   getMessages(id:string):Observable<IMessage[]>{
+<<<<<<< HEAD
 =======
   // getMessages(id:string):Observable<IMessage[]>{
   //   const x =  this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
@@ -31,8 +32,12 @@ export class DialogService {
   getMessages(id: string):Observable<IMessage[]>{
 >>>>>>> bae15a0e1ccf8b2e197ea916b34bb8aa71df1cab
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
+=======
+    const x = this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
+    console.log(x, "this chats")
+    return x 
+>>>>>>> d2b730f336c04427b8773527de2e421770feffd5
   };
- 
 
   sendMessage(text: string, id: string, imageOrFile?: string, formatImage?: string):Observable<IMessage>{
     if (imageOrFile && formatImage && text) {
@@ -46,8 +51,12 @@ export class DialogService {
     }
   };
 
+<<<<<<< HEAD
 
   deleteMessage(id: string, idChat: string):Observable<IMessage>{
+=======
+  deleteMessage(id:string, idChat:string):Observable<IMessage>{
+>>>>>>> d2b730f336c04427b8773527de2e421770feffd5
     return this.http.delete<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`)
   };
 

@@ -1,0 +1,38 @@
+<div class="threads">
+  <h3 class="threads__header">Threads</h3>
+  <a href="" class="threads__more-button">
+    <mat-icon>more_vert</mat-icon>
+  </a>
+  <ul class="threads__list">
+    <li class="threads__item" *ngFor="let thread of threadsList; index as i;">
+      <div class="threads__owner" [ngClass]="{threads__online:thread.isActive}">
+        <img class="threads__thumbnail" src="{{thread.ownerThumbnail}}" alt="Your best thread face" width="52"
+          height="52">
+        <p class="threads__name">{{thread.ownerName}}
+          <span class="threads__online-status">{{thread.isActive? 'Online' : 'Offline'}}</span>
+        </p>
+      </div>
+      <div class="threads__item-post">
+        <p class="threads__post-date">{{thread.basicPost.date}}</p>
+        <img class="threads__main-img" src="{{thread.basicPost.img}}" alt="Meme">
+        <p class="threads__main-text">{{thread.basicPost.text}}</p>
+      </div>
+      <div class="threads__comments-wrapper">
+        <ul class="threads__comments">
+          <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
+            <div class="threads__comment-header">
+              <p class="threads__comment-author">{{comment.authorName}}</p>
+              <p class="threads__comment-date">{{comment.post.date}}</p>
+            </div>
+            <p class="threads__comment-text">{{comment.post.text}}</p>
+          </li>
+        </ul>
+        <form action="" method="post">
+          <label class="threads__comment-form">Comment
+            <input type="text" name="" id="" placeholder="Comment...">
+          </label>
+        </form>
+      </div>
+    </li>
+  </ul>
+</div>

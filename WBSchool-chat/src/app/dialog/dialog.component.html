@@ -30,7 +30,6 @@
 
         <div class="message">
             <div class="message__wrapper" #wrapper>
-
                 <div *ngFor="let item of data"
                     [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                     <span *ngIf="item.owner === myId">{{myUserName}}</span>
