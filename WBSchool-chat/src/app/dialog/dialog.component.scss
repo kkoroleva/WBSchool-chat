@@ -188,7 +188,7 @@
       display: flex;
       max-width: max-content;
       flex-direction: column;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
 
       span {
         margin-top: 7px;
@@ -208,7 +208,7 @@
       display: flex;
       max-width: max-content;
       flex-direction: column;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       margin-left: auto;
       padding: 13px 20px;
       
@@ -233,6 +233,7 @@
 
         
       p {
+        max-width: 400px;
         margin: 0%;
         font-family: 'Poppins', sans-serif;
         font-style: normal;
@@ -314,4 +315,8 @@
       }
     }
   }
+}
+
+.form-save-image {
+  display: flex;
 }

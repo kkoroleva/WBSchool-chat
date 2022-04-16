@@ -34,16 +34,26 @@
 						<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
 			        </mat-form-field>
 					<div class="form-field__btn-wrapper">
-					<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">V</button>
-				    <button mat-raised-button color="warn" (click)="toggle = !toggle">X</button>
+						<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">
+							<mat-icon>done</mat-icon>
+						</button>
+						<button mat-raised-button color="warn" (click)="toggle = !toggle">
+							<mat-icon>close</mat-icon>
+						</button>
+					</div>
 				</div>
+			</div>
+			<div class="profile-settings__menu_item" (click)="settServ.switchSettings()">
+				<div class="profile-settings__menu_item_name">
+					<mat-icon>{{ "account_circle" }}</mat-icon>
+					<div class="profile-settings__menu_item_title">Account settings</div>
 				</div>
 			</div>
 		    <div class="profile-settings__menu_item">
 				<div class="profile-settings__menu_item_name">
-				<mat-icon>{{ "help_outline" }}</mat-icon>
-				<div class="profile-settings__menu_item_title" (click)="openDialog()">Help</div>
-			</div>
+					<mat-icon>{{ "help_outline" }}</mat-icon>
+					<div class="profile-settings__menu_item_title" (click)="openDialog()">Help</div>
+				</div>
 			</div>
 			<form (ngSubmit)="submit()">
 				<button mat-raised-button color="primary" type="submit">Save Changes</button>

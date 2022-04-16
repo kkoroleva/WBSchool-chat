@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 /*Components */
 import { AppComponent } from './app.component';
@@ -21,6 +22,10 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
+import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
+import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
+import { ThreadsComponent } from './threads/threads.component';
 
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
@@ -50,8 +55,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
-import { ThreadsComponent } from './threads/threads.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -78,6 +81,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AccountSettingsComponent,
     NotificationsComponent,
     AccountSettingsComponent,
+    DeleteModalComponent,
+    PasswordModalComponent,
     CreateGroupChatComponent,
     ThreadsComponent,
   ],
@@ -124,7 +129,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     StoreRouterConnectingModule.forRoot(),
   ],
 
-  providers: [INTERCEPTOR_PROVIDER],
+  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
