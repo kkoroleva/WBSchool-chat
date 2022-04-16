@@ -3,21 +3,31 @@
     <mat-dialog-content>
         <form [formGroup]="form" class="modal__form">
             <p class="modal__err" *ngIf="errMessage$ | async as err">{{err}}</p>
+
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Group chat name</mat-label>
                 <input matInput placeholder="Chat" formControlName="name">
-                <mat-error *ngIf="form.get('name')?.invalid">{{getNameErrors()}}</mat-error>
+                <mat-error *ngIf="form.get('name')?.getError('required')">
+                    Enter group chat name</mat-error>
+                <mat-error
+                    *ngIf="form.get('name')?.getError('minlength') || form.get('name')?.getError('maxlength') || form.get('name')?.hasError('manySpaces')">
+                    Name must be between 4 and 40 characters</mat-error>
             </mat-form-field>
+
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>About group chat</mat-label>
                 <textarea class="modal__textarea" matInput placeholder="Chat for programming"
                     formControlName="about"></textarea>
-                <mat-error *ngIf="form.get('about')?.invalid">{{getAboutErrors()}}</mat-error>
+                <mat-error
+                    *ngIf="form.get('about')?.getError('minlength') || form.get('about')?.getError('maxlength') || form.get('about')?.hasError('manySpaces')">
+                    About chat must be between 4 and 100 characters</mat-error>
             </mat-form-field>
+
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Add users</mat-label>
                 <input matInput placeholder="Users ID" formControlName="users">
-                <mat-error *ngIf="form.get('users')?.invalid">{{getUsersErrors()}}</mat-error>
+                <mat-error *ngIf="form.get('users')?.getError('required') || form.get('users')?.getError('minlength')">
+                    You must add at least two users</mat-error>
             </mat-form-field>
         </form>
 

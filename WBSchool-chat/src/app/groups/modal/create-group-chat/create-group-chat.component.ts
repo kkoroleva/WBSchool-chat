@@ -53,58 +53,45 @@ export class CreateGroupChatComponent implements OnInit {
     });
   }
 
-  getNameErrors(): string | void {
-    if (this.form.get('name')?.hasError('required')) {
-      return 'Enter group chat name';
-    } else if (
-      this.form.get('name')?.hasError('minlength') ||
-      this.form.get('name')?.hasError('maxlength')
-    ) {
-      return 'Name must be between 4 and 40 characters';
-    }
-  }
-
-  getAboutErrors(): string | void {
-    if (
-      this.form.get('about')?.hasError('minlength') ||
-      this.form.get('about')?.hasError('maxlength')
-    ) {
-      return 'About chat must be between 4 and 100 characters';
-    }
-  }
-
-  getUsersErrors(): string | void {
-    if (
-      this.form.get('users')?.hasError('required') ||
-      this.form.get('users')?.hasError('minlength')
-    ) {
-      return 'You must add at least two users';
-    }
-  }
-
   createGroupChat(): void {
+    const group = this.createGroupObject();
+
     if (this.form.valid) {
-      const name = this.form.get('name')?.value;
-      const about = this.form.get('about')?.value;
-      const users: string[] = this.form.get('users')?.value.split(' ');
-
-      const group: IGroup = {
-        name,
-        users,
-      };
-
-      if (about) {
-        group.about = about;
-      } else if (this.imageInBase64) {
-        group.avatar = this.imageInBase64;
-      }
-
       this.store$.dispatch(createChatGroup({ group }));
 
       this.dialogRef.afterClosed().subscribe(() => {
         this.store$.dispatch(chatGroupError({ error: '' }));
       });
     }
+  }
+
+  createGroupObject(): IGroup {
+    const users: string[] = this.form.get('users')?.value.split(' ');
+    const name: string = this.form.get('name')?.value;
+    const about: string = this.form.get('about')?.value;
+    const nameLength = name.trim().length;
+    const aboutLength = about.trim().length;
+
+    const group: IGroup = {
+      name,
+      users,
+    };
+
+    if (nameLength < 4) {
+      this.form.get('name')?.setErrors({ manySpaces: true });
+    }
+
+    if (aboutLength >= 1 && aboutLength < 4) {
+      this.form.get('about')?.setErrors({ manySpaces: true });
+    } else if (aboutLength >= 4) {
+      group.about = about;
+    }
+
+    if (this.imageInBase64) {
+      group.avatar = this.imageInBase64;
+    }
+
+    return group;
   }
 
   uploadImage(e: Event): void {
