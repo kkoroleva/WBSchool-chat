@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 /*Components */
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
 import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
+import { ThreadsComponent } from './threads/threads.component';
 
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
@@ -81,7 +83,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AccountSettingsComponent,
     DeleteModalComponent,
     PasswordModalComponent,
-    CreateGroupChatComponent
+    CreateGroupChatComponent,
+    ThreadsComponent,
   ],
   imports: [
     BrowserModule,
@@ -126,7 +129,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     StoreRouterConnectingModule.forRoot(),
   ],
 
-  providers: [INTERCEPTOR_PROVIDER],
+  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

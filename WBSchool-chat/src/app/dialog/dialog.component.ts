@@ -52,7 +52,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   };
 
   ngAfterViewChecked(): void {
-    // this.changeScroll();
+    this.changeScroll();
   };
 
   getMe(): void {
@@ -63,7 +63,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       })
   };
 
-  changeScroll(): void { // работает некорректно, при клике внутри чата, прокручивает вниз
+  changeScroll(): void {
     this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
   };
 
@@ -76,7 +76,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
         imageOrFile = reader.result;
         if (+this.imageCompress.byteCount(reader.result) > 1048576) {
           this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
-          .then((result: string) =>  {
+          .then(result =>  {
             this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
             this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
             console.log(this.imageCompress.byteCount(this.imageOrFile))

@@ -35,8 +35,8 @@
                     <span *ngIf="item.owner === myId">{{myUserName}}</span>
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
                         <div>
-                            <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="">
-                            <img *ngIf="itemFormat(item.text)" src={{item.text}} alt="">
+                            <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="" class="message__img">
+                            <img *ngIf="itemFormat(item.text)" src={{item.text}} alt="" class="message__img">
                             <p class="message__text" *ngIf="!itemFormat(item.text)">{{item.text}}</p>
                         </div>
                     </div>
@@ -53,17 +53,17 @@
                     </mat-menu>
             </div>
 
-            <hr>
-
-         <!-- message-send -->
-         <div>
-            <div class="form_save_image" *ngIf="toggle">
-                <input type="file" id="fileElem" multiple accept="image/*" #input>
-                <button type="button" (click)="[addImage(input), toggle = !toggle]">V</button>
-                <button type="button" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
-            </div> 
-         </div>
-
+            
+            <!-- message-send -->
+            <div>
+                <div class="form_save_image" *ngIf="toggle">
+                    <input type="file" id="fileElem" multiple accept="image/*" #input>
+                    <button type="button" (click)="[addImage(input), toggle = !toggle]">V</button>
+                    <button type="button" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
+                </div> 
+            </div>
+        </div>
+        <hr>
             <div class="message__send">
                 <div class="wrapper__send">
                     <div (click)="toggle = !toggle">
@@ -74,8 +74,6 @@
                     <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="" height="">
                 </div>
                     <img src="../../assets/icon-voice.svg" alt="icon-voice" class="voice" width="" height="">
-            </div>
-            
             </div>
         </div>
     </div>

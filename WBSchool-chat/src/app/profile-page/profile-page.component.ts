@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfilePageService } from './service/profile-page.service';
 
 @Component({
@@ -6,9 +6,6 @@ import { ProfilePageService } from './service/profile-page.service';
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss']
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent {
   constructor(public settServ: ProfilePageService) { }
-
-  ngOnInit(): void {
-  }
 }
