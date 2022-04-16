@@ -26,6 +26,7 @@
     "@ngrx/store-devtools": "^13.1.0",
     "angular": "^1.8.2",
     "ngrx": "^0.0.1-security",
+    "ngx-image-compress": "^13.1.9",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
