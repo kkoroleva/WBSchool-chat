@@ -15,9 +15,7 @@ import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-  public groupsState$: Observable<IGroup[]> = this.store$.pipe(
-    select(selectGroups)
-  );
+  public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
 
   constructor(
     public dialog: MatDialog,
