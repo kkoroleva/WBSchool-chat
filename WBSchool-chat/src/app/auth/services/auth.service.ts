@@ -7,8 +7,8 @@ import { User } from '../interfaces';
   providedIn: 'root'
 })
 export class AuthService {
-  private urlLogin = 'http://www.wbschool-chat.ru/signin';
-  private urlRegister = 'http://www.wbschool-chat.ru/signup';
+  private urlLogin = 'https://www.wbschool-chat.ru/api/signin';
+  private urlRegister = 'https://www.wbschool-chat.ru/api/signup';
 
   constructor(private http: HttpClient) { }
 
