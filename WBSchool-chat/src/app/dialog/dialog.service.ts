@@ -3,40 +3,55 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IMessage, User } from './dialog';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DialogService {
+  private urlApi: string = 'https://wbschool-chat.ru/api';
 
-  private urlApi:string = "http://www.wbschool-chat.ru";
-
-  getMe():Observable<User>{
-    return this.http.get<User>(`${this.urlApi}/users/me`)
+  getMe(): Observable<User> {
+    return this.http.get<User>(`${this.urlApi}/users/me`);
   }
-  
-  constructor(private http: HttpClient) { };
-  
-  getMessages(id: string):Observable<IMessage[]>{
-    return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
-  };
 
-  sendMessage(text: string, id: string, imageOrFile?: string, formatImage?: string):Observable<IMessage>{
+  constructor(private http: HttpClient) {}
+
+  getMessages(id: string): Observable<IMessage[]> {
+    return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`);
+  }
+
+  sendMessage(
+    text: string,
+    id: string,
+    imageOrFile?: string,
+    formatImage?: string
+  ): Observable<IMessage> {
     if (imageOrFile && formatImage && text) {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text, imageOrFile, formatImage})
+      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
+        text,
+        imageOrFile,
+        formatImage,
+      });
+    } else if (imageOrFile && !formatImage && text) {
+      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
+        imageOrFile,
+        text,
+      });
+    } else {
+      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
+        text,
+      });
     }
-    else if (imageOrFile && !formatImage && text){
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {imageOrFile, text})
-    }
-    else {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text})
-    }
-  };
+  }
 
-  deleteMessage(id: string, idChat: string):Observable<IMessage>{
-    return this.http.delete<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`)
-  };
+  deleteMessage(id: string, idChat: string): Observable<IMessage> {
+    return this.http.delete<IMessage>(
+      `${this.urlApi}/chats/${idChat}/messages/${id}`
+    );
+  }
 
-  
-  editMessage(text: string, id: string, idChat: string):Observable<IMessage>{
-    return this.http.patch<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`, {text})
-  };
+  editMessage(text: string, id: string, idChat: string): Observable<IMessage> {
+    return this.http.patch<IMessage>(
+      `${this.urlApi}/chats/${idChat}/messages/${id}`,
+      { text }
+    );
+  }
 }
