@@ -8,9 +8,9 @@ import { IPasswordEditData, IPasswordOnly, IUserDeleteData } from '../interface/
   providedIn: 'root'
 })
 export class AccountSettingsService {
-  private getDataUrl = "http://www.wbschool-chat.ru/users/me"
-  private editPswUrl = "http://www.wbschool-chat.ru/users/me/newPass"
-  private delUserUrl = "http://www.wbschool-chat.ru/users/"
+  private getDataUrl = "https://www.wbschool-chat.ru/api/users/me"
+  private editPswUrl = "https://www.wbschool-chat.ru/api/users/me/newPass"
+  private delUserUrl = "https://www.wbschool-chat.ru/api/users/"
 
   constructor(private http: HttpClient) { }
 

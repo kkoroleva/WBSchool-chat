@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(newReq)
         .pipe(
           catchError((err: HttpErrorResponse) => {
-            if ((err.status === 401 && err.url != "http://www.wbschool-chat.ru/users/me/newPass") || (err.url?.substring(0, 34) == "http://www.wbschool-chat.ru/users/" && err.url.length == 58)) {
+            if ((err.status === 401 && err.url != "https://www.wbschool-chat.ru/api/users/me/newPass") || (err.url?.substring(0, 39) == "https://www.wbschool-chat.ru/api/users/" && err.url.length == 63)) {
               this.auth.logout();
               this.router.navigateByUrl('/login');
             }
