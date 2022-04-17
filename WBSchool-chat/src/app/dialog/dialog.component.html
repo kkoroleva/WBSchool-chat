@@ -53,18 +53,20 @@
                     </mat-menu>
             </div>
 
-            
-            <!-- message-send -->
-            <div>
-                <div class="form_save_image" *ngIf="toggle">
-                    <input type="file" id="fileElem" multiple accept="image/*" #input>
-                    <button type="button" (click)="[addImage(input), toggle = !toggle]">V</button>
-                    <button type="button" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
-                </div> 
-            </div>
         </div>
+        <!-- message-send -->
         <hr>
-            <div class="message__send">
+        <div class="message__send">
+                <div>
+                    <div class="form_save_image" *ngIf="toggle">
+                        <input  type="file" id="fileElem" multiple accept="image/*" #input>
+                        <label for="fileElem" class="btn-add">Выберите файл</label>
+                        <div class="btn-wrapper">
+                        <button type="button" class="btn-green" (click)="[addImage(input), toggle = !toggle]">V</button>
+                        <button type="button" class="btn-red" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
+                        </div>
+                    </div> 
+                </div>
                 <div class="wrapper__send">
                     <div (click)="toggle = !toggle">
                         <img src="../../assets/icon-send.svg" alt="icon-send" class="btn">
