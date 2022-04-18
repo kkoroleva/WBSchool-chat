@@ -52,7 +52,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   };
 
   ngAfterViewChecked(): void {
-    // this.changeScroll();
+    this.changeScroll();
   };
 
   getMe(): void {
@@ -63,7 +63,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       })
   };
 
-  changeScroll(): void { // работает некорректно, при клике внутри чата, прокручивает вниз
+  changeScroll(): void {
     this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
   };
 
@@ -152,11 +152,3 @@ export class DialogComponent implements OnInit, AfterViewChecked {
     return false
   }
 }
-
-// toggleMenu(id:string):void{
-//   if(this.myId === id){
-//     this.blockTrigger.openMenu()
-//   }else{
-//     this.blockTrigger.closeMenu()
-//   }
-// }

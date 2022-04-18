@@ -104,6 +104,10 @@ export class ProfileSettingsComponent implements OnInit {
       }
       else this.errorMsg = 'Username error'
 
+    } else if (inputData.id == 3) {
+
+      this.formData.avatar = btoa(inputData.value)
+
     } else if (inputData.id == 4) {
 
       if (inputData.value.length >= 4 && inputData.value.length <= 100) {
