@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, tap, throwError } from 'rxjs';
-import { User } from '../interfaces';
+import { catchError, Observable, tap, throwError } from 'rxjs';
+import { INewUser, User } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(user: User) {
-    return this.http.post(this.urlLogin, user)
+  login(user: User): Observable<INewUser> {
+    return this.http.post<INewUser>(this.urlLogin, user)
     .pipe(
-      tap((res) => this.setToken(res)),
+      tap((res: INewUser) => this.setToken(res)),
       catchError(error => {
         console.log('Error: ', error.message);
         return throwError(() => error)

@@ -4,6 +4,8 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
 import { ActiveChatService } from '../active-chat.service';
+import { INewUser } from '../auth/interfaces';
+import { IAuthState } from '../store/reducers/auth.reducers';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { IMessage } from './dialog';
@@ -40,7 +42,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   constructor(private service: DialogService, 
     private activeService: ActiveChatService, 
     private imageCompress: NgxImageCompressService,
-    private store$: Store<IGroupsState>) { }
+    private store$: Store<IGroupsState | IAuthState>) { }
 
   ngOnInit(): void {
     this.getMe()

@@ -7,7 +7,7 @@ import { User } from '../../interfaces';
 import { IAuth, IAuthState, ISuccessAuth } from 'src/app/store/reducers/auth.reducers';
 import { select, Store } from '@ngrx/store';
 import { initAuth } from 'src/app/store/actions/auth.actions';
-import { selectSuccessUser } from 'src/app/store/selectors/auth.selectors';
+import { selectSuccessUser, slectErrorMess } from 'src/app/store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted!: boolean;
   errorMessage: string = '';
-  // public errorMessage$: Observable<ISuccessAuth> = this.store$.pipe(select())
+  public errorMessage$: Observable<string> = this.store$.pipe(select(slectErrorMess))
   public userSuccessAuthStore$: Observable<ISuccessAuth> = this.store$.pipe(select(selectSuccessUser));
 
   constructor(

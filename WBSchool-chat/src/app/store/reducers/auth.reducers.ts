@@ -35,15 +35,13 @@ export interface Login {
 }
 
 const initialState: IAuthState = {
-    user: 
-    {
+    user: {
         emailOrUser: '',
         email: '',
         username: '',
-        password: ''
+        password: '',
     },
-    successUser: 
-    {
+    successUser: {
         token: '',
         email: '',
         username: '',
