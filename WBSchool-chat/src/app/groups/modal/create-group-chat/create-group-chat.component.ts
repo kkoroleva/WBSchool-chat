@@ -20,7 +20,9 @@ import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
 })
 export class CreateGroupChatComponent implements OnInit {
   public form!: FormGroup;
-  private imageInBase64 = '';
+  public imageName = '';
+  public imageInBase64 = '';
+  private inputFile!: HTMLInputElement;
   public errMessage$: Observable<string> = this.store$.pipe(
     select(selectChatGroupError)
   );
@@ -94,10 +96,20 @@ export class CreateGroupChatComponent implements OnInit {
     return group;
   }
 
-  uploadImage(e: Event): void {
-    const image = (e.target as HTMLInputElement).files![0];
+  deleteImage(): void {
+    this.inputFile.value = '';
+    this.imageInBase64 = '';
+    this.imageName = '';
+  }
 
-    this.imageToBase64(image);
+  uploadImage(e: Event): void {
+    this.inputFile = e.target as HTMLInputElement;
+    const image = this.inputFile.files![0];
+
+    if (image) {
+      this.imageName = image.name;
+      this.imageToBase64(image);
+    }
   }
 
   imageToBase64(image: File) {
