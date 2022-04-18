@@ -29,10 +29,10 @@ const initialState: IGroupsState = {
 
 export const groupsReducer = createReducer(
     initialState,
-    // on(loadGroups, (state) => ({
-    //     ...state,
-    //     groups: state.groups
-    // })),
+    on(loadGroups, (state) => ({
+        ...state,
+        groups: state.groups
+    })),
     on(changeChatGroup, (state, action) => ({
         ...state,
         chatGroup: action.chatGroup
