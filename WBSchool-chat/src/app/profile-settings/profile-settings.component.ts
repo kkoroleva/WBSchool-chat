@@ -95,6 +95,7 @@ export class ProfileSettingsComponent implements OnInit {
 
   addToFormData(inputData: any) {
     if (inputData.id == 1) {
+
       if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
           inputData.value.length >= 4 && 
           inputData.value.length <= 100) {
@@ -102,17 +103,22 @@ export class ProfileSettingsComponent implements OnInit {
         this.errorMsg = false
       }
       else this.errorMsg = 'Username error'
+
     } else if (inputData.id == 4) {
+
       if (inputData.value.length >= 4 && inputData.value.length <= 100) {
         this.formData.about = inputData.value;
         this.errorMsg = false
       } else this.errorMsg = 'Description error'
-    } else if (inputData.id == 5) { // ;
+
+    } else if (inputData.id == 5) {
+
       if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
           inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         this.formData.about = inputData.value;
         this.errorMsg = false
       } else this.errorMsg = 'Email error'
+      
     }
   }
 
