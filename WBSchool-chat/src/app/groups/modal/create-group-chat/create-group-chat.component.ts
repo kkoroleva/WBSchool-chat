@@ -79,7 +79,7 @@ export class CreateGroupChatComponent implements OnInit {
       const users: string[] = this.form.get('users')?.value.split(' ');
 
       const group: IGroup = {
-        _id,
+        // _id,
         name,
         users,
       };

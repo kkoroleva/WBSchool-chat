@@ -19,6 +19,7 @@
       </mat-hint>
     </mat-form-field>
   </p>
+  <p class="form-error" *ngIf="errorMessage">{{errorMessage}}</p>
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Enter your password</mat-label>
