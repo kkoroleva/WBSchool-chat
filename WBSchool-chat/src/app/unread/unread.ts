@@ -8,5 +8,13 @@ export interface IUnread {
   newMessages?: number;
   lastActive?: string;
   lastMessage?: string;
-  thumbnail?: string;
+  avatar?: string;
+}
+
+export interface Contact {
+  _id: string;
+  userName: string;
+  avatar: string;
+  isActive: boolean;
+  lastActive?: string;
 }
