@@ -5,7 +5,13 @@ export const initAuth = createAction(
   '[AUTH] initAuth',
   props<{ user: IAuth }>()
 );
+
 export const initSuccessUser = createAction(
   '[AUTH] initSuccessUser',
   props<{ successUser: ISuccessAuth }>()
 );
+
+export const errorMessage = createAction(
+  '[AUTH] errorMessage',
+  props<{ errorMessage: string }>()
+)

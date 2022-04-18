@@ -11,3 +11,7 @@ export const selectSuccessUser = createSelector(
     selectAuthFeature,
     (state: IAuthState): ISuccessAuth => state.successUser
 )
+export const slectErrorMess = createSelector(
+    selectAuthFeature,
+    (state: IAuthState): string => state.errMessage
+)

@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap, throwError } from 'rxjs';
-import { initAuth, initSuccessUser } from '../actions/auth.actions';
+import { catchError, map, mergeMap, of, tap, throwError } from 'rxjs';
+import { errorMessage, initAuth, initSuccessUser } from '../actions/auth.actions';
 import { changeLoadGroups, createChatGroup, loadGroups, pushToGroups } from '../actions/groups.actions';
 import {
   changeLoadNotifications,
@@ -90,7 +90,12 @@ export class AppEffects {
         tap((successUser) => {
           localStorage.setItem('token', successUser.token)
         }),
-        map((successUser) => initSuccessUser( {successUser} ))
+        map((successUser) => initSuccessUser( {successUser} )),
+        catchError(
+          error => of(errorMessage({
+              errorMessage: error.error.message
+            }))
+        )
       )
     })
     )

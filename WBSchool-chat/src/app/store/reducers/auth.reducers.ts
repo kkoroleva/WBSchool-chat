@@ -1,11 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
-import { initAuth, initSuccessUser } from '../actions/auth.actions';
+import { errorMessage, initAuth, initSuccessUser } from '../actions/auth.actions';
 
 export const authNode = 'Auth';
 
 export interface IAuthState {
   user: IAuth;
   successUser: ISuccessAuth;
+  errMessage: string;
 }
 export interface IAuth {
     emailOrUser?: string
@@ -21,7 +22,7 @@ export interface ISuccessAuth {
     avatar: string,
     about: string,
     id: string,
-    v: number
+    v: number,
 }
 
 export interface Register {
@@ -50,8 +51,9 @@ const initialState: IAuthState = {
         avatar: '',
         about: '',
         id: '',
-        v: 0
-    }
+        v: 0,
+    },
+    errMessage: ''
 };
 
 export const authReducer = createReducer(
@@ -62,6 +64,11 @@ export const authReducer = createReducer(
   })),
   on(initSuccessUser, (state, action) => ({
       ...state,
-      successUser: action.successUser
+      successUser: action.successUser,
+      errMessage: ''
+  })),
+  on(errorMessage, (state, action) => ({
+      ...state,
+      errMessage: action.errorMessage
   }))
 );

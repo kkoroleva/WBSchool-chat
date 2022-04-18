@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted!: boolean;
   errorMessage: string = '';
+  // public errorMessage$: Observable<ISuccessAuth> = this.store$.pipe(select())
   public userSuccessAuthStore$: Observable<ISuccessAuth> = this.store$.pipe(select(selectSuccessUser));
 
   constructor(
@@ -43,10 +44,6 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    // if (this.loginForm.invalid) {
-    //   this.loginForm.value.password.reset();
-    //   return;
-    // }
 
     this.submitted = true;
 
@@ -57,7 +54,6 @@ export class LoginComponent implements OnInit {
 
     this.store$.dispatch(initAuth( {user} ))
 
-    if (localStorage.getItem('token')) {
       this.userSuccessAuthStore$
       .pipe(
         catchError((error) => {
@@ -68,8 +64,6 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         () => {
-          this.loginForm.reset();
-          alert(`Welcome to the club, ${localStorage.getItem('username')}`);
           this.router.navigate(['home']);
           this.submitted = false;
         },
@@ -77,8 +71,6 @@ export class LoginComponent implements OnInit {
           this.submitted = false;
         }
       );
-    }
-    console.log(this.userSuccessAuthStore$)
     
   }
 }
