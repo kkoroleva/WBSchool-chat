@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DialogService } from './dialog.service';
+import { ProfilePageService } from '../profile-page.service';
 
-describe('DialogService', () => {
-  let service: DialogService;
+describe('ProfilePageService', () => {
+  let service: ProfilePageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DialogService);
+    service = TestBed.inject(ProfilePageService);
   });
 
   it('should be created', () => {

@@ -3,7 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
   clearNotifications,
-  removeNotifications,
+  loadNotifications,
+  removeNotification,
 } from '../store/actions/notifications.actions';
 import { INotificationsState } from '../store/reducers/notifications.reducers';
 import { selectNotifications } from '../store/selectors/notifications.selectors';
@@ -24,6 +25,7 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotificationsList();
+    this.store$.dispatch(loadNotifications())
   }
 
   getNotificationsList(): void {
@@ -32,8 +34,8 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-  removeNotification(): void {
-    this.store$.dispatch(removeNotifications());
+  removeNotification(id: string): void {
+    this.store$.dispatch(removeNotification({ id }));
   }
 
   clearNotifications(): void {
