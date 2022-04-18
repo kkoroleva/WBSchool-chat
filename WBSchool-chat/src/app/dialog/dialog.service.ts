@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IMessage, User } from './dialog';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DialogService {
-
   private urlApi:string = "https://wbschool-chat.ru/api";
 
   getMe():Observable<User>{
@@ -19,15 +18,15 @@ export class DialogService {
   };
 
   sendMessage(text: string, id: string, imageOrFile?: string, formatImage?: string):Observable<IMessage>{
+    const message = {
+      text: text,
+      imageOrFile: imageOrFile,
+      formatImage: formatImage
+    }
     if (imageOrFile && formatImage && text) {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text, imageOrFile, formatImage})
+      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message)
     }
-    else if (imageOrFile && !formatImage && text){
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {imageOrFile, text})
-    }
-    else {
       return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text})
-    }
   };
 
   deleteMessage(id: string, idChat: string):Observable<IMessage>{

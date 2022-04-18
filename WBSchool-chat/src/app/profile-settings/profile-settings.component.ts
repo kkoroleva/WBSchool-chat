@@ -35,7 +35,7 @@ export class ProfileSettingsComponent implements OnInit {
       "id": 2,
       "icon": "textsms",
       "title": "Edit Profile Status Info",
-      "description": this.profileData.status
+      "description": 'null' // this.profileData.status
     },
     {
       "id": 3,
@@ -59,7 +59,7 @@ export class ProfileSettingsComponent implements OnInit {
       "id": 6,
       "icon": "wallpaper",
       "title": "Change wallpaper",
-      "description": "some text"
+      "description": "null"
     }
   ]
 
