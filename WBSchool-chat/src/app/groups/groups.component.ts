@@ -31,7 +31,10 @@ export class GroupsComponent implements OnInit {
   }
 
   createGroupChat(): void {
-    this.dialog.open(CreateGroupChatComponent);
+    this.dialog.open(CreateGroupChatComponent, {
+      panelClass: 'create-group-chat-modal',
+      maxWidth: '100vw',
+    });
   }
 
   openGroupChat(id: string): void {

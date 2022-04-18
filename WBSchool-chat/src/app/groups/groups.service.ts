@@ -9,7 +9,7 @@ import { IUnread } from '../unread/unread';
   providedIn: 'root',
 })
 export class GroupsService {
-  private apiUrl = 'http://www.wbschool-chat.ru';
+  private apiUrl = 'https://wbschool-chat.ru/api';
 
   constructor(private http: HttpClient) {}
 
