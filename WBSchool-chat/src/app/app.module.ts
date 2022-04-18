@@ -55,6 +55,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { HeaderComponent } from './dialog/headerDialog/header/header.component';
+import { MessageComponent } from './dialog/messageDialog/message/message.component';
+import { WrapperMessageComponent } from './dialog/messageDialog/wrapper-message/wrapper-message.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -85,6 +88,9 @@ const INTERCEPTOR_PROVIDER: Provider = {
     PasswordModalComponent,
     CreateGroupChatComponent,
     ThreadsComponent,
+    HeaderComponent,
+    MessageComponent,
+    WrapperMessageComponent,
   ],
   imports: [
     BrowserModule,

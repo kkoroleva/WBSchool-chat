@@ -8,10 +8,15 @@ import { IMessage, User } from './dialog';
 export class DialogService {
   private urlApi:string = "https://wbschool-chat.ru/api";
 
+  constructor(private http: HttpClient) { };
+
   getMe():Observable<User>{
     return this.http.get<User>(`${this.urlApi}/users/me`)
   }
-  constructor(private http: HttpClient) { };
+
+  getUserName(): Observable<User>{
+    return this.http.get<User>(`${this.urlApi}/users/username`)
+  }
   
   getMessages(id: string):Observable<IMessage[]>{
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
