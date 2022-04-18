@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { chatGroupError } from '../actions/groups.actions';
-
 import { catchError, map, mergeMap, throwError, of } from 'rxjs';
 import {
   changeLoadGroups,
