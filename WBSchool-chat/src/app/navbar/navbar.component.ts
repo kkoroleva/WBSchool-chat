@@ -16,10 +16,6 @@ export class NavbarComponent {
   path: string = window.location.pathname.substring(1);
   constructor(private auth: AuthService, private router: Router, private store$: Store<INotificationsState | IGroupsState>) {}
 
-  loadNotifications(): void {
-    this.store$.dispatch(loadNotifications());
-  }
-
   loadGroups(): void {
     this.store$.dispatch(loadGroups());
   }
