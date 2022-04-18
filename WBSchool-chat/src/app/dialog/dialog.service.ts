@@ -7,14 +7,14 @@ import { IMessage, User } from './dialog';
 })
 export class DialogService {
 
-  private urlApi:string = "http://www.wbschool-chat.ru";
+  private urlApi:string = "https://wbschool-chat.ru/api";
 
   getMe():Observable<User>{
     return this.http.get<User>(`${this.urlApi}/users/me`)
   }
-  
+
   constructor(private http: HttpClient) { };
-  
+
   getMessages(id: string):Observable<IMessage[]>{
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
   };
@@ -35,7 +35,7 @@ export class DialogService {
     return this.http.delete<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`)
   };
 
-  
+
   editMessage(text: string, id: string, idChat: string):Observable<IMessage>{
     return this.http.patch<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`, {text})
   };

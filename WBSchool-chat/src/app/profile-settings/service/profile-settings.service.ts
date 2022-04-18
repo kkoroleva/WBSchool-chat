@@ -7,7 +7,7 @@ import { IProfileData, IServerResponse } from '../interfaces/interface';
   providedIn: 'root'
 })
 export class ProfileSettingsService {
-  private url = "http://www.wbschool-chat.ru/users/me"
+  private url = "https://wbschool-chat.ru/api/users/me"
 
   constructor(private http: HttpClient) { }
 

@@ -11,7 +11,7 @@ import { IGroup } from '../reducers/groups.reducers';
 
 @Injectable()
 export class AppEffects {
-  private apiUrl = 'http://www.wbschool-chat.ru';
+  private apiUrl = 'https://wbschool-chat.ru/api';
   public getGroups: IGroup[] = [];
 
   constructor(private actions$: Actions, private http: HttpClient) {}
@@ -71,7 +71,7 @@ export class AppEffects {
 //      this.getGroups = groups
 //    }
 //  )
- 
+
 //    return this.actions$.pipe(
 //      ofType(loadGroups),
 //      map(() =>
