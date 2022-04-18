@@ -7,7 +7,7 @@ import { IMessage, User } from './dialog';
 })
 export class DialogService {
 
-  private urlApi:string = "http://www.wbschool-chat.ru";
+  private urlApi:string = "https://www.wbschool-chat.ru";
 
   getMe():Observable<User>{
     return this.http.get<User>(`${this.urlApi}/users/me`)
