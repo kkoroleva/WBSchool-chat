@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { groupsNode, IGroup, IGroupsState } from '../reducers/groups.reducers';
 
-export const selectGroupsFeature = createFeatureSelector<IGroupsState>(groupsNode);
+export const selectGroupsFeature =
+  createFeatureSelector<IGroupsState>(groupsNode);
 
 export const selectGroups = createSelector(
   selectGroupsFeature,
@@ -11,4 +12,9 @@ export const selectGroups = createSelector(
 export const selectChatGroup = createSelector(
   selectGroupsFeature,
   (state: IGroupsState): string => state.chatGroup
+);
+
+export const selectChatGroupError = createSelector(
+  selectGroupsFeature,
+  (state: IGroupsState): string => state.error
 );
