@@ -25,7 +25,10 @@
 
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Add users</mat-label>
-                <input class="modal__input" matInput placeholder="Users ID" formControlName="users">
+                <mat-select [formControl]="contacts" multiple panelClass="modal__select">
+                    <mat-option *ngFor="let contact of contactsList" [value]="contact" class="modal__option">
+                        {{contact.username}}</mat-option>
+                </mat-select>
                 <mat-error *ngIf="form.get('users')?.getError('required') || form.get('users')?.getError('minlength')">
                     You must add at least two users</mat-error>
             </mat-form-field>

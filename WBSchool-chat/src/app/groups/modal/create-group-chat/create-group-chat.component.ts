@@ -23,6 +23,12 @@ export class CreateGroupChatComponent implements OnInit {
   public imageName = '';
   public imageInBase64 = '';
   private inputFile!: HTMLInputElement;
+  public contactsList: any[] = [
+    { username: 'Friend #1', _id: '62599b5969a5c8c98304e5f2' },
+    { username: 'Friend #2', _id: '62599b5969a5c8c98304e5f2' },
+    { username: 'Friend #3', _id: '62599b5969a5c8c98304e5f2' },
+  ];
+  public contacts!: FormControl;
   public errMessage$: Observable<string> = this.store$.pipe(
     select(selectChatGroupError)
   );
@@ -44,11 +50,13 @@ export class CreateGroupChatComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(100),
       ]),
-      users: new FormControl('', [
-        Validators.required,
-        Validators.minLength(49),
-      ]),
+      users: new FormControl(
+        [],
+        [Validators.required, Validators.minLength(2)]
+      ),
     });
+
+    this.contacts = this.form.get('users') as FormControl;
 
     this.actions$.pipe(ofType(pushToGroups)).subscribe(() => {
       this.dialogRef.close();
@@ -68,7 +76,7 @@ export class CreateGroupChatComponent implements OnInit {
   }
 
   createGroupObject(): IGroup {
-    const users: string[] = this.form.get('users')?.value.split(' ');
+    const users: any[] = this.form.get('users')?.value;
     const name: string = this.form.get('name')?.value;
     const about: string = this.form.get('about')?.value;
     const nameLength = name.trim().length;
@@ -76,7 +84,7 @@ export class CreateGroupChatComponent implements OnInit {
 
     const group: IGroup = {
       name,
-      users,
+      users: users.map((user) => user._id),
     };
 
     if (nameLength < 4) {
