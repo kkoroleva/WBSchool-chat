@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { ActiveChatService } from '../active-chat.service';
 import { GroupsService } from '../groups/groups.service';
 import { Observable } from 'rxjs/internal/Observable';
+import { selectFriends, selectGroups } from '../store/selectors/groups.selectors';
+import { IGroupsState } from '../store/reducers/groups.reducers';
+import { select, Store } from '@ngrx/store';
+import { changeChatGroup, loadFriends } from '../store/actions/groups.actions';
 
 @Component({
   selector: 'app-friends',
@@ -13,8 +17,8 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class FriendsComponent implements OnInit {
 
-  public groupsState$: Observable<IFriend[]> = this.store$.pipe(
-    select(selectGroups)
+  public friendsState$: Observable<IFriend[]> = this.store$.pipe(
+    select(selectFriends)
   );
 
   friendList: IFriend[] = [];
@@ -22,17 +26,28 @@ export class FriendsComponent implements OnInit {
   constructor(
     private router: Router,
     private activeChat: ActiveChatService,
-    private chatListService: GroupsService) {
+    private chatListService: GroupsService,
+    private store$: Store<IGroupsState>
+    ) {
   }
 
   ngOnInit(): void {
-    this.chatListService.getPrivateChats().subscribe((res) => {
-      this.friendList = res;
+    this.getChats();
+    this.friendsState$.subscribe(res => {
+      console.log(res);
     });
+
+  }
+
+  getChats() {
+    this.store$.dispatch(loadFriends());
   }
 
   goToChat(chatId: string) {
-    this.activeChat.activeChatSubject.next(chatId);
+
+    this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
+    localStorage.setItem('chatID', chatId);
+
     this.router.navigateByUrl('/chat');
   }
 

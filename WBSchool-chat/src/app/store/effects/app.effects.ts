@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { chatGroupError } from '../actions/groups.actions';
+import { changeLoadFriends, changeLoadUnreads, chatGroupError, loadFriends, loadUnreads } from '../actions/groups.actions';
 import { catchError, map, mergeMap, throwError, of } from 'rxjs';
 import {
   changeLoadGroups,
@@ -17,6 +17,8 @@ import {
 } from '../actions/notifications.actions';
 import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
+import { IFriend } from 'src/app/friends/friend';
+import { IUnread } from 'src/app/unread/unread';
 
 @Injectable()
 export class AppEffects {
@@ -92,4 +94,28 @@ export class AppEffects {
       )
     );
   });
+
+  loadFriends$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadFriends),
+      mergeMap(() =>
+        this.http
+          .get<IFriend[]>(`${this.apiUrl}/chats/friends`)
+          .pipe(map((friends) => changeLoadFriends({ friends: friends.reverse() })))
+      )
+    );
+  });
+
+  loadUnreads$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadUnreads),
+      mergeMap(() =>
+        this.http
+          .get<IUnread[]>(`${this.apiUrl}/chats`)
+          .pipe(map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() })))
+      )
+    );
+  });
+
+
 }
