@@ -179,6 +179,15 @@
 			opacity: 0.4;
 		}
 
+		.profile-settings__menu_error {
+			background: rgb(255, 156, 156);
+			color: red;
+			max-width: 500px;
+			text-align: center;
+			padding: 10px 0;
+			border-radius: 10px;
+		}
+
 		@media (max-width: 460px) {
 			margin-left: 40px;
 		}

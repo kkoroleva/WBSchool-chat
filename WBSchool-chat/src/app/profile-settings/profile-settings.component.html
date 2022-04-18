@@ -49,9 +49,14 @@
 					<div class="profile-settings__menu_item_title" (click)="openDialog()">Help</div>
 				</div>
 			</div>
-			<form (ngSubmit)="submit()">
+			<form (ngSubmit)="submit()" *ngIf="!errorMsg; else errorMessage">
 				<button mat-raised-button color="primary" type="submit">Save Changes</button>
 			</form>
+			<ng-template #errorMessage>
+				<div class="profile-settings__menu_error">
+					{{errorMsg}}
+				</div>
+			</ng-template>
 		</div>
 	<div class="profile-settings__line"></div>
 	<div class="profile-settings__menu">
