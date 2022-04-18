@@ -24,7 +24,6 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.chatListService.getPrivateChats().subscribe((res) => {
       this.friendList = res;
-      console.log(this.friendList[0].isActive);
     });
   }
 
