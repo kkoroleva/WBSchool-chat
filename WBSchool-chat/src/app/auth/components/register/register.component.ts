@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern('^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$')]),
+      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern('^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*$')]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(100)]),
       repeatPassword: new FormControl(null, [Validators.required]),
     })
@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
     )
     .subscribe(() => {
       this.registerForm.reset();
-      alert(`Now you can login with your username or email, ${localStorage.getItem('email')}`)
+      // alert(`Now you can login with your username or email, ${localStorage.getItem('email')}`)
       this.router.navigate(['login']);
       this.submitted = false;
     },
