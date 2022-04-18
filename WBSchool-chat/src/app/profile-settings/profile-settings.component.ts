@@ -28,7 +28,7 @@ export class ProfileSettingsComponent implements OnInit {
   settingsList: ISettingsList[] = [
     {
       "id": 1,
-      "icon": "edit",
+      "icon": "person",
       "title": "Edit Profile Name",
       "description": this.profileData.username
     },
@@ -47,12 +47,12 @@ export class ProfileSettingsComponent implements OnInit {
     {
       "id": 4,
       "icon": "edit",
-      "title": "Edit Description",
+      "title": "description",
       "description": this.profileData.about
     },
     {
       "id": 5,
-      "icon": "edit",
+      "icon": "mail",
       "title": "Edit Email",
       "description": this.profileData.email
     },
