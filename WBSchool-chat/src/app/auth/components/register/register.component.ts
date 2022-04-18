@@ -50,7 +50,6 @@ export class RegisterComponent implements OnInit {
     )
     .subscribe(() => {
       this.registerForm.reset();
-      // alert(`Now you can login with your username or email, ${localStorage.getItem('email')}`)
       this.router.navigate(['login']);
       this.submitted = false;
     },

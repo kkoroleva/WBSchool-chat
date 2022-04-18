@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../interfaces';
-import { IAuth, IAuthState, ISuccessAuth } from 'src/app/store/reducers/auth.reducers';
-import { select, Store } from '@ngrx/store';
+import { INewUser, User } from '../../interfaces';
+import { IAuthState } from 'src/app/store/reducers/auth.reducers';
+import { Store } from '@ngrx/store';
 import { initAuth } from 'src/app/store/actions/auth.actions';
-import { selectSuccessUser } from 'src/app/store/selectors/auth.selectors';
+import { selectUser } from 'src/app/store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted!: boolean;
   errorMessage: string = '';
-  public userSuccessAuthStore$: Observable<ISuccessAuth> = this.store$.pipe(select(selectSuccessUser));
 
   constructor(
     private auth: AuthService, 
@@ -43,11 +42,6 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    // if (this.loginForm.invalid) {
-    //   this.loginForm.value.password.reset();
-    //   return;
-    // }
-
     this.submitted = true;
 
     const user: User = {
@@ -55,30 +49,26 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.value.password,
     };
 
-    this.store$.dispatch(initAuth( {user} ))
-
-    if (localStorage.getItem('token')) {
-      this.userSuccessAuthStore$
-      .pipe(
-        catchError((error) => {
-          this.auth.logout();
-          this.errorMessage = error.error.message;
-          return throwError(() => error);
-        })
-      )
-      .subscribe(
-        () => {
-          this.loginForm.reset();
-          alert(`Welcome to the club, ${localStorage.getItem('username')}`);
-          this.router.navigate(['home']);
-          this.submitted = false;
-        },
-        () => {
-          this.submitted = false;
-        }
-      );
-    }
-    console.log(this.userSuccessAuthStore$)
+    let newUser: INewUser;
     
+    this.auth.login(user)
+    .pipe(
+      catchError((error) => {
+        this.auth.logout();
+        this.errorMessage = error.error.message;
+        return throwError(() => error);
+      })
+    )
+    .subscribe(
+      (resp) => {
+        this.submitted = false;
+        this.router.navigate(['home']);
+        newUser = resp;
+        this.store$.dispatch(initAuth({newUser}));
+        console.log(this.store$)
+      },
+      () => {
+        this.submitted = false;
+      });
   }
 }

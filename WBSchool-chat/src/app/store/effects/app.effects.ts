@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, tap, throwError } from 'rxjs';
-import { initAuth, initSuccessUser } from '../actions/auth.actions';
 import { changeLoadGroups, createChatGroup, loadGroups, pushToGroups } from '../actions/groups.actions';
 import {
   changeLoadNotifications,
@@ -11,7 +10,6 @@ import {
   loadNotifications,
   removeNotification,
 } from '../actions/notifications.actions';
-import { ISuccessAuth } from '../reducers/auth.reducers';
 import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 
@@ -82,17 +80,17 @@ export class AppEffects {
   });
 
   // Auth
-  initAuth$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(initAuth),
-      mergeMap(({ user }) => {
-        return this.http.post<ISuccessAuth>(`${this.apiUrl}/signin`, user).pipe(
-        tap((successUser) => {
-          localStorage.setItem('token', successUser.token)
-        }),
-        map((successUser) => initSuccessUser( {successUser} ))
-      )
-    })
-    )
-  })
+  // initAuth$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(initAuth),
+  //     mergeMap(({ user }) => {
+  //       return this.http.post<ISuccessAuth>(`${this.apiUrl}/signin`, user).pipe(
+  //       tap((successUser) => {
+  //         localStorage.setItem('token', successUser.token)
+  //       }),
+  //       map((successUser) => initSuccessUser( {successUser} )),
+  //     )
+  //   })
+  //   )
+  // })
 }
