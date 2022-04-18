@@ -11,7 +11,6 @@ export class DialogService {
   getMe(): Observable<User> {
     return this.http.get<User>(`${this.urlApi}/users/me`);
   }
-
   constructor(private http: HttpClient) {}
 
   getMessages(id: string): Observable<IMessage[]> {
@@ -24,22 +23,20 @@ export class DialogService {
     imageOrFile?: string,
     formatImage?: string
   ): Observable<IMessage> {
+    const message = {
+      text: text,
+      imageOrFile: imageOrFile,
+      formatImage: formatImage,
+    };
     if (imageOrFile && formatImage && text) {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
-        text,
-        imageOrFile,
-        formatImage,
-      });
-    } else if (imageOrFile && !formatImage && text) {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
-        imageOrFile,
-        text,
-      });
-    } else {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
-        text,
-      });
+      return this.http.post<IMessage>(
+        `${this.urlApi}/chats/${id}/messages`,
+        message
+      );
     }
+    return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
+      text,
+    });
   }
 
   deleteMessage(id: string, idChat: string): Observable<IMessage> {
@@ -47,7 +44,6 @@ export class DialogService {
       `${this.urlApi}/chats/${idChat}/messages/${id}`
     );
   }
-
   editMessage(text: string, id: string, idChat: string): Observable<IMessage> {
     return this.http.patch<IMessage>(
       `${this.urlApi}/chats/${idChat}/messages/${id}`,

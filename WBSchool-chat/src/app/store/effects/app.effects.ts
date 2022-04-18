@@ -1,19 +1,23 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { chatGroupError } from '../actions/groups.actions';
+
+import { catchError, map, mergeMap, throwError, of } from 'rxjs';
 import {
   changeLoadGroups,
-  chatGroupError,
   createChatGroup,
   loadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
 import {
   changeLoadNotifications,
+  clearNotifications,
   loadNotifications,
+  removeNotification,
 } from '../actions/notifications.actions';
 import { IGroup } from '../reducers/groups.reducers';
+import { INotification } from '../reducers/notifications.reducers';
 
 @Injectable()
 export class AppEffects {
@@ -25,19 +29,47 @@ export class AppEffects {
   loadNotifications$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadNotifications),
-      map(() =>
-        changeLoadNotifications({
-          notifications: [
-            {
-              _id: '1',
-              expiresIn: '22.01.2022',
-              text: 'Test case',
-            },
-          ],
-        })
+      mergeMap(() =>
+        this.http
+          .get<INotification[]>(`${this.apiUrl}/users/notifications`)
+          .pipe(
+            map((notifications) => changeLoadNotifications({ notifications }))
+          )
       )
     )
   );
+
+  removeNotification$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(removeNotification),
+      mergeMap(({ id }) =>
+        this.http
+          .delete<string>(`${this.apiUrl}/users/notifications/${id}`)
+          .pipe(
+            map((id) => removeNotification({ id })),
+            catchError((err: HttpErrorResponse) => {
+              if (err.status === 400 || err.status === 404) {
+                map(() => removeNotification({ id: '0' }));
+              }
+              return throwError(() => err);
+            })
+          )
+      )
+    );
+  });
+
+  clearNotification$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(clearNotifications),
+      mergeMap(() =>
+        this.http
+          .delete<INotification[]>(`${this.apiUrl}/users/notifications/clear`)
+          .pipe(
+            map((notifications) => changeLoadNotifications({ notifications }))
+          )
+      )
+    );
+  });
 
   loadGroups$ = createEffect(() => {
     return this.actions$.pipe(
@@ -62,30 +94,3 @@ export class AppEffects {
     );
   });
 }
-
-// loadMovies$ = createEffect(() => this.actions$.pipe(
-//   ofType('[Movies Page] Load Movies'),
-//   mergeMap(() => this.moviesService.getAll()
-//     .pipe(
-//       map(movies => ({ type: '[Movies API] Movies Loaded Success', payload: movies })),
-//       catchError(() => EMPTY)
-//     ))
-//   )
-// );
-
-// loadGroups$ = createEffect(() => {
-//   this.http.get<IGroup[]>(`${this.apiUrl}/chats/groups`).subscribe((groups) => {
-//      this.getGroups = groups
-//    }
-//  )
-
-//    return this.actions$.pipe(
-//      ofType(loadGroups),
-//      map(() =>
-//        changeLoadGroups({
-//          groups: this.getGroups
-//        })
-//      )
-//    )
-//  }
-// );

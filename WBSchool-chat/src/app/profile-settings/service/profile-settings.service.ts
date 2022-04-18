@@ -4,28 +4,26 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { IProfileData, IServerResponse } from '../interfaces/interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileSettingsService {
-  private url = "http://www.wbschool-chat.ru/users/me"
+  private url = 'https://wbschool-chat.ru/api/users/me';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getUsersData(): Observable<IServerResponse>{
-    return this.http.get<IServerResponse>(this.url)
-    .pipe(
+  getUsersData(): Observable<IServerResponse> {
+    return this.http.get<IServerResponse>(this.url).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error);
       })
-    )
+    );
   }
 
   editProfileSettings(formData: IProfileData): Observable<IServerResponse> {
-    return this.http.patch<IServerResponse>(this.url, formData)
-    .pipe(
+    return this.http.patch<IServerResponse>(this.url, formData).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error);
       })
-    )
+    );
   }
 }
