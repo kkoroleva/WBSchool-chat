@@ -85,7 +85,7 @@ export class ProfileSettingsComponent implements OnInit {
       })
       this.settingsList[0].description = response.username;
       this.settingsList[3].description = response.about;
-      // this.settingsList[4].description = response.email;
+      this.settingsList[4].description = response.email;
     })
   }
 
@@ -119,10 +119,10 @@ export class ProfileSettingsComponent implements OnInit {
 
       if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
           inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-        this.formData.about = inputData.value;
+        this.formData.email = inputData.value;
         this.errorMsg = false
       } else this.errorMsg = 'Email error'
-      
+
     }
   }
 
