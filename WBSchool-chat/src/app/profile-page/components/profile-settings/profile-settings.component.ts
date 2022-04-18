@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { ProfileSettingsService } from './service/profile-settings.service';
+import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
-import { IProfileData, IServerResponse, ISettingsList } from './interfaces/interface';
-import { ProfilePageService } from '../profile-page/service/profile-page.service';
+import { IProfileData, IServerResponse, ISettingsList } from '../../interfaces/profile-settings';
+import { ProfilePageService } from '../../services/profile-page.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -12,7 +12,7 @@ import { ProfilePageService } from '../profile-page/service/profile-page.service
   styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent implements OnInit {
-  profileData: IProfileData = {
+  profileData: IProfileData = { 
     username: '',
     status: 'Не беспокоить',
     avatar: '',
