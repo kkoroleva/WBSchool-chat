@@ -1,8 +1,12 @@
 <div class="friends">
   <h3 class="friends__header">Tet-a-tet</h3>
-  <a href="" class="friends__more-button">
+  <a class="friends__more-button" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
+    <mat-menu #menu="matMenu">
+      <button (click)="createPrivateChat()" mat-menu-item>Create chat</button>
+    </mat-menu>
     <mat-icon>more_vert</mat-icon>
   </a>
+  <p class="friends__isNoFriends" *ngIf="friendList.length===0">Sorry. No private chats detected. Please, create one.</p>
   <ul class="friends__list">
     <li class="friends__item" *ngFor="let friend of friendList; index as i;">
       <a (click)="goToChat(friend._id)" class="friends__chat-link">

@@ -34,7 +34,6 @@ export class GroupsComponent implements OnInit {
 
   createGroupChat(): void {
     const dialogRef = this.dialog.open(CreateGroupChatComponent);
-
   }
 
   openGroupChat(id: string): void {

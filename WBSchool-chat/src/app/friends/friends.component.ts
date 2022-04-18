@@ -4,6 +4,7 @@ import { IFriend } from './friend';
 import { Router } from '@angular/router';
 import { ActiveChatService } from '../active-chat.service';
 import { GroupsService } from '../groups/groups.service';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-friends',
@@ -12,19 +13,21 @@ import { GroupsService } from '../groups/groups.service';
 })
 export class FriendsComponent implements OnInit {
 
+  public groupsState$: Observable<IFriend[]> = this.store$.pipe(
+    select(selectGroups)
+  );
+
   friendList: IFriend[] = [];
 
   constructor(
     private router: Router,
     private activeChat: ActiveChatService,
     private chatListService: GroupsService) {
-    //this.friendList = mockFriends;
   }
 
   ngOnInit(): void {
     this.chatListService.getPrivateChats().subscribe((res) => {
       this.friendList = res;
-      console.log(this.friendList[0].isActive);
     });
   }
 
@@ -35,6 +38,10 @@ export class FriendsComponent implements OnInit {
 
   getFriend(data: IFriend) {
     return (data.users[0] === data.owner)? data.users[0] : data.users[1];
+  }
+
+  createPrivateChat() {
+
   }
 
 }
