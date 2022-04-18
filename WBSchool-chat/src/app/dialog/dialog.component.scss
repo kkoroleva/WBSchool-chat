@@ -123,6 +123,11 @@
         width: 5px;
         height: 25px;
         color: #1A66FF;
+        cursor: pointer;
+
+        :hover{
+          opacity: 0.7;
+        }
       }
 
       @media (max-width: 495px) {
@@ -154,11 +159,6 @@
 
   .message {
     position: relative;
-    margin-top: 20px;
-
-         @media (max-width:495px) {
-        height: 70vh;
-    }
 
     &__wrapper {
       max-height: 720px;
@@ -243,6 +243,20 @@
         color: black;
         overflow-wrap :break-word;
       }
+      .message__img{
+        max-width: 480px;
+        @media screen and (max-width:1024px) {
+          max-width: 360px;
+        }
+        @media screen and (max-width:900px) {
+          max-width: 320px;
+        }
+        @media screen and (max-width:490px) {
+          max-width: 200px;
+        }
+
+      }
+      
     }
 
     &__answer {
@@ -268,9 +282,9 @@
       border: 1px solid rgba(0, 0, 0, 0.25);
       max-width: 606px;
       width: 100%;
-      margin-bottom: 35px;
+
       @media (max-width:495px) {
-          margin-bottom: 15px;
+          margin-bottom: none;
       }
     }
 
@@ -278,8 +292,13 @@
       display: flex;
       padding: 0;
       margin-bottom: 34px;
+      margin-top: 30px;
       align-items: center;
       position: static;
+      @media  screen and(max-width:495px) {
+        margin-bottom: none;
+        margin-top: 30px;
+      }
 
       .wrapper__send {
         display: flex;
@@ -313,6 +332,115 @@
       .voice{
         filter: grayscale(100);
       }
+    }
+    // =============form page
+    .form_save_image{
+      display: flex;
+      position: absolute;
+      padding: 10px 15px;
+      border: 0.5px solid #1A66FF;
+      box-shadow: 0 5px 30px 0 rgba(0,0,0,0.2);
+      top: 690px;
+        @media (max-width:495px) {
+          top:260px;
+          display: flex;
+          flex-direction: column;
+        }
+        input{
+          width: 0.1px;
+          height: 0.1px;
+          opacity: 0;
+          overflow: hidden;
+          position: absolute;
+          z-index: -1;
+        }
+
+        input + .btn-add{
+            color:#1A66FF;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            padding-left: 10px;
+            padding-right: 10px;
+            text-transform: uppercase;
+            width:250px;
+            text-decoration:none;
+            text-align:center;
+            display: block;
+            margin-right: 10px;
+            background-image: linear-gradient(to left,transparent,transparent 50%,#1A66FF 50%,#1A66FF);
+            background-position: 100% 0;
+            background-size: 200% 100%;
+            transition: all .25s ease-in;
+            font: 400 18px tahoma;
+            border: 1px solid #1A66FF;
+            border-radius: 5px;
+
+            @media(max-width:495px) {
+              margin-bottom: 5px;
+            }
+           }
+           input + .btn-add:hover {
+           background-position: 0 0;
+           color:#fff;
+           }
+
+           .btn-green{
+            color:#11b157;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            padding-left: 10px;
+            padding-right: 10px;
+            text-transform: uppercase;
+            width: 60px;
+            text-decoration:none;
+            text-align:center;
+            display: block;
+            margin-right: 10px;
+            background-image: linear-gradient(to left,transparent,transparent 50%,#11b157 50%,#11b157);
+            background-position: 100% 0;
+            background-size: 200% 100%;
+            transition: all .25s ease-in;
+            font: 400 18px tahoma;
+            border: 1px solid #11b157;
+            border-radius: 5px;
+           }
+           .btn-green:hover {
+            background-position: 0 0;
+            color:#fff;
+            }
+
+           .btn-red{
+            color:#cb2042;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            padding-left: 10px;
+            padding-right: 10px;
+            text-transform: uppercase;
+            width: 60px;
+            text-decoration:none;
+            text-align:center;
+            display: block;
+            background-image: linear-gradient(to left,transparent,transparent 50%,#cb2042 50%,#cb2042);
+            background-position: 100% 0;
+            background-size: 200% 100%;
+            transition: all .25s ease-in;
+            font: 400 18px tahoma;
+            border: 1px solid #cb2042;
+            border-radius: 5px;
+           }
+           .btn-red:hover {
+            background-position: 0 0;
+            color:#fff;
+            }
+            .btn-wrapper{
+              display: flex;
+              @media (max-width:495px) {
+                display: flex;
+                justify-content: space-around;
+              }
+            }
+       
+
     }
   }
 }
