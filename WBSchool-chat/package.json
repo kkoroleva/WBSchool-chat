@@ -1,6 +1,7 @@
 {
   "name": "wbschool-chat",
   "version": "0.0.0",
+  "homepage": "https://wbschool-chat.ru/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
