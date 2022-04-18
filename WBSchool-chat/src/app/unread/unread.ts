@@ -8,5 +8,5 @@ export interface IUnread {
   newMessages?: number;
   lastActive?: string;
   lastMessage?: string;
-  thumbnail?: string;
+  avatar?: string;
 }
