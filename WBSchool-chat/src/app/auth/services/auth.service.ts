@@ -39,13 +39,6 @@ export class AuthService {
     if (response) {
       const expiresDate = new Date(new Date().getTime());
       localStorage.setItem('token', response.token);
-      // localStorage.setItem('еmail', response.newUser.email);
-      // localStorage.setItem('username', response.newUser.username);
-      // localStorage.setItem('userRights', response.newUser.userRights);
-      // localStorage.setItem('avatar', response.newUser.avatar);
-      // localStorage.setItem('about', response.newUser.about);
-      // localStorage.setItem('id', response.newUser._id);
-      // localStorage.setItem('date', expiresDate.toString());
       // if (response.refreshToken != null) {
       //   localStorage.setItem('refreshToken', response.refreshToken);
       // }

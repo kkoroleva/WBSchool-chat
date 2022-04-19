@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { ProfileSettingsService } from './service/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
 import { IProfileData, IServerResponse, ISettingsList } from './interfaces/interface';
 import { ProfilePageService } from '../profile-page/service/profile-page.service';
+import { StorageMap } from '@ngx-pwa/local-storage';
+import { INewUser, IUserData } from '../auth/interfaces';
+import { select, Store } from '@ngrx/store';
+import { selectUser } from '../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-profile-settings',
@@ -66,25 +70,33 @@ export class ProfileSettingsComponent implements OnInit {
   constructor(
     private profileServ: ProfileSettingsService, 
     public dialog: MatDialog,
-    public settServ: ProfilePageService
+    public settServ: ProfilePageService,
+    private storage: StorageMap,
+    private store$: Store
   ) {}
 
   ngOnInit(): void {
-    this.getUsersData();
+      this.getUsersData();
   }
 
   getUsersData() {
-    this.profileServ.getUsersData()
-    .subscribe((response: IServerResponse) => {
+    // this.storage.get('user').subscribe((newUser: any) => {
+    //   this.profileData = Object.assign({}, {
+    //         username: newUser.username,
+    //         about: newUser.about,
+    //         avatar: atob(newUser.avatar),
+    //         email: newUser.email
+    //       })
+    // })
+    this.store$.pipe(select(selectUser))
+    .subscribe((newUser) => {
+      console.log(newUser)
       this.profileData = Object.assign({}, {
-        username: response.username,
-        about: response.about,
-        avatar: atob(response.avatar),
-        email: response.email
+        username: newUser.username,
+        about: newUser.about,
+        avatar: atob(newUser.avatar),
+        email: newUser.email
       })
-      this.settingsList[0].description = response.username;
-      this.settingsList[3].description = response.about;
-      // this.settingsList[4].description = response.email;
     })
   }
 
@@ -117,15 +129,11 @@ export class ProfileSettingsComponent implements OnInit {
         return throwError(() => error);
       })
     )
-    .subscribe((response: IServerResponse) => {
-      this.profileData.username = response.username;
-      // this.status = response.status;
-      this.profileData.avatar = atob(response.avatar);
-      this.profileData.about = response.about;
-      this.profileData.email = response.email;
-      // this.wallpaper = response.wallpaper;
+    .subscribe((newUser: any) => {
+      this.storage.set('user', newUser)
+      .subscribe(() => {});
     })
-    this.getUsersData()
+    this.getUsersData();
     this.formData = {};
   }
 
@@ -137,5 +145,9 @@ export class ProfileSettingsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
     });
+  }
+
+  lengthForm() {
+    return Object.keys(this.formData).length > 0 ? true : false;
   }
 }

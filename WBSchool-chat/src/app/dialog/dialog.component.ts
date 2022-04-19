@@ -65,7 +65,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   };
 
   changeScroll(): void {
-    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+    // this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
   };
 
   addImage(input: any) {
@@ -147,6 +147,6 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   }
 
   itemFormat(item: string) {
-    return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"))
+    return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"));
   }
 }
