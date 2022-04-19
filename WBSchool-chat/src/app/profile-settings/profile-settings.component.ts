@@ -76,22 +76,28 @@ export class ProfileSettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setInterval(() => {
       this.getUsersData();
-    }, 3)
   }
 
   getUsersData() {
-    this.storage.get('user').subscribe((newUser: any) => {
+    // this.storage.get('user').subscribe((newUser: any) => {
+    //   this.profileData = Object.assign({}, {
+    //         username: newUser.username,
+    //         about: newUser.about,
+    //         avatar: atob(newUser.avatar),
+    //         email: newUser.email
+    //       })
+    // })
+    this.store$.pipe(select(selectUser))
+    .subscribe((newUser) => {
+      console.log(newUser)
       this.profileData = Object.assign({}, {
-            username: newUser.username,
-            about: newUser.about,
-            avatar: atob(newUser.avatar),
-            email: newUser.email
-          })
+        username: newUser.username,
+        about: newUser.about,
+        avatar: atob(newUser.avatar),
+        email: newUser.email
+      })
     })
-    // this.store$.pipe(select(selectUser))
-    // .subscribe((resp) => console.log(resp))
   }
 
   onSelect(item: ISettingsList): void { 

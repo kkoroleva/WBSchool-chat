@@ -13,8 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private store$: Store<IAuthState>, private storage: StorageMap){}
   ngOnInit(): void {
     this.storage.get('user').subscribe((newUser: any) => {
-      this.store$.dispatch(initAuth({newUser}))
-      console.log(newUser)
+      this.store$.dispatch(initAuth({newUser}));
     })
   }
 }
