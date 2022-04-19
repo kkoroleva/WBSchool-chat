@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'chat', component: MessagesPageComponent, canActivate: [AuthGuardService]},
   { path: 'alerts', component: NotificationsPageComponent, canActivate: [AuthGuardService]},
   { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuardService]},
-  { path: '**', component: NotFoundPageComponent, canActivate: [AuthGuardService]},
+  { path: '**', component: NotFoundPageComponent},
 ];
 
 @NgModule({
