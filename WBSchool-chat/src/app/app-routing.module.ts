@@ -6,6 +6,7 @@ import { NotificationsPageComponent } from './notifications-page/notifications-p
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { authRoutes } from './auth/auth.module';
 import { AuthGuardService } from './auth/guards/auth-guard.service';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,6 +31,13 @@ const routes: Routes = [
     component: ProfilePageComponent,
     canActivate: [AuthGuardService],
   },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full'},
+  { path: 'auth', children: [...authRoutes]},
+  { path: 'home', component: HomePageComponent, canActivate: [AuthGuardService]},
+  { path: 'chat', component: MessagesPageComponent, canActivate: [AuthGuardService]},
+  { path: 'alerts', component: NotificationsPageComponent, canActivate: [AuthGuardService]},
+  { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuardService]},
+  { path: '**', component: NotFoundPageComponent},
 ];
 
 @NgModule({

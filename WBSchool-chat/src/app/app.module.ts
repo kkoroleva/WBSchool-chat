@@ -59,6 +59,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HeaderComponent } from './dialog/headerDialog/header/header.component';
 import { MessageComponent } from './dialog/messageDialog/message/message.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -91,6 +92,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ThreadsComponent,
     HeaderComponent,
     MessageComponent,
+    NotFoundPageComponent,
   ],
   imports: [
     BrowserModule,

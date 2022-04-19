@@ -7,7 +7,6 @@ import { GroupsService } from '../groups/groups.service';
 import { Observable } from 'rxjs/internal/Observable';
 import {
   selectFriends,
-  selectGroups,
 } from '../store/selectors/groups.selectors';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
@@ -55,4 +54,5 @@ export class FriendsComponent implements OnInit {
   }
 
   createPrivateChat() {}
+
 }

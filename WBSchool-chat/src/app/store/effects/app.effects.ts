@@ -92,7 +92,7 @@ export class AppEffects {
       ofType(createChatGroup),
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.apiUrl}/chats`, group).pipe(
-          map(() => pushToGroups({ group })),
+          map(( group ) => pushToGroups({ group })),
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
       )
@@ -126,7 +126,6 @@ export class AppEffects {
   });
 
   // Dialog
-
   loadDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(initDialogs),
