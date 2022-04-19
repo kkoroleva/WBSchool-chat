@@ -7,7 +7,7 @@ import { INewUser, User } from '../../interfaces';
 import { IAuthState } from 'src/app/store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from 'src/app/store/actions/auth.actions';
-import { selectUser } from 'src/app/store/selectors/auth.selectors';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: AuthService, 
     private router: Router,
-    private store$: Store<IAuthState>
+    private store$: Store<IAuthState>,
+    private storage: StorageMap
     ) {}
 
   ngOnInit(): void {
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.minLength(4),
         Validators.pattern(
-          '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*$'
+          '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
         ),
       ]),
       password: new FormControl(null, [
@@ -64,8 +65,8 @@ export class LoginComponent implements OnInit {
         this.submitted = false;
         this.router.navigate(['home']);
         newUser = resp;
+        this.storage.set('user', newUser).subscribe(() => {});
         this.store$.dispatch(initAuth({newUser}));
-        console.log(this.store$)
       },
       () => {
         this.submitted = false;

@@ -3,5 +3,4 @@ import { INewUser } from 'src/app/auth/interfaces';
 
 export const initAuth = createAction(
   '[AUTH] initAuth',
-  props<{ newUser: INewUser }>()
-);
+  props<{ newUser: INewUser }>());

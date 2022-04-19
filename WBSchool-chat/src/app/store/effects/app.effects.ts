@@ -78,19 +78,4 @@ export class AppEffects {
       )
     )
   });
-
-  // Auth
-  // initAuth$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(initAuth),
-  //     mergeMap(({ user }) => {
-  //       return this.http.post<ISuccessAuth>(`${this.apiUrl}/signin`, user).pipe(
-  //       tap((successUser) => {
-  //         localStorage.setItem('token', successUser.token)
-  //       }),
-  //       map((successUser) => initSuccessUser( {successUser} )),
-  //     )
-  //   })
-  //   )
-  // })
 }
