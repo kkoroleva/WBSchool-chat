@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'auth-nav',
   template: `<nav class="nav">
-  <button mat-raised-button routerLink="/login" routerLinkActive="active">Login</button>
-  <button mat-raised-button routerLink="/register" routerLinkActive="active" >Register</button>
+  <button mat-raised-button routerLink="/auth/login" routerLinkActive="active">Login</button>
+  <button mat-raised-button routerLink="/auth/register" routerLinkActive="active" >Register</button>
 </nav>`,
   styles: [`
   .nav {
