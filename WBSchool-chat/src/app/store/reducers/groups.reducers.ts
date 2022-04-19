@@ -9,7 +9,7 @@ import {
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
 
-export const groupsNode = 'groups';
+export const groupsNode = 'Groups';
 
 export interface IGroupsState {
   groups: IGroup[];

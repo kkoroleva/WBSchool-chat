@@ -1,4 +1,4 @@
-import { NgModule, Provider } from '@angular/core';
+import { NgModule, OnInit, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -46,9 +46,10 @@ import { MatRippleModule } from '@angular/material/core';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 /*Store*/
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -94,6 +95,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     BrowserAnimationsModule,
     HttpClientModule,
     AuthModule,
+    StorageModule,
 
     //Material UI
     BrowserAnimationsModule,
