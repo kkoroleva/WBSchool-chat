@@ -8,17 +8,32 @@ import { authRoutes } from './auth/auth.module';
 import { AuthGuardService } from './auth/guards/auth-guard.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full'},
-  { path: 'auth', children: [...authRoutes]},
-  { path: 'home', component: HomePageComponent, canActivate: [AuthGuardService]},
-  { path: 'chat', component: MessagesPageComponent, canActivate: [AuthGuardService]},
-  { path: 'alerts', component: NotificationsPageComponent, canActivate: [AuthGuardService]},
-  { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuardService]},
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'auth', children: [...authRoutes] },
+  {
+    path: 'home',
+    component: HomePageComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'chat',
+    component: MessagesPageComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'alerts',
+    component: NotificationsPageComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'profile',
+    component: ProfilePageComponent,
+    canActivate: [AuthGuardService],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}
