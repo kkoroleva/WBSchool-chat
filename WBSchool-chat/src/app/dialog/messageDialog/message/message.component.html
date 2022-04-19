@@ -17,10 +17,10 @@
                         
                         <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
                         <mat-menu #block="matMenu">
-                            <button (click)="deleteMessage(item._id)" mat-menu-item>
+                            <button (click)="deleteMessage(item._id!)" mat-menu-item>
                                 <span>Удалить</span>
                             </button>
-                            <button (click)="getMessage(item._id,item.text)" mat-menu-item>
+                            <button (click)="getMessage(item._id! ,item.text)" mat-menu-item>
                                 <span>Изменить</span>
                             </button>
                         </mat-menu>

@@ -1,12 +1,17 @@
+import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GroupsService } from './../../groups.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { catchError, Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
-import { createChatGroup } from 'src/app/store/actions/groups.actions';
+import {
+  chatGroupError,
+  createChatGroup,
+  pushToGroups,
+} from 'src/app/store/actions/groups.actions';
+import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -14,14 +19,24 @@ import { createChatGroup } from 'src/app/store/actions/groups.actions';
   styleUrls: ['./create-group-chat.component.scss'],
 })
 export class CreateGroupChatComponent implements OnInit {
-  form!: FormGroup;
-  errMessage = '';
-  private imageInBase64 = '';
+  public form!: FormGroup;
+  public imageName = '';
+  public imageInBase64 = '';
+  private inputFile!: HTMLInputElement;
+  public contactsList: any[] = [
+    { username: 'Friend #1', _id: '62599b5969a5c8c98304e5f2' },
+    { username: 'Friend #2', _id: '62599b5969a5c8c98304e5f2' },
+    { username: 'Friend #3', _id: '62599b5969a5c8c98304e5f2' },
+  ];
+  public contacts!: FormControl;
+  public errMessage$: Observable<string> = this.store$.pipe(
+    select(selectChatGroupError)
+  );
 
   constructor(
-    private groupsService: GroupsService,
     private dialogRef: MatDialogRef<CreateGroupChatComponent>,
     private store$: Store<IGroupsState>,
+    private actions$: Actions
   ) {}
 
   ngOnInit(): void {
@@ -35,78 +50,74 @@ export class CreateGroupChatComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(100),
       ]),
-      users: new FormControl('', [
-        Validators.required,
-        Validators.minLength(49),
-      ]),
+      users: new FormControl(
+        [],
+        [Validators.required, Validators.minLength(2)]
+      ),
+    });
+
+    this.contacts = this.form.get('users') as FormControl;
+
+    this.actions$.pipe(ofType(pushToGroups)).subscribe(() => {
+      this.dialogRef.close();
     });
   }
 
-  getNameErrors(): string | void {
-    if (this.form.get('name')?.hasError('required')) {
-      return 'Enter group chat name';
-    } else if (
-      this.form.get('name')?.hasError('minlength') ||
-      this.form.get('name')?.hasError('maxlength')
-    ) {
-      return 'Name must be between 4 and 40 characters';
-    }
-  }
-
-  getAboutErrors(): string | void {
-    if (
-      this.form.get('about')?.hasError('minlength') ||
-      this.form.get('about')?.hasError('maxlength')
-    ) {
-      return 'About chat must be between 4 and 100 characters';
-    }
-  }
-
-  getUsersErrors(): string | void {
-    if (
-      this.form.get('users')?.hasError('required') ||
-      this.form.get('users')?.hasError('minlength')
-    ) {
-      return 'You must add at least two users';
-    }
-  }
-
   createGroupChat(): void {
+    const group = this.createGroupObject();
+
     if (this.form.valid) {
-      const _id = '';
-      const name = this.form.get('name')?.value;
-      const about = this.form.get('about')?.value;
-      const users: string[] = this.form.get('users')?.value.split(' ');
+      this.store$.dispatch(createChatGroup({ group }));
 
-      const group: IGroup = {
-        // _id,
-        name,
-        users,
-      };
-
-      if (about) {
-        group.about = about;
-      } else if (this.imageInBase64) {
-        group.avatar = this.imageInBase64;
-      }
-
-      this.store$.dispatch(createChatGroup({group}))
-
-      // this.groupsService
-      //   .createGroupChat(group)
-      //   .pipe(catchError((err) => (this.errMessage = err.error.message)))
-      //   .subscribe((group) => {
-      //     if (!this.errMessage) {
-      //       this.dialogRef.close(group);
-      //     }
-      //   });
+      this.dialogRef.afterClosed().subscribe(() => {
+        this.store$.dispatch(chatGroupError({ error: '' }));
+      });
     }
+  }
+
+  createGroupObject(): IGroup {
+    const users: any[] = this.form.get('users')?.value;
+    const name: string = this.form.get('name')?.value;
+    const about: string = this.form.get('about')?.value;
+    const nameLength = name.trim().length;
+    const aboutLength = about.trim().length;
+
+    const group: IGroup = {
+      name,
+      users: users.map((user) => user._id),
+    };
+
+    if (nameLength < 4) {
+      this.form.get('name')?.setErrors({ manySpaces: true });
+    }
+
+    if (aboutLength >= 1 && aboutLength < 4) {
+      this.form.get('about')?.setErrors({ manySpaces: true });
+    } else if (aboutLength >= 4) {
+      group.about = about;
+    }
+
+    if (this.imageInBase64) {
+      group.avatar = this.imageInBase64;
+    }
+
+    return group;
+  }
+
+  deleteImage(): void {
+    this.inputFile.value = '';
+    this.imageInBase64 = '';
+    this.imageName = '';
   }
 
   uploadImage(e: Event): void {
-    const image = (e.target as HTMLInputElement).files![0];
+    this.inputFile = e.target as HTMLInputElement;
+    const image = this.inputFile.files![0];
 
-    this.imageToBase64(image);
+    if (image) {
+      this.imageName = image.name;
+      this.imageToBase64(image);
+    }
   }
 
   imageToBase64(image: File) {

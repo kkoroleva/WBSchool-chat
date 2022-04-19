@@ -41,6 +41,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
@@ -114,6 +115,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatRippleModule,
     MatButtonToggleModule,
     MatDialogModule,
+    MatSelectModule,
 
     //Forms
     FormsModule,

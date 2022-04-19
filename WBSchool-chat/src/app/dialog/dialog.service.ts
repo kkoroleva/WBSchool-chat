@@ -6,7 +6,7 @@ import { IMessage, User } from './dialog';
   providedIn: 'root',
 })
 export class DialogService {
-  private urlApi:string = "https://wbschool-chat.ru/api";
+  private urlApi: string = 'https://wbschool-chat.ru/api';
 
   constructor(private http: HttpClient) { };
 
@@ -18,22 +18,37 @@ export class DialogService {
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
   };
 
-  sendMessage(text: string, id: string, imageOrFile?: string, formatImage?: string):Observable<IMessage>{
+  sendMessage(
+    text: string,
+    id: string,
+    imageOrFile?: string,
+    formatImage?: string
+  ): Observable<IMessage> {
     const message = {
       text: text,
       imageOrFile: imageOrFile,
-      formatImage: formatImage
-    }
+      formatImage: formatImage,
+    };
     if (imageOrFile && formatImage && text) {
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message)
+      return this.http.post<IMessage>(
+        `${this.urlApi}/chats/${id}/messages`,
+        message
+      );
     }
-      return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {text})
-  };
+    return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
+      text,
+    });
+  }
 
-  deleteMessage(id: string, idChat: string):Observable<IMessage>{
-    return this.http.delete<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`)
-  };
-  editMessage(text: string, id: string, idChat: string):Observable<IMessage>{
-    return this.http.patch<IMessage>(`${this.urlApi}/chats/${idChat}/messages/${id}`, {text})
-  };
+  deleteMessage(id: string, idChat: string): Observable<IMessage> {
+    return this.http.delete<IMessage>(
+      `${this.urlApi}/chats/${idChat}/messages/${id}`
+    );
+  }
+  editMessage(text: string, id: string, idChat: string): Observable<IMessage> {
+    return this.http.patch<IMessage>(
+      `${this.urlApi}/chats/${idChat}/messages/${id}`,
+      { text }
+    );
+  }
 }

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { initDialogs, loadDialogs } from '../actions/dialog.action';
+import { initDialogs, loadDialogs, pushToMessages } from '../actions/dialog.action';
 
 export const dialogNode = 'Dialog';
 
@@ -9,9 +9,9 @@ export interface IDialogState {
 
 export interface IMessage {
     text:string;
-    owner:string; 
-    _id:string;
-    expiresIn:string;
+    owner?:string; 
+    _id?:string;
+    expiresIn?:string;
     imageOrFile?: string;
     formatImage?: string;
 }
@@ -29,5 +29,9 @@ export const dialogReducer = createReducer(
     on(loadDialogs, (state, action)=>({
         ...state,
         messages: action.messages
+    })),
+    on(pushToMessages, (state, action)=>({
+        ...state,
+        messages: [...state.messages, action.message]
     })),
 )
