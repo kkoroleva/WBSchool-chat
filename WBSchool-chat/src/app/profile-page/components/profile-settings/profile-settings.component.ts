@@ -122,7 +122,6 @@ export class ProfileSettingsComponent implements OnInit {
         this.formData.email = inputData.value;
         this.errorMsg = false
       } else this.errorMsg = 'Email error'
-
     }
   }
 

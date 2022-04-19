@@ -24,6 +24,7 @@
     "@ngrx/router-store": "^13.1.0",
     "@ngrx/store": "^13.1.0",
     "@ngrx/store-devtools": "^13.1.0",
+    "@ngx-pwa/local-storage": "^13.0.3",
     "angular": "^1.8.2",
     "ngrx": "^0.0.1-security",
     "ngx-image-compress": "^13.1.9",
