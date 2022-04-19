@@ -55,8 +55,6 @@ export class FriendsComponent implements OnInit {
     return (data.users[0] === data.owner)? data.users[0] : data.users[1];
   }
 
-  createPrivateChat() {
-
-  }
+  createPrivateChat() {}
 
 }
