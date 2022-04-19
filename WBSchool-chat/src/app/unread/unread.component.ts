@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { ActiveChatService } from '../active-chat.service';
 import { GroupsService } from '../groups/groups.service';
+import { changeChatGroup, loadUnreads } from '../store/actions/groups.actions';
+import { IGroupsState } from '../store/reducers/groups.reducers';
+import { selectUnreads } from '../store/selectors/groups.selectors';
 import { IUnread } from './unread';
 
 @Component({
@@ -13,24 +18,33 @@ export class UnreadsComponent implements OnInit {
 
   unreadList: IUnread[] = [];
 
+  public unreadsState$: Observable<IUnread[]> = this.store$.pipe(
+    select(selectUnreads)
+  );
+
   constructor(
     private router: Router,
     private activeChat: ActiveChatService,
-    private httpService: GroupsService
+    private httpService: GroupsService,
+    private store$: Store<IGroupsState>
   ) { }
 
   ngOnInit(): void {
-    this.httpService.getAllChats().subscribe((res) => {
-      res.forEach(el => {
-        if (!el.isRead) {
-          this.unreadList.push(el);
-        }
-      });
+    this.unreadsState$.subscribe(res => {
+      console.log(res);
     });
+    this.getUnreads();
+  }
+
+  getUnreads(): void {
+    this.store$.dispatch(loadUnreads());
+
   }
 
   goToChat(chatId: string): void {
-    this.activeChat.activeChatSubject.next(chatId);
+    this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
+    localStorage.setItem('chatID', chatId);
+
     this.router.navigateByUrl('/chat');
   }
 
