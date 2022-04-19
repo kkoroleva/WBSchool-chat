@@ -46,8 +46,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.getMe()
-    // this.chatGroup$.subscribe((id)=> { // в данный момент не работает
-    this.activeService.activeChatSubject.subscribe((id)=> {
+    this.chatGroup$.subscribe((id)=> { // в данный момент не работает
         this.chatID = id;
         this.getMessages(id);
       })
