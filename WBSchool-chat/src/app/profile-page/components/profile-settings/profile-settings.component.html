@@ -36,7 +36,7 @@
 			</div>
 				<div *ngIf="toggle && selectedItem.id == i+1" class="profile-settings__menu_item_form-field">
 
-					<div *ngIf="item.id != 3; else photoInput">
+					<!-- <div *ngIf="item.id != 3; else photoInput"> -->
 
 						<mat-form-field appearance="fill">
 							<mat-label>{{selectedItem.title}}</mat-label>
@@ -53,9 +53,9 @@
 							</button>
 						</div>
 
-					</div>
+					<!-- </div> -->
 
-					<ng-template #photoInput>
+					<!-- <ng-template #photoInput>
 						
 						<input  type="file" id="fileElem" multiple accept="image/*" #input>
 
@@ -68,7 +68,7 @@
 							</button>
 						</div>
 
-					</ng-template>
+					</ng-template> -->
 					
 				</div>
 			</div>

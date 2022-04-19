@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
 import { IProfileData, IServerResponse, ISettingsList } from '../../interfaces/profile-settings';
 import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { INewUser, IUserData } from '../../../auth/interfaces';
+import { select, Store } from '@ngrx/store';
+import { selectUser } from '../../../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-profile-settings',
@@ -78,7 +81,6 @@ export class ProfileSettingsComponent implements OnInit {
 
   getUsersData() {
     this.storage.get('user').subscribe((newUser: any) => {
-      console.log(newUser)
       this.profileData = Object.assign({}, {
         username: newUser.username,
         about: newUser.about,
@@ -89,20 +91,6 @@ export class ProfileSettingsComponent implements OnInit {
       this.settingsList[3].description = newUser.about;
       this.settingsList[4].description = newUser.email;
     })
-
-    // this.storage.get('user').subscribe(res => console.log(res))
-    // this.profileServ.getUsersData()
-    // .subscribe((response: IServerResponse) => {
-    //   this.profileData = Object.assign({}, {
-    //     username: response.username,
-    //     about: response.about,
-    //     avatar: atob(response.avatar),
-    //     email: response.email
-    //   })
-    //   this.settingsList[0].description = response.username;
-    //   this.settingsList[3].description = response.about;
-    //   this.settingsList[4].description = response.email;
-    // })
   }
 
   onSelect(item: ISettingsList): void { 
@@ -148,30 +136,12 @@ export class ProfileSettingsComponent implements OnInit {
         return throwError(() => error);
       })
     )
-    .subscribe((newUser: any) => {
+    .subscribe((newUser: IServerResponse) => {
       this.storage.set('user', newUser)
       .subscribe(() => {});
       this.getUsersData();
     })
     this.formData = {};
-
-    // this.profileServ.editProfileSettings(this.formData)
-    // .pipe(
-    //   catchError((error) => {
-    //     return throwError(() => error);
-    //   })
-    // )
-    // .subscribe((response: IServerResponse) => {
-    //   this.profileData.username = response.username;
-    //   // this.status = response.status;
-    //   this.profileData.avatar = atob(response.avatar);
-    //   this.profileData.about = response.about;
-    //   this.profileData.email = response.email;
-    //   // this.wallpaper = response.wallpaper;
-    //   console.log(response)
-    // })
-    // this.getUsersData()
-    // this.formData = {};
   }
 
   openDialog(): void {
