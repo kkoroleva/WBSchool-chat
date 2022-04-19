@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
+
     this.submitted = true;
 
     const user: User = {
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit {
     };
 
     let newUser: INewUser;
-    
+
     this.auth.login(user)
     .pipe(
       catchError((error) => {

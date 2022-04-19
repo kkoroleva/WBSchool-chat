@@ -17,7 +17,7 @@ export interface IAuth {
 const initialState: IAuthState = {
     newUser: {
         token: '',
-        newUser: {
+            newUser: {
             email: '',
             username: '',
             userRights: '',
@@ -25,7 +25,8 @@ const initialState: IAuthState = {
             about: '',
             id: '',
             v: 0
-    }}
+        }
+    }
 };
 
 export const authReducer = createReducer(

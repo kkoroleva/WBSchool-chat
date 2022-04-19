@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap, throwError } from 'rxjs';
+import { catchError, map, mergeMap, throwError } from 'rxjs';
 import { changeLoadGroups, createChatGroup, loadGroups, pushToGroups } from '../actions/groups.actions';
 import {
   changeLoadNotifications,
