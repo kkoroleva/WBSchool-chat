@@ -55,6 +55,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -85,6 +86,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     PasswordModalComponent,
     CreateGroupChatComponent,
     ThreadsComponent,
+    NotFoundPageComponent,
   ],
   imports: [
     BrowserModule,
