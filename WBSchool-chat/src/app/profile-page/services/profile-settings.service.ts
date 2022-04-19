@@ -12,13 +12,13 @@ export class ProfileSettingsService {
 
   constructor(private http: HttpClient) {}
 
-  getUsersData(): Observable<IServerResponse> {
-    return this.http.get<IServerResponse>(this.url).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
-      })
-    );
-  }
+  // getUsersData(): Observable<IServerResponse> {
+  //   return this.http.get<IServerResponse>(this.url).pipe(
+  //     catchError((error: HttpErrorResponse) => {
+  //       return throwError(() => error);
+  //     })
+  //   );
+  // }
 
   editProfileSettings(formData: IProfileData): Observable<IServerResponse> {
     return this.http.patch<IServerResponse>(this.url, formData).pipe(

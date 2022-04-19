@@ -46,7 +46,6 @@ import { MatRippleModule } from '@angular/material/core';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { ModalHelpComponent } from './profile-page/components/profile-settings/modal-help/modal-help.component';
-
 import { StorageModule } from '@ngx-pwa/local-storage';
 
 /*Store*/
