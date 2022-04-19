@@ -1,7 +1,7 @@
 <nav class="nav" *ngIf="isAuthenticated()">
   <ul class="nav__list">
     <li class="nav__list-item nav__list-img"><a routerLink="./profile" class="nav__list-link">
-      <img src="../../assets/ava.svg" alt="avatar" class="nav__img" width="60" height="60"/>
+      <img [src]="'data:image/png;base64,'+(userState$ | async )!.newUser.avatar" alt="avatar" class="nav__img" width="60" height="60"/>
     </a></li>
     <li class="nav__list-item" [ngClass]="{'nav__list-item--active' : path == 'home' }">
       <a routerLink="./home" class="nav__list-link">

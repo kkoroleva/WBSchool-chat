@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { IFriend } from './friend';
 import { Router } from '@angular/router';
-import { ActiveChatService } from '../active-chat.service';
-import { GroupsService } from '../groups/groups.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { selectFriends, selectGroups } from '../store/selectors/groups.selectors';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { changeChatGroup, loadFriends } from '../store/actions/groups.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 
 @Component({
   selector: 'app-friends',
@@ -24,26 +24,28 @@ export class FriendsComponent implements OnInit {
   friendList: IFriend[] = [];
 
   constructor(
+    public dialog: MatDialog,
     private router: Router,
-    private activeChat: ActiveChatService,
-    private chatListService: GroupsService,
     private store$: Store<IGroupsState>
-    ) {
-  }
+    ) { }
 
   ngOnInit(): void {
     this.getChats();
-    this.friendsState$.subscribe(res => {
-      console.log(res);
-    });
+
+    this.friendsState$.subscribe(res => console.log(res));
   }
 
   getChats() {
     this.store$.dispatch(loadFriends());
   }
 
+  getImageFrom64(img: string) {
+    return atob(img);
+  }
+
   goToChat(chatId: string) {
 
+    console.log(chatId);
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);
 
@@ -54,6 +56,11 @@ export class FriendsComponent implements OnInit {
     return (data.users[0] === data.owner)? data.users[0] : data.users[1];
   }
 
-  createPrivateChat() {}
+  createPrivateChat() {
+    this.dialog.open(CreatePrivateChatComponent, {
+      panelClass: 'create-private-chat-modal',
+      maxWidth: '100vw',
+    });
+  }
 
 }
