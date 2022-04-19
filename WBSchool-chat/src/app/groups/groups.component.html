@@ -7,7 +7,7 @@
         <mat-icon>more_vert</mat-icon>
     </a>
     <ul class="groups__list">
-        <li class="groups__item" *ngFor="let group of groupsState$ | async">
+        <li class="groups__item" *ngFor="let group of groups$ | async">
             <a (click)="openGroupChat(group._id!)" class="groups__chat-link">
                 <img class="groups__thumbnail"
                     [src]="group.avatar ? 'data:image/png;base64,' + group.avatar : '/assets/not-found.png'"
