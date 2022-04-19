@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deployServer": "npm run build && scp -r ./dist/* daonik@51.250.28.102:/home/daonik/wbschool-chat-backend/frontend"
+    "deployServer": "ng build --prod && scp -r ./dist/* daonik@51.250.28.102:/home/daonik/wbschool-chat-backend/frontend"
   },
   "private": true,
   "dependencies": {
