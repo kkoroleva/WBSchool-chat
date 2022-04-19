@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, throwError } from 'rxjs';
+import { initDialogs, loadDialogs } from '../actions/dialog.action';
 import { changeLoadGroups, createChatGroup, loadGroups, pushToGroups } from '../actions/groups.actions';
 import {
   changeLoadNotifications,
@@ -10,6 +11,7 @@ import {
   loadNotifications,
   removeNotification,
 } from '../actions/notifications.actions';
+import { IMessage } from '../reducers/dialog.reducer';
 import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 
@@ -78,4 +80,16 @@ export class AppEffects {
       )
     )
   });
+
+  // Dialog
+
+  loadDialog$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(initDialogs),
+      mergeMap(({id}) => this.http.get<IMessage[]>(`${this.apiUrl}/chats/${id}/messages`).pipe(
+        map(( messages ) => loadDialogs({messages}) )
+      ))
+    )
+  });
+  
 }

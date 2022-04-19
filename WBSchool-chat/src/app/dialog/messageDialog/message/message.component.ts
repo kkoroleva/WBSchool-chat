@@ -4,10 +4,11 @@ import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
-import { ActiveChatService } from '../../../active-chat.service';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import { IMessage } from '../../dialog';
+import { initDialogs } from 'src/app/store/actions/dialog.action';
+import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 
 @Component({
   selector: 'app-message',
@@ -36,7 +37,10 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   formatImage: string = '';
 
   private chatGroup$: Observable<string> = this.store$.pipe(
-    select(selectChatGroup)
+    select(selectChatGroup),
+  )
+  public messages$: Observable<IMessage[]> = this.store$.pipe(
+    select(selectDialog)
   )
 
   constructor(private service: DialogService, 
@@ -47,7 +51,8 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     this.getMyInfo()
     this.chatGroup$.subscribe((id)=> { 
         this.chatID = id;
-        this.getMessages(id);
+        this.store$.dispatch(initDialogs({id}))
+        // this.getMessages(id);
       })
   };
 
