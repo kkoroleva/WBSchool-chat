@@ -3,39 +3,55 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../interfaces';
+import { INewUser, User } from '../../interfaces';
+import { IAuthState } from 'src/app/store/reducers/auth.reducers';
+import { Store } from '@ngrx/store';
+import { initAuth } from 'src/app/store/actions/auth.actions';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted!: boolean;
   errorMessage: string = '';
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(
+    private auth: AuthService, 
+    private router: Router,
+    private store$: Store<IAuthState>,
+    private storage: StorageMap
+    ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern('^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*$')]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
-    })
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.pattern(
+          '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
+        ),
+      ]),
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(8),
+      ]),
+    });
   }
 
   submit() {
-    if (this.loginForm.invalid) {
-      this.loginForm.value.password.reset();
-      return
-    }
 
     this.submitted = true;
 
     const user: User = {
       emailOrUser: this.loginForm.value.username,
-      password: this.loginForm.value.password
-    }
+      password: this.loginForm.value.password,
+    };
+
+    let newUser: INewUser;
 
     this.auth.login(user)
     .pipe(
@@ -45,14 +61,16 @@ export class LoginComponent implements OnInit {
         return throwError(() => error);
       })
     )
-    .subscribe(() => {
-      this.loginForm.reset();
-      alert(`Welcome to the club, ${localStorage.getItem('username')}`)
-      this.router.navigate(['home']);
-      this.submitted = false;
-    },
-    () => {
-      this.submitted = false
-    })
+    .subscribe(
+      (resp) => {
+        this.submitted = false;
+        this.router.navigate(['home']);
+        newUser = resp;
+        this.storage.set('user', newUser).subscribe(() => {});
+        this.store$.dispatch(initAuth({newUser}));
+      },
+      () => {
+        this.submitted = false;
+      });
   }
 }

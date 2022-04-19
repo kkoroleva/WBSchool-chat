@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, throwError } from 'rxjs';
 import { changeLoadGroups, createChatGroup, loadGroups, pushToGroups } from '../actions/groups.actions';
@@ -17,8 +18,9 @@ export class AppEffects {
   private apiUrl = 'https://wbschool-chat.ru/api';
   public getGroups: IGroup[] = [];
 
-  constructor(private actions$: Actions, private http: HttpClient) {}
+  constructor(private actions$: Actions, private http: HttpClient, private router: Router,) {}
 
+  // Notifications
   loadNotifications$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadNotifications),
@@ -55,6 +57,7 @@ export class AppEffects {
     )
   });
 
+  // Groups
   loadGroups$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(loadGroups),
@@ -75,5 +78,4 @@ export class AppEffects {
       )
     )
   });
-
 }

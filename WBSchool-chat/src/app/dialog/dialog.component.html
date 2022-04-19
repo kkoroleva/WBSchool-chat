@@ -36,7 +36,7 @@
                     <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
                         <div>
                             <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="" class="message__img">
-                            <img *ngIf="itemFormat(item.text)" src={{item.text}} alt="" class="message__img">
+                            <img *ngIf="itemFormat(item.text)" [src]="item.text" alt="" class="message__img">
                             <p class="message__text" *ngIf="!itemFormat(item.text)">{{item.text}}</p>
                         </div>
                     </div>
