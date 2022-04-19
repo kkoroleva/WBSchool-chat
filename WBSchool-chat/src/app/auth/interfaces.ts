@@ -13,3 +13,16 @@ export interface Register {
 export interface Login {
     token: string
 }
+
+export interface INewUser {
+    token: string,
+    newUser: {
+        email: string,
+        username: string,
+        userRights: string,
+        avatar: string,
+        about: string,
+        id: string,
+        v: number
+    }
+}

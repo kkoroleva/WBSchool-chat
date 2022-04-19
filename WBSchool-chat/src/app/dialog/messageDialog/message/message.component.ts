@@ -1,5 +1,5 @@
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -14,7 +14,7 @@ import { IMessage } from '../../dialog';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit, AfterViewChecked {
 
   @ViewChild("wrapper") wrapper!:ElementRef;
   // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
@@ -40,26 +40,25 @@ export class MessageComponent implements OnInit {
   )
 
   constructor(private service: DialogService, 
-    private activeService: ActiveChatService, 
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>) { }
 
   ngOnInit(): void {
     this.getMyInfo()
-    // this.chatGroup$.subscribe((id)=> { // в данный момент не работает
-    this.activeService.activeChatSubject.subscribe((id)=> {
+    this.chatGroup$.subscribe((id)=> { 
         this.chatID = id;
         this.getMessages(id);
       })
   };
 
-  // ngAfterViewChecked(): void {
-  //   this.changeScroll();
-  // };
+  ngAfterViewChecked(): void {
+    this.changeScroll();
+  };
 
   getMyInfo(): void {
     this.service.getMyInfo()
     .subscribe((response) => {
+        console.log(response, "this res")
         this.myId = response._id;
         this.userName = response.username;
       })

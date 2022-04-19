@@ -1,11 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
-import { changeChatGroup, changeLoadGroups, loadGroups, pushToGroups, } from '../actions/groups.actions';
+import {
+  changeChatGroup,
+  changeLoadGroups,
+  loadGroups,
+  pushToGroups,
+} from '../actions/groups.actions';
 
-export const groupsNode = 'groups';
+export const groupsNode = 'Groups';
 
 export interface IGroupsState {
-    groups: IGroup[];
-    chatGroup: string;
+  groups: IGroup[];
+  chatGroup: string;
 }
 
 export interface IGroup {
@@ -21,29 +26,26 @@ export interface IGroup {
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
 
 const initialState: IGroupsState = {
-    groups: [],
-    chatGroup: chatIDFromLocalStorage
-    ? chatIDFromLocalStorage
-    : ''
-}
+  groups: [],
+  chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
+};
 
 export const groupsReducer = createReducer(
-    initialState,
-    on(loadGroups, (state) => ({
-        ...state,
-        groups: state.groups
-    })),
-    on(changeChatGroup, (state, action) => ({
-        ...state,
-        chatGroup: action.chatGroup
-    })),
-    on(changeLoadGroups, (state, action) => ({
-        ...state,
-        groups: action.groups
-    })),
-    on(pushToGroups, (state, action) => ({
-        ...state,
-        groups: [...state.groups, action.group]
-    }))
-)
-
+  initialState,
+  on(loadGroups, (state) => ({
+    ...state,
+    groups: state.groups,
+  })),
+  on(changeChatGroup, (state, action) => ({
+    ...state,
+    chatGroup: action.chatGroup,
+  })),
+  on(changeLoadGroups, (state, action) => ({
+    ...state,
+    groups: action.groups,
+  })),
+  on(pushToGroups, (state, action) => ({
+    ...state,
+    groups: [...state.groups, action.group],
+  }))
+);

@@ -6,8 +6,7 @@
                         <span *ngIf="item.owner === myId">{{userName}}</span>
                         <span *ngIf="item.owner !== myId ">{{item.owner}}</span>
 
-
-                        <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
+                        <div  [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
                             <div>
                                 <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend" class="message__img"> 
                                 <img *ngIf="itemFormat(item.text)" [src]="item.text" alt="img-send" class="message__img">
