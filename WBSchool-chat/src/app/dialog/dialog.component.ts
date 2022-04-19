@@ -148,9 +148,6 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   }
 
   itemFormat(item: string) {
-    if (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif")) {
-      return true
-    }
-    return false
+    return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"))
   }
 }
