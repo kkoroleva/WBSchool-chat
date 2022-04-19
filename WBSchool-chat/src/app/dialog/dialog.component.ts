@@ -10,6 +10,8 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
 import { ActiveChatService } from '../active-chat.service';
+import { INewUser } from '../auth/interfaces';
+import { IAuthState } from '../store/reducers/auth.reducers';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { IMessage } from './dialog';
@@ -46,7 +48,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
     private service: DialogService,
     private activeService: ActiveChatService,
     private imageCompress: NgxImageCompressService,
-    private store$: Store<IGroupsState>
+    private store$: Store<IGroupsState | IAuthState>
   ) {}
 
   ngOnInit(): void {
@@ -157,15 +159,12 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   }
 
   itemFormat(item: string) {
-    if (
+    return !!(
       item.includes('.png') ||
       item.includes('.jpg') ||
       item.includes('.jpeg') ||
       item.includes('.svg') ||
       item.includes('.gif')
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 }
