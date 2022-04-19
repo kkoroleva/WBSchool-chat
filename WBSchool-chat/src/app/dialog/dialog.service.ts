@@ -10,14 +10,10 @@ export class DialogService {
 
   constructor(private http: HttpClient) { };
 
-  getMe():Observable<User>{
+  getMyInfo():Observable<User>{
     return this.http.get<User>(`${this.urlApi}/users/me`)
   }
 
-  getUserName(): Observable<User>{
-    return this.http.get<User>(`${this.urlApi}/users/username`)
-  }
-  
   getMessages(id: string):Observable<IMessage[]>{
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
   };

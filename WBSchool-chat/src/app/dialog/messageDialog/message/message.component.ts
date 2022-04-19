@@ -16,8 +16,6 @@ import { IMessage } from '../../dialog';
 })
 export class MessageComponent implements OnInit {
 
-
- 
   @ViewChild("wrapper") wrapper!:ElementRef;
   // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
 
@@ -47,70 +45,60 @@ export class MessageComponent implements OnInit {
     private store$: Store<IGroupsState>) { }
 
   ngOnInit(): void {
-    this.getMe()
+    this.getMyInfo()
     // this.chatGroup$.subscribe((id)=> { // в данный момент не работает
     this.activeService.activeChatSubject.subscribe((id)=> {
         this.chatID = id;
         this.getMessages(id);
       })
-    this.getUserName
   };
 
-  ngAfterViewChecked(): void {
-    this.changeScroll();
-  };
+  // ngAfterViewChecked(): void {
+  //   this.changeScroll();
+  // };
 
-  getUserName(): void {
-    this.service.getUserName().subscribe(
-      (item) => {
-        console.log(item, "item")
-      }
-    )
-  }
-
-  getMe(): void {
-    this.service.getMe()
+  getMyInfo(): void {
+    this.service.getMyInfo()
     .subscribe((response) => {
         this.myId = response._id;
         this.userName = response.username;
       })
-    };
+  };
     
-    changeScroll(): void {
+  changeScroll(): void {
       this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
-    };
+  };
     
-    addImage(input: any) {
+  addImage(input: any) {
       let imageOrFile = '';
       let reader = new FileReader();
-    let file = input.files[0];
-    reader.onloadend = () => {
-      if (typeof reader.result == "string") {
-        imageOrFile = reader.result;
-        if (+this.imageCompress.byteCount(reader.result) > 1048576) {
-          this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
-          .then(result =>  {
-            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
-            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-            // console.log(this.imageCompress.byteCount(this.imageOrFile))
-          });
+      let file = input.files[0];
+        reader.onloadend = () => {
+          if (typeof reader.result == "string") {
+            imageOrFile = reader.result;
+            if (+this.imageCompress.byteCount(reader.result) > 1048576) {
+              this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
+              .then(result =>  {
+                this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+                this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+                // console.log(this.imageCompress.byteCount(this.imageOrFile))
+              });
+            }
+            else {
+              this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+              this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
+            }
+          }
+          else {
+            alert("Вы отправляете не картинку!")
+          }
         }
-        else {
-          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
-          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
-        }
-      }
-      else {
-        alert("Вы отправляете не картинку!")
-      }
-    }
     reader.readAsDataURL(file);
   }
   
   getMessages(idChat: string):void {
     this.service.getMessages(idChat).subscribe((res) => {
       this.data = res;
-      console.log(res, "data")
     })
   };
 
@@ -160,9 +148,6 @@ export class MessageComponent implements OnInit {
   }
 
   itemFormat(item: string) {
-    if (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif")) {
-      return true
-    }
-    return false
+    return !! (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif")) 
   }
 }

@@ -10,14 +10,13 @@
                         <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
                             <div>
                                 <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend" class="message__img"> 
-                                <img *ngIf="itemFormat(item.text)" src={{item.text}} alt="img-send" class="message__img">
+                                <img *ngIf="itemFormat(item.text)" [src]="item.text" alt="img-send" class="message__img">
                                 <p class="message__text" *ngIf="!itemFormat(item.text)">{{item.text}}</p>
                             </div>
                         </div>
 
                         
                         <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
-                            <!-- <a class="comments" href="#">#comments</a>  -->
                         <mat-menu #block="matMenu">
                             <button (click)="deleteMessage(item._id)" mat-menu-item>
                                 <span>Удалить</span>
@@ -28,8 +27,6 @@
                         </mat-menu>
                 </div>
             </div> 
-            <!-- message-send
-            <app-wrapper-message></app-wrapper-message> -->
             <hr>
             <div class="message__send">
                     <div>
