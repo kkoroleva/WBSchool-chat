@@ -16,7 +16,10 @@ export interface Login {
 
 export interface INewUser {
     token: string,
-    newUser: {
+    newUser: IUserData
+}
+
+export interface IUserData {
         email: string,
         username: string,
         userRights: string,
@@ -24,5 +27,4 @@ export interface INewUser {
         about: string,
         id: string,
         v: number
-    }
 }
