@@ -10,6 +10,9 @@ import { INewUser, IUserData } from '../../../auth/interfaces';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../../../store/selectors/auth.selectors';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { IContacts } from 'src/app/store/reducers/contacts.reducers';
+import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+// import { IContacts } from '../../store/reducers/contacts.reducers';
 
 @Component({
   selector: 'app-profile-settings',
@@ -30,10 +33,14 @@ export class ProfileSettingsComponent implements OnInit {
   toggle: boolean = false;
   errorMsg: string | boolean = false;
 
+
   imageOrFile: string = '';
   formatImage: string = '';
 
   imgInput: boolean = false;
+
+  contacts: IUserData[] = [];
+  lookContacts: boolean = false;
 
   settingsList: ISettingsList[] = [
     {
@@ -80,14 +87,23 @@ export class ProfileSettingsComponent implements OnInit {
     public settServ: ProfilePageService,
     private storage: StorageMap,
     private imageCompress: NgxImageCompressService,
+    private store$: Store
   ) {}
 
   ngOnInit(): void {
-    this.getUsersData();
+      this.getUsersData();
+      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+        // contacts.contacts.forEach((item: IUserData) => {
+        //   item.avatar = atob(item.avatar)
+        //   this.contacts = contacts.contacts
+        // })
+        this.contacts = contacts.contacts
+      })
   }
 
   getUsersData() {
-    this.storage.get('user').subscribe((newUser: any) => {
+    this.store$.pipe(select(selectUser))
+    .subscribe((newUser: IUserData) => {
       this.profileData = Object.assign({}, {
         username: newUser.username,
         about: newUser.about,
@@ -176,7 +192,9 @@ export class ProfileSettingsComponent implements OnInit {
     )
     .subscribe((newUser: IServerResponse) => {
       this.storage.set('user', newUser)
-      .subscribe(() => {});
+      .subscribe(() => {
+        location.reload();
+      });
       this.getUsersData();
     })
     this.formData = {};
@@ -192,7 +210,11 @@ export class ProfileSettingsComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
-  
+
+  watchProfile() {
+    console.log('watch profile click')
+  }
+
   lengthForm() {
     return Object.keys(this.formData).length > 0 ? true : false;
   }

@@ -74,12 +74,32 @@
 		</div>
 			<div class="profile-settings__menu_item">
 				<div class="profile-settings__menu_item_name">
+					<!-- <mat-icon>{{ "help_outline" }}</mat-icon> -->
+					<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
+					<ul *ngFor="let contact of contacts">
+						<li *ngIf="lookContacts">
+							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
+								<img src={{contact.avatar}} alt="user pic" />
+							  </div> -->
+							<p (click)="watchProfile()">{{contact.username}}</p>
+							<button>Chat</button>
+							<button>Delete</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="profile-settings__menu_item">
+				<div class="profile-settings__menu_item_name">
 					<mat-icon>{{ "help_outline" }}</mat-icon>
 					<div class="profile-settings__menu_item_title" (click)="openDialog()">Help</div>
 				</div>
 			</div>
 			<form (ngSubmit)="submit()" *ngIf="!errorMsg; else errorMessage">
+<<<<<<< HEAD:WBSchool-chat/src/app/profile-page/components/profile-settings/profile-settings.component.html
 				<button mat-raised-button color="primary" type="submit">Save Changes</button>
+=======
+				<button mat-raised-button color="primary" type="submit" [disabled]="!lengthForm()">Save Changes</button>
+>>>>>>> 4987281a20c830537fec2e9bbfec275930a47dd7:WBSchool-chat/src/app/profile-settings/profile-settings.component.html
 			</form>
 			<ng-template #errorMessage>
 				<div class="profile-settings__menu_error">

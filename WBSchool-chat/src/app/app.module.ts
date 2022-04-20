@@ -58,6 +58,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
+import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -90,6 +91,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ThreadsComponent,
     NotFoundPageComponent,
     ModalProfileComponent,
+    DecodeImagePipe
   ],
   imports: [
     BrowserModule,

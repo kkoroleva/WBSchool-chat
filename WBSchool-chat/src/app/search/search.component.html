@@ -1,7 +1,8 @@
 <div class="searchbar">
 	<mat-icon class="searchbar__search-icon" (click)="blankClick()">search</mat-icon>
-	<form autocomplete="off">
-		<input type="text" name="searchbar" placeholder="Search" autocomplete="false">
+	<form [formGroup]="form" autocomplete="off" (ngSubmit)="submit()">
+		<input type="text" name="searchbar" placeholder="Search" autocomplete="false" formControlName="search">
+		<button type="submit">search friend</button>
 	</form>
 	
 
