@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { ProfileSettingsService } from './service/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
-import { IProfileData, IServerResponse, ISettingsList } from './interfaces/interface';
+import { IProfileData, ISettingsList } from './interfaces/interface';
 import { ProfilePageService } from '../profile-page/service/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { INewUser, IUserData } from '../auth/interfaces';
+import { IUserData } from '../auth/interfaces';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../store/selectors/auth.selectors';
 
@@ -27,6 +27,7 @@ export class ProfileSettingsComponent implements OnInit {
   formData: IProfileData = {};
   selectedItem!: ISettingsList;
   toggle: boolean = false;
+  errorMsg: string | boolean = false;
 
   settingsList: ISettingsList[] = [
     {
@@ -97,19 +98,34 @@ export class ProfileSettingsComponent implements OnInit {
 
   addToFormData(inputData: any) {
     if (inputData.id == 1) {
-      this.formData.username = inputData.value;
-    }
-    else if (inputData.id == 2) {
-      this.formData.status = inputData.value;
-    }
-    else if (inputData.id == 3) {
-      this.formData.avatar = btoa(inputData.value);
-    }
-    else if (inputData.id == 4) {
-      this.formData.about = inputData.value;
-    }
-    else if (inputData.id == 5) {
-      this.formData.wallpaper = inputData.value;
+
+      if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
+          inputData.value.length >= 4 && 
+          inputData.value.length <= 100) {
+        this.formData.username = inputData.value;
+        this.errorMsg = false
+      }
+      else this.errorMsg = 'Username error'
+
+    } else if (inputData.id == 3) {
+
+      this.formData.avatar = btoa(inputData.value)
+
+    } else if (inputData.id == 4) {
+
+      if (inputData.value.length >= 4 && inputData.value.length <= 100) {
+        this.formData.about = inputData.value;
+        this.errorMsg = false
+      } else this.errorMsg = 'Description error'
+
+    } else if (inputData.id == 5) {
+
+      if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
+          inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        this.formData.about = inputData.value;
+        this.errorMsg = false
+      } else this.errorMsg = 'Email error'
+      
     }
   }
 
@@ -122,10 +138,11 @@ export class ProfileSettingsComponent implements OnInit {
     )
     .subscribe((newUser: any) => {
       this.storage.set('user', newUser)
-      .subscribe(() => {});
+      .subscribe(() => {
+        location.reload();
+      });
     })
     this.formData = {};
-    location.reload();
   }
 
   openDialog(): void {
