@@ -35,7 +35,6 @@
 					<mat-form-field appearance="fill">
 						<mat-label>{{selectedItem.title}}</mat-label>
 					    <input matInput color='warn' type="text" id={{item.id}} value={{item.description}} #input>
-						<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
 			        </mat-form-field>
 					<div class="form-field__btn-wrapper">
 						<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">
@@ -48,19 +47,26 @@
 				</div>
 			</div>
 			<div class="profile-settings__menu_item">
-				<div class="profile-settings__menu_item_name">
+				<div>
 					<!-- <mat-icon>{{ "help_outline" }}</mat-icon> -->
 					<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
-					<ul *ngFor="let contact of contacts">
-						<li *ngIf="lookContacts">
+					<ul *ngFor="let contact of contacts" style="display: flex; flex-direction: column;">
+						<li *ngIf="lookContacts" style="display: flex; flex-direction: column;">
 							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
 								<img src={{contact.avatar}} alt="user pic" />
 							  </div> -->
 							<p (click)="watchProfile()">{{contact.username}}</p>
-							<button>Chat</button>
-							<button>Delete</button>
+							<!-- <button>Chat</button>
+							<button>Delete</button> -->
 						</li>
 					</ul>
+					<form [formGroup]="form" (ngSubmit)="addFriend()">
+						<div *ngIf="lookContacts">
+							<input type="text" formControlName="contactInput">
+							<button type="submit">AddFriend</button>
+						</div>
+						<p *ngIf="notFound.length > 0">{{notFound}}</p>
+					</form>
 				</div>
 			</div>
 			<div class="profile-settings__menu_item">

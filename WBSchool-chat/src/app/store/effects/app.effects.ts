@@ -128,10 +128,7 @@ export class AppEffects {
       mergeMap(() =>
         this.http
           .get<IContacts>(`${this.apiUrl}/users/contacts`)
-          .pipe(map((contacts) => {
-            console.log(contacts)
-            return pushContacts({ contacts: contacts })
-          }))
+          .pipe(map((contacts) => pushContacts({ contacts: contacts })))
       )
     );
   });

@@ -11,6 +11,9 @@ import { select, Store } from '@ngrx/store';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { selectContacts } from '../store/selectors/contacts.selectors';
 import { IContacts } from '../store/reducers/contacts.reducers';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { initContacts } from '../store/actions/contacts.actions';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-settings',
@@ -18,6 +21,7 @@ import { IContacts } from '../store/reducers/contacts.reducers';
   styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent implements OnInit {
+  private url = 'https://wbschool-chat.ru/api/users';
   profileData: IProfileData = {
     username: '',
     status: 'Не беспокоить',
@@ -31,8 +35,12 @@ export class ProfileSettingsComponent implements OnInit {
   toggle: boolean = false;
   errorMsg: string | boolean = false;
 
-  contacts: IUserData[] = [];
+  users: IUserData[] = [];
   lookContacts: boolean = false;
+  contact!: any;
+  notFound: string = '';
+  form!: FormGroup;
+  contacts: IUserData[] = [];
 
   settingsList: ISettingsList[] = [
     {
@@ -78,18 +86,22 @@ export class ProfileSettingsComponent implements OnInit {
     public dialog: MatDialog,
     public settServ: ProfilePageService,
     private storage: StorageMap,
-    private store$: Store
+    private store$: Store,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-      this.getUsersData();
-      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-        // contacts.contacts.forEach((item: IUserData) => {
-        //   item.avatar = atob(item.avatar)
-        //   this.contacts = contacts.contacts
-        // })
-        this.contacts = contacts.contacts
-      })
+    this.form = new FormGroup({
+      contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
+    })
+    this.getUsersData();
+    this.http.get<IUserData[]>(this.url).subscribe((resp: IUserData[]) => {
+      this.users = resp
+    });
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.contacts = contacts.contacts
+    })
+    this.store$.dispatch(initContacts());
   }
 
   getUsersData() {
@@ -171,5 +183,18 @@ export class ProfileSettingsComponent implements OnInit {
 
   lengthForm() {
     return Object.keys(this.formData).length > 0 ? true : false;
+  }
+
+  addFriend() {
+    const userName: string = this.form.value.contactInput.trim();
+    this.contact = this.users.find((user: IUserData) => user.username === userName);
+    if (this.contact != undefined) {
+      this.http.post<IContacts>(`${this.url}/contacts`, {id: this.contact._id}).subscribe(() => {});
+    }
+    else {
+      this.notFound = 'Данного пользователя не существует.'
+    }
+    this.store$.dispatch(initContacts());
+    this.form.reset();
   }
 }
