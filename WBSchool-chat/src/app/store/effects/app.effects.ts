@@ -26,8 +26,7 @@ import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
-import { addContact, initContacts, pushContacts } from '../actions/contacts.actions';
-import { IUserData } from 'src/app/auth/interfaces';
+import { initContacts, pushContacts } from '../actions/contacts.actions';
 import { IContacts } from '../reducers/contacts.reducers';
 
 @Injectable()
