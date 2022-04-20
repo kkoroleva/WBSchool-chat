@@ -40,8 +40,7 @@ body {
 
 .auth {
   margin: 0 auto;
-  margin-top: 40px;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
   width: 400px;
   padding: 20px;
 
@@ -75,3 +74,27 @@ body {
 	color: black;
 	border-radius: 20px;
 }
+
+.create-group-chat-modal {
+  .mat-dialog-container {
+    background-color: #fff;
+    color: #000;
+    border-radius: 20px;
+  }
+
+  .mat-dialog-content {
+    height: 42vh;
+  }
+
+  .modal__field {
+    .mat-form-field-flex {
+      background-color: #f1f1f1;
+    }
+
+    .mat-form-field-label {
+      color: rgb(185, 181, 181);
+    }
+  }
+}
+
+
