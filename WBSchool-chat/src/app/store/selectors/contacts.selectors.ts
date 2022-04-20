@@ -8,8 +8,3 @@ export const selectContacts = createSelector(
   selectContactsFeature,
   (state: IContacts): IContacts => state
 );
-
-// export const selectContactsArr = createSelector(
-//   selectContactsFeature,
-//   (state: IContactsState): IContact[] => state.contacts
-// );
