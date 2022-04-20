@@ -32,4 +32,8 @@ export class GroupsService {
   markEveryChatUnread(chats: IUnread[]): Observable<IUnread> {
     return this.http.patch<IUnread>(`${this.apiUrl}/chats`, chats);
   }
+
+  getContacts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/users/contacts`);
+  }
 }
