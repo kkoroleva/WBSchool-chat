@@ -112,12 +112,32 @@ body {
   .mat-pseudo-checkbox {
     color: #000;
   }
+
+  .mat-option:hover {
+    background: #e9e8e8;
+  }
+
+  .mat-pseudo-checkbox {
+    display: none;
+  }
 }
 
 .modal__select.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate {
   background-color: #1A66FF;
 }
 
-.modal__select.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+.modal__select .mat-option.mat-selected:not(.mat-option-disabled) {
   color: #1A66FF;
+}
+
+.modal__field.mat-focused .mat-form-field-ripple {
+  background-color: #1A66FF;
+}
+
+.modal__field.mat-form-field-invalid .mat-form-field-ripple {
+  background-color: #f44336;
+}
+
+.modal__select {
+  margin-top: 26px;
 }
