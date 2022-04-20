@@ -88,7 +88,7 @@ export class ProfileSettingsComponent implements OnInit {
     private storage: StorageMap,
     private imageCompress: NgxImageCompressService,
     private store$: Store,
-    // public modalProfileServ: ModalProfileService
+    public modalProfileServ: ModalProfileService
   ) {}
 
   ngOnInit(): void {
@@ -216,9 +216,9 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   watchProfile(contact: IUserData) {
-    console.log('hey')
-    console.log(contact)
-    // this.modalProfileServ.openDialog()
+    // console.log('hey')
+    // console.log(contact)
+    this.modalProfileServ.openDialog(contact)
   }
 
   lengthForm() {
