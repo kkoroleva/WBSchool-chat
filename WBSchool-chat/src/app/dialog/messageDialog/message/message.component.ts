@@ -126,7 +126,7 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     console.log('удалить чат')
   }
 
-  editMessage(text: string, id: string ,idChat: string):void {
+  editMessage(text: string, id: string, idChat: string):void {
     this.isEditMessage = false;
     this.store$.dispatch(editMessage({text, id, idChat}))
   }
@@ -142,11 +142,9 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     || 
     this.message.value.trim()
     && event.key === 'Enter' 
-    && this.imageOrFile.length > 0 
-    && event.key === 'Enter') {
-      this.changeScroll()
+    && this.imageOrFile.length > 0 ) {
       if(this.isEditMessage) {
-        console.log("i am working")
+        console.log("abc")
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
       }
       else {

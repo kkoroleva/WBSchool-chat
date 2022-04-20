@@ -5,6 +5,7 @@ export interface IMessage {
     expiresIn?:string;
     imageOrFile?: string;
     formatImage?: string;
+    idChat?:string;
 }
 
 export interface User {

@@ -45,7 +45,7 @@ export class DialogService {
       `${this.urlApi}/chats/${idChat}/messages/${id}`
     );
   }
-  editMessage(editedMessage: string, id: string, idChat: string): Observable<IMessage> {
+  editMessage(editedMessage: string, id: string | undefined, idChat: string | undefined): Observable<IMessage> {
     return this.http.patch<IMessage>(
       `${this.urlApi}/chats/${idChat}/messages/${id}`,
       {text: editedMessage }

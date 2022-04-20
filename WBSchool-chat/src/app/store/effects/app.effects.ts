@@ -157,7 +157,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(editMessage),
       mergeMap(( {text, id, idChat}) => this.dialogService.editMessage(text, id, idChat).pipe(
-        map(( message ) => editMessage({ message }) )
+        map(( message  ) => editMessage({ id :message._id, text:message.text, idChat:message.idChat }) )
       ))
     )
   })

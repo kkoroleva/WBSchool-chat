@@ -14,6 +14,8 @@ export interface IMessage {
     expiresIn?:string;
     imageOrFile?: string;
     formatImage?: string;
+    idChat?:string;
+
 }
 
 const initialState: IDialogState = {
@@ -41,7 +43,7 @@ export const dialogReducer = createReducer(
     on(editMessage, (state, action)=>({
         ...state,
         messages: state.messages.map((mess)=>{
-           return action.message._id === mess._id ? action.message : mess
+           return action.id === mess._id ? action : mess
         })
         
     })),

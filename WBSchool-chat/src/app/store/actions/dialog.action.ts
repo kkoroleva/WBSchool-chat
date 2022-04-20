@@ -17,4 +17,4 @@ export const deleteMessage = createAction('[DIALOG] deleteMessage',
 props<{ id: string}>());
 
 export const editMessage = createAction('[DIALOG] editMessage', 
-props<{ message: IMessage}>());
+props<{ text: string , id: string | undefined, idChat: string | undefined}>());
