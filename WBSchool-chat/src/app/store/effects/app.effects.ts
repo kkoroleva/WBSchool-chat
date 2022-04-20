@@ -21,6 +21,8 @@ import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
 import { initContacts } from '../actions/contacts.actions';
+import { IUserData } from 'src/app/auth/interfaces';
+import { IContacts } from '../reducers/contacts.reducers';
 
 @Injectable()
 export class AppEffects {
@@ -126,8 +128,8 @@ export class AppEffects {
       ofType(initContacts),
       mergeMap(() =>
         this.http
-          .get<IFriend[]>(`${this.apiUrl}/users/contacts`)
-          .pipe(map((contacts) => initContacts({ contacts: contacts.reverse() })))
+          .get<IContacts>(`${this.apiUrl}/users/contacts`)
+          .pipe(map((contacts) => initContacts({ contacts: contacts })))
       )
     );
   });

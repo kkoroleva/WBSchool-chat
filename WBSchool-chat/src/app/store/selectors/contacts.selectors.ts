@@ -1,9 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { contactsNode } from '../reducers/contacts.reducers';
+import { IUserData } from 'src/app/auth/interfaces';
+import { contactsNode, IContacts } from '../reducers/contacts.reducers';
 
-export const selectContactsFeature = createFeatureSelector<any[]>(contactsNode);
+export const selectContactsFeature = createFeatureSelector<IContacts>(contactsNode);
 
 export const selectContacts = createSelector(
     selectContactsFeature,
-    (state: any[]): any[] => state
+    (state: IContacts): IContacts => state
 )
