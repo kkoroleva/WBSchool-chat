@@ -9,6 +9,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { INewUser, IUserData } from '../../../auth/interfaces';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../../../store/selectors/auth.selectors';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-profile-settings',
@@ -28,6 +29,11 @@ export class ProfileSettingsComponent implements OnInit {
   selectedItem!: ISettingsList;
   toggle: boolean = false;
   errorMsg: string | boolean = false;
+
+  imageOrFile: string = '';
+  formatImage: string = '';
+
+  imgInput: boolean = false;
 
   settingsList: ISettingsList[] = [
     {
@@ -51,7 +57,7 @@ export class ProfileSettingsComponent implements OnInit {
     {
       "id": 4,
       "icon": "edit",
-      "title": "description",
+      "title": "Edit description",
       "description": this.profileData.about
     },
     {
@@ -72,7 +78,8 @@ export class ProfileSettingsComponent implements OnInit {
     private profileServ: ProfileSettingsService, 
     public dialog: MatDialog,
     public settServ: ProfilePageService,
-    private storage: StorageMap
+    private storage: StorageMap,
+    private imageCompress: NgxImageCompressService,
   ) {}
 
   ngOnInit(): void {
@@ -129,6 +136,37 @@ export class ProfileSettingsComponent implements OnInit {
     }
   }
 
+  addImage(input: any) {
+    let imageOrFile = '';
+    let reader = new FileReader();
+    let file = input.files[0];
+    reader.onloadend = () => {
+      if (typeof reader.result == "string") {
+        imageOrFile = reader.result;
+        if (+this.imageCompress.byteCount(reader.result) > 1048576) {
+          this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
+          .then(result =>  {
+            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+            this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+          });
+        } else {
+          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
+          this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+        }
+      }
+      else {
+        alert("Вы отправляете не картинку!")
+      }
+    }
+    reader.readAsDataURL(file);
+  }
+
+  onFileInputChange(event: any) {
+    this.imgInput = true
+  }
+
   submit() {
     this.profileServ.editProfileSettings(this.formData)
     .pipe(
@@ -142,6 +180,7 @@ export class ProfileSettingsComponent implements OnInit {
       this.getUsersData();
     })
     this.formData = {};
+    this.imgInput = false
   }
 
   openDialog(): void {
@@ -156,5 +195,9 @@ export class ProfileSettingsComponent implements OnInit {
   
   lengthForm() {
     return Object.keys(this.formData).length > 0 ? true : false;
+  }
+
+  itemFormat(item: string) {
+    return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"));
   }
 }

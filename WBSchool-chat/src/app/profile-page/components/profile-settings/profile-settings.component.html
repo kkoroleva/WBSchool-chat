@@ -6,20 +6,20 @@
 	</div>
 	<div class="profile-settings__user-info">
 	  <div class="profile-settings__user-info_img">
-		<img src={{profileData.avatar}} alt="user pic" />
+		<img  *ngIf="!!profileData.avatar"  [src]="profileData.avatar" alt="user pic" />
 	  </div>
 	  <div class="profile-settings__user-info_name" >
 		<span class="profile-settings__user-info_name_username">
-		  {{ profileData.username }}
+		  	{{ profileData.username }}
 		</span>
 		<span class="profile-settings__user-info_name_status">
-		  {{ profileData.status }}
+		  	{{ profileData.status }}
 		</span>
 		<span class="profile-settings__user-info_name_status">
 			{{ profileData.email }}
-		  </span>
+		</span>
 		<span class="profile-settings__user-info_name_status">
-		  {{ profileData.about }}
+		  	{{ profileData.about }}
 		</span>
 	  </div>
 	</div>
@@ -30,48 +30,48 @@
 				<mat-icon>{{ item.icon }}</mat-icon>
 				<div class="profile-settings__menu_item_title" (click)="[onSelect(item), toggle = !toggle]" 
 				[class.selected]="item === selectedItem">{{ item.title }}</div>
-				<!-- <ng-template #formInput>
-					
-				</ng-template> -->
 			</div>
-				<div *ngIf="toggle && selectedItem.id == i+1" class="profile-settings__menu_item_form-field">
+			<div *ngIf="toggle && selectedItem.id == i+1" class="profile-settings__menu_item_form-field">
 
-					<!-- <div *ngIf="item.id != 3; else photoInput"> -->
+				<div *ngIf="item.id != 3; else photoInput">
 
-						<mat-form-field appearance="fill">
-							<mat-label>{{selectedItem.title}}</mat-label>
-							<input matInput color='warn' type="text" id={{item.id}} value={{item.description}} #input>
-							<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
-						</mat-form-field>
+					<mat-form-field appearance="fill">
+						<mat-label>{{selectedItem.title}}</mat-label>
+						<input matInput color='warn' type="text" id={{item.id}} value={{item.description}} #input>
+						<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
+					</mat-form-field>
 
-						<div class="form-field__btn-wrapper">
-							<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">
-								<mat-icon>done</mat-icon>
-							</button>
-							<button mat-raised-button color="warn" (click)="toggle = !toggle">
-								<mat-icon>close</mat-icon>
-							</button>
-						</div>
+					<div class="form-field__btn-wrapper">
+						<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">
+							<mat-icon>done</mat-icon>
+						</button>
+						<button mat-raised-button color="warn" (click)="toggle = !toggle">
+							<mat-icon>close</mat-icon>
+						</button>
+					</div>
 
-					<!-- </div> -->
-
-					<!-- <ng-template #photoInput>
-						
-						<input  type="file" id="fileElem" multiple accept="image/*" #input>
-
-						<div class="form-field__btn-wrapper">
-							<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">
-								<mat-icon>done</mat-icon>
-							</button>
-							<button mat-raised-button color="warn" (click)="toggle = !toggle">
-								<mat-icon>close</mat-icon>
-							</button>
-						</div>
-
-					</ng-template> -->
-					
 				</div>
+
+				<ng-template #photoInput>
+
+					<div class="form-field">
+						<input type="file" id="fileElem" multiple accept="image/*" (change)="onFileInputChange($event)" #input>
+						<label for="fileElem" [ngClass]="{'form-field__input_active': imgInput === true}">Выберите картинку</label>
+					</div>
+
+					<div class="form-field__btn-wrapper">
+						<button mat-raised-button color="primary" (click)="[addImage(input), toggle = !toggle]">
+							<mat-icon>done</mat-icon>
+						</button>
+						<button mat-raised-button color="warn" (click)="toggle = !toggle">
+							<mat-icon>close</mat-icon>
+						</button>
+					</div>
+
+				</ng-template>
+					
 			</div>
+		</div>
 			<div class="profile-settings__menu_item">
 				<div class="profile-settings__menu_item_name">
 					<mat-icon>{{ "help_outline" }}</mat-icon>
