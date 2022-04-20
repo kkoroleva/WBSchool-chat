@@ -74,4 +74,19 @@
   &__option {
     color: #000;
   }
+
+  &__avatar {
+    width: 25px;
+    height: 25px;
+  }
+
+  &__contact {
+    display: flex;
+    align-items: center;
+  }
+
+  &__username {
+    font-weight: bold;
+    padding-left: 10px;
+  }
 }

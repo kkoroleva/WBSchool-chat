@@ -1,3 +1,4 @@
+import { GroupsService } from './../../groups.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -23,11 +24,7 @@ export class CreateGroupChatComponent implements OnInit {
   public imageName = '';
   public imageInBase64 = '';
   private inputFile!: HTMLInputElement;
-  public contactsList: any[] = [
-    { username: 'Friend #1', _id: '62599b5969a5c8c98304e5f2' },
-    { username: 'Friend #2', _id: '62599b5969a5c8c98304e5f2' },
-    { username: 'Friend #3', _id: '62599b5969a5c8c98304e5f2' },
-  ];
+  public contactsList: any[] = [];
   public contacts!: FormControl;
   public errMessage$: Observable<string> = this.store$.pipe(
     select(selectChatGroupError)
@@ -36,7 +33,8 @@ export class CreateGroupChatComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<CreateGroupChatComponent>,
     private store$: Store<IGroupsState>,
-    private actions$: Actions
+    private actions$: Actions,
+    private groupsService: GroupsService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +59,10 @@ export class CreateGroupChatComponent implements OnInit {
     this.actions$.pipe(ofType(pushToGroups)).subscribe(() => {
       this.dialogRef.close();
     });
+
+    this.groupsService
+      .getContacts()
+      .subscribe((res) => (this.contactsList = res[0].contacts));
   }
 
   createGroupChat(): void {
