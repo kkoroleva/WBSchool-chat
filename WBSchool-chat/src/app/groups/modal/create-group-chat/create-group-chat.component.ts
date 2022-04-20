@@ -1,3 +1,4 @@
+import { selectContacts } from './../../../store/selectors/contacts.selectors';
 import {
   initContacts,
   pushContacts,
@@ -16,10 +17,10 @@ import {
   pushToGroups,
 } from 'src/app/store/actions/groups.actions';
 import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
-import { selectContactsArr } from 'src/app/store/selectors/contacts.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { IContact } from 'src/app/store/reducers/contacts.reducers';
+import { IContacts } from 'src/app/store/reducers/contacts.reducers';
 import { MatChipList } from '@angular/material/chips';
+import { IUser } from '../../user';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -35,12 +36,13 @@ export class CreateGroupChatComponent implements OnInit {
   public imageInBase64 = '';
   private inputFile!: HTMLInputElement;
   public contactsControl = new FormControl();
-  public contactsList: IContact[] = [];
+  public contactsList: IUser[] = [];
   public errMessage$: Observable<string> = this.store$.pipe(
     select(selectChatGroupError)
   );
-  public contacts$: Observable<IContact[]> = this.store$.pipe(
-    select(selectContactsArr)
+  public contacts$: Observable<IUser[]> = this.store$.pipe(
+    select(selectContacts),
+    map((contacts) => contacts.contacts)
   );
 
   constructor(
@@ -101,7 +103,7 @@ export class CreateGroupChatComponent implements OnInit {
   }
 
   createGroupObject(): IGroup {
-    const contacts: IContact[] = this.form.get('contacts')?.value;
+    const contacts: IUser[] = this.form.get('contacts')?.value;
     const name: string = this.form.get('name')?.value;
     const about: string = this.form.get('about')?.value;
     const nameLength = name.trim().length;
@@ -168,9 +170,9 @@ export class CreateGroupChatComponent implements OnInit {
     };
   }
 
-  removeContact(contact: IContact): void {
+  removeContact(contact: IUser): void {
     const contacts = this.form.get('contacts') as FormControl;
-    const contactsValue = contacts.value as IContact[];
+    const contactsValue = contacts.value as IUser[];
 
     contacts.patchValue(
       contactsValue.filter((user) => user._id !== contact._id)
@@ -181,8 +183,8 @@ export class CreateGroupChatComponent implements OnInit {
 
   selectContact(event: MatAutocompleteSelectedEvent): void {
     const contacts = this.form.get('contacts') as FormControl;
-    const contactsValue = contacts.value as IContact[];
-    const contact: IContact = {
+    const contactsValue = contacts.value as IUser[];
+    const contact: IUser = {
       username: event.option.value.username,
       _id: event.option.value._id,
       avatar: event.option.value.avatar,
@@ -204,7 +206,7 @@ export class CreateGroupChatComponent implements OnInit {
     this.contactsControl.setValue(null);
   }
 
-  private filterContacts(username: string): IContact[] {
+  private filterContacts(username: string): IUser[] {
     const filterUsername =
       typeof username === 'string' ? username.toLowerCase() : '';
 
