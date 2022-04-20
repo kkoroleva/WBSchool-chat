@@ -57,6 +57,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { NavbuttomComponent } from './navbuttom/navbuttom.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -88,6 +89,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     CreateGroupChatComponent,
     ThreadsComponent,
     NotFoundPageComponent,
+    NavbuttomComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,55 @@
+import { Component } from '@angular/core';
+import { ChangeComponentService } from './change-component.service';
+
+@Component({
+  selector: 'app-navbuttom',
+  templateUrl: './navbuttom.component.html',
+  styleUrls: ['./navbuttom.component.scss']
+})
+export class NavbuttomComponent {
+
+  constructor(public changeState: ChangeComponentService) {}
+
+  stateMain = this.changeState.stateComponentMain
+  stateMessages = this.changeState.stateComponentMessages
+
+  openGroup(): void {
+    this.stateMain.groups = true
+    this.stateMain.unreadMess = false
+    this.stateMain.tetATet = false
+    this.stateMain.threads = false
+
+    this.stateMessages.groups = true
+    this.stateMessages.unreadMess = false
+    this.stateMessages.messanger = false
+  }
+
+  openUnreadMess(): void {
+    this.stateMain.groups = false
+    this.stateMain.unreadMess = true
+    this.stateMain.tetATet = false
+    this.stateMain.threads = false
+
+    this.stateMessages.groups = false
+    this.stateMessages.unreadMess = true
+    this.stateMessages.messanger = false
+  }
+
+  openTetATet(): void {
+    this.stateMain.groups = false
+    this.stateMain.unreadMess = false
+    this.stateMain.tetATet = true
+    this.stateMain.threads = false
+
+    this.stateMessages.groups = false
+    this.stateMessages.unreadMess = false
+    this.stateMessages.messanger = true
+  }
+
+  openThreads(): void {
+    this.stateMain.groups = false
+    this.stateMain.unreadMess = false
+    this.stateMain.tetATet = false
+    this.stateMain.threads = true
+  }
+}
