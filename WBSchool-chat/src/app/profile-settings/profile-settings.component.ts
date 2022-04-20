@@ -9,6 +9,8 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { IUserData } from '../auth/interfaces';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../store/selectors/auth.selectors';
+import { selectContacts } from '../store/selectors/contacts.selectors';
+import { IContacts } from '../store/reducers/contacts.reducers';
 
 @Component({
   selector: 'app-profile-settings',
@@ -28,6 +30,9 @@ export class ProfileSettingsComponent implements OnInit {
   selectedItem!: ISettingsList;
   toggle: boolean = false;
   errorMsg: string | boolean = false;
+
+  contacts: IUserData[] = [];
+  lookContacts: boolean = false;
 
   settingsList: ISettingsList[] = [
     {
@@ -78,6 +83,13 @@ export class ProfileSettingsComponent implements OnInit {
 
   ngOnInit(): void {
       this.getUsersData();
+      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+        // contacts.contacts.forEach((item: IUserData) => {
+        //   item.avatar = atob(item.avatar)
+        //   this.contacts = contacts.contacts
+        // })
+        this.contacts = contacts.contacts
+      })
   }
 
   getUsersData() {
@@ -154,6 +166,8 @@ export class ProfileSettingsComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  watchProfile() {}
 
   lengthForm() {
     return Object.keys(this.formData).length > 0 ? true : false;

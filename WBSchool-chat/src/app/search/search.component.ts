@@ -14,7 +14,7 @@ import { selectContacts } from '../store/selectors/contacts.selectors';
 })
 export class SearchComponent implements OnInit{
   contact!: any;
-  myContacts!: IUserData[];
+  contacts!: IUserData[];
   form!: FormGroup;
   private url = 'https://wbschool-chat.ru/api/users';
 
@@ -25,9 +25,9 @@ export class SearchComponent implements OnInit{
       search: new FormControl('', [Validators.minLength(1)])
     })
     this.store$.dispatch(initContacts());
-    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-      this.myContacts = contacts.contacts
-    })
+    this.http.get<IUserData[]>(this.url).subscribe((resp: IUserData[]) => {
+      this.contacts = resp
+    });
   }
 
   blankClick(): void {
@@ -35,12 +35,8 @@ export class SearchComponent implements OnInit{
   }
 
   submit() {
-    let users: IUserData[] = [];
-    this.http.get<IUserData[]>(this.url).subscribe((resp: IUserData[]) => {
-      users = resp
-    });
     const userName: string = this.form.value.search.trim();
-    this.contact = users.find((user: IUserData) => user.username === userName);
+    this.contact = this.contacts.find((user: IUserData) => user.username === userName);
     this.http.post<IContacts>(`${this.url}/contacts`, {id: this.contact._id}).subscribe(() => {});
     this.store$.dispatch(initContacts());
     this.form.reset();
