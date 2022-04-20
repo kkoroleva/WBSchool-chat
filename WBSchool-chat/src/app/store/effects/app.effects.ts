@@ -20,8 +20,7 @@ import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
-import { addContact, initContacts, pushContacts } from '../actions/contacts.actions';
-import { IUserData } from 'src/app/auth/interfaces';
+import { initContacts, pushContacts } from '../actions/contacts.actions';
 import { IContacts } from '../reducers/contacts.reducers';
 
 @Injectable()
@@ -129,7 +128,10 @@ export class AppEffects {
       mergeMap(() =>
         this.http
           .get<IContacts>(`${this.apiUrl}/users/contacts`)
-          .pipe(map((contacts) => pushContacts({ contacts: contacts })))
+          .pipe(map((contacts) => {
+            console.log(contacts)
+            return pushContacts({ contacts: contacts })
+          }))
       )
     );
   });

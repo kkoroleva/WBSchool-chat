@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { IUserData } from '../auth/interfaces';
-import { addContact, initContacts } from '../store/actions/contacts.actions';
+import { initContacts } from '../store/actions/contacts.actions';
 import { IContacts } from '../store/reducers/contacts.reducers';
+import { selectContacts } from '../store/selectors/contacts.selectors';
 
 @Component({
   selector: 'app-search',
@@ -13,7 +14,7 @@ import { IContacts } from '../store/reducers/contacts.reducers';
 })
 export class SearchComponent implements OnInit{
   contact!: any;
-  contacts!: IUserData[];
+  myContacts!: IUserData[];
   form!: FormGroup;
   private url = 'https://wbschool-chat.ru/api/users';
 
@@ -23,8 +24,9 @@ export class SearchComponent implements OnInit{
     this.form = new FormGroup({
       search: new FormControl('', [Validators.minLength(1)])
     })
-    this.http.get(this.url).subscribe((resp: any) => {
-      this.contacts = resp
+    this.store$.dispatch(initContacts());
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.myContacts = contacts.contacts
     })
   }
 
@@ -33,12 +35,14 @@ export class SearchComponent implements OnInit{
   }
 
   submit() {
+    let users: IUserData[] = [];
+    this.http.get<IUserData[]>(this.url).subscribe((resp: IUserData[]) => {
+      users = resp
+    });
     const userName: string = this.form.value.search.trim();
-    let contact: any = {};
-    this.contact = this.contacts.find((user: IUserData) => user.username === userName);
-    this.store$.dispatch(initContacts())
-    console.log(this.contacts)
-    console.log(this.contact)
+    this.contact = users.find((user: IUserData) => user.username === userName);
+    this.http.post<IContacts>(`${this.url}/contacts`, {id: this.contact._id}).subscribe(() => {});
+    this.store$.dispatch(initContacts());
     this.form.reset();
   }
 }

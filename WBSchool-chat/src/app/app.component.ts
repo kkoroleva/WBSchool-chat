@@ -19,8 +19,5 @@ export class AppComponent implements OnInit {
     this.storage.get('user').subscribe((newUser: any) => {
       this.store$.dispatch(initAuth({newUser}));
     })
-    console.log(localStorage.getItem('token'))
-    // this.store$.dispatch(initContacts({contacts: []}));
-    // this.store$.pipe(select(selectContacts)).subscribe((resp) => console.log(resp))
   }
 }
