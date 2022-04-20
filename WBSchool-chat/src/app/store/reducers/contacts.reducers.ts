@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { IUserData } from 'src/app/auth/interfaces';
-import { addContact, initContacts } from '../actions/contacts.actions';
+import { addContact, initContacts, pushContacts } from '../actions/contacts.actions';
 
 export const contactsNode = 'Contacts';
 
@@ -25,11 +25,14 @@ const initialState: IContacts = {
 export const contactsReducer = createReducer(
   initialState,
   on(initContacts, (state) => ({
-    ...state,
-    initialState: state
+    ...state
   })),
   on(addContact, (state, action) => ({
     ...state,
     contact: [...state.contacts, action.contact]
+  })),
+  on(pushContacts, (state, action) => ({
+    ...state,
+    contacts: action.contacts.contacts
   }))
 );

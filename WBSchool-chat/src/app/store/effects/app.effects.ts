@@ -20,7 +20,7 @@ import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
-import { initContacts } from '../actions/contacts.actions';
+import { addContact, initContacts, pushContacts } from '../actions/contacts.actions';
 import { IUserData } from 'src/app/auth/interfaces';
 import { IContacts } from '../reducers/contacts.reducers';
 
@@ -129,7 +129,7 @@ export class AppEffects {
       mergeMap(() =>
         this.http
           .get<IContacts>(`${this.apiUrl}/users/contacts`)
-          .pipe(map((contacts) => initContacts({ contacts: contacts })))
+          .pipe(map((contacts) => pushContacts({ contacts: contacts })))
       )
     );
   });
