@@ -45,10 +45,10 @@ export class DialogService {
       `${this.urlApi}/chats/${idChat}/messages/${id}`
     );
   }
-  editMessage(text: string, id: string, idChat: string): Observable<IMessage> {
+  editMessage(editedMessage: string, id: string, idChat: string): Observable<IMessage> {
     return this.http.patch<IMessage>(
       `${this.urlApi}/chats/${idChat}/messages/${id}`,
-      { text }
+      {text: editedMessage }
     );
   }
 }

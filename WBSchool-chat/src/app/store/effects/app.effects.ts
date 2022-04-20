@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, throwError } from 'rxjs';
-import { initDialogs, loadDialogs, pushToMessages, sendMessage } from '../actions/dialog.action';
+import { editMessage, initDialogs, loadDialogs, pushToMessages, sendMessage } from '../actions/dialog.action';
 import { changeLoadFriends, changeLoadGroups, changeLoadUnreads, chatGroupError, createChatGroup, loadFriends, loadGroups, loadUnreads, pushToGroups } from '../actions/groups.actions';
 
 import {
@@ -17,6 +17,7 @@ import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
+import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Injectable()
 export class AppEffects {
@@ -26,6 +27,7 @@ export class AppEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
+    private dialogService:DialogService,
     private router: Router
   ) {}
 
@@ -139,6 +141,23 @@ export class AppEffects {
       ofType(sendMessage),
       mergeMap(( {message, id}) => this.http.post<IMessage>(`${this.apiUrl}/chats/${id}/messages`, message).pipe(
         map(( message ) => pushToMessages({ message }) )
+      ))
+    )
+  })
+  // deleteMessage$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(delitedMessage),
+  //     mergeMap(( {message, id}) => this.http.delete<IMessage>(`${this.apiUrl}/chats/${id}/messages`).pipe(
+  //       map(( message ) => pushToMessages({ message }) )
+  //     ))
+  //   )
+  // })
+  
+  editMessage$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(editMessage),
+      mergeMap(( {text, id, idChat}) => this.dialogService.editMessage(text, id, idChat).pipe(
+        map(( message ) => editMessage({ message }) )
       ))
     )
   })

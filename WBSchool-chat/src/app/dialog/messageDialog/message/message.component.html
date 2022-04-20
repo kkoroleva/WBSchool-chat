@@ -1,6 +1,6 @@
 
         <div class="message">
-                <div class="message__wrapper" #wrapper>
+                <div class="message__wrapper" #wrapper >
                     <div *ngFor="let item of messages$ | async "
                         [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                         <span *ngIf="item.owner === myId">{{userName}}</span>
@@ -14,8 +14,7 @@
                             </div>
                         </div>
 
-                        
-                        <span>{{item.expiresIn | date:'yyyy/MM/dd h:mm:ss a'}}</span>
+                        <span>{{item.expiresIn | date:'dd/MM/yyyy h:mm:ss '}}</span>
                         <mat-menu #block="matMenu">
                             <button (click)="deleteMessage(item._id!)" mat-menu-item>
                                 <span>Удалить</span>
@@ -46,6 +45,6 @@
                         <img src="../../assets/icon-smile.svg" alt="icon-smile" width="15px" height="15px" class="smile">
                         <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="19px" height="15px">
                     </div>
-                        <img src="../../assets/icon-voice.svg" alt="icon-voice" class="voice" width="45px" height="45px">
+                        <img src="../../assets/icon-voice.svg" alt="icon-voice" class="voice" width="45px" height="45px" (click)="changeScroll()">
                 </div>
         </div>

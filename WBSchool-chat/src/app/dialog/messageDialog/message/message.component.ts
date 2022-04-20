@@ -1,13 +1,13 @@
 import { DialogService } from '../../dialog.service';
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import { IMessage } from '../../dialog';
-import { initDialogs, sendMessage } from 'src/app/store/actions/dialog.action';
+import { deleteMessage, editMessage, initDialogs, sendMessage } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 
 @Component({
@@ -18,7 +18,6 @@ import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 export class MessageComponent implements OnInit, AfterViewChecked {
 
   @ViewChild("wrapper") wrapper!:ElementRef;
-  // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
 
   editMessageID: string = '';
   isEditMessage: boolean = false;
@@ -40,7 +39,14 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     select(selectChatGroup),
   )
   public messages$: Observable<IMessage[]> = this.store$.pipe(
-    select(selectDialog)
+    select(selectDialog), 
+    tap(() =>{
+      console.log("console info")
+      setTimeout(() => {
+        this.changeScroll()
+      }, 5000);
+    })
+
   )
 
   constructor(private service: DialogService, 
@@ -57,7 +63,12 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   };
 
   ngAfterViewChecked(): void {
-    this.changeScroll();
+    // this.changeScroll();
+  };
+
+  changeScroll(): void {
+      console.log("scroll", this.wrapper.nativeElement.scrollTop , this.wrapper.nativeElement.scrollHeight);
+      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight 
   };
 
   getMyInfo(): void {
@@ -68,9 +79,6 @@ export class MessageComponent implements OnInit, AfterViewChecked {
       })
   };
     
-  changeScroll(): void {
-      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
-  };
     
   addImage(input: any) {
       let imageOrFile = '';
@@ -84,7 +92,6 @@ export class MessageComponent implements OnInit, AfterViewChecked {
               .then(result =>  {
                 this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
                 this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-                // console.log(this.imageCompress.byteCount(this.imageOrFile))
               });
             }
             else {
@@ -99,6 +106,7 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     reader.readAsDataURL(file);
   }
   
+
   getMessages(idChat: string):void {
     this.service.getMessages(idChat).subscribe((res) => {
       this.data = res;
@@ -108,7 +116,9 @@ export class MessageComponent implements OnInit, AfterViewChecked {
 
   deleteMessage(id: string): void {
     this.service.deleteMessage(id, this.chatID).subscribe(() => {
-        this.getMessages(this.chatID)
+        // this.getMessages(this.chatID)
+        // this.store$.dispatch(deleteMessage({id:this.chaID}))
+
      })
   };
 
@@ -116,11 +126,9 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     console.log('удалить чат')
   }
 
-  editMessage(text: string, id: string):void {
-    this.service.editMessage(text, id, this.chatID).subscribe(() => {
-        this.getMessages(this.chatID);
-        this.isEditMessage = false;
-      })
+  editMessage(text: string, id: string ,idChat: string):void {
+    this.isEditMessage = false;
+    this.store$.dispatch(editMessage({text, id, idChat}))
   }
 
   getMessage(id: string, text: string): void {
@@ -132,22 +140,25 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   sendMessage(event: KeyboardEvent): void {
     if (this.message.value.trim() && event.key === 'Enter' 
     || 
-    this.message.value.trim() && event.key === 'Enter' && this.imageOrFile.length > 0 && event.key === 'Enter') {
-      
+    this.message.value.trim()
+    && event.key === 'Enter' 
+    && this.imageOrFile.length > 0 
+    && event.key === 'Enter') {
+      this.changeScroll()
       if(this.isEditMessage) {
         console.log("i am working")
-        this.editMessage(this.message.value, this.editMessageID)
+        this.editMessage(this.message.value, this.editMessageID, this.chatID)
       }
       else {
             let message:IMessage = {
               text: this.message.value,
-              // imageOrFile: this.imageOrFile,
-              // formatImage: this.formatImage,
+              imageOrFile: this.imageOrFile,
+              formatImage: this.formatImage,
             }
             this.store$.dispatch(sendMessage({message, id:this.chatID}))
-            this.message.setValue('');
             this.imageOrFile = '';
             this.formatImage = '';
+            this.message.setValue('');
           }
       }
     }
