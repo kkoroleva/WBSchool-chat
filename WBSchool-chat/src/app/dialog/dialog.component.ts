@@ -65,7 +65,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   };
 
   changeScroll(): void {
-    // this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
+    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
   };
 
   addImage(input: any) {

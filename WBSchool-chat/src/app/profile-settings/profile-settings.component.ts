@@ -80,17 +80,8 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   getUsersData() {
-    // this.storage.get('user').subscribe((newUser: any) => {
-    //   this.profileData = Object.assign({}, {
-    //         username: newUser.username,
-    //         about: newUser.about,
-    //         avatar: atob(newUser.avatar),
-    //         email: newUser.email
-    //       })
-    // })
     this.store$.pipe(select(selectUser))
-    .subscribe((newUser) => {
-      console.log(newUser)
+    .subscribe((newUser: IUserData) => {
       this.profileData = Object.assign({}, {
         username: newUser.username,
         about: newUser.about,
@@ -133,8 +124,8 @@ export class ProfileSettingsComponent implements OnInit {
       this.storage.set('user', newUser)
       .subscribe(() => {});
     })
-    this.getUsersData();
     this.formData = {};
+    location.reload();
   }
 
   openDialog(): void {

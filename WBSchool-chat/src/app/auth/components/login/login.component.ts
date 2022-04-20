@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
       })
     )
     .subscribe(
-      (resp) => {
+      (resp: INewUser) => {
         this.submitted = false;
         this.router.navigate(['home']);
         newUser = resp.newUser;

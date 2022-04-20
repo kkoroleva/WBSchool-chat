@@ -20,6 +20,7 @@ import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
+import { initContacts } from '../actions/contacts.actions';
 
 @Injectable()
 export class AppEffects {
@@ -116,6 +117,17 @@ export class AppEffects {
         this.http
           .get<IUnread[]>(`${this.apiUrl}/chats`)
           .pipe(map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() })))
+      )
+    );
+  });
+
+  loadContacts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(initContacts),
+      mergeMap(() =>
+        this.http
+          .get<IFriend[]>(`${this.apiUrl}/users/contacts`)
+          .pipe(map((contacts) => initContacts({ contacts: contacts.reverse() })))
       )
     );
   });
