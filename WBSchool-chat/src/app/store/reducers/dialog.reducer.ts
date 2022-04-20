@@ -18,7 +18,7 @@ export interface IMessage {
 }
 
 const initialState: IDialogState = {
-    messages:[],
+    messages: [],
 }
 
 export const dialogReducer = createReducer(
@@ -35,15 +35,16 @@ export const dialogReducer = createReducer(
         ...state,
         messages: [...state.messages, action.message]
     })),
-    on(deleteMessage, (state)=>({
+    on(deleteMessage, (state, action)=>({
         ...state,
-        messages: state.messages
+        messages: state.messages.filter((mess) => {
+          return mess._id !== action.id
+        })
     })),
     on(editMessage, (state, action)=>({
         ...state,
         messages: state.messages.map((mess)=>{
-           return action.id === mess._id ? action : mess
+           return action.message._id === mess._id ? action.message : mess
         })
-
     })),
 )

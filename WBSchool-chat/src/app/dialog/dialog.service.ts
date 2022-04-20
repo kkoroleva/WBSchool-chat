@@ -40,11 +40,11 @@ export class DialogService {
     });
   }
 
-  deleteMessage(id: string, idChat: string): Observable<IMessage> {
-    return this.http.delete<IMessage>(
-      `${this.urlApi}/chats/${idChat}/messages/${id}`
-    );
-  }
+  // deleteMessage(id: string, idChat: string): Observable<IMessage> {
+  //   return this.http.delete<IMessage>(
+  //     `${this.urlApi}/chats/${idChat}/messages/${id}`
+  //   );
+  // }
   editMessage(editedMessage: string, id: string | undefined, idChat: string | undefined): Observable<IMessage> {
     return this.http.patch<IMessage>(
       `${this.urlApi}/chats/${idChat}/messages/${id}`,
