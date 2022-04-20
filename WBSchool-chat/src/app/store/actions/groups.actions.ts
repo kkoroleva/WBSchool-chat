@@ -53,6 +53,4 @@ export const changeLoadUnreads = createAction(
   props<{ unreads: IUnread[] }>()
 );
 
-export const clearUnreads = createAction(
-  '[UNREADS] clearUnreads'
-);
+export const clearUnreads = createAction('[UNREADS] clearUnreads');
