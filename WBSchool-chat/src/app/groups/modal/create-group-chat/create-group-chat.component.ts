@@ -18,6 +18,8 @@ import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { IContacts, IUser } from 'src/app/store/reducers/contacts.reducers';
+import { IUserData } from 'src/app/auth/interfaces';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -30,23 +32,22 @@ export class CreateGroupChatComponent implements OnInit {
   public imageName = '';
   public imageInBase64 = '';
   private inputFile!: HTMLInputElement;
-  public contactsToGroup: { _id: string; username: string }[] = [];
+  public contactsToGroup: IUser[] = [];
   public contactsControl!: FormControl;
   public errMessage$: Observable<string> = this.store$.pipe(
     select(selectChatGroupError)
   );
-  public contacts$: Observable<any[]> = this.store$.pipe(
+  public contacts$: Observable<IContacts> = this.store$.pipe(
     select(selectContacts)
   );
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  public contactsList: { _id: string; username: string }[] = [];
-  public filteredContacts!: Observable<{ _id: string; username: string }[]>;
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  public contactsList: IUser[] = [];
+  public filteredContacts!: Observable<IUser[]>;
 
   constructor(
     private dialogRef: MatDialogRef<CreateGroupChatComponent>,
     private store$: Store<IGroupsState>,
-    private actions$: Actions,
-    private groupsService: GroupsService
+    private actions$: Actions
   ) {}
 
   ngOnInit(): void {
@@ -71,15 +72,6 @@ export class CreateGroupChatComponent implements OnInit {
     this.actions$.pipe(ofType(pushToGroups)).subscribe(() => {
       this.dialogRef.close();
     });
-
-    this.groupsService
-      .getContacts()
-      .subscribe((res) => (this.contactsList = res.contacts));
-
-    this.filteredContacts = this.contactsControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value))
-    );
   }
 
   createGroupChat(): void {
@@ -102,7 +94,7 @@ export class CreateGroupChatComponent implements OnInit {
 
     const group: IGroup = {
       name,
-      users: this.contactsToGroup.map((user) => user._id),
+      users: this.contactsToGroup.map((user) => user._id!),
     };
 
     if (nameLength < 4) {
@@ -161,7 +153,7 @@ export class CreateGroupChatComponent implements OnInit {
     };
   }
 
-  remove(contact: { _id: string; username: string }): void {
+  remove(contact: IUser): void {
     const idx = this.contactsToGroup.indexOf(contact);
 
     this.contactsList.push(contact);
@@ -182,13 +174,5 @@ export class CreateGroupChatComponent implements OnInit {
 
     this.contactsInput.nativeElement.value = '';
     this.contactsControl.setValue(null);
-  }
-
-  private _filter(value: string): { _id: string; username: string }[] {
-    const filterValue = value.toLowerCase();
-
-    return this.contactsList.filter((contact) =>
-      contact.username.toLowerCase().includes(filterValue)
-    );
   }
 }

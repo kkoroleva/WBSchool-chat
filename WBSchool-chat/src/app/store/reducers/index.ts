@@ -1,7 +1,7 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import { authNode, authReducer, IAuthState } from './auth.reducers';
-import { contactsNode, contactsReducer } from './contacts.reducers';
+import { contactsNode, contactsReducer, IContacts } from './contacts.reducers';
 import { groupsNode, groupsReducer, IGroupsState } from './groups.reducers';
 import {
   INotificationsState,
@@ -13,7 +13,7 @@ export interface State {
   [notificationNode]: INotificationsState;
   [groupsNode]: IGroupsState;
   [authNode]: IAuthState;
-  [contactsNode]: any[];
+  [contactsNode]: IContacts;
 }
 
 export const reducers: ActionReducerMap<State> = {

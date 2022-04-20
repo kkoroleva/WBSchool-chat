@@ -51,12 +51,12 @@
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
                 </mat-chip-list>
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                    <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact">
+                    <mat-option *ngFor="let contact of contactsList" [value]="contact">
                         {{contact.username}}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-error *ngIf="form.get('users')?.getError('required') || form.get('users')?.getError('minlength')">
-                    You must add at least two users</mat-error>
+                <!-- <mat-error *ngIf="form.get('users')?.getError('required') || form.get('users')?.getError('minlength')">
+                    You must add at least two users</mat-error> -->
             </mat-form-field>
         </form>
 
