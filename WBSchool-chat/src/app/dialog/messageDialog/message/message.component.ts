@@ -44,7 +44,7 @@ export class MessageComponent implements OnInit {
       console.log("console info")
       setTimeout(() => {
         this.changeScroll()
-      }, 5000);
+      }, 1000);
     })
 
   )
@@ -136,7 +136,7 @@ export class MessageComponent implements OnInit {
         this.imageOrFile.length > 0) {
       this.changeScroll()
       if(this.isEditMessage) {
-        console.log("i am working")
+        console.log("abc")
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
       }
       else if (this.imageOrFile.length > 0) {
