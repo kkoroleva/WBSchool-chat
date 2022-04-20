@@ -96,6 +96,37 @@
 			.profile-settings__menu_item_name {
 				display: flex;
 				flex-direction: row;
+
+				&.contacts {
+					flex-direction: column;
+
+					.profile-settings__menu_item_name_wrp {
+						display: flex;
+						flex-direction: row;
+					}
+
+					.contacts__list {
+						margin: 5px 0 5px 65px;
+						padding: 5px 0 5px 5px;
+						display: flex;
+						flex-direction: row;
+						// border: 1px solid black;
+						width: 200px;
+						background: rgb(241, 241, 241);
+						border-radius: 10px;
+						transition: 0.5s;
+
+						&:hover {
+							background: rgb(117, 117, 117);
+							color: white;
+						}
+
+						p {
+							margin: 0;
+							line-height: 20px;
+						}
+					}
+				}
 			}
 
 			.profile-settings__menu_item_form-field {

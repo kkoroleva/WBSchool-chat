@@ -64,7 +64,7 @@ export class ProfileSettingsComponent implements OnInit {
     {
       "id": 4,
       "icon": "edit",
-      "title": "Edit description",
+      "title": "Edit Description",
       "description": this.profileData.about
     },
     {
@@ -98,6 +98,9 @@ export class ProfileSettingsComponent implements OnInit {
         //   this.contacts = contacts.contacts
         // })
         this.contacts = contacts.contacts
+        // this.contacts.map(contact => {
+        //   if (contact.avatar) contact.avatar = atob(contact.avatar)
+        // })
       })
   }
 
@@ -211,8 +214,8 @@ export class ProfileSettingsComponent implements OnInit {
     });
   }
 
-  watchProfile() {
-    console.log('watch profile click')
+  watchProfile(contact: IUserData) {
+    console.log(contact)
   }
 
   lengthForm() {
