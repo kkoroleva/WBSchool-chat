@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { INewUser, User } from '../../interfaces';
+import { INewUser, IUserData, User } from '../../interfaces';
 import { IAuthState } from 'src/app/store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from 'src/app/store/actions/auth.actions';
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.value.password,
     };
 
-    let newUser: INewUser;
+    let newUser: IUserData;
 
     this.auth.login(user)
     .pipe(
@@ -62,10 +62,10 @@ export class LoginComponent implements OnInit {
       })
     )
     .subscribe(
-      (resp) => {
+      (resp: INewUser) => {
         this.submitted = false;
         this.router.navigate(['home']);
-        newUser = resp;
+        newUser = resp.newUser;
         this.storage.set('user', newUser).subscribe(() => {});
         this.store$.dispatch(initAuth({newUser}));
       },

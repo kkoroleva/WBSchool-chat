@@ -10,7 +10,6 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
 import { ActiveChatService } from '../active-chat.service';
-import { INewUser } from '../auth/interfaces';
 import { IAuthState } from '../store/reducers/auth.reducers';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
@@ -24,7 +23,6 @@ import { DialogService } from './dialog.service';
 })
 export class DialogComponent implements OnInit, AfterViewChecked {
   @ViewChild('wrapper') wrapper!: ElementRef;
-  // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
 
   editMessageID: string = '';
   isEditMessage: boolean = false;

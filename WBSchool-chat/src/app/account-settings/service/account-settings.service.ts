@@ -1,6 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { IServerResponse } from 'src/app/profile-settings/interfaces/interface';
 import {
   IPasswordEditData,

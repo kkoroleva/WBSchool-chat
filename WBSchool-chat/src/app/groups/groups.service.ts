@@ -33,7 +33,7 @@ export class GroupsService {
     return this.http.patch<IUnread>(`${this.apiUrl}/chats`, chats);
   }
 
-  getContacts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/users/contacts`);
+  getContacts(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/users/contacts`);
   }
 }

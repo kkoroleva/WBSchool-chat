@@ -23,7 +23,7 @@
                     About chat must be between 4 and 100 characters</mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="modal__field">
+            <!-- <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Add users</mat-label>
                 <mat-select [formControl]="contacts" disableOptionCentering multiple panelClass="modal__select">
                     <mat-option *ngFor="let contact of contactsList" [value]="contact" class="modal__option">
@@ -33,6 +33,28 @@
                         </div>
                     </mat-option>
                 </mat-select>
+                <mat-error *ngIf="form.get('users')?.getError('required') || form.get('users')?.getError('minlength')">
+                    You must add at least two users</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field class="modal__field" appearance="fill">
+                <mat-label>Add users</mat-label>
+                <mat-chip-list #contacts>
+                    <mat-chip *ngFor="let contact of contactsToGroup" (removed)="remove(contact)">
+                        {{contact.username}}
+                        <button matChipRemove>
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip>
+                    <input placeholder="Add user to group chat" #contactsInput [formControl]="contactsControl"
+                        [matAutocomplete]="auto" [matChipInputFor]="contacts"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact">
+                        {{contact.username}}
+                    </mat-option>
+                </mat-autocomplete>
                 <mat-error *ngIf="form.get('users')?.getError('required') || form.get('users')?.getError('minlength')">
                     You must add at least two users</mat-error>
             </mat-form-field>
