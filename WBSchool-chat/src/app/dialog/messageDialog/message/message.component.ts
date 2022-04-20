@@ -126,9 +126,9 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     console.log('удалить чат')
   }
 
-  editMessage(text: string, id: string ,idChat: string):void {
+  editMessage(text: string, id: string ,chatId: string):void {
     this.isEditMessage = false;
-    this.store$.dispatch(editMessage({text, id, idChat}))
+    this.store$.dispatch(editMessage({text, id, chatId}))
   }
 
   getMessage(id: string, text: string): void {

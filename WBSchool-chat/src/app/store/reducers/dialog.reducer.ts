@@ -9,21 +9,22 @@ export interface IDialogState {
 
 export interface IMessage {
     text:string;
-    owner?:string; 
+    owner?:string;
     _id?:string;
     expiresIn?:string;
     imageOrFile?: string;
     formatImage?: string;
+    chatId?: string;
 }
 
 const initialState: IDialogState = {
-    messages:[], 
+    messages:[],
 }
 
 export const dialogReducer = createReducer(
   initialState,
     on(initDialogs, (state)=>({
-        ...state, 
+        ...state,
         messages: state.messages
     })),
     on(loadDialogs, (state, action)=>({
@@ -35,14 +36,14 @@ export const dialogReducer = createReducer(
         messages: [...state.messages, action.message]
     })),
     on(deleteMessage, (state)=>({
-        ...state, 
+        ...state,
         messages: state.messages
     })),
     on(editMessage, (state, action)=>({
         ...state,
         messages: state.messages.map((mess)=>{
-           return action.message._id === mess._id ? action.message : mess
+           return action.id === mess._id ? action : mess
         })
-        
+
     })),
 )
