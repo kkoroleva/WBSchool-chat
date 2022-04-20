@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, throwError } from 'rxjs';
-import { editMessage, initDialogs, loadDialogs, pushToMessages, sendMessage } from '../actions/dialog.action';
+import { editMessage, initDialogs, loadDialogs, pushToMessages, sendMessage, deletedMessage } from '../actions/dialog.action';
 import { changeLoadFriends, changeLoadGroups, changeLoadUnreads, chatGroupError, createChatGroup, loadFriends, loadGroups, loadUnreads, pushToGroups } from '../actions/groups.actions';
 
 import {
@@ -144,14 +144,15 @@ export class AppEffects {
       ))
     )
   })
-  // deleteMessage$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(delitedMessage),
-  //     mergeMap(( {message, id}) => this.http.delete<IMessage>(`${this.apiUrl}/chats/${id}/messages`).pipe(
-  //       map(( message ) => pushToMessages({ message }) )
-  //     ))
-  //   )
-  // })
+
+  deleteMessage$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deletedMessage),
+      mergeMap(( {id, idChat}) => this.dialogService.deleteMessage(id, idChat).pipe(
+        map(( message ) => deletedMessage({ id: message._id, idChat: message.idChat }) )
+      ))
+    )
+  })
   
   editMessage$ = createEffect(() => {
     return this.actions$.pipe(

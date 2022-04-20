@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import { IMessage } from '../../dialog';
-import { deleteMessage, editMessage, initDialogs, sendMessage } from 'src/app/store/actions/dialog.action';
+import { deletedMessage, editMessage, initDialogs, sendMessage } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 
 @Component({
@@ -44,7 +44,7 @@ export class MessageComponent implements OnInit, AfterViewChecked {
       console.log("console info")
       setTimeout(() => {
         this.changeScroll()
-      }, 5000);
+      }, 1000);
     })
 
   )
@@ -114,12 +114,12 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     })
   };
 
-  deleteMessage(id: string): void {
-    this.service.deleteMessage(id, this.chatID).subscribe(() => {
-        // this.getMessages(this.chatID)
-        // this.store$.dispatch(deleteMessage({id:this.chaID}))
+  deleteMessage(id: string, idChat: string ): void {
+    this.store$.dispatch(deletedMessage({id, idChat}))
+    // this.service.deleteMessage(id, this.chatID).subscribe(() => {
+      // this.getMessages(this.chatID)
 
-     })
+    //  })
   };
 
   deleteChat() {
@@ -138,11 +138,13 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   };
 
   sendMessage(event: KeyboardEvent): void {
+
     if (this.message.value.trim() && event.key === 'Enter' 
     || 
     this.message.value.trim()
     && event.key === 'Enter' 
     && this.imageOrFile.length > 0 ) {
+
       if(this.isEditMessage) {
         console.log("abc")
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
@@ -150,14 +152,15 @@ export class MessageComponent implements OnInit, AfterViewChecked {
       else {
             let message:IMessage = {
               text: this.message.value,
-              imageOrFile: this.imageOrFile,
-              formatImage: this.formatImage,
+              // imageOrFile: this.imageOrFile,
+              // formatImage: this.formatImage,
             }
             this.store$.dispatch(sendMessage({message, id:this.chatID}))
             this.imageOrFile = '';
             this.formatImage = '';
             this.message.setValue('');
           }
+
       }
     }
     itemFormat(item: string) {

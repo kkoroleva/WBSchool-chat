@@ -13,8 +13,8 @@ props< {message: IMessage, id:string}>());
 export const pushToMessages = createAction('[DIALOG] pushToMessages', 
 props<{ message: IMessage}>());
 
-export const deleteMessage = createAction('[DIALOG] deleteMessage',
-props<{ id: string}>());
+export const deletedMessage = createAction('[DIALOG] deletedMessage',
+props<{ id: string, idChat: string | undefined}>());
 
 export const editMessage = createAction('[DIALOG] editMessage', 
 props<{ text: string , id: string | undefined, idChat: string | undefined}>());

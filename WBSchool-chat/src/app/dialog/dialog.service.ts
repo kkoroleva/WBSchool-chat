@@ -40,7 +40,7 @@ export class DialogService {
     });
   }
 
-  deleteMessage(id: string, idChat: string): Observable<IMessage> {
+  deleteMessage(id: string | undefined, idChat: string | undefined): Observable<IMessage> {
     return this.http.delete<IMessage>(
       `${this.urlApi}/chats/${idChat}/messages/${id}`
     );

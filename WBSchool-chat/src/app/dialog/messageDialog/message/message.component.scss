@@ -197,7 +197,7 @@
             color:#1A66FF;
             padding: 7px 10px;
             text-transform: uppercase;
-            width:250px;
+            max-width:250px;
             text-decoration:none;
             text-align:center;
             display: block;
@@ -211,6 +211,11 @@
             border-radius: 5px;
 
             @media(max-width:495px) {
+              margin-bottom: 5px;
+            }
+
+            @media(min-width:900px) {
+              width: 100%;;
               margin-bottom: 5px;
             }
            }

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { deleteMessage, editMessage, initDialogs, loadDialogs, pushToMessages } from '../actions/dialog.action';
+import { deletedMessage, editMessage, initDialogs, loadDialogs, pushToMessages } from '../actions/dialog.action';
 
 export const dialogNode = 'Dialog';
 
@@ -36,9 +36,11 @@ export const dialogReducer = createReducer(
         ...state,
         messages: [...state.messages, action.message]
     })),
-    on(deleteMessage, (state)=>({
+    on(deletedMessage, (state, action)=>({
         ...state, 
-        messages: state.messages
+        messages: state.messages.filter((mess)=>{
+            return mess._id !== action.id
+        })
     })),
     on(editMessage, (state, action)=>({
         ...state,
