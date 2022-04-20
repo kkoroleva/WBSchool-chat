@@ -18,7 +18,6 @@ import {
 } from 'src/app/store/actions/groups.actions';
 import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { IContacts } from 'src/app/store/reducers/contacts.reducers';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';
 
