@@ -32,11 +32,11 @@
 						<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
 					</div>
 					<div *ngIf="lookContacts && contacts.length > 0">
-						<div *ngFor="let contact of contacts" class="contacts__list">
+						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
 							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
 								<img [src]='contact.avatar' alt="user pic" />
 							  </div> -->
-							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
+							  <p >{{contact.username}}</p>
 							  <!-- <button class="chat-btn">Chat</button>
 							  <button class="del-btn">Delete</button> -->
 						</div>

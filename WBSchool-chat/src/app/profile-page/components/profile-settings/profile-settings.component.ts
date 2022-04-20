@@ -12,7 +12,7 @@ import { selectUser } from '../../../store/selectors/auth.selectors';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { IContacts } from 'src/app/store/reducers/contacts.reducers';
 import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
-// import { IContacts } from '../../store/reducers/contacts.reducers';
+import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -87,7 +87,8 @@ export class ProfileSettingsComponent implements OnInit {
     public settServ: ProfilePageService,
     private storage: StorageMap,
     private imageCompress: NgxImageCompressService,
-    private store$: Store
+    private store$: Store,
+    // public modalProfileServ: ModalProfileService
   ) {}
 
   ngOnInit(): void {
@@ -215,7 +216,9 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   watchProfile(contact: IUserData) {
+    console.log('hey')
     console.log(contact)
+    // this.modalProfileServ.openDialog()
   }
 
   lengthForm() {

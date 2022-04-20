@@ -8,7 +8,6 @@ import { ModalProfileComponent } from '../modal-profile.component';
 export class ModalProfileService {
 
   constructor(
-    private modalProfileServ: ModalProfileService, 
     public dialog: MatDialog
   ) { }
 
