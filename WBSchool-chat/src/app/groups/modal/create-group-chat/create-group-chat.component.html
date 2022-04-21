@@ -28,8 +28,7 @@
                 <mat-chip-list #contacts>
                     <mat-chip *ngFor="let contact of form.get('contacts')?.value" (removed)="removeContact(contact)">
                         <div class="modal__contact">
-                            <img class="modal__avatar" [src]="'data:image/png;base64,' + contact.avatar"
-                                alt="User avatar">
+                            <img class="modal__avatar" [src]="contact.formatImage + contact.avatar" alt="User avatar">
                             <span class="modal__username">{{contact.username}}</span>
                         </div>
                         <button matChipRemove>
@@ -46,8 +45,7 @@
                     (optionSelected)="selectContact($event)">
                     <mat-option *ngFor="let contact of contacts$ | async" [value]="contact">
                         <div class="modal__contact">
-                            <img class="modal__avatar" [src]="'data:image/png;base64,' + contact.avatar"
-                                alt="User avatar">
+                            <img class="modal__avatar" [src]="contact.formatImage! + contact.avatar" alt="User avatar">
                             <span class="modal__username">{{contact.username}}</span>
                         </div>
                     </mat-option>

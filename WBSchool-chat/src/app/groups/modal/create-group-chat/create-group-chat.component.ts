@@ -33,6 +33,7 @@ export class CreateGroupChatComponent implements OnInit {
   public form!: FormGroup;
   public imageName = '';
   public imageInBase64 = '';
+  public formatImage = '';
   private inputFile!: HTMLInputElement;
   public contactsControl = new FormControl();
   public contactsList: IUser[] = [];
@@ -123,8 +124,9 @@ export class CreateGroupChatComponent implements OnInit {
       group.about = about;
     }
 
-    if (this.imageInBase64) {
+    if (this.imageInBase64 && this.formatImage) {
       group.avatar = this.imageInBase64;
+      group.formatImage = this.formatImage;
     }
 
     return group;
@@ -151,7 +153,12 @@ export class CreateGroupChatComponent implements OnInit {
       this.readFile(sub, image)
     );
 
-    observable.subscribe((image) => (this.imageInBase64 = image.split(',')[1]));
+    observable.subscribe((image) => {
+      const splitImage = image.split(',');
+
+      this.formatImage = splitImage[0] + ',';
+      this.imageInBase64 = splitImage[1];
+    });
   }
 
   readFile(sub: Subscriber<string | null | ArrayBuffer>, image: File) {
@@ -187,6 +194,7 @@ export class CreateGroupChatComponent implements OnInit {
       username: event.option.value.username,
       _id: event.option.value._id,
       avatar: event.option.value.avatar,
+      formatImage: event.option.value.formatImage,
     };
 
     if (contactsValue.length + 1 < 2) {
