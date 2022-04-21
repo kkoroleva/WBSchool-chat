@@ -9,6 +9,7 @@ export interface IUnread {
   lastActive?: string;
   lastMessage?: string;
   avatar?: string;
+  formatImage?: string;
 }
 
 export interface Contact {

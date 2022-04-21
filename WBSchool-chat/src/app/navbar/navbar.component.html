@@ -1,9 +1,10 @@
 <nav class="nav" *ngIf="isAuthenticated()">
   <ul class="nav__list">
     <li class="nav__list-item nav__list-img"><a routerLink="./profile" class="nav__list-link">
-        <img [src]="getImgFromBase64((userState$ | async )!.avatar)" alt="avatar" class="nav__img" width="60"
-          height="60" />
-      </a></li>
+      <img src="http://cdn.onlinewebfonts.com/svg/img_176857.png" alt="avatar" class="nav__img" width="60" height="60"/>
+    <!-- <li class="nav__list-item nav__list-img"><a routerLink="./profile" class="nav__list-link" >
+      <img [src]="getImgFromBase64((userState$ | async )!.avatar)" alt="avatar" class="nav__img" width="60" height="60"/> -->
+    </a></li>
     <li class="nav__list-item">
       <a routerLink="./home" class="nav__list-link" routerLinkActive="nav__list-link--active">
         <mat-icon (click)="loadGroups()">home</mat-icon>
