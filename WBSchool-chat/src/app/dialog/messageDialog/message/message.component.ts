@@ -41,12 +41,10 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog), 
     tap(() =>{
-      console.log("console info")
       setTimeout(() => {
         this.changeScroll()
       }, 1000);
     })
-
   )
 
   constructor(private service: DialogService, 
@@ -116,10 +114,6 @@ export class MessageComponent implements OnInit, AfterViewChecked {
 
   deleteMessage(id: string, idChat: string ): void {
     this.store$.dispatch(deletedMessage({id, idChat}))
-    // this.service.deleteMessage(id, this.chatID).subscribe(() => {
-      // this.getMessages(this.chatID)
-
-    //  })
   };
 
   deleteChat() {
@@ -138,7 +132,6 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   };
 
   sendMessage(event: KeyboardEvent): void {
-
     if (this.message.value.trim() && event.key === 'Enter' 
     || 
     this.message.value.trim()

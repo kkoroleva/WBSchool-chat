@@ -1,7 +1,7 @@
 
         <div class="message">
                 <div class="message__wrapper" #wrapper >
-                    <div *ngFor="let item of messages$ | async "
+                    <div *ngFor="let item of messages$ | async  "
                         [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                         <span *ngIf="item.owner === myId">{{userName}}</span>
                         <span *ngIf="item.owner !== myId ">{{item.owner}}</span>
