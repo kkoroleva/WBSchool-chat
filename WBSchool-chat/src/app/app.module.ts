@@ -1,4 +1,4 @@
-import { NgModule, OnInit, Provider } from '@angular/core';
+import { NgModule, OnInit, Provider, InjectionToken } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -64,6 +64,11 @@ const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
   useClass: AuthInterceptor,
+};
+
+const API_URL_PROVIDER: Provider = {
+  provide: 'API_URL',
+  useValue: 'https://wbschool-chat.ru/api',
 };
 
 @NgModule({
@@ -137,7 +142,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     StoreRouterConnectingModule.forRoot(),
   ],
 
-  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService],
+  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
