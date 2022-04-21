@@ -40,7 +40,7 @@ export class UnreadsComponent implements OnInit {
     this.store$.dispatch(loadUnreads());
   }
 
-  getImageFrom64(img: string) {
+  getImageFrom64(img: string): string {
     if (!img) {
       return '../../assets/image-not-found.jpg';
     }

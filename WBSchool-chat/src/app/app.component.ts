@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { initAuth } from './store/actions/auth.actions';
 import { IAuthState } from './store/reducers/auth.reducers';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { initContacts } from './store/actions/contacts.actions';
+import { HttpClient } from '@angular/common/http';
+import { map, tap } from 'rxjs';
+import { selectContacts } from './store/selectors/contacts.selectors';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +14,10 @@ import { StorageMap } from '@ngx-pwa/local-storage';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private store$: Store<IAuthState>, private storage: StorageMap){}
+  constructor(private store$: Store<IAuthState>, private storage: StorageMap, private http: HttpClient){}
   ngOnInit(): void {
     this.storage.get('user').subscribe((newUser: any) => {
-      this.store$.dispatch(initAuth({newUser}))
-      console.log(newUser)
+      this.store$.dispatch(initAuth({newUser}));
     })
   }
 }
