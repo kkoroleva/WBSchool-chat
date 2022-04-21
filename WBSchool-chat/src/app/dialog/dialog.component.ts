@@ -78,7 +78,6 @@ export class DialogComponent implements OnInit, AfterViewChecked {
           .then(result =>  {
             this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
             this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-            // console.log(this.imageCompress.byteCount(this.imageOrFile))
           });
         }
         else {

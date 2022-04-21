@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { catchError, concatMap, Subscription, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
@@ -13,7 +13,7 @@ import { selectContacts } from '../../../store/selectors/contacts.selectors';
 import { IContacts } from '../../../store/reducers/contacts.reducers';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { initContacts } from '../../../store/actions/contacts.actions';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 
@@ -22,7 +22,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent implements OnInit {
+export class ProfileSettingsComponent implements OnInit, OnChanges {
   private url = 'https://wbschool-chat.ru/api/users';
   profileData: IProfileData = {
     username: '',
@@ -37,17 +37,15 @@ export class ProfileSettingsComponent implements OnInit {
   toggle: boolean = false;
   errorMsg: string | boolean = false;
 
-  users: IUserData[] = [];
-
   imageOrFile: string = '';
   formatImage: string = '';
 
   imgInput: boolean = false;
   lookContacts: boolean = false;
-  contact!: any;
   notFound: string = '';
   form!: FormGroup;
   contacts: IUserData[] = [];
+  sub$!: Subscription;
 
   settingsList: ISettingsList[] = [
     {
@@ -104,12 +102,14 @@ export class ProfileSettingsComponent implements OnInit {
       contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
     })
     this.getUsersData();
-    this.http.get<IUserData[]>(this.url).subscribe((resp: IUserData[]) => {
-      this.users = resp
-    });
     this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
       this.contacts = contacts.contacts
     })
+    this.store$.dispatch(initContacts());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getUsersData();
     this.store$.dispatch(initContacts());
   }
 
@@ -232,15 +232,27 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   addFriend() {
+    this.notFound = '';
     const userName: string = this.form.value.contactInput.trim();
-    this.contact = this.users.find((user: IUserData) => user.username === userName);
-    if (this.contact != undefined) {
-      this.http.post<IContacts>(`${this.url}/contacts`, {id: this.contact._id}).subscribe(() => {});
+    const clone = this.contacts.find((user) => user.username === userName);
+    if (userName === clone?.username) {
+      this.notFound = 'Этот пользователь уже есть в списке контактов.'
     }
     else {
-      this.notFound = 'Данного пользователя не существует.'
+      this.profileServ.getUsers(userName)
+      .pipe(
+        concatMap(
+          (user: any) => this.profileServ.addFriend(user._id)
+        ),
+        catchError((error: HttpErrorResponse) => {
+          this.notFound = 'Данного пользователя не существует.';
+          return throwError(() => error);
+        })
+      )
+      .subscribe(() => {
+        this.store$.dispatch(initContacts());
+      });
     }
-    this.store$.dispatch(initContacts());
     this.form.reset();
   }
 
