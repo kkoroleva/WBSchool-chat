@@ -1,0 +1,331 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.profile-settings {
+	background: #FFFFFF;
+	border-radius: 20px;
+	min-width: 320px;
+	width: 100%;
+
+	.profile-settings__title {
+		padding: 26px 0 0 39px;
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 600;
+		font-size: 20px;
+		line-height: 30px;
+	}
+
+	.profile-settings__user-info {
+		margin: 49px 0 0 38px;
+		display: flex;
+		flex-direction: row;
+
+		.profile-settings__user-info_img {
+			height: 100px;
+			width: 100px;
+			border: 3px solid #FFFFFF;
+			border-radius: 50px;
+			box-sizing: border-box;
+			filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.5));
+
+			img {
+				border-radius: 50px;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.profile-settings__user-info_name {
+			margin: auto auto auto 31px;
+			display: flex;
+			flex-direction: column;
+			width: 70%;
+			max-width: calc(100vw - 188px);
+			margin-right: 10px;
+			mask-image: linear-gradient(90deg, #000 60%, transparent);
+
+			.profile-settings__user-info_name_username {
+				font-family: 'Poppins';
+				font-style: normal;
+				font-weight: 600;
+				font-size: 25px;
+				line-height: 38px;
+				text-overflow: clip;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+
+			.profile-settings__user-info_name_status {
+				font-family: 'Poppins';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 20px;
+				line-height: 30px;
+				text-overflow: clip;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+
+			// @media (max-width: 320px) {
+			// 	max-width: 120px;
+			// 	-webkit-mask-image: linear-gradient(90deg, #000 60%, transparent);
+			// }
+		}
+	}
+
+	.profile-settings__line {
+		margin: 29px 40px 1px;
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		width: calc(100% - 80px);
+	}
+
+	.profile-settings__menu {
+		margin: 60px 20px 25px 55px;
+		display: flex;
+		flex-direction: column;
+
+		.profile-settings__menu_item {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			min-height: 30px;
+			flex-wrap: wrap;
+			margin-bottom: 39px;
+			cursor: pointer;
+
+			.profile-settings__menu_item_name {
+				display: flex;
+				flex-direction: row;
+
+				&.contacts {
+					flex-direction: column;
+
+					.profile-settings__menu_item_name_wrp {
+						display: flex;
+						flex-direction: row;
+					}
+
+					.contacts__list {
+						margin: 5px 0 5px 65px;
+						padding: 5px 0 5px 5px;
+						display: flex;
+						flex-direction: row;
+						// border: 1px solid black;
+						width: 200px;
+						background: rgb(241, 241, 241);
+						border-radius: 10px;
+						transition: 0.5s;
+
+						&:hover {
+							background: rgb(117, 117, 117);
+							color: white;
+						}
+
+						p {
+							margin: 0;
+							line-height: 20px;
+						}
+					}
+				}
+			}
+
+			.profile-settings__menu_item_form-field {
+				display: flex;
+				flex-direction: column;
+				flex-wrap: wrap;
+				width: 250px;
+				margin: 5px 0 5px 55px;
+
+				.form-field {
+					input[type="file"] {
+						display: none;
+					}
+
+					label {
+						border: 1px solid #ccc;
+						display: inline-block;
+						padding: 6px 12px;
+						cursor: pointer;
+						transition: 1s;
+						background-color: rgb(255, 255, 255);
+						color: black;
+
+						&:hover {
+							background-color: rgb(0, 0, 255);
+							color: white;
+						}
+					}
+
+					.form-field__input_active {
+						background-color: green;
+						color: black;
+					}
+				}
+
+				.mat-form-field-wrapper {
+					padding: 0;
+				}
+
+				.form-field__btn-wrapper {
+					display: flex;
+					flex-direction: row;
+					margin: 5px auto 0 0;
+
+					button {
+						margin-left: 5px;
+						height: 40px;
+					}
+					mat-icon {
+						margin: 0 5px 3px 0;
+					}
+				}
+
+				@media (max-width: 390px) {
+					margin-left: 30px;
+				}
+
+				@media (max-width: 330px) {
+					margin-left: 20px;
+				}
+			}
+
+			mat-icon {
+				font-size: 30px;
+				margin-right: 39px;
+			}
+
+			// mat-form-field {
+			// 	border: 1px solid gray;
+			// 	border-radius: 10px;
+			// 	box-shadow: 1px 1px 2px blue;
+			// 	padding: 0 10px;
+			// }
+
+			// .form-field {
+				
+			// }
+
+			.profile-settings__menu_item_title {
+				font-family: 'Poppins';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 20px;
+				line-height: 30px;
+			}
+
+			&:active {	
+				.profile-settings__menu_item_title {
+					font-family: 'Poppins';
+					font-style: normal;
+					font-weight: 800;
+					font-size: 20px;
+					line-height: 30px;
+				}
+			}
+
+			&:hover {
+				.profile-settings__menu_item_title {
+					font-family: 'Poppins';
+					font-style: normal;
+					font-weight: 600;
+					font-size: 20px;
+					line-height: 30px;
+				}
+			}
+			
+		}
+
+		.profile-settings__menu_item_disabled {
+			pointer-events: none;
+			opacity: 0.4;
+		}
+
+		.profile-settings__menu_error {
+			background: rgb(255, 156, 156);
+			color: red;
+			max-width: 500px;
+			text-align: center;
+			padding: 10px 0;
+			border-radius: 10px;
+		}
+
+		@media (max-width: 460px) {
+			margin-left: 40px;
+		}
+
+		@media (max-width: 390px) {
+			margin-left: 30px;
+		}
+
+		@media (max-width: 330px) {
+			margin-left: 20px;
+		}
+	}
+
+	.profile-settings__footer {
+		font-family: 'Poppins';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 20px;
+		line-height: 30px;
+		color: rgba(0, 0, 0, 0.5);
+		margin: 0 auto 38px;
+		text-align: center;
+	}
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline::before {
+    background-color: #000000!important;
+}
+
+::ng-deep .mat-form-field-ripple {
+    background-color: #3b0e4f;
+}
+
+// mat-icon-stepper selected color change 
+ .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: red!important;
+}
+
+//input outline color
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: red!important;
+    opacity: 1!important;
+}
+
+//mat-input focused color
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: red!important;
+}
+
+// mat-input error outline color
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: red!important;
+    opacity: 0.8!important;
+}
+
+// mat-input carent color
+::ng-deep .mat-input-element {
+    caret-color: rgb(0, 0, 0)!important;
+}
+
+// mat-input error carent color
+::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
+    caret-color: red!important;
+}
+
+// mat-label normal state style
+::ng-deep .mat-form-field-label {
+    color: rgba(0,0,0,.6)!important;
+    // color: $mainColor!important;
+}
+
+// mat-label focused style
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: red!important;
+}
+
+// mat-label error style
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: red!important;
+}

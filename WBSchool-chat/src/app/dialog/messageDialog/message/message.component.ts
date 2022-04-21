@@ -1,4 +1,4 @@
-import { DialogService } from '../../dialog.service';
+
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
@@ -6,9 +6,10 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
+import { IMessage } from '../../dialog';
 import { initDialogs, newEditMessage, removeMessage, sendMessage } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
-import { IMessage, User } from '../../dialog';
+import { DialogService } from '../../dialog.service';
 
 @Component({
   selector: 'app-message',
@@ -43,7 +44,8 @@ export class MessageComponent implements OnInit {
     }),
   )
 
-  constructor(private service: DialogService,
+  constructor(
+    private service: DialogService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>) { }
 
@@ -57,6 +59,15 @@ export class MessageComponent implements OnInit {
 
   changeScroll(): void {
     this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
+    this.chatGroup$.subscribe((id)=> { 
+        this.chatID = id;
+        this.store$.dispatch(initDialogs({id}))
+        // this.getMessages(id);
+      })
+  };
+
+  ngAfterViewChecked(): void {
+    this.changeScroll();
   };
 
   getMyInfo(): void {
@@ -113,13 +124,12 @@ export class MessageComponent implements OnInit {
     this.message.setValue(text);
   };
 
-  sendMessage(): void {
+  sendMessage(event: KeyboardEvent): void {
     if (this.message.value.trim() ||
       this.message.value.trim() &&
-      this.imageOrFile.length > 0) {
+      this.imageOrFile.length > 0 && event.key === 'Enter') {
       this.changeScroll()
       if (this.isEditMessage) {
-        console.log("abc")
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
       }
       else if (this.imageOrFile.length > 0) {
@@ -143,5 +153,4 @@ export class MessageComponent implements OnInit {
     return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"))
   }
 }
-
 

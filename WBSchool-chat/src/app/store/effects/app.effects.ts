@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-
 import { catchError, map, mergeMap, of, throwError } from 'rxjs';
 import { deleteMessage, editMessage, initDialogs, loadDialogs, newEditMessage, pushToMessages, removeMessage, sendMessage } from '../actions/dialog.action';
 import { changeLoadFriends, changeLoadGroups, changeLoadUnreads, chatGroupError, createChatGroup, loadFriends, loadGroups, loadUnreads, pushToGroups } from '../actions/groups.actions';
@@ -18,10 +17,9 @@ import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
 import { DialogService } from 'src/app/dialog/dialog.service';
-
 @Injectable()
 export class AppEffects {
-  private apiUrl = 'https://wbschool-chat.ru/api';
+  private urlApi = `${this.apiUrl}/api`;
   public getGroups: IGroup[] = [];
   private chatId = '';
 
@@ -29,6 +27,7 @@ export class AppEffects {
     private actions$: Actions,
     private http: HttpClient,
     private dialogService:DialogService,
+    @Inject('API_URL') public apiUrl: string
   ) {}
 
   // Notifications
@@ -37,7 +36,7 @@ export class AppEffects {
       ofType(loadNotifications),
       mergeMap(() =>
         this.http
-          .get<INotification[]>(`${this.apiUrl}/users/notifications`)
+          .get<INotification[]>(`${this.urlApi}/users/notifications`)
           .pipe(
             map((notifications) => changeLoadNotifications({ notifications }))
           )
@@ -50,7 +49,7 @@ export class AppEffects {
       ofType(removeNotification),
       mergeMap(({ id }) =>
         this.http
-          .delete<string>(`${this.apiUrl}/users/notifications/${id}`)
+          .delete<string>(`${this.urlApi}/users/notifications/${id}`)
           .pipe(
             map((id) => removeNotification({ id })),
             catchError((err: HttpErrorResponse) => {
@@ -69,7 +68,7 @@ export class AppEffects {
       ofType(clearNotifications),
       mergeMap(() =>
         this.http
-          .delete<INotification[]>(`${this.apiUrl}/users/notifications/clear`)
+          .delete<INotification[]>(`${this.urlApi}/users/notifications/clear`)
           .pipe(
             map((notifications) => changeLoadNotifications({ notifications }))
           )
@@ -83,7 +82,7 @@ export class AppEffects {
       ofType(loadGroups),
       mergeMap(() =>
         this.http
-          .get<IGroup[]>(`${this.apiUrl}/chats/groups`)
+          .get<IGroup[]>(`${this.urlApi}/chats/groups`)
           .pipe(map((groups) => changeLoadGroups({ groups: groups.reverse() })))
       )
     );
@@ -95,6 +94,7 @@ export class AppEffects {
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.apiUrl}/chats`, group).pipe(
           map(( group ) => pushToGroups({ group })),
+
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
       )

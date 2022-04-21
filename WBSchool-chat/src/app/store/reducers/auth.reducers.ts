@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { INewUser } from 'src/app/auth/interfaces';
+import { INewUser, IUserData } from 'src/app/auth/interfaces';
 import { initAuth } from '../actions/auth.actions';
 
 export const authNode = 'Auth';
 
 export interface IAuthState {
-  newUser: INewUser;
+  newUser: IUserData;
 }
 export interface IAuth {
     emailOrUser?: string
@@ -15,17 +15,14 @@ export interface IAuth {
 }
 
 const initialState: IAuthState = {
-    newUser: {
-        token: '',
-            newUser: {
-            email: '',
-            username: '',
-            userRights: '',
-            avatar: '',
-            about: '',
-            id: '',
-            v: 0
-        }
+  newUser: {
+      email: '',
+      username: '',
+      userRights: '',
+      avatar: '',
+      about: '',
+      id: '',
+      v: 0
     }
 };
 

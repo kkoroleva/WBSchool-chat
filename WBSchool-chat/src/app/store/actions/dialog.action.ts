@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { IMessage, User } from 'src/app/dialog/dialog';
+
+import { IMessage } from 'src/app/dialog/dialog';
 
 export const initDialogs = createAction('[DIALOG] initDialogs',
 props<{ id: string}>());
@@ -24,5 +25,3 @@ props<{ text: string, id: string | undefined, chatId: string | undefined }>());
 
 export const editMessage = createAction('[DIALOG] editMessage',
 props<{ message: IMessage }>());
-
-
