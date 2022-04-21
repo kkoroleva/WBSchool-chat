@@ -27,4 +27,5 @@ export interface IUserData {
   about: string;
   id: string;
   v: number;
+  formatImage?: string;
 }
