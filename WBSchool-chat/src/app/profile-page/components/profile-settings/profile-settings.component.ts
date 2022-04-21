@@ -119,7 +119,7 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       this.profileData = Object.assign({}, {
         username: newUser.username,
         about: newUser.about,
-        avatar: atob(newUser.avatar),
+        avatar: newUser.formatImage + newUser.avatar,
         email: newUser.email
       })
       this.settingsList[0].description = newUser.username;
@@ -134,7 +134,6 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
 
   addToFormData(inputData: any) {
     if (inputData.id == 1) {
-
       if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
           inputData.value.length >= 4 && 
           inputData.value.length <= 100) {
@@ -174,14 +173,12 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
         if (+this.imageCompress.byteCount(reader.result) > 1048576) {
           this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
           .then(result =>  {
-            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
-            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-            this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+            this.formData.avatar = result.slice(imageOrFile.indexOf(',') + 1);
+            this.formData.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
           });
         } else {
-          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
-          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
-          this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+          this.formData.avatar = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+          this.formData.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }
       }
       else {
