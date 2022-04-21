@@ -30,6 +30,7 @@
     "ngrx": "^0.0.1-security",
     "ngrx-store-localstorage": "^13.0.1",
     "ngx-image-compress": "^13.1.9",
+    "normalize-scss": "^7.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -59,6 +59,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
+import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 
@@ -93,6 +94,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ThreadsComponent,
     NotFoundPageComponent,
     NavMobileComponent,
+    CreatePrivateChatComponent,
     ModalProfileComponent,
     DecodeImagePipe
   ],
