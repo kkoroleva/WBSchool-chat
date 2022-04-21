@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
 import { IProfileData, IServerResponse, ISettingsList } from '../../interfaces/profile-settings';
 import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { INewUser, IUserData } from '../../../auth/interfaces';
+import { IUserData } from '../../../auth/interfaces';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../../../store/selectors/auth.selectors';
 import { selectContacts } from '../../../store/selectors/contacts.selectors';
@@ -95,7 +95,8 @@ export class ProfileSettingsComponent implements OnInit {
     private storage: StorageMap,
     private store$: Store,
     private http: HttpClient,
-    private imageCompress: NgxImageCompressService
+    private imageCompress: NgxImageCompressService,
+    public modalProfileServ: ModalProfileService
   ) {}
 
   ngOnInit(): void {
@@ -223,9 +224,7 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   watchProfile(contact: IUserData) {
-    console.log('hey')
-    console.log(contact)
-    // this.modalProfileServ.openDialog()
+    this.modalProfileServ.openDialog(contact)
   }
 
   lengthForm() {
