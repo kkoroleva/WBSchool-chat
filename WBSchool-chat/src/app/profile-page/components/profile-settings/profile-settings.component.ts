@@ -92,17 +92,21 @@ export class ProfileSettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      this.getUsersData();
-      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-        // contacts.contacts.forEach((item: IUserData) => {
-        //   item.avatar = atob(item.avatar)
-        //   this.contacts = contacts.contacts
-        // })
-        this.contacts = contacts.contacts
-        // this.contacts.map(contact => {
-        //   if (contact.avatar) contact.avatar = atob(contact.avatar)
-        // })
-      })
+    this.getUsersData();
+    this.getContacts();
+  }
+
+  getContacts(): void {
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      // contacts.contacts.forEach((item: IUserData) => {
+      //   item.avatar = atob(item.avatar)
+      //   this.contacts = contacts.contacts
+      // })
+      this.contacts = contacts.contacts
+      // this.contacts.map(contact => {
+      //   if (contact.avatar) contact.avatar = atob(contact.avatar)
+      // })
+    })
   }
 
   getUsersData() {
