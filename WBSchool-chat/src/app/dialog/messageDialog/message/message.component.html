@@ -42,7 +42,7 @@
                         <div (click)="toggle = !toggle">
                             <img src="../../assets/icon-send.svg" alt="icon-send" class="btn" width="14px" height="13px">
                         </div>
-                        <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
+                        <input type="text" [formControl]="message" (keydown)="sendMessage()">
                         <img src="../../assets/icon-smile.svg" alt="icon-smile" width="15px" height="15px" class="smile">
                         <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="19px" height="15px">
                     </div>
