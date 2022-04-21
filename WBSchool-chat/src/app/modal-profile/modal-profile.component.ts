@@ -39,6 +39,7 @@ export class ModalProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      console.log(this.userData)
       this.friendStatus = contacts.contacts.find((user: IUserData) => user.username === this.userData.username);
     })
   }

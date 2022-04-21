@@ -60,12 +60,11 @@
 		}
 
 		.profile__user-info_name {
-			margin: auto auto auto 31px;
+			margin: auto 10px auto 31px;
 			display: flex;
 			flex-direction: column;
-			width: 100%;
+			width: calc(100% - 41px);
 			max-width: calc(100vw - 188px);
-			margin-right: 10px;
 
 			.profile__user-info_name_username {
 				font-family: 'Poppins';
@@ -212,11 +211,6 @@
 			
 		}
 
-		// .profile-settings__menu_item_disabled {
-		// 	pointer-events: none;
-		// 	opacity: 0.4;
-		// }
-
 		@media (max-width: 460px) {
 			margin-left: 40px;
 		}
@@ -230,160 +224,3 @@
 		}
 	}
 }
-
-// .profile {
-// 	background: #FFFFFF;
-// 	border-radius: 20px;
-// 	min-width: 320px;
-// 	width: 100%;
-
-// 	.profile__title {
-// 		padding: 26px 0 0 39px;
-// 		font-family: 'Poppins';
-// 		font-style: normal;
-// 		font-weight: 600;
-// 		font-size: 20px;
-// 		line-height: 30px;
-// 	}
-
-// 	.profile__user-info {
-// 		margin: 49px 0 0 38px;
-// 		display: flex;
-// 		flex-direction: row;
-
-// 		.profile__user-info_img {
-// 			height: 100px;
-// 			width: 100px;
-// 			border: 3px solid #FFFFFF;
-// 			border-radius: 50px;
-// 			box-sizing: border-box;
-// 			filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.5));
-
-// 			img {
-// 				border-radius: 50px;
-// 				width: 100%;
-// 				height: 100%;
-// 			}
-// 		}
-
-// 		.profile__user-info_name {
-// 			margin: auto auto auto 31px;
-// 			display: flex;
-// 			flex-direction: column;
-// 			width: 70%;
-// 			max-width: calc(100vw - 188px);
-// 			margin-right: 10px;
-// 			mask-image: linear-gradient(90deg, #000 60%, transparent);
-
-// 			.profile__user-info_name_username {
-// 				font-family: 'Poppins';
-// 				font-style: normal;
-// 				font-weight: 600;
-// 				font-size: 25px;
-// 				line-height: 38px;
-// 				text-overflow: clip;
-// 				overflow: hidden;
-// 				white-space: nowrap;
-// 			}
-// 		}
-// 	}
-
-// 	.profile__line {
-// 		margin: 29px 40px 1px;
-// 		border: 1px solid rgba(0, 0, 0, 0.25);
-// 		width: calc(100% - 80px);
-// 	}
-
-// 	.profile__menu {
-// 		margin: 60px 20px 25px 55px;
-// 		display: flex;
-// 		flex-direction: column;
-
-// 		.profile__menu_item {
-// 			display: flex;
-// 			flex-direction: column;
-// 			flex-wrap: wrap;
-// 			min-height: 30px;
-// 			flex-wrap: wrap;
-// 			margin-bottom: 39px;
-// 			cursor: pointer;
-
-// 			.profile__menu_item_name {
-// 				display: flex;
-// 				flex-direction: row;
-// 			}
-
-// 			mat-icon {
-// 				font-size: 30px;
-// 				margin-right: 39px;
-// 			}
-
-// 			.profile__menu_item_title {
-// 				font-family: 'Poppins';
-// 				font-style: normal;
-// 				font-weight: 400;
-// 				font-size: 20px;
-// 				line-height: 30px;
-// 				display: flex;
-// 				flex-direction: column;
-
-// 				.profile__menu_item_title_about {
-// 					width: 100%;
-// 				}
-// 			}
-
-// 			// &:active {	
-// 			// 	.profile__menu_item_title {
-// 			// 		font-family: 'Poppins';
-// 			// 		font-style: normal;
-// 			// 		font-weight: 800;
-// 			// 		font-size: 20px;
-// 			// 		line-height: 30px;
-// 			// 	}
-// 			// }
-
-// 			&:hover {
-// 				.profile__menu_item_title {
-// 					font-family: 'Poppins';
-// 					font-style: normal;
-// 					font-weight: 600;
-// 					font-size: 20px;
-// 					line-height: 30px;
-
-// 					.profile__menu_item_title_about {
-// 						font-weight: 400;
-// 					}
-// 				}
-// 			}
-			
-// 		}
-
-// 		// .profile-settings__menu_item_disabled {
-// 		// 	pointer-events: none;
-// 		// 	opacity: 0.4;
-// 		// }
-
-// 		@media (max-width: 460px) {
-// 			margin-left: 40px;
-// 		}
-
-// 		@media (max-width: 390px) {
-// 			margin-left: 30px;
-// 		}
-
-// 		@media (max-width: 330px) {
-// 			margin-left: 20px;
-// 		}
-// 	}
-
-// 	.profile__footer {
-// 		font-family: 'Poppins';
-// 		font-style: normal;
-// 		font-weight: 400;
-// 		font-size: 20px;
-// 		line-height: 30px;
-// 		color: rgba(0, 0, 0, 0.5);
-// 		margin: 0 auto 38px;
-// 		text-align: center;
-// 	}
-// }
