@@ -9,14 +9,14 @@
   <p class="friends__isNoFriends" *ngIf="(friendsState$ | async)?.length === 0">Sorry. No private chats detected. Please, create one.</p>
   <ul class="friends__list">
     <li class="friends__item" *ngFor="let friend of friendsState$ | async; index as i;">
-      <a (click)="goToChat(friend._id)" class="friends__chat-link">
+      <a (click)="goToChat(friend._id!)" class="friends__chat-link">
         <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
           <img class="friends__thumbnail"
-            src="{{friend.thumbnail ? 'data:image/png;base64,' + friend.thumbnail: 'https://i.ibb.co/JKprpxL/images.jpg'}}"
+            [src]="getImageFrom64(friend.avatar)"
             alt="Your best friend face" width="52" height="52">
         </div>
         <div class="friends__item-text">
-          <b class="friends__name">{{getFriend(friend)}}</b>
+          <b class="friends__name">{{friend.name}}</b>
           <p class="friends__last-active">{{friend.lastActive? 'friend.lastActive' : 'Unknown'}}</p>
           <p class="friends__last-message">{{friend.lastMessage? 'friend.lastActive' : 'Here will be last message'}}</p>
         </div>

@@ -1,14 +1,11 @@
-button {
-    width: 250px;
-    display: block;
-    margin: 0 auto;
-    background: blue;
-}
-
-h3 {
-    text-align: center;
-    text-shadow: 2px 2px 4px gray;
-    font-weight: 800;
+.auth__header {
+  padding: 20px 0 10px;
+  margin: 0;
+  text-align: center;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
 }
 
 mat-form-field {
@@ -25,6 +22,12 @@ mat-hint {
 mat-label {
     color: grey;
     border-bottom: 1px solid black;
+}
+
+.mat-raised-button {
+  display: block;
+  width: 250px;
+  margin: 0 auto;
 }
 
 input::placeholder {
