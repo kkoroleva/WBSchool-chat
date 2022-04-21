@@ -79,14 +79,13 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       if (typeof reader.result == 'string') {
         imageOrFile = reader.result;
         if (+this.imageCompress.byteCount(reader.result) > 1048576) {
-          this.imageCompress
-            .compressFile(imageOrFile, -1, 50, 50, 800, 600)
-            .then((result) => {
-              this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
-              this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-              // console.log(this.imageCompress.byteCount(this.imageOrFile))
-            });
-        } else {
+          this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
+          .then(result =>  {
+            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+          });
+        }
+        else {
           this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
           this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }

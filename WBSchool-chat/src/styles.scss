@@ -148,6 +148,13 @@ mat-label,
   border-radius: 20px;
 }
 
+.modal-profile .mat-dialog-container{
+  background-color: white;
+	color: black;
+	border-radius: 20px;
+  padding: 0;
+}
+
 .create-group-chat-modal {
   .mat-dialog-container {
     background-color: #fff;

@@ -25,7 +25,7 @@ export interface IUserData {
   userRights: string;
   avatar: string;
   about: string;
-  id: string;
+  _id: string;
   v: number;
   formatImage?: string;
 }

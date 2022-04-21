@@ -11,7 +11,7 @@ import {
   loadUnreads,
   pushToFriends,
 } from '../actions/groups.actions';
-import { catchError, map, mergeMap, throwError, of } from 'rxjs';
+import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
 import {
   changeLoadGroups,
   createChatGroup,
@@ -151,6 +151,9 @@ export class AppEffects {
         this.http
           .get<IUnread[]>(`${this.urlApi}/chats`)
           .pipe(
+            tap((unreads) => unreads.forEach(unread => {
+              unread.avatar = unread.formatImage! + unread.avatar
+            })),
             map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() }))
           )
       )
@@ -161,9 +164,14 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(initContacts),
       mergeMap(() =>
-        this.http
-          .get<IContacts>(`${this.urlApi}/users/contacts`)
-          .pipe(map((contacts) => pushContacts({ contacts: contacts })))
+        this.http.get<IContacts>(`${this.urlApi}/users/contacts`)
+          .pipe(
+            map((contacts) => pushContacts({ contacts: contacts })),
+            catchError((error: HttpErrorResponse, contacts: any) => {
+              contacts = [];
+              return throwError(() => error)
+            })
+            )
       )
     );
   });

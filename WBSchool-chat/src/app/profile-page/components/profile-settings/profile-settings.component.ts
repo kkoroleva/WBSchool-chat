@@ -1,26 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { catchError, concatMap, Subscription, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
 import { IProfileData, IServerResponse, ISettingsList } from '../../interfaces/profile-settings';
 import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { INewUser, IUserData } from '../../../auth/interfaces';
+import { IUserData } from '../../../auth/interfaces';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../../../store/selectors/auth.selectors';
-import { NgxImageCompressService } from 'ngx-image-compress';
-import { IContacts } from 'src/app/store/reducers/contacts.reducers';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+import { selectContacts } from '../../../store/selectors/contacts.selectors';
+import { IContacts } from '../../../store/reducers/contacts.reducers';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { initContacts } from '../../../store/actions/contacts.actions';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent implements OnInit {
-  profileData: IProfileData = { 
+export class ProfileSettingsComponent implements OnInit, OnChanges {
+  private url = 'https://wbschool-chat.ru/api/users';
+  profileData: IProfileData = {
     username: '',
     status: 'Не беспокоить',
     avatar: '',
@@ -33,14 +37,15 @@ export class ProfileSettingsComponent implements OnInit {
   toggle: boolean = false;
   errorMsg: string | boolean = false;
 
-
   imageOrFile: string = '';
   formatImage: string = '';
 
   imgInput: boolean = false;
-
-  contacts: IUserData[] = [];
   lookContacts: boolean = false;
+  notFound: string = '';
+  form!: FormGroup;
+  contacts: IUserData[] = [];
+  sub$!: Subscription;
 
   settingsList: ISettingsList[] = [
     {
@@ -86,23 +91,26 @@ export class ProfileSettingsComponent implements OnInit {
     public dialog: MatDialog,
     public settServ: ProfilePageService,
     private storage: StorageMap,
-    private imageCompress: NgxImageCompressService,
     private store$: Store,
-    // public modalProfileServ: ModalProfileService
+    private http: HttpClient,
+    private imageCompress: NgxImageCompressService,
+    public modalProfileServ: ModalProfileService
   ) {}
 
   ngOnInit(): void {
-      this.getUsersData();
-      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-        // contacts.contacts.forEach((item: IUserData) => {
-        //   item.avatar = atob(item.avatar)
-        //   this.contacts = contacts.contacts
-        // })
-        this.contacts = contacts.contacts
-        // this.contacts.map(contact => {
-        //   if (contact.avatar) contact.avatar = atob(contact.avatar)
-        // })
-      })
+    this.form = new FormGroup({
+      contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
+    })
+    this.getUsersData();
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.contacts = contacts.contacts
+    })
+    this.store$.dispatch(initContacts());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getUsersData();
+    this.store$.dispatch(initContacts());
   }
 
   getUsersData() {
@@ -111,7 +119,7 @@ export class ProfileSettingsComponent implements OnInit {
       this.profileData = Object.assign({}, {
         username: newUser.username,
         about: newUser.about,
-        avatar: atob(newUser.avatar),
+        avatar: newUser.formatImage + newUser.avatar,
         email: newUser.email
       })
       this.settingsList[0].description = newUser.username;
@@ -126,7 +134,6 @@ export class ProfileSettingsComponent implements OnInit {
 
   addToFormData(inputData: any) {
     if (inputData.id == 1) {
-
       if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
           inputData.value.length >= 4 && 
           inputData.value.length <= 100) {
@@ -166,14 +173,12 @@ export class ProfileSettingsComponent implements OnInit {
         if (+this.imageCompress.byteCount(reader.result) > 1048576) {
           this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
           .then(result =>  {
-            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
-            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-            this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+            this.formData.avatar = result.slice(imageOrFile.indexOf(',') + 1);
+            this.formData.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
           });
         } else {
-          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
-          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
-          this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+          this.formData.avatar = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+          this.formData.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }
       }
       else {
@@ -216,13 +221,36 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   watchProfile(contact: IUserData) {
-    console.log('hey')
-    console.log(contact)
-    // this.modalProfileServ.openDialog()
+    this.modalProfileServ.openDialog(contact)
   }
 
   lengthForm() {
     return Object.keys(this.formData).length > 0 ? true : false;
+  }
+
+  addFriend() {
+    this.notFound = '';
+    const userName: string = this.form.value.contactInput.trim();
+    const clone = this.contacts.find((user) => user.username === userName);
+    if (userName === clone?.username) {
+      this.notFound = 'Этот пользователь уже есть в списке контактов.'
+    }
+    else {
+      this.profileServ.getUsers(userName)
+      .pipe(
+        concatMap(
+          (user: any) => this.profileServ.addFriend(user._id)
+        ),
+        catchError((error: HttpErrorResponse) => {
+          this.notFound = 'Данного пользователя не существует.';
+          return throwError(() => error);
+        })
+      )
+      .subscribe(() => {
+        this.store$.dispatch(initContacts());
+      });
+    }
+    this.form.reset();
   }
 
   itemFormat(item: string) {
