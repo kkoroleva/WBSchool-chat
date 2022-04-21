@@ -101,3 +101,16 @@ $max-width: 1440px;
     grid-column: 3/4;
   }
 }
+
+.home-page__nav-mobile {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+
+  @media (min-width: $tablet-width) {
+    display: none;
+  }
+
+}

@@ -31,7 +31,7 @@
 						<mat-icon>{{ "help_outline" }}</mat-icon>
 						<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
 					</div>
-					<div *ngIf="lookContacts && contacts.length > 0">
+					<div *ngIf="lookContacts">
 						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
 							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
 								<img [src]='contact.avatar' alt="user pic" />

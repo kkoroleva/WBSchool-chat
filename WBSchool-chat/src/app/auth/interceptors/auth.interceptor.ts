@@ -5,14 +5,18 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -26,10 +30,12 @@ export class AuthInterceptor implements HttpInterceptor {
     });
     return next.handle(newReq).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401 &&
-            err.url != 'https://wbschool-chat.ru/api/users/me/newPass') {
+        if (
+          err.status === 401 &&
+          err.url != `${this.apiUrl}/api/users/me/newPass`
+        ) {
           this.auth.logout();
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/auth/login');
         }
         return throwError(() => err);
       })
