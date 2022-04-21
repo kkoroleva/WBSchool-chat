@@ -1,5 +1,3 @@
-$section-background: white;
-
 /*Break-points*/
 $min-width: 320px;
 $mobile-width: 495px;
@@ -72,10 +70,7 @@ $max-width: 1440px;
 }
 
 .home-page__friends {
-  border-radius: 20px;
   overflow: hidden;
-  background-color: $section-background;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   grid-row: 4/5;
   grid-column: 1/2;
 
@@ -92,9 +87,6 @@ $max-width: 1440px;
 }
 
 .home-page__threads {
-  border-radius: 20px;
-  background-color: $section-background;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   grid-row: 5/6;
   grid-column: 1/2;
 
@@ -107,6 +99,5 @@ $max-width: 1440px;
   @media (min-width: $desktop-width) {
     grid-row: 1/4;
     grid-column: 3/4;
-
   }
 }

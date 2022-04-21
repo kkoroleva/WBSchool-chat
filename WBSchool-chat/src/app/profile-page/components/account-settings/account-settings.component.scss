@@ -9,11 +9,6 @@
 
 	.account-settings__title {
 		padding: 26px 0 0 39px;
-		font-family: 'Poppins';
-		font-style: normal;
-		font-weight: 600;
-		font-size: 20px;
-		line-height: 30px;
 	}
 
 	.account-settings__line {
@@ -40,7 +35,6 @@
 			}
 
 			.account-settings__menu_item_title {
-				font-family: 'Poppins';
 				font-style: normal;
 				font-weight: 400;
 				font-size: 20px;
@@ -49,7 +43,6 @@
 
 			&:hover {
 				.account-settings__menu_item_title {
-					font-family: 'Poppins';
 					font-style: normal;
 					font-weight: 600;
 					font-size: 20px;
@@ -57,9 +50,8 @@
 				}
 			}
 
-			&:active {	
+			&:active {
 				.account-settings__menu_item_title {
-					font-family: 'Poppins';
 					font-style: normal;
 					font-weight: 800;
 					font-size: 20px;
@@ -79,7 +71,6 @@
 	}
 
 	.account-settings__footer {
-		font-family: 'Poppins';
 		font-style: normal;
 		font-weight: 400;
 		font-size: 20px;

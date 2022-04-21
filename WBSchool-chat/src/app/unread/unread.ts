@@ -11,10 +11,3 @@ export interface IUnread {
   avatar?: string;
 }
 
-export interface Contact {
-  _id: string;
-  userName: string;
-  avatar: string;
-  isActive: boolean;
-  lastActive?: string;
-}

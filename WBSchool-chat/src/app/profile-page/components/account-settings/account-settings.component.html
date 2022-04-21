@@ -1,5 +1,5 @@
 <div class="account-settings">
-	<div class="account-settings__title">
+	<div class="account-settings__title main-grid-block__header">
 		<span>
 			Account settings
 		</span>
@@ -7,9 +7,9 @@
 
 	<!-- <div class="account-settings__line"></div> -->
 	<div class="account-settings__menu" >
-		<div class="account-settings__menu_item" 
-				*ngFor="let item of settingsList" 
-				(click)="click(item.title)" 
+		<div class="account-settings__menu_item"
+				*ngFor="let item of settingsList"
+				(click)="click(item.title)"
 				[ngClass]="{'account-settings__menu_item_disabled':item.disabled}"
 		>
 			<mat-icon>{{ item.icon }}</mat-icon>
