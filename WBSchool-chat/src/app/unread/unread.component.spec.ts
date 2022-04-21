@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecentsComponent } from './unread.component';
+import { UnreadsComponent } from './unread.component';
 
-describe('RecentsComponent', () => {
-  let component: RecentsComponent;
-  let fixture: ComponentFixture<RecentsComponent>;
+describe('UnreadsComponent', () => {
+  let component: UnreadsComponent;
+  let fixture: ComponentFixture<UnreadsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecentsComponent ]
+      declarations: [ UnreadsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RecentsComponent);
+    fixture = TestBed.createComponent(UnreadsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
