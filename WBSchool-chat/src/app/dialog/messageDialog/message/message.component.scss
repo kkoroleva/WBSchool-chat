@@ -183,6 +183,9 @@
           display: flex;
           flex-direction: column;
         }
+        @media screen and (max-width: 1020px) {
+          padding: 7px ;
+        }
         .inp-file{
           width: 0.1px;
           height: 0.1px;
@@ -213,11 +216,10 @@
             @media(max-width:495px) {
               margin-bottom: 5px;
             }
-
-            @media(min-width:900px) {
-              width: 100%;;
-              margin-bottom: 5px;
+            @media screen and (max-width: 1020px) {
+              padding: 4px ;
             }
+          
            }
            .inp-file + .btn-add:hover {
                 background-position: 0 0;
@@ -242,6 +244,9 @@
                 font: 400 18px tahoma;
                 border: 1px solid #11b157;
                 border-radius: 5px;
+                @media screen and (max-width: 1020px) {
+                  padding: 4px ;
+                }
            }
            .btn-green:hover {
                 background-position: 0 0;
@@ -265,6 +270,9 @@
                 font: 400 18px tahoma;
                 border: 1px solid #cb2042;
                 border-radius: 5px;
+                @media screen and (max-width: 1020px) {
+                  padding: 4px ;
+                }
            }
            .btn-red:hover {
                 background-position: 0 0;

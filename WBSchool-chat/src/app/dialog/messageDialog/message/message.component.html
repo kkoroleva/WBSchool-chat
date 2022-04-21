@@ -1,14 +1,14 @@
 
         <div class="message">
                 <div class="message__wrapper" #wrapper >
-                    <div *ngFor="let item of messages$ | async  "
+                    <div *ngFor="let item of messages$ | async "
                         [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
                         <span *ngIf="item.owner === myId">{{userName}}</span>
-                        <span *ngIf="item.owner !== myId ">{{item.owner}}</span>
+                        <span *ngIf="item.owner !== myId ">{{(item.username)}}</span>
 
                         <div  [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
                             <div>
-                                <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend" class="message__img"> 
+                                <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend" class="message__img">
                                 <img *ngIf="itemFormat(item.text)" [src]="item.text" alt="img-send" class="message__img">
                                 <p class="message__text" *ngIf="!itemFormat(item.text)">{{item.text}}</p>
                             </div>
@@ -24,7 +24,7 @@
                             </button>
                         </mat-menu>
                 </div>
-            </div> 
+            </div>
             <hr>
             <div class="message__send">
                     <div>
@@ -35,13 +35,13 @@
                             <button type="button" class="btn-green" (click)="[addImage(input), toggle = !toggle]">V</button>
                             <button type="button" class="btn-red" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div class="wrapper__send">
                         <div (click)="toggle = !toggle">
                             <img src="../../assets/icon-send.svg" alt="icon-send" class="btn" width="14px" height="13px">
                         </div>
-                        <input type="text" [formControl]="message" (keydown)="sendMessage($event)">
+                        <input type="text" [formControl]="message" (keydown.enter)="sendMessage()">
                         <img src="../../assets/icon-smile.svg" alt="icon-smile" width="15px" height="15px" class="smile">
                         <img src="../../assets/icon-photo.svg" alt="icon-photo" class="photo" width="19px" height="15px">
                     </div>

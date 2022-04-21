@@ -3,70 +3,66 @@ import { AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChang
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { Observable, tap } from 'rxjs';
+import { map, mergeMap, Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
-import { IMessage } from '../../dialog';
-import { deletedMessage, editMessage, initDialogs, sendMessage } from 'src/app/store/actions/dialog.action';
+
+import { deleteMessage, editMessage, initDialogs, newEditMessage, removeMessage, sendMessage, usersData } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
+import { IMessage, User } from '../../dialog';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements OnInit, AfterViewChecked {
+export class MessageComponent implements OnInit {
 
   @ViewChild("wrapper") wrapper!:ElementRef;
 
-  editMessageID: string = '';
-  isEditMessage: boolean = false;
+  editMessageID = '';
+  isEditMessage = false;
   toggle!: boolean;
-
+  usersData: User[] = []
   message: FormControl = new FormControl('');
   data: IMessage[] = [];
-
-  userName: string = '';
-  userID: string = '';
-  myId: string = ''; 
-  chatID: string = '625555ea8ef822301dab93c8';
-
-
-  imageOrFile: string = '';
-  formatImage: string = '';
+  userName = '';
+  userID = '';
+  myId = '';
+  chatID = '625c2f4031dee2c4b3588ef3';
+  imageOrFile = '';
+  formatImage = '';
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup),
   )
+ 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
-    select(selectDialog), 
+    select(selectDialog),
     tap(() =>{
       setTimeout(() => {
         this.changeScroll()
       }, 1000);
-    })
+    }), 
   )
 
-  constructor(private service: DialogService, 
+  constructor(private service: DialogService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>) { }
 
   ngOnInit(): void {
     this.getMyInfo()
-    this.chatGroup$.subscribe((id)=> { 
+    
+    this.chatGroup$.subscribe((id)=> {
         this.chatID = id;
+        this.store$.dispatch(usersData({chatId: id}))
         this.store$.dispatch(initDialogs({id}))
-        // this.getMessages(id);
+        
       })
   };
 
-  ngAfterViewChecked(): void {
-    // this.changeScroll();
-  };
-
   changeScroll(): void {
-      console.log("scroll", this.wrapper.nativeElement.scrollTop , this.wrapper.nativeElement.scrollHeight);
-      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight 
+      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
   };
 
   getMyInfo(): void {
@@ -76,8 +72,8 @@ export class MessageComponent implements OnInit, AfterViewChecked {
         this.userName = response.username;
       })
   };
-    
-    
+
+
   addImage(input: any) {
       let imageOrFile = '';
       let reader = new FileReader();
@@ -103,26 +99,19 @@ export class MessageComponent implements OnInit, AfterViewChecked {
         }
     reader.readAsDataURL(file);
   }
-  
 
-  getMessages(idChat: string):void {
-    this.service.getMessages(idChat).subscribe((res) => {
-      this.data = res;
-      console.log(this.data, "this data")
-    })
-  };
-
-  deleteMessage(id: string, idChat: string ): void {
-    this.store$.dispatch(deletedMessage({id, idChat}))
+  deleteMessage(id: string): void {
+    console.log(id, this.chatID);
+    this.store$.dispatch(removeMessage({id, chatId: this.chatID}));
   };
 
   deleteChat() {
     console.log('удалить чат')
   }
 
-  editMessage(text: string, id: string, idChat: string):void {
+  editMessage(text: string, id: string ,chatId: string):void {
     this.isEditMessage = false;
-    this.store$.dispatch(editMessage({text, id, idChat}))
+    this.store$.dispatch(newEditMessage({text, id, chatId}))
   }
 
   getMessage(id: string, text: string): void {
@@ -131,33 +120,35 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     this.message.setValue(text);
   };
 
-  sendMessage(event: KeyboardEvent): void {
-    if (this.message.value.trim() && event.key === 'Enter' 
-    || 
-    this.message.value.trim()
-    && event.key === 'Enter' 
-    && this.imageOrFile.length > 0 ) {
 
+  sendMessage(): void {
+    if (this.message.value.trim() ||
+        this.message.value.trim() &&
+        this.imageOrFile.length > 0) {
+      this.changeScroll()
       if(this.isEditMessage) {
         console.log("abc")
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
       }
-      else {
-            let message:IMessage = {
-              text: this.message.value,
-              // imageOrFile: this.imageOrFile,
-              // formatImage: this.formatImage,
-            }
-            this.store$.dispatch(sendMessage({message, id:this.chatID}))
-            this.imageOrFile = '';
-            this.formatImage = '';
-            this.message.setValue('');
-          }
-
+      else if (this.imageOrFile.length > 0) {
+        const message:IMessage = {
+          text: this.message.value,
+          imageOrFile: this.imageOrFile,
+          formatImage: this.formatImage
+        }
+        this.store$.dispatch(sendMessage({message, id: this.chatID}))
+      } else {
+        let message:IMessage = { text: this.message.value }
+        this.store$.dispatch(sendMessage({message, id:this.chatID}))
+      }
+      this.imageOrFile = '';
+      this.formatImage = '';
+      this.message.setValue('');
       }
     }
+
     itemFormat(item: string) {
-      return !! (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif")) 
+      return !! (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"))
     }
   }
 

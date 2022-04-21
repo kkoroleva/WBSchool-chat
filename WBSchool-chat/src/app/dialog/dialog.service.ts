@@ -13,8 +13,9 @@ export class DialogService {
   getMyInfo():Observable<User>{
     return this.http.get<User>(`${this.urlApi}/users/me`)
   }
-  getUserInfo():Observable<User>{
-    return this.http.get<User>(`${this.urlApi}/users/username`)
+  
+  getUserInfo(chatId:string):Observable<User>{
+    return this.http.get<User>(`${this.urlApi}/chats/${chatId}/users`)
   }
 
   getMessages(id: string):Observable<IMessage[]>{
@@ -48,6 +49,7 @@ export class DialogService {
       `${this.urlApi}/chats/${idChat}/messages/${id}`
     );
   }
+  
   editMessage(editedMessage: string, id: string | undefined, idChat: string | undefined): Observable<IMessage> {
     return this.http.patch<IMessage>(
       `${this.urlApi}/chats/${idChat}/messages/${id}`,
