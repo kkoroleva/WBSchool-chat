@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { INewUser } from 'src/app/auth/interfaces';
+import { INewUser, IUserData } from 'src/app/auth/interfaces';
 import { createChatFriend, pushToFriends } from 'src/app/store/actions/groups.actions';
 import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
 import { selectUser } from 'src/app/store/selectors/auth.selectors';
@@ -16,10 +16,6 @@ import { IFriend } from '../friend';
   styleUrls: ['./create-private-chat.component.scss']
 })
 export class CreatePrivateChatComponent implements OnInit {
-
-  public userState$: Observable<INewUser> = this.store$.pipe(
-    select(selectUser)
-  );
 
   public form: FormGroup;
 
@@ -44,7 +40,6 @@ export class CreatePrivateChatComponent implements OnInit {
   createPrivateChat(): void {
     const username: string = this.form.get('username')?.value.trim();
 
-    console.log(username);
     const friend: IFriend = {
       isActive: false,
       isRead: true,

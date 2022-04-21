@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import { select, State, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { INewUser } from '../auth/interfaces';
+import { INewUser, IUserData } from '../auth/interfaces';
 import {AuthService} from '../auth/services/auth.service';
 import { loadGroups } from '../store/actions/groups.actions';
 import { loadNotifications } from '../store/actions/notifications.actions';
@@ -23,7 +23,7 @@ export class NavbarComponent {
     private store$: Store<INotificationsState | IGroupsState>
   ) {}
 
-  public userState$: Observable<INewUser> = this.store$.pipe(
+  public userState$: Observable<IUserData> = this.store$.pipe(
     select(selectUser)
   );
 
