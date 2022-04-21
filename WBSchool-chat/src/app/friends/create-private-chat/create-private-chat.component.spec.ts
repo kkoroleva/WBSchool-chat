@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnreadsComponent } from './unread.component';
+import { CreatePrivateChatComponent } from './create-private-chat.component';
 
-describe('UnreadsComponent', () => {
-  let component: UnreadsComponent;
-  let fixture: ComponentFixture<UnreadsComponent>;
+describe('CreatePrivateChatComponent', () => {
+  let component: CreatePrivateChatComponent;
+  let fixture: ComponentFixture<CreatePrivateChatComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnreadsComponent ]
+      declarations: [ CreatePrivateChatComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnreadsComponent);
+    fixture = TestBed.createComponent(CreatePrivateChatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

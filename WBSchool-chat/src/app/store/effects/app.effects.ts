@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { changeLoadFriends, changeLoadUnreads, chatGroupError, loadFriends, loadUnreads } from '../actions/groups.actions';
+import { changeLoadFriends, changeLoadUnreads, chatGroupError, createChatFriend, loadFriends, loadUnreads, pushToFriends } from '../actions/groups.actions';
 import { catchError, map, mergeMap, throwError, of } from 'rxjs';
 import {
   changeLoadGroups,
@@ -93,7 +93,7 @@ export class AppEffects {
       ofType(createChatGroup),
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.apiUrl}/chats`, group).pipe(
-          map(() => pushToGroups({ group })),
+          map((group) => pushToGroups({ group })),
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
       )
@@ -107,6 +107,18 @@ export class AppEffects {
         this.http
           .get<IFriend[]>(`${this.apiUrl}/chats/friends`)
           .pipe(map((friends) => changeLoadFriends({ friends: friends.reverse() })))
+      )
+    );
+  });
+
+  createPrivate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createChatFriend),
+      mergeMap(({ friend, username }) =>
+        this.http.post<IFriend>(`${this.apiUrl}/chats/private?username=${username}`, friend).pipe(
+          map((friend) => pushToFriends({ friend })),
+          catchError((err) => of(chatGroupError({ error: err.error.message })))
+        )
       )
     );
   });
@@ -128,7 +140,13 @@ export class AppEffects {
       mergeMap(() =>
         this.http
           .get<IContacts>(`${this.apiUrl}/users/contacts`)
-          .pipe(map((contacts) => pushContacts({ contacts: contacts })))
+          .pipe(
+            map((contacts) => pushContacts({ contacts: contacts })),
+            catchError((error: HttpErrorResponse, contacts: any) => {
+              contacts = [];
+              return throwError(() => error)
+            })
+            )
       )
     );
   });
