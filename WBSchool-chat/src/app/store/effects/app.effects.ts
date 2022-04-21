@@ -21,7 +21,6 @@ import { DialogService } from 'src/app/dialog/dialog.service';
 export class AppEffects {
   private urlApi = `${this.apiUrl}/api`;
   public getGroups: IGroup[] = [];
-  private chatId = '';
 
   constructor(
     private actions$: Actions,
