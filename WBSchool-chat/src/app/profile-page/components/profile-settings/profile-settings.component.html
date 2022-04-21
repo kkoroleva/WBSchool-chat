@@ -36,21 +36,16 @@
 							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
 								<img [src]='contact.avatar' alt="user pic" />
 							  </div> -->
-							  <p >{{contact.username}}</p>
-							  <!-- <button class="chat-btn">Chat</button>
-							  <button class="del-btn">Delete</button> -->
+							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
 						</div>
+						<form [formGroup]="form" (ngSubmit)="addFriend()">
+							<div *ngIf="lookContacts">
+								<input type="text" formControlName="contactInput">
+								<button type="submit">AddFriend</button>
+							</div>
+							<p *ngIf="notFound.length > 0">{{notFound}}</p>
+						</form>
 					</div>
-					<!-- <ul *ngFor="let contact of contacts">
-						<li *ngIf="lookContacts"> -->
-							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
-								<img [src]='contact.avatar' alt="user pic" />
-							  </div> -->
-							<!-- <p (click)="watchProfile()">{{contact.username}}</p>
-							<button>Chat</button>
-							<button>Delete</button>
-						</li>
-					</ul> -->
 				</div>
 			</div>
 			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index" [ngClass]="{'profile-settings__menu_item_disabled':item.description == 'null'}">
@@ -103,22 +98,6 @@
 						
 				</div>
 			</div>
-			<!-- <div class="profile-settings__menu_item">
-				<div class="profile-settings__menu_item_name">
-					<mat-icon>{{ "help_outline" }}</mat-icon>
-					<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
-					<ul *ngFor="let contact of contacts">
-						<li *ngIf="lookContacts">
-							<div class="profile-settings__user-info profile-settings__user-info_img">
-								<img src={{contact.avatar}} alt="user pic" />
-							  </div>
-							<p (click)="watchProfile()">{{contact.username}}</p>
-							<button>Chat</button>
-							<button>Delete</button>
-						</li>
-					</ul>
-				</div>
-			</div> -->
 			<div class="profile-settings__menu_item">
 				<div class="profile-settings__menu_item_name">
 					<mat-icon>{{ "help_outline" }}</mat-icon>
@@ -126,7 +105,6 @@
 				</div>
 			</div>
 			<form (ngSubmit)="submit()" *ngIf="!errorMsg; else errorMessage">
-				<!-- <button mat-raised-button color="primary" type="submit">Save Changes</button> -->
 				<button mat-raised-button color="primary" type="submit" [disabled]="!lengthForm()">Save Changes</button>
 			</form>
 			<ng-template #errorMessage>

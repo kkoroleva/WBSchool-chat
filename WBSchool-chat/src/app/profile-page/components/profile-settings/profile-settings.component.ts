@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
 import { IProfileData, IServerResponse, ISettingsList } from '../../interfaces/profile-settings';
 import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { INewUser, IUserData } from '../../../auth/interfaces';
+import { IUserData } from '../../../auth/interfaces';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../../../store/selectors/auth.selectors';
-import { NgxImageCompressService } from 'ngx-image-compress';
-import { IContacts } from 'src/app/store/reducers/contacts.reducers';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+import { selectContacts } from '../../../store/selectors/contacts.selectors';
+import { IContacts } from '../../../store/reducers/contacts.reducers';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { initContacts } from '../../../store/actions/contacts.actions';
+import { HttpClient } from '@angular/common/http';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-profile-settings',
@@ -20,7 +23,8 @@ import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile
   styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent implements OnInit {
-  profileData: IProfileData = { 
+  private url = 'https://wbschool-chat.ru/api/users';
+  profileData: IProfileData = {
     username: '',
     status: 'Не беспокоить',
     avatar: '',
@@ -33,14 +37,17 @@ export class ProfileSettingsComponent implements OnInit {
   toggle: boolean = false;
   errorMsg: string | boolean = false;
 
+  users: IUserData[] = [];
 
   imageOrFile: string = '';
   formatImage: string = '';
 
   imgInput: boolean = false;
-
-  contacts: IUserData[] = [];
   lookContacts: boolean = false;
+  contact!: any;
+  notFound: string = '';
+  form!: FormGroup;
+  contacts: IUserData[] = [];
 
   settingsList: ISettingsList[] = [
     {
@@ -86,27 +93,24 @@ export class ProfileSettingsComponent implements OnInit {
     public dialog: MatDialog,
     public settServ: ProfilePageService,
     private storage: StorageMap,
-    private imageCompress: NgxImageCompressService,
     private store$: Store,
+    private http: HttpClient,
+    private imageCompress: NgxImageCompressService,
     public modalProfileServ: ModalProfileService
   ) {}
 
   ngOnInit(): void {
-    this.getUsersData();
-    this.getContacts();
-  }
-
-  getContacts(): void {
-    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-      // contacts.contacts.forEach((item: IUserData) => {
-      //   item.avatar = atob(item.avatar)
-      //   this.contacts = contacts.contacts
-      // })
-      this.contacts = contacts.contacts
-      // this.contacts.map(contact => {
-      //   if (contact.avatar) contact.avatar = atob(contact.avatar)
-      // })
+    this.form = new FormGroup({
+      contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
     })
+    this.getUsersData();
+    this.http.get<IUserData[]>(this.url).subscribe((resp: IUserData[]) => {
+      this.users = resp
+    });
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.contacts = contacts.contacts
+    })
+    this.store$.dispatch(initContacts());
   }
 
   getUsersData() {
@@ -220,13 +224,24 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   watchProfile(contact: IUserData) {
-    // console.log('hey')
-    // console.log(contact)
     this.modalProfileServ.openDialog(contact)
   }
 
   lengthForm() {
     return Object.keys(this.formData).length > 0 ? true : false;
+  }
+
+  addFriend() {
+    const userName: string = this.form.value.contactInput.trim();
+    this.contact = this.users.find((user: IUserData) => user.username === userName);
+    if (this.contact != undefined) {
+      this.http.post<IContacts>(`${this.url}/contacts`, {id: this.contact._id}).subscribe(() => {});
+    }
+    else {
+      this.notFound = 'Данного пользователя не существует.'
+    }
+    this.store$.dispatch(initContacts());
+    this.form.reset();
   }
 
   itemFormat(item: string) {
