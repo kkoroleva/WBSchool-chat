@@ -30,6 +30,7 @@
     "ngrx-store-localstorage": "^13.0.1",
     "ngx-image-compress": "^13.1.9",
     "rxjs": "~7.5.0",
+    "socket.io-client": "^4.4.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

@@ -9,6 +9,7 @@ import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import { initDialogs, newEditMessage, removeMessage, sendMessage } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 import { IMessage, User } from '../../dialog';
+import { SocketService } from 'src/app/socket/socket.service';
 
 @Component({
   selector: 'app-message',
@@ -30,22 +31,34 @@ export class MessageComponent implements OnInit {
   imageOrFile = '';
   formatImage = '';
 
+  messages: IMessage[] = [];
+  messageContent = '';
+  ioConnection: any;
+
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup),
   )
- 
+
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
     tap(() =>{
       setTimeout(() => {
         this.changeScroll()
       }, 1000);
-    }), 
+    }),
   )
 
   constructor(private service: DialogService,
-    private imageCompress: NgxImageCompressService,
-    private store$: Store<IGroupsState>) { }
+              private imageCompress: NgxImageCompressService,
+              private store$: Store<IGroupsState>,
+              private socketService: SocketService) { }
+
+  private initIoConnection(): void {
+      this.ioConnection = this.socketService.onMessage()
+        .subscribe((message: IMessage) => {
+          this.messages.push(message);
+        });
+    }
 
   ngOnInit(): void {
     this.getMyInfo()
@@ -53,6 +66,7 @@ export class MessageComponent implements OnInit {
         this.chatID = id;
         this.store$.dispatch(initDialogs({id}))
       })
+    this.initIoConnection()
   };
 
   changeScroll(): void {
@@ -66,8 +80,6 @@ export class MessageComponent implements OnInit {
         this.userName = response.username;
       })
   };
- 
-
 
   addImage(input: any) {
       let imageOrFile = '';
@@ -132,9 +144,11 @@ export class MessageComponent implements OnInit {
           formatImage: this.formatImage
         }
         this.store$.dispatch(sendMessage({message, id: this.chatID}))
+        this.socketService.send(message);
       } else {
         let message:IMessage = { text: this.message.value }
         this.store$.dispatch(sendMessage({message, id:this.chatID}))
+        this.socketService.send(message);
       }
       this.imageOrFile = '';
       this.formatImage = '';
