@@ -59,7 +59,7 @@
         <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
         <label *ngIf="!imageInBase64" class="modal__upload" for="file">
             <mat-icon>file_upload</mat-icon>
-            Upload image for your chat group
+            Upload image
         </label>
         <button *ngIf="imageInBase64" class="modal__btn modal__btn--warn" mat-button (click)="deleteImage()">
             <mat-icon>delete</mat-icon>
