@@ -44,8 +44,6 @@ export class FriendsComponent implements OnInit {
   }
 
   goToChat(chatId: string) {
-
-    console.log(chatId);
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);
 

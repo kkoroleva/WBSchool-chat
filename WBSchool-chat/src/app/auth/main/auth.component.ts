@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-auth',
-  template: `<div class="auth">
+  template: `<section class="auth main-grid-block">
   <router-outlet></router-outlet>
-  </div>`
+  </section>`
 })
 export class AuthComponent {}

@@ -2,29 +2,20 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'auth-nav',
-  template: `<nav class="nav">
-  <button mat-raised-button routerLink="/auth/login" routerLinkActive="active">Login</button>
-  <button mat-raised-button routerLink="/auth/register" routerLinkActive="active" >Register</button>
-</nav>`,
+  template: `<div class="auth-nav">
+  <button class="auth-nav__link" mat-raised-button color="primary" routerLink="/auth/login" routerLinkActive="auth-nav__link--active">Login</button>
+  <button class="auth-nav__link" mat-raised-button color="primary" routerLink="/auth/register" routerLinkActive="auth-nav__link--active">Register</button>
+</div>`,
   styles: [`
-  .nav {
+  .auth-nav {
     display: flex;
-  }
-  .nav button {
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    width: 180px;
-    background: blue;
-  }
-  .active {
-    border: 1px solid red;
-  }
-  @media(max-width: 420px) {
-    button {
-        width: 100px;
+    gap: 4%;
+    &__link {
+      width: 48%;
     }
-}
-  `]
+    &__link--active {
+      opacity: 0.7;
+    }
+  }`]
 })
-export class AuthNav{}
+export class AuthNav { }
