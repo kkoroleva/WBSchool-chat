@@ -65,13 +65,18 @@ $max-width: 1440px;
   max-height: 490px;
   overflow: hidden;
   border-radius: 20px;
-  grid-row: 3/4;
+  grid-row: 2/3;
   grid-column: 1/2;
+
+  @media (min-width: $tablet-width) {
+    grid-row: 3/4;
+    grid-column: 1/2;
+  }
 }
 
 .home-page__friends {
   overflow: hidden;
-  grid-row: 4/5;
+  grid-row: 2/3;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
@@ -87,7 +92,7 @@ $max-width: 1440px;
 }
 
 .home-page__threads {
-  grid-row: 5/6;
+  grid-row: 2/3;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
