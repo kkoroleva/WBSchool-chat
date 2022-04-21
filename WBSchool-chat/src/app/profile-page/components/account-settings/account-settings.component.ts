@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfilePageService } from '../profile-page/service/profile-page.service';
+import { ProfilePageService } from '../../services/profile-page.service';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
-import { AccountSettingsService } from './service/account-settings.service';
+import { AccountSettingsService } from '../../services/account-settings.service';
 
 interface btnList {
   "icon": string,

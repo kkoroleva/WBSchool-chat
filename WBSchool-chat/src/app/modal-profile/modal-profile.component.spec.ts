@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnreadsComponent } from './unread.component';
+import { ModalProfileComponent } from './modal-profile.component';
 
-describe('UnreadsComponent', () => {
-  let component: UnreadsComponent;
-  let fixture: ComponentFixture<UnreadsComponent>;
+describe('ModalProfileComponent', () => {
+  let component: ModalProfileComponent;
+  let fixture: ComponentFixture<ModalProfileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnreadsComponent ]
+      declarations: [ ModalProfileComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnreadsComponent);
+    fixture = TestBed.createComponent(ModalProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

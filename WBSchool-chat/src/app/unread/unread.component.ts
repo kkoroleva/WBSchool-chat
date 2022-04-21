@@ -22,9 +22,7 @@ export class UnreadsComponent implements OnInit {
   constructor(private router: Router, private store$: Store<IGroupsState>) {}
 
   ngOnInit(): void {
-    this.unreadsState$.subscribe((res) => {
-      console.log(res);
-    });
+    this.unreadsState$.subscribe((res) => {});
     this.getUnreads();
   }
 
@@ -32,7 +30,11 @@ export class UnreadsComponent implements OnInit {
     this.store$.dispatch(loadUnreads());
   }
 
-  getImageFrom64(img: string) {
+  getImageFrom64(img: string | undefined): string {
+    if (!img) {
+      return '../../assets/image-not-found.jpg';
+    }
+
     return atob(img);
   }
 

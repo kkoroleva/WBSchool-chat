@@ -42,7 +42,7 @@
 			width: 70%;
 			max-width: calc(100vw - 188px);
 			margin-right: 10px;
-			-webkit-mask-image: linear-gradient(90deg, #000 60%, transparent);
+			mask-image: linear-gradient(90deg, #000 60%, transparent);
 
 			.profile-settings__user-info_name_username {
 				font-family: 'Poppins';
@@ -96,14 +96,71 @@
 			.profile-settings__menu_item_name {
 				display: flex;
 				flex-direction: row;
+
+				&.contacts {
+					flex-direction: column;
+
+					.profile-settings__menu_item_name_wrp {
+						display: flex;
+						flex-direction: row;
+					}
+
+					.contacts__list {
+						margin: 5px 0 5px 65px;
+						padding: 5px 0 5px 5px;
+						display: flex;
+						flex-direction: row;
+						// border: 1px solid black;
+						width: 200px;
+						background: rgb(241, 241, 241);
+						border-radius: 10px;
+						transition: 0.5s;
+
+						&:hover {
+							background: rgb(117, 117, 117);
+							color: white;
+						}
+
+						p {
+							margin: 0;
+							line-height: 20px;
+						}
+					}
+				}
 			}
 
 			.profile-settings__menu_item_form-field {
 				display: flex;
 				flex-direction: column;
 				flex-wrap: wrap;
-				width: 100px;
+				width: 250px;
 				margin: 5px 0 5px 55px;
+
+				.form-field {
+					input[type="file"] {
+						display: none;
+					}
+
+					label {
+						border: 1px solid #ccc;
+						display: inline-block;
+						padding: 6px 12px;
+						cursor: pointer;
+						transition: 1s;
+						background-color: rgb(255, 255, 255);
+						color: black;
+
+						&:hover {
+							background-color: rgb(0, 0, 255);
+							color: white;
+						}
+					}
+
+					.form-field__input_active {
+						background-color: green;
+						color: black;
+					}
+				}
 
 				.mat-form-field-wrapper {
 					padding: 0;
@@ -112,7 +169,7 @@
 				.form-field__btn-wrapper {
 					display: flex;
 					flex-direction: row;
-					margin: 5px auto 0;
+					margin: 5px auto 0 0;
 
 					button {
 						margin-left: 5px;

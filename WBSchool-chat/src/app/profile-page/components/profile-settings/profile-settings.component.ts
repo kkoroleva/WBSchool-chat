@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
-import { ProfileSettingsService } from './service/profile-settings.service';
+import { catchError, map, throwError } from 'rxjs';
+import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
-import { IProfileData, ISettingsList } from './interfaces/interface';
-import { ProfilePageService } from '../profile-page/service/profile-page.service';
+import { IProfileData, IServerResponse, ISettingsList } from '../../interfaces/profile-settings';
+import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { IUserData } from '../auth/interfaces';
+import { INewUser, IUserData } from '../../../auth/interfaces';
 import { select, Store } from '@ngrx/store';
-import { selectUser } from '../store/selectors/auth.selectors';
+import { selectUser } from '../../../store/selectors/auth.selectors';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { IContacts } from 'src/app/store/reducers/contacts.reducers';
+import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -16,7 +20,7 @@ import { selectUser } from '../store/selectors/auth.selectors';
   styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent implements OnInit {
-  profileData: IProfileData = {
+  profileData: IProfileData = { 
     username: '',
     status: 'Не беспокоить',
     avatar: '',
@@ -29,10 +33,19 @@ export class ProfileSettingsComponent implements OnInit {
   toggle: boolean = false;
   errorMsg: string | boolean = false;
 
+
+  imageOrFile: string = '';
+  formatImage: string = '';
+
+  imgInput: boolean = false;
+
+  contacts: IUserData[] = [];
+  lookContacts: boolean = false;
+
   settingsList: ISettingsList[] = [
     {
       "id": 1,
-      "icon": "edit",
+      "icon": "person",
       "title": "Edit Profile Name",
       "description": this.profileData.username
     },
@@ -56,7 +69,7 @@ export class ProfileSettingsComponent implements OnInit {
     },
     {
       "id": 5,
-      "icon": "edit",
+      "icon": "mail",
       "title": "Edit Email",
       "description": this.profileData.email
     },
@@ -73,11 +86,23 @@ export class ProfileSettingsComponent implements OnInit {
     public dialog: MatDialog,
     public settServ: ProfilePageService,
     private storage: StorageMap,
-    private store$: Store
+    private imageCompress: NgxImageCompressService,
+    private store$: Store,
+    // public modalProfileServ: ModalProfileService
   ) {}
 
   ngOnInit(): void {
       this.getUsersData();
+      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+        // contacts.contacts.forEach((item: IUserData) => {
+        //   item.avatar = atob(item.avatar)
+        //   this.contacts = contacts.contacts
+        // })
+        this.contacts = contacts.contacts
+        // this.contacts.map(contact => {
+        //   if (contact.avatar) contact.avatar = atob(contact.avatar)
+        // })
+      })
   }
 
   getUsersData() {
@@ -89,6 +114,9 @@ export class ProfileSettingsComponent implements OnInit {
         avatar: atob(newUser.avatar),
         email: newUser.email
       })
+      this.settingsList[0].description = newUser.username;
+      this.settingsList[3].description = newUser.about;
+      this.settingsList[4].description = newUser.email;
     })
   }
 
@@ -122,11 +150,41 @@ export class ProfileSettingsComponent implements OnInit {
 
       if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
           inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-        this.formData.about = inputData.value;
+        this.formData.email = inputData.value;
         this.errorMsg = false
       } else this.errorMsg = 'Email error'
-      
     }
+  }
+
+  addImage(input: any) {
+    let imageOrFile = '';
+    let reader = new FileReader();
+    let file = input.files[0];
+    reader.onloadend = () => {
+      if (typeof reader.result == "string") {
+        imageOrFile = reader.result;
+        if (+this.imageCompress.byteCount(reader.result) > 1048576) {
+          this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
+          .then(result =>  {
+            this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+            this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+            this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+          });
+        } else {
+          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
+          this.formData.avatar = btoa(this.formatImage + this.imageOrFile)
+        }
+      }
+      else {
+        alert("Вы отправляете не картинку!")
+      }
+    }
+    reader.readAsDataURL(file);
+  }
+
+  onFileInputChange(event: any) {
+    this.imgInput = true
   }
 
   submit() {
@@ -136,13 +194,15 @@ export class ProfileSettingsComponent implements OnInit {
         return throwError(() => error);
       })
     )
-    .subscribe((newUser: any) => {
+    .subscribe((newUser: IServerResponse) => {
       this.storage.set('user', newUser)
       .subscribe(() => {
         location.reload();
       });
+      this.getUsersData();
     })
     this.formData = {};
+    this.imgInput = false
   }
 
   openDialog(): void {
@@ -155,7 +215,17 @@ export class ProfileSettingsComponent implements OnInit {
     });
   }
 
+  watchProfile(contact: IUserData) {
+    console.log('hey')
+    console.log(contact)
+    // this.modalProfileServ.openDialog()
+  }
+
   lengthForm() {
     return Object.keys(this.formData).length > 0 ? true : false;
+  }
+
+  itemFormat(item: string) {
+    return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"));
   }
 }

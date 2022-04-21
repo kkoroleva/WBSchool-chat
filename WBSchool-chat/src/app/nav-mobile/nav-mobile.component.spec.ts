@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnreadsComponent } from './unread.component';
+import { NavmobileComponent } from './nav-mobile.component';
 
-describe('UnreadsComponent', () => {
-  let component: UnreadsComponent;
-  let fixture: ComponentFixture<UnreadsComponent>;
+describe('NavbuttomComponent', () => {
+  let component: NavmobileComponent;
+  let fixture: ComponentFixture<NavmobileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnreadsComponent ]
+      declarations: [ NavmobileComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnreadsComponent);
+    fixture = TestBed.createComponent(NavmobileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

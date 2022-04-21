@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { IUserData } from '../auth/interfaces';
 import { initContacts } from '../store/actions/contacts.actions';
 import { IContacts } from '../store/reducers/contacts.reducers';
+import { selectContacts } from '../store/selectors/contacts.selectors';
 
 @Component({
   selector: 'app-search',
@@ -27,7 +28,8 @@ export class SearchComponent implements OnInit {
     this.form = new FormGroup({
       search: new FormControl('', [Validators.minLength(1)]),
     });
-    this.http.get(this.url).subscribe((resp: any) => {
+    this.store$.dispatch(initContacts());
+    this.http.get<IUserData[]>(this.url).subscribe((resp: IUserData[]) => {
       this.contacts = resp;
     });
   }
@@ -38,13 +40,15 @@ export class SearchComponent implements OnInit {
 
   submit() {
     const userName: string = this.form.value.search.trim();
-    let contact: any = {};
+
     this.contact = this.contacts.find(
       (user: IUserData) => user.username === userName
     );
+    this.http
+      .post<IContacts>(`${this.url}/contacts`, { id: this.contact._id })
+      .subscribe(() => {});
     this.store$.dispatch(initContacts());
-    console.log(this.contacts);
-    console.log(this.contact);
+
     this.form.reset();
   }
 }

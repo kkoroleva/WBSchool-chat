@@ -15,6 +15,5 @@ export class AppComponent implements OnInit {
     this.storage.get('user').subscribe((newUser: any) => {
       this.store$.dispatch(initAuth({ newUser }));
     });
-    console.log(localStorage.getItem('token'));
   }
 }

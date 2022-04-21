@@ -5,13 +5,23 @@ import { initContacts, pushContacts } from '../actions/contacts.actions';
 export const contactsNode = 'Contacts';
 
 export interface IContacts {
-  id: string;
+  _id: string;
   contacts: IUserData[];
 }
 
 const initialState: IContacts = {
-  id: '',
-  contacts: [],
+  _id: '',
+  contacts: [
+    {
+      email: '',
+      username: '',
+      userRights: '',
+      avatar: '',
+      about: '',
+      id: '',
+      v: 0,
+    },
+  ],
 };
 
 export const contactsReducer = createReducer(
@@ -21,6 +31,7 @@ export const contactsReducer = createReducer(
   })),
   on(pushContacts, (state, action) => ({
     ...state,
+    _id: action.contacts._id,
     contacts: action.contacts.contacts,
   }))
 );

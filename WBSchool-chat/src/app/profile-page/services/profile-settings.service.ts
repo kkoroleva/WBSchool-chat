@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { IProfileData, IServerResponse } from '../interfaces/interface';
+import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
+
 
 @Injectable({
   providedIn: 'root',
@@ -30,3 +31,4 @@ export class ProfileSettingsService {
     );
   }
 }
+ 
