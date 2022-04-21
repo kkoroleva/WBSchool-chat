@@ -102,18 +102,14 @@ body {
     .mat-select-value {
       color: #000;
     }
-  }
-}
 
-.modal__select.mat-select-panel {
-  background-color: #fff;
+    .mat-chip.mat-standard-chip {
+      background-color: #fff;
+    }
 
-  .mat-pseudo-checkbox {
-    color: #000;
-  }
-
-  .mat-option:hover {
-    background: #e9e8e8;
+    .mat-chip.mat-standard-chip .mat-chip-remove {
+      color: #000;
+    }
   }
 }
 
@@ -123,4 +119,12 @@ body {
 
 .modal__field.mat-form-field-invalid .mat-form-field-ripple {
   background-color: #f44336;
+}
+
+.modal__autocomplete.mat-autocomplete-panel {
+  background-color: #fff;
+
+  .mat-option:hover {
+    background: #e9e8e8;
+  }
 }
