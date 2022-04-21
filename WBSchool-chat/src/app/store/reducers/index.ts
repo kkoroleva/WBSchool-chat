@@ -20,7 +20,7 @@ export const reducers: ActionReducerMap<State> = {
   [notificationNode]: notificationsReducer,
   [groupsNode]: groupsReducer,
   [authNode]: authReducer,
-  [contactsNode]: contactsReducer
+  [contactsNode]: contactsReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

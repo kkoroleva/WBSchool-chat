@@ -1,16 +1,26 @@
 <div class="modal">
-  <h3 class="modal__title" mat-dialog-title>Create new private chat</h3>
-  <mat-dialog-content>
-      <form [formGroup]="form" class="modal__form">
-          <mat-form-field appearance="fill" class="modal__field">
-              <mat-label>Add userName</mat-label>
-              <input class="modal__input" matInput placeholder="userName" formControlName="username">
-          </mat-form-field>
-      </form>
-  </mat-dialog-content>
+    <h3 class="modal__title" mat-dialog-title>Create new private chat</h3>
+    <mat-dialog-content>
+        <form [formGroup]="form" class="modal__form">
+            <mat-form-field appearance="fill" class="modal__field">
+                <mat-label>Add user</mat-label>
+                <input class="modal__input" matInput placeholder="Username" [formControl]="contactsControl"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let contact of contacts$ | async" [value]="contact.username">
+                        <div class="modal__contact">
+                            <img class="modal__avatar" [src]="'data:image/png;base64,' + contact.avatar"
+                                alt="User avatar">
+                            <span class="modal__username">{{contact.username}}</span>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
 
-  <mat-dialog-actions>
-      <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
-      <button class="modal__btn" mat-button (click)="createPrivateChat()" [disabled]="form.invalid">Create</button>
-  </mat-dialog-actions>
+    <mat-dialog-actions align="end">
+        <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
+        <button class="modal__btn" mat-button (click)="createPrivateChat()" [disabled]="form.invalid">Create</button>
+    </mat-dialog-actions>
 </div>

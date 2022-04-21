@@ -121,6 +121,9 @@
 						&:hover {
 							background: rgb(117, 117, 117);
 							color: white;
+							p {
+								font-weight: 600;
+							}
 						}
 
 						p {
@@ -129,7 +132,9 @@
 							margin: auto 0 auto 10px;
 							font-size: large;
 							text-overflow: ellipsis " [..]";
-							// width: 140px;
+							font-family: 'Poppins';
+							font-style: normal;
+							font-weight: 400;
 							word-break: break-all;
 						}
 

@@ -2,11 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
-import { catchError, throwError } from 'rxjs';
 import { IUserData } from '../auth/interfaces';
-import { IProfileData, IServerResponse } from '../profile-page/interfaces/profile-settings';
 import { IContacts } from '../store/reducers/contacts.reducers';
 import { selectContacts } from '../store/selectors/contacts.selectors';
+
 
 @Component({
   selector: 'app-modal-profile',
@@ -19,9 +18,9 @@ export class ModalProfileComponent implements OnInit {
     email: this.data.email,
     username: this.data.username,
     userRights: this.data.userRights,
-    avatar: atob(this.data.avatar),
+    avatar: this.data.avatar,
     about: this.data.about,
-    id: this.data.id,
+    _id: this.data._id,
     v: this.data.v
   }
   friendStatus: IUserData | undefined = undefined;

@@ -1,11 +1,10 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import { select, State, Store } from '@ngrx/store';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { INewUser, IUserData } from '../auth/interfaces';
-import {AuthService} from '../auth/services/auth.service';
+import { IUserData } from '../auth/interfaces';
+import { AuthService } from '../auth/services/auth.service';
 import { loadGroups } from '../store/actions/groups.actions';
-import { loadNotifications } from '../store/actions/notifications.actions';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { INotificationsState } from '../store/reducers/notifications.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
@@ -13,7 +12,7 @@ import { selectUser } from '../store/selectors/auth.selectors';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
   path: string = window.location.pathname.substring(1);
@@ -37,7 +36,7 @@ export class NavbarComponent {
 
   logout(): void {
     this.auth.logout()
-    this.router.navigate(["login"])
+    this.router.navigateByUrl('/auth/login')
   }
 
   getImgFromBase64(imgStr: string): string {
@@ -50,6 +49,4 @@ export class NavbarComponent {
   ngDoCheck() {
     this.path = window.location.pathname.substring(1);
   }
-
-
 }
