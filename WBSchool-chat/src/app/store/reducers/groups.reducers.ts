@@ -35,6 +35,7 @@ export interface IGroup {
   lastMessage?: string;
   avatar?: string;
   users?: string[];
+  formatImage?: string;
 }
 
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
