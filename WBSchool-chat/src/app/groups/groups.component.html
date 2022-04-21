@@ -10,7 +10,7 @@
         <li class="groups__item" *ngFor="let group of groups$ | async">
             <a (click)="openGroupChat(group._id!)" class="groups__chat-link">
                 <img class="groups__thumbnail"
-                    [src]="group.avatar ? 'data:image/png;base64,' + group.avatar : '/assets/not-found.png'"
+                    [src]="group.avatar ? group.formatImage + group.avatar : '/assets/not-found.png'"
                     alt="Group chat image" width="70" height="70">
                 <div class="groups__item-text">
                     <b class="groups__name">{{group.name}}</b>
