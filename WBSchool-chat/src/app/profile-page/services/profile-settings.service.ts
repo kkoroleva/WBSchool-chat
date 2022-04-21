@@ -1,6 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { IUserData } from 'src/app/auth/interfaces';
+import { IContacts } from 'src/app/store/reducers/contacts.reducers';
 import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
 
 
@@ -12,13 +14,13 @@ export class ProfileSettingsService {
 
   constructor(private http: HttpClient) {}
 
-  // getUsersData(): Observable<IServerResponse> {
-  //   return this.http.get<IServerResponse>(this.url).pipe(
-  //     catchError((error: HttpErrorResponse) => {
-  //       return throwError(() => error);
-  //     })
-  //   );
-  // }
+  getUsers(userName: string) {
+    return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
+  }
+
+  addFriend(userId: string) {
+    return this.http.post<IContacts>(`${this.url}/contacts`, {id: userId})
+  }
 
   editProfileSettings(formData: IProfileData): Observable<IServerResponse> {
     return this.http.patch<IServerResponse>(this.url, formData).pipe(
@@ -28,4 +30,3 @@ export class ProfileSettingsService {
     );
   }
 }
- 
