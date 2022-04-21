@@ -41,6 +41,9 @@ export class UnreadsComponent implements OnInit {
   }
 
   getImageFrom64(img: string) {
+    if (!img) {
+      return '../../assets/image-not-found.jpg';
+    }
     return atob(img);
   }
 
