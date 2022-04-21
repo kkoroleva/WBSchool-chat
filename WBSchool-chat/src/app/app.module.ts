@@ -68,7 +68,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 
 const API_URL_PROVIDER: Provider = {
   provide: 'API_URL',
-  useValue: 'https://wbschool-chat.ru/api',
+  useValue: 'https://wbschool-chat.ru',
 };
 
 @NgModule({
