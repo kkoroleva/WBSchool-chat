@@ -27,7 +27,6 @@ export const dialogReducer = createReducer(
         ...state,
         messages: [...state.messages, action.message]
     })),
-
     on(deleteMessage, (state, action) => ({
         ...state,
         messages: state.messages.filter((message) => {
