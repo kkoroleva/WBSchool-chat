@@ -31,7 +31,6 @@ export class UnreadsComponent implements OnInit {
 
   ngOnInit(): void {
     this.unreadsState$.subscribe(res => {
-      console.log(res);
     });
     this.getUnreads();
   }

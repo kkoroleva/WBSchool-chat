@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChangeComponentService } from '../navbuttom/change-component.service';
+import { ResizedEvent } from 'angular-resize-event';
+import { ChangeComponentService } from '../navmobile/change-component.service';
 
 @Component({
   selector: 'app-home-page',
@@ -13,8 +14,17 @@ export class HomePageComponent implements OnInit {
 
   stateMain = this.changeState.stateComponentMain
 
+  onResized(event: ResizedEvent) {
+    if (window.innerWidth >= 766) {
+      this.stateMain.groups = true
+      this.stateMain.unreadMess = true
+      this.stateMain.tetATet = true
+      this.stateMain.threads = true
+    }
+  }
+
   ngOnInit(): void {
-    if(window.screen.width < 768) {
+    if(window.innerWidth < 766) {
       this.stateMain.groups = true
       this.stateMain.unreadMess = false
       this.stateMain.tetATet = false

@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { ChangeComponentService } from './change-component.service';
 
 @Component({
-  selector: 'app-navbuttom',
-  templateUrl: './navbuttom.component.html',
-  styleUrls: ['./navbuttom.component.scss']
+  selector: 'app-navmobile',
+  templateUrl: './navmobile.component.html',
+  styleUrls: ['./navmobile.component.scss']
 })
-export class NavbuttomComponent {
+export class NavmobileComponent {
 
   constructor(public changeState: ChangeComponentService) {}
 

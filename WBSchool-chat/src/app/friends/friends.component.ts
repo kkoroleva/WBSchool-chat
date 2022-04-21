@@ -34,7 +34,7 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.getChats();
     this.friendsState$.subscribe(res => {
-      console.log(res);
+      // console.log(res);
     });
   }
 

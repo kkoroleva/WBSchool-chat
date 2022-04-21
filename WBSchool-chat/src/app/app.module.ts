@@ -1,10 +1,11 @@
-import { NgModule, OnInit, Provider } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AngularResizeEventModule } from 'angular-resize-event';
 
 /*Components */
 import { AppComponent } from './app.component';
@@ -57,7 +58,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { NavbuttomComponent } from './navbuttom/navbuttom.component';
+import { NavmobileComponent } from './navmobile/navmobile.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -89,7 +90,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     CreateGroupChatComponent,
     ThreadsComponent,
     NotFoundPageComponent,
-    NavbuttomComponent,
+    NavmobileComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +99,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     HttpClientModule,
     AuthModule,
     StorageModule,
+    AngularResizeEventModule,
 
     //Material UI
     BrowserAnimationsModule,

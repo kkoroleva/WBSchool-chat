@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChangeComponentService } from '../navbuttom/change-component.service';
+import { ResizedEvent } from 'angular-resize-event';
+import { ChangeComponentService } from '../navmobile/change-component.service';
 
 @Component({
   selector: 'app-messages-page',
@@ -11,8 +12,16 @@ export class MessagesPageComponent implements OnInit {
 
   stateMessages = this.changeState.stateComponentMessages;
 
+  onResized(event: ResizedEvent) {
+    if (window.innerWidth >= 766) {
+      this.stateMessages.groups = true
+      this.stateMessages.unreadMess = true
+      this.stateMessages.messanger = true
+    }
+  }
+
   ngOnInit(): void {
-    if (window.screen.width < 768) {
+    if (window.innerWidth < 766) {
       this.stateMessages.groups = false;
       this.stateMessages.unreadMess = true;
       this.stateMessages.messanger = false;
