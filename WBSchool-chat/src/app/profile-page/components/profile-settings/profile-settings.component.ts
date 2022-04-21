@@ -244,6 +244,10 @@ export class ProfileSettingsComponent implements OnInit {
     this.form.reset();
   }
 
+  decodeImg(img: string): string {
+    return atob(img)
+  }
+
   itemFormat(item: string) {
     return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"));
   }

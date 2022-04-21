@@ -5,6 +5,7 @@
 	border-radius: 20px;
 	min-width: 320px;
 	width: 100%;
+	
 
 	.profile-settings__title {
 		padding: 26px 0 0 39px;
@@ -83,6 +84,7 @@
 		margin: 60px 20px 25px 55px;
 		display: flex;
 		flex-direction: column;
+		transition: 0.1s;
 
 		.profile-settings__menu_item {
 			display: flex;
@@ -107,14 +109,19 @@
 
 					.contacts__list {
 						margin: 5px 0 5px 65px;
-						padding: 5px 0 5px 5px;
 						display: flex;
 						flex-direction: row;
 						// border: 1px solid black;
-						width: 200px;
+						width: 250px;
+						height: 60px;
 						background: rgb(241, 241, 241);
 						border-radius: 10px;
 						transition: 0.5s;
+						overflow: hidden;
+						white-space: normal;
+						transition: 0.1s;
+						border-top-left-radius: 30px;
+						border-bottom-left-radius: 30px;
 
 						&:hover {
 							background: rgb(117, 117, 117);
@@ -124,6 +131,48 @@
 						p {
 							margin: 0;
 							line-height: 20px;
+							margin: auto 0 auto 10px;
+							font-size: large;
+							text-overflow: ellipsis " [..]";
+							// width: 140px;
+							word-break: break-all;
+						}
+
+						img {
+							width: 60px;
+							border-radius: 30px;
+							height: 60px;
+							object-fit: cover;
+						}
+
+						@media (max-width: 435px) {
+							margin-left: 40px;
+						}
+					}
+
+					.contacts__form {
+						margin: 15px 0 0 65px;
+						transition: 0.1s;
+
+						.contacts__form_wrp {
+							input {
+								height: 40px;
+								line-height: 30px;
+								font-size:larger;
+							}
+							button {
+								margin: 0 0 0 10px;
+							}
+						}
+
+						@media (max-width: 475px) {
+							margin-left: 30px;
+
+							.contacts__form_wrp {
+								input {
+									width: 50%;
+								}
+							}
 						}
 					}
 				}

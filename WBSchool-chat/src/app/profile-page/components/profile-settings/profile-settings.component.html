@@ -28,20 +28,21 @@
 			<div class="profile-settings__menu_item">
 				<div class="profile-settings__menu_item_name contacts">
 					<div  class="profile-settings__menu_item_name_wrp">
-						<mat-icon>{{ "help_outline" }}</mat-icon>
+						<mat-icon>{{ "group" }}</mat-icon>
 						<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
 					</div>
-					<div *ngIf="lookContacts && contacts.length > 0">
+					<div *ngIf="lookContacts">
 						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
 							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
 								<img [src]='contact.avatar' alt="user pic" />
 							  </div> -->
+							  <img  *ngIf="!!contact.avatar"  [src]="decodeImg(contact.avatar)" alt="user pic" />
 							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
 						</div>
-						<form [formGroup]="form" (ngSubmit)="addFriend()">
-							<div *ngIf="lookContacts">
+						<form [formGroup]="form" (ngSubmit)="addFriend()" class="contacts__form">
+							<div *ngIf="lookContacts" class="contacts__form_wrp">
 								<input type="text" formControlName="contactInput">
-								<button type="submit">AddFriend</button>
+								<button mat-raised-button color="primary" type="submit">AddFriend</button>
 							</div>
 							<p *ngIf="notFound.length > 0">{{notFound}}</p>
 						</form>
