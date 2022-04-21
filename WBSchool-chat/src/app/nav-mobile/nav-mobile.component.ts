@@ -6,7 +6,7 @@ import { ChangeComponentService } from './change-component.service';
   templateUrl: './nav-mobile.component.html',
   styleUrls: ['./nav-mobile.component.scss']
 })
-export class NavmobileComponent {
+export class NavMobileComponent {
 
   constructor(public changeState: ChangeComponentService) {}
 
