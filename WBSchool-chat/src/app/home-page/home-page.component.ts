@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ResizedEvent } from 'angular-resize-event';
+import { ChangeComponentService } from '../nav-mobile/change-component.service';
 
 @Component({
   selector: 'app-home-page',
@@ -6,4 +8,35 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-page.component.scss']
 })
 
-export class HomePageComponent {}
+export class HomePageComponent implements OnInit {
+
+  constructor(public changeState: ChangeComponentService) {}
+
+  stateMain = this.changeState.stateComponentMain
+
+  onResized(event: ResizedEvent) {
+    if (window.innerWidth >= 766) {
+      this.stateMain.groups = true
+      this.stateMain.unreadMess = true
+      this.stateMain.tetATet = true
+      this.stateMain.threads = true
+    }
+  }
+
+  ngOnInit(): void {
+    if(window.innerWidth < 766) {
+      this.stateMain.groups = true
+      this.stateMain.unreadMess = false
+      this.stateMain.tetATet = false
+      this.stateMain.threads = false
+    } else {
+      this.stateMain.groups = true
+      this.stateMain.unreadMess = true
+      this.stateMain.tetATet = true
+      this.stateMain.threads = true
+    }
+
+    this.changeState.hasThreadsInNavMobile = true
+  }
+
+}

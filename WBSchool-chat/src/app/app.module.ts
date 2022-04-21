@@ -1,10 +1,11 @@
-import { NgModule, OnInit, Provider } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AngularResizeEventModule } from 'angular-resize-event';
 
 /*Components */
 import { AppComponent } from './app.component';
@@ -57,6 +58,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
 import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
@@ -91,6 +93,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     CreateGroupChatComponent,
     ThreadsComponent,
     NotFoundPageComponent,
+    NavMobileComponent,
     CreatePrivateChatComponent,
     ModalProfileComponent,
     DecodeImagePipe
@@ -102,6 +105,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     HttpClientModule,
     AuthModule,
     StorageModule,
+    AngularResizeEventModule,
 
     //Material UI
     BrowserAnimationsModule,
