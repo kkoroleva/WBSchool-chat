@@ -63,10 +63,9 @@
 			margin: auto auto auto 31px;
 			display: flex;
 			flex-direction: column;
-			width: 70%;
+			width: 100%;
 			max-width: calc(100vw - 188px);
 			margin-right: 10px;
-			mask-image: linear-gradient(90deg, #000 60%, transparent);
 
 			.profile__user-info_name_username {
 				font-family: 'Poppins';
@@ -76,7 +75,9 @@
 				line-height: 38px;
 				text-overflow: clip;
 				overflow: hidden;
-				white-space: nowrap;
+				// white-space: nowrap;
+				text-overflow: ellipsis " [..]";
+				word-break: break-all;
 			}
 		}
 	}
