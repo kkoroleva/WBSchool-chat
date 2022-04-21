@@ -15,6 +15,7 @@ import {
 } from 'src/app/store/actions/groups.actions';
 
 import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { selectUser } from 'src/app/store/selectors/auth.selectors';
 import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
 
 @Component({
@@ -30,6 +31,7 @@ export class CreatePrivateChatComponent implements OnInit {
     select(selectContacts),
     map((contacts) => contacts.contacts)
   );
+  private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
   constructor(
     private dialogRef: MatDialogRef<CreatePrivateChatComponent>,
@@ -70,7 +72,11 @@ export class CreatePrivateChatComponent implements OnInit {
     const username: string = this.contactsControl.value;
 
     if (this.form.valid) {
-      this.store$.dispatch(createChatFriend({ username }));
+      this.user$.subscribe((user) => {
+        this.store$.dispatch(
+          createChatFriend({ username, ownerUsername: user.username })
+        );
+      });
     }
   }
 
