@@ -1,8 +1,9 @@
-<div class="messages-page__wrapper">
+<div (resized)="onResized($event)" class="messages-page__wrapper">
   <!--TO DO: Блоки компонентов временно будут обозначены div.
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="messages-page__search"></app-search>
-  <app-groups class="messages-page__groups"></app-groups>
-  <app-unread class="messages-page__recents"></app-unread>
-  <app-dialog class="messages-page__chat"></app-dialog>
+  <app-groups *ngIf="changeState.stateComponentMessages.groups" class="messages-page__groups"></app-groups>
+  <app-unread *ngIf="changeState.stateComponentMessages.unreadMess" class="messages-page__recents"></app-unread>
+  <app-dialog *ngIf="changeState.stateComponentMessages.messanger" class="messages-page__chat"></app-dialog>
+  <app-nav-mobile class="messages-page__nav-mobile"></app-nav-mobile>
 </div>
