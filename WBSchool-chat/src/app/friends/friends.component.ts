@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
 import { IFriend } from './friend';
 import { Router } from '@angular/router';
-import { ActiveChatService } from '../active-chat.service';
-import { GroupsService } from '../groups/groups.service';
 import { Observable } from 'rxjs/internal/Observable';
-import {
-  selectFriends,
-  selectGroups,
-} from '../store/selectors/groups.selectors';
+import { selectFriends } from '../store/selectors/groups.selectors';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { changeChatGroup, loadFriends } from '../store/actions/groups.actions';
@@ -25,12 +19,7 @@ export class FriendsComponent implements OnInit {
 
   friendList: IFriend[] = [];
 
-  constructor(
-    private router: Router,
-    private activeChat: ActiveChatService,
-    private chatListService: GroupsService,
-    private store$: Store<IGroupsState>
-  ) {}
+  constructor(private router: Router, private store$: Store<IGroupsState>) {}
 
   ngOnInit(): void {
     this.getChats();

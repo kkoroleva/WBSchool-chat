@@ -9,7 +9,6 @@ import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
-import { ActiveChatService } from '../active-chat.service';
 import { IAuthState } from '../store/reducers/auth.reducers';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
@@ -44,7 +43,6 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private service: DialogService,
-    private activeService: ActiveChatService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState | IAuthState>
   ) {}
