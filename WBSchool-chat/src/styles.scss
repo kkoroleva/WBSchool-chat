@@ -174,5 +174,38 @@ mat-label,
     .mat-form-field-label {
       color: rgb(185, 181, 181);
     }
+
+    .mat-select-arrow {
+      color: #1A66FF;
+    }
+
+    .mat-select-value {
+      color: #000;
+    }
+
+    .mat-chip.mat-standard-chip {
+      background-color: #fff;
+    }
+
+    .mat-chip.mat-standard-chip .mat-chip-remove {
+      color: #000;
+    }
   }
 }
+
+.modal__field.mat-focused .mat-form-field-ripple {
+  background-color: #1A66FF;
+}
+
+.modal__field.mat-form-field-invalid .mat-form-field-ripple {
+  background-color: #f44336;
+}
+
+.modal__autocomplete.mat-autocomplete-panel {
+  background-color: #fff;
+
+  .mat-option:hover {
+    background: #e9e8e8;
+  }
+}
+

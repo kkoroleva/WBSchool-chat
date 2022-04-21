@@ -1,17 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IMessage, User } from './dialog';
 @Injectable({
   providedIn: 'root',
 })
 export class DialogService {
-  private urlApi: string = 'https://wbschool-chat.ru/api';
+  private urlApi: string = `${this.apiUrl}/api`;
 
   getMe(): Observable<User> {
     return this.http.get<User>(`${this.urlApi}/users/me`);
   }
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   getMessages(id: string): Observable<IMessage[]> {
     return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`);

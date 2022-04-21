@@ -21,7 +21,7 @@ const initialState: IAuthState = {
       userRights: '',
       avatar: '',
       about: '',
-      id: '',
+      _id: '',
       v: 0
     }
 };

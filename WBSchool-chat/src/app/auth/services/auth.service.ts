@@ -1,38 +1,40 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { INewUser, User } from '../interfaces';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private urlLogin = 'https://wbschool-chat.ru/api/signin';
-  private urlRegister = 'https://wbschool-chat.ru/api/signup';
+  private urlLogin = `${this.apiUrl}/api/signin`;
+  private urlRegister = `${this.apiUrl}/api/signup`;
 
-  constructor(private http: HttpClient, private storage: StorageMap) { }
+  constructor(
+    private http: HttpClient,
+    private storage: StorageMap,
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   login(user: User): Observable<INewUser> {
-    return this.http.post<INewUser>(this.urlLogin, user)
-    .pipe(
+    return this.http.post<INewUser>(this.urlLogin, user).pipe(
       tap((res: INewUser) => this.setToken(res)),
-      catchError(error => {
+      catchError((error) => {
         console.log('Error: ', error.message);
-        return throwError(() => error)
+        return throwError(() => error);
       })
-    )
+    );
   }
 
   register(user: User) {
-    return this.http.post(this.urlRegister, user)
-    .pipe(
+    return this.http.post(this.urlRegister, user).pipe(
       tap((res) => this.setUsersData(res)),
-      catchError(error => {
+      catchError((error) => {
         console.log('Error: ', error.message);
-        return throwError(() => error)
+        return throwError(() => error);
       })
-    )
+    );
   }
 
   setToken(response: any | null) {

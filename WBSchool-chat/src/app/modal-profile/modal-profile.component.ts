@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IUserData } from '../auth/interfaces';
-import { IProfileData } from '../profile-page/interfaces/profile-settings';
 
 @Component({
   selector: 'app-modal-profile',
@@ -14,9 +13,9 @@ export class ModalProfileComponent implements OnInit {
     email: this.data.email,
     username: this.data.username,
     userRights: this.data.userRights,
-    avatar: atob(this.data.avatar),
+    avatar: this.data.avatar,
     about: this.data.about,
-    id: this.data.id,
+    _id: this.data._id,
     v: this.data.v
   }
 

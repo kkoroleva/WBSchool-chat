@@ -1,10 +1,11 @@
-import { NgModule, OnInit, Provider } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AngularResizeEventModule } from 'angular-resize-event';
 
 /*Components */
 import { AppComponent } from './app.component';
@@ -41,6 +42,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
@@ -57,6 +60,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
 import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
@@ -65,6 +69,11 @@ const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
   useClass: AuthInterceptor,
+};
+
+const API_URL_PROVIDER: Provider = {
+  provide: 'API_URL',
+  useValue: 'https://wbschool-chat.ru',
 };
 
 @NgModule({
@@ -91,9 +100,10 @@ const INTERCEPTOR_PROVIDER: Provider = {
     CreateGroupChatComponent,
     ThreadsComponent,
     NotFoundPageComponent,
+    NavMobileComponent,
     CreatePrivateChatComponent,
     ModalProfileComponent,
-    DecodeImagePipe
+    DecodeImagePipe,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +112,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     HttpClientModule,
     AuthModule,
     StorageModule,
+    AngularResizeEventModule,
 
     //Material UI
     BrowserAnimationsModule,
@@ -118,6 +129,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatRippleModule,
     MatButtonToggleModule,
     MatDialogModule,
+    MatSelectModule,
+    MatAutocompleteModule,
 
     //Forms
     FormsModule,
@@ -139,7 +152,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     StoreRouterConnectingModule.forRoot(),
   ],
 
-  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService],
+  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

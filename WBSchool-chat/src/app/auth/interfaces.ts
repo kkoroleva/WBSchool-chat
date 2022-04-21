@@ -1,22 +1,22 @@
 export interface User {
-    emailOrUser?: string
-    email?: string,
-    username?: string,
-    password: string
+  emailOrUser?: string;
+  email?: string;
+  username?: string;
+  password: string;
 }
 
 export interface Register {
-    email: string,
-    username: string
+  email: string;
+  username: string;
 }
 
 export interface Login {
-    token: string
+  token: string;
 }
 
 export interface INewUser {
-    token: string,
-    newUser: IUserData
+  token: string;
+  newUser: IUserData;
 }
 
 export interface IUserData {
@@ -25,7 +25,7 @@ export interface IUserData {
         userRights: string,
         avatar: string,
         about: string,
-        id: string,
+        _id: string,
         v: number,
         formatImage?: string
 }
