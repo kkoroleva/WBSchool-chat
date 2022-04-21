@@ -13,43 +13,7 @@ export class DialogService {
   getMyInfo():Observable<User>{
     return this.http.get<User>(`${this.urlApi}/users/me`)
   }
-  
-  getUserInfo(chatId:string):Observable<User>{
-    return this.http.get<User>(`${this.urlApi}/chats/${chatId}/users`)
-  }
 
-  getMessages(id: string):Observable<IMessage[]>{
-    return this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
-  };
-
-  sendMessage(
-    text: string,
-    id: string,
-    imageOrFile?: string,
-    formatImage?: string
-  ): Observable<IMessage> {
-    const message = {
-      text: text,
-      imageOrFile: imageOrFile,
-      formatImage: formatImage,
-    };
-    if (imageOrFile && formatImage && text) {
-      return this.http.post<IMessage>(
-        `${this.urlApi}/chats/${id}/messages`,
-        message
-      );
-    }
-    return this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, {
-      text,
-    });
-  }
-
-  deleteMessage(id: string | undefined, idChat: string | undefined): Observable<IMessage> {
-    return this.http.delete<IMessage>(
-      `${this.urlApi}/chats/${idChat}/messages/${id}`
-    );
-  }
-  
   editMessage(editedMessage: string, id: string | undefined, idChat: string | undefined): Observable<IMessage> {
     return this.http.patch<IMessage>(
       `${this.urlApi}/chats/${idChat}/messages/${id}`,

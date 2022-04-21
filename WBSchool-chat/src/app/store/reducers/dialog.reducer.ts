@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { IMessage, User } from 'src/app/dialog/dialog';
-import { deleteMessage, editMessage, initDialogs, loadDialogs, pushToMessages, usersDataResponse } from '../actions/dialog.action';
+import { IMessage } from 'src/app/dialog/dialog';
+import { deleteMessage, editMessage, initDialogs, loadDialogs, pushToMessages} from '../actions/dialog.action';
 export const dialogNode = 'Dialog';
 
 export interface IDialogState {
@@ -40,17 +40,5 @@ export const dialogReducer = createReducer(
             return action.message._id === message._id ? action.message : message
         })
     })),
-    on(usersDataResponse, (state, action) => ({
-        ...state,
-        messages: state.messages.map((message) => {
-            action.usersData.forEach((user) => {
-                if (message.owner === user._id){
-                    console.log(message , "tut")
-                    message.username = user.username;
-                    message.avatar = user.avatar
-                }
-            })
-            return message;
-        })
-    }))
+  
 )

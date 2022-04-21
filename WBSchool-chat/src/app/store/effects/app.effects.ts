@@ -1,10 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { catchError, map, mergeMap, of, tap, throwError } from 'rxjs';
-import { deleteMessage, editMessage, initDialogs, loadDialogs, newEditMessage, pushToMessages, removeMessage, sendMessage, usersData, usersDataResponse } from '../actions/dialog.action';
+import { catchError, map, mergeMap, of, throwError } from 'rxjs';
+import { deleteMessage, editMessage, initDialogs, loadDialogs, newEditMessage, pushToMessages, removeMessage, sendMessage } from '../actions/dialog.action';
 import { changeLoadFriends, changeLoadGroups, changeLoadUnreads, chatGroupError, createChatGroup, loadFriends, loadGroups, loadUnreads, pushToGroups } from '../actions/groups.actions';
 
 import {
@@ -19,9 +18,6 @@ import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
 import { DialogService } from 'src/app/dialog/dialog.service';
-import { User } from 'src/app/dialog/dialog';
-import { select, Store } from '@ngrx/store';
-import { selectDialog } from '../selectors/dialog.selector';
 
 @Injectable()
 export class AppEffects {
@@ -33,8 +29,6 @@ export class AppEffects {
     private actions$: Actions,
     private http: HttpClient,
     private dialogService:DialogService,
-    private router: Router, 
-    private store$: Store
   ) {}
 
   // Notifications
@@ -166,25 +160,6 @@ export class AppEffects {
       ofType(newEditMessage),
       mergeMap(( {text, id, chatId}) => this.dialogService.editMessage(text, id, chatId).pipe(
         map(( message ) => editMessage({ message }) )
-      ))
-    )
-  })
-
-  usersData$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadDialogs), 
-      tap(()=>{
-        this.store$.pipe(
-          select(
-            selectDialog
-          )
-        ).subscribe((data)=>{
-           this.chatId = data[0].chatId!
-        }
-        )
-      }),
-      mergeMap(( )=> this.http.get<User[]>(`${this.apiUrl}/chats/${this.chatId}/users`).pipe(
-        map(( usersData ) => usersDataResponse({ usersData }))
       ))
     )
   })

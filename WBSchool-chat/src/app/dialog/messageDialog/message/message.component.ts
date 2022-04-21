@@ -1,13 +1,12 @@
 import { DialogService } from '../../dialog.service';
-import { AfterViewChecked, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { map, mergeMap, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
-
-import { deleteMessage, editMessage, initDialogs, newEditMessage, removeMessage, sendMessage, usersData } from 'src/app/store/actions/dialog.action';
+import { initDialogs, newEditMessage, removeMessage, sendMessage } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 import { IMessage, User } from '../../dialog';
 
@@ -23,9 +22,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
-  usersData: User[] = []
   message: FormControl = new FormControl('');
-  data: IMessage[] = [];
   userName = '';
   userID = '';
   myId = '';
@@ -52,12 +49,9 @@ export class MessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMyInfo()
-    
     this.chatGroup$.subscribe((id)=> {
         this.chatID = id;
-        this.store$.dispatch(usersData({chatId: id}))
         this.store$.dispatch(initDialogs({id}))
-        
       })
   };
 
@@ -72,6 +66,7 @@ export class MessageComponent implements OnInit {
         this.userName = response.username;
       })
   };
+ 
 
 
   addImage(input: any) {

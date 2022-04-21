@@ -25,9 +25,4 @@ props<{ text: string, id: string | undefined, chatId: string | undefined }>());
 export const editMessage = createAction('[DIALOG] editMessage',
 props<{ message: IMessage }>());
 
-export const usersData = createAction('[DIALOG] usersData', 
-props<{ chatId:string }>());
-
-export const usersDataResponse = createAction('[DIALOG] usersDataResponse', 
-props<{ usersData: User[] }>());
 
