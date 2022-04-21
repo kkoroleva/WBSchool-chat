@@ -42,7 +42,8 @@
                 <mat-error
                     *ngIf="form.get('contacts')?.getError('required') || form.get('contacts')?.getError('minlength')">
                     You must add at least two users</mat-error>
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectContact($event)">
+                <mat-autocomplete class="modal__autocomplete" #auto="matAutocomplete"
+                    (optionSelected)="selectContact($event)">
                     <mat-option *ngFor="let contact of contacts$ | async" [value]="contact">
                         <div class="modal__contact">
                             <img class="modal__avatar" [src]="'data:image/png;base64,' + contact.avatar"
