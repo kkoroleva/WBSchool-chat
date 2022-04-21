@@ -2,7 +2,6 @@ import {
   changeLoadFriends,
   changeLoadUnreads,
   chatGroupError,
-  clearUnreads,
   loadFriends,
   loadUnreads,
   pushToFriends,

@@ -182,6 +182,11 @@ mat-label,
     .mat-select-value {
       color: #000;
     }
+  }
+}
+
+.modal__select.mat-select-panel {
+  background-color: #fff;
 
     .mat-chip.mat-standard-chip {
       background-color: #fff;
@@ -191,7 +196,6 @@ mat-label,
       color: #000;
     }
   }
-}
 
 .modal__field.mat-focused .mat-form-field-ripple {
   background-color: #1A66FF;
@@ -209,3 +213,14 @@ mat-label,
   }
 }
 
+.mat-pseudo-checkbox {
+    color: #000;
+}
+
+.modal__select.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate {
+  background-color: #1A66FF;
+}
+
+.modal__select.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: #1A66FF;
+}

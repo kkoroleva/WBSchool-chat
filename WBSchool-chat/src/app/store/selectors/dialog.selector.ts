@@ -1,5 +1,6 @@
-import { createFeatureSelector, createSelector, select } from '@ngrx/store';
-import { dialogNode, IDialogState, IMessage } from '../reducers/dialog.reducer';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { IMessage } from 'src/app/dialog/dialog';
+import { dialogNode, IDialogState } from '../reducers/dialog.reducer';
 
 export const selectDialogFeature = createFeatureSelector<IDialogState>(dialogNode)
 
