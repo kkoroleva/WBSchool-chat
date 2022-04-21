@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IUserData } from '../auth/interfaces';
@@ -15,9 +15,13 @@ export class SearchComponent implements OnInit {
   contact!: any;
   contacts!: IUserData[];
   form!: FormGroup;
-  private url = 'https://wbschool-chat.ru/api/users';
+  private url = `${this.apiUrl}/api/users`;
 
-  constructor(private http: HttpClient, private store$: Store<IContacts>) {}
+  constructor(
+    private http: HttpClient,
+    private store$: Store<IContacts>,
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({

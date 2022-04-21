@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -14,11 +14,14 @@ import {
   providedIn: 'root',
 })
 export class AccountSettingsService {
-  private getDataUrl = 'https://wbschool-chat.ru/api/users/me';
-  private editPswUrl = 'https://wbschool-chat.ru/api/users/me/newPass';
-  private delUserUrl = 'https://wbschool-chat.ru/api/users/';
+  private getDataUrl = `${this.apiUrl}/api/users/me`;
+  private editPswUrl = `${this.apiUrl}/api/users/me/newPass`;
+  private delUserUrl = `${this.apiUrl}/api/users/`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   getUsersData(): Observable<IServerResponse> {
     return this.http.get<IServerResponse>(this.getDataUrl).pipe(
