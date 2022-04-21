@@ -1,0 +1,17 @@
+.modal {
+  &__avatar {
+    width: 25px;
+    height: 25px;
+  }
+  
+  &__contact {
+    display: flex;
+    align-items: center;
+    color: #000;
+  }
+  
+  &__username {
+    font-weight: bold;
+    padding-left: 10px;
+  }
+}
