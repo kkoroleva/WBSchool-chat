@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
   .active {
     border: 1px solid red;
   }
-  @media(max-width: 420px) {
+  @media(max-width: 425px) {
     button {
         width: 100px;
     }

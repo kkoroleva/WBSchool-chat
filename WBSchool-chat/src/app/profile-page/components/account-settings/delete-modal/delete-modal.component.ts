@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { IProfileData, IServerResponse } from 'src/app/profile-settings/interfaces/interface';
-import { IUserDeleteData } from '../interface/account-settings';
-import { AccountSettingsService } from '../service/account-settings.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { IProfileData, IServerResponse } from 'src/app/profile-page/interfaces/profile-settings';
+import { IUserDeleteData } from '../../../interfaces/account-settings';
+import { AccountSettingsService } from '../../../services/account-settings.service';
 
 @Component({
   selector: 'app-delete-modal',
@@ -20,7 +22,9 @@ export class DeleteModalComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteModalComponent>,
-    private accService: AccountSettingsService
+    private accService: AccountSettingsService, 
+    private router: Router, 
+    private auth: AuthService
   ) {}
 
   password = new FormControl("", [Validators.required, Validators.minLength(8)])
@@ -51,6 +55,8 @@ export class DeleteModalComponent implements OnInit {
         catchError((error) => {
           console.log(error)
           this.dialogRef.close();
+          this.auth.logout();
+          this.router.navigateByUrl('/login');
           return throwError(() => error);
         })
       )

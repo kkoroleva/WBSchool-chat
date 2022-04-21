@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, throwError } from 'rxjs';
-import { IProfileData, IServerResponse } from 'src/app/profile-settings/interfaces/interface';
-import { IFormData, IPasswordEditData } from '../interface/account-settings';
-import { AccountSettingsService } from '../service/account-settings.service';
+import { IProfileData, IServerResponse } from 'src/app/profile-page/interfaces/profile-settings';
+import { IFormData, IPasswordEditData } from '../../../interfaces/account-settings';
+import { AccountSettingsService } from '../../../services/account-settings.service';
 
 @Component({
   selector: 'app-password-modal',

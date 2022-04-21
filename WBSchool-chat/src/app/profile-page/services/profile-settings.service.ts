@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { IProfileData, IServerResponse } from '../interfaces/interface';
+import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
+
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +12,13 @@ export class ProfileSettingsService {
 
   constructor(private http: HttpClient) {}
 
-  getUsersData(): Observable<IServerResponse> {
-    return this.http.get<IServerResponse>(this.url).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
-      })
-    );
-  }
+  // getUsersData(): Observable<IServerResponse> {
+  //   return this.http.get<IServerResponse>(this.url).pipe(
+  //     catchError((error: HttpErrorResponse) => {
+  //       return throwError(() => error);
+  //     })
+  //   );
+  // }
 
   editProfileSettings(formData: IProfileData): Observable<IServerResponse> {
     return this.http.patch<IServerResponse>(this.url, formData).pipe(
@@ -27,3 +28,4 @@ export class ProfileSettingsService {
     );
   }
 }
+ 
