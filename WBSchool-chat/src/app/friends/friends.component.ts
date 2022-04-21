@@ -31,30 +31,31 @@ export class FriendsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getChats();
-
-    this.friendsState$.subscribe(res => console.log(res));
   }
 
-  getChats() {
+  getChats(): void {
     this.store$.dispatch(loadFriends());
   }
 
-  getImageFrom64(img: string) {
+  getImageFrom64(img: string | undefined): string {
+    if (!img) {
+      return '../../assets/image-not-found.jpg';
+    }
     return atob(img);
   }
 
-  goToChat(chatId: string) {
+  goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);
 
     this.router.navigateByUrl('/chat');
   }
 
-  getFriend(data: IFriend) {
+  getFriend(data: IFriend): string {
     return (data.users[0] === data.owner)? data.users[0] : data.users[1];
   }
 
-  createPrivateChat() {
+  createPrivateChat(): void {
     this.dialog.open(CreatePrivateChatComponent, {
       panelClass: 'create-private-chat-modal',
       maxWidth: '100vw',

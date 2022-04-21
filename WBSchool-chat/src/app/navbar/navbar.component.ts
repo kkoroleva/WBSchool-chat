@@ -35,9 +35,16 @@ export class NavbarComponent {
     return !!localStorage.getItem('token');
   }
 
-  logout() {
+  logout(): void {
     this.auth.logout()
     this.router.navigate(["login"])
+  }
+
+  getImgFromBase64(imgStr: string): string {
+    if (!imgStr) {
+      return '../../assets/image-not-found.jpg';
+    }
+    return atob(imgStr);
   }
 
   ngDoCheck() {

@@ -59,8 +59,8 @@ mat-label,
 
 .mat-raised-button {
   display: block;
-  width: 250px;
   margin: 0 auto;
+  width: 250px;
   font-family: $main-font;
 }
 
@@ -101,6 +101,7 @@ mat-label,
   overflow: hidden;
 
   &__header {
+    margin: 0;
     font-family: $main-font;
     font-style: normal;
     font-weight: 600;
