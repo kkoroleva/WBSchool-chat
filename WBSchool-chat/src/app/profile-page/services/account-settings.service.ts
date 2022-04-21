@@ -1,12 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import { IServerResponse } from 'src/app/profile-settings/interfaces/interface';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { IServerResponse } from 'src/app/profile-page/interfaces/profile-settings';
 import {
   IPasswordEditData,
   IPasswordOnly,
   IUserDeleteData,
-} from '../interface/account-settings';
+} from '../interfaces/account-settings';
 
 @Injectable({
   providedIn: 'root',

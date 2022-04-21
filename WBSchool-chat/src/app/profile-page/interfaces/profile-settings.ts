@@ -12,7 +12,7 @@ export interface IServerResponse {
     email: string;
     about: string;
     userRights: string,
-    _v: number;
+    __v: number;
     _id: string;
     wallpaper?: string; 
 } 

@@ -15,16 +15,16 @@ import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { AccountSettingsComponent } from './profile-page/components/account-settings/account-settings.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { MessagesPageComponent } from './messages-page/messages-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { GroupsComponent } from './groups/groups.component';
-import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { ProfileSettingsComponent } from './profile-page/components/profile-settings/profile-settings.component';
 import { DialogComponent } from './dialog/dialog.component';
-import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
-import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
+import { DeleteModalComponent } from './profile-page/components/account-settings/delete-modal/delete-modal.component';
+import { PasswordModalComponent } from './profile-page/components/account-settings/password-modal/password-modal.component';
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 import { ThreadsComponent } from './threads/threads.component';
 
@@ -46,7 +46,7 @@ import { MatRippleModule } from '@angular/material/core';
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
-import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
+import { ModalHelpComponent } from './profile-page/components/profile-settings/modal-help/modal-help.component';
 import { StorageModule } from '@ngx-pwa/local-storage';
 
 /*Store*/
@@ -59,6 +59,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { NavmobileComponent } from './navmobile/navmobile.component';
+import { ModalProfileComponent } from './modal-profile/modal-profile.component';
+import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -91,6 +93,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ThreadsComponent,
     NotFoundPageComponent,
     NavmobileComponent,
+    ModalProfileComponent,
+    DecodeImagePipe
   ],
   imports: [
     BrowserModule,

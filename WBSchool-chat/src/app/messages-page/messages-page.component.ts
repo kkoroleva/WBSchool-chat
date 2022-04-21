@@ -14,9 +14,9 @@ export class MessagesPageComponent implements OnInit {
 
   onResized(event: ResizedEvent) {
     if (window.innerWidth >= 766) {
-      this.stateMessages.groups = true
-      this.stateMessages.unreadMess = true
-      this.stateMessages.messanger = true
+      this.stateMessages.groups = true;
+      this.stateMessages.unreadMess = true;
+      this.stateMessages.messanger = true;
     }
   }
 

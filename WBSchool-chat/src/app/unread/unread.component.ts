@@ -37,7 +37,10 @@ export class UnreadsComponent implements OnInit {
 
   getUnreads(): void {
     this.store$.dispatch(loadUnreads());
+  }
 
+  decodeImg(img: string): string {
+    return atob(img);
   }
 
   goToChat(chatId: string): void {
