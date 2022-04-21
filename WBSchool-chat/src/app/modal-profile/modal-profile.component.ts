@@ -1,7 +1,12 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { select, Store } from '@ngrx/store';
+import { catchError, throwError } from 'rxjs';
 import { IUserData } from '../auth/interfaces';
-import { IProfileData } from '../profile-page/interfaces/profile-settings';
+import { IProfileData, IServerResponse } from '../profile-page/interfaces/profile-settings';
+import { IContacts } from '../store/reducers/contacts.reducers';
+import { selectContacts } from '../store/selectors/contacts.selectors';
 
 @Component({
   selector: 'app-modal-profile',
@@ -19,10 +24,13 @@ export class ModalProfileComponent implements OnInit {
     id: this.data.id,
     v: this.data.v
   }
+  friendStatus: IUserData | undefined = undefined;
 
   constructor(
     public dialogRef: MatDialogRef<ModalProfileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IUserData,
+    private store$: Store,
+    private http: HttpClient
   ) {}
 
   onNoClick(): void {
@@ -30,6 +38,20 @@ export class ModalProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.friendStatus = contacts.contacts.find((user: IUserData) => user.username === this.userData.username);
+    })
   }
 
+  chatOpen() {
+    console.log('open chat');
+  }
+
+  addPerson() {
+    console.log('adding friend');
+  }
+
+  deleteFriend() {
+    console.log('deleting friend');
+  }
 }
