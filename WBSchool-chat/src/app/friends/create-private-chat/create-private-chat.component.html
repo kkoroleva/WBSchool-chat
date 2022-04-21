@@ -3,11 +3,11 @@
     <mat-dialog-content>
         <form [formGroup]="form" class="modal__form">
             <mat-form-field appearance="fill" class="modal__field">
-                <mat-label>Add userName</mat-label>
+                <mat-label>Add user</mat-label>
                 <input class="modal__input" matInput placeholder="userName" [formControl]="contactsControl"
-                    [matAutocomplete]="auto" [value]="contactsControl.value.username || ''">
+                    [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let contact of contacts$ | async" [value]="contact">
+                    <mat-option *ngFor="let contact of contacts$ | async" [value]="contact.username">
                         <div class="modal__contact">
                             <img class="modal__avatar" [src]="'data:image/png;base64,' + contact.avatar"
                                 alt="User avatar">
@@ -19,7 +19,7 @@
         </form>
     </mat-dialog-content>
 
-    <mat-dialog-actions>
+    <mat-dialog-actions align="end">
         <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
         <button class="modal__btn" mat-button (click)="createPrivateChat()" [disabled]="form.invalid">Create</button>
     </mat-dialog-actions>
