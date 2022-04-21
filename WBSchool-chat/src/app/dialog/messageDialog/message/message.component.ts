@@ -18,7 +18,7 @@ import { SocketService } from 'src/app/socket/socket.service';
 })
 export class MessageComponent implements OnInit {
 
-  @ViewChild("wrapper") wrapper!:ElementRef;
+  @ViewChild("wrapper") wrapper!: ElementRef;
 
   editMessageID = '';
   isEditMessage = false;
@@ -41,7 +41,7 @@ export class MessageComponent implements OnInit {
 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap(() =>{
+    tap(() => {
       setTimeout(() => {
         this.changeScroll()
       }, 1000);
@@ -70,55 +70,55 @@ export class MessageComponent implements OnInit {
   };
 
   changeScroll(): void {
-      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
+    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
   };
 
   getMyInfo(): void {
     this.service.getMyInfo()
-    .subscribe((response) => {
+      .subscribe((response) => {
         this.myId = response._id;
         this.userName = response.username;
       })
   };
 
   addImage(input: any) {
-      let imageOrFile = '';
-      let reader = new FileReader();
-      let file = input.files[0];
-        reader.onloadend = () => {
-          if (typeof reader.result == "string") {
-            imageOrFile = reader.result;
-            if (+this.imageCompress.byteCount(reader.result) > 1048576) {
-              this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
-              .then(result =>  {
-                this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
-                this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-              });
-            }
-            else {
-              this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
-              this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
-            }
-          }
-          else {
-            alert("Вы отправляете не картинку!")
-          }
+    let imageOrFile = '';
+    let reader = new FileReader();
+    let file = input.files[0];
+    reader.onloadend = () => {
+      if (typeof reader.result == "string") {
+        imageOrFile = reader.result;
+        if (+this.imageCompress.byteCount(reader.result) > 1048576) {
+          this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
+            .then(result => {
+              this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+              this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+            });
         }
+        else {
+          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
+        }
+      }
+      else {
+        alert("Вы отправляете не картинку!")
+      }
+    }
     reader.readAsDataURL(file);
   }
 
   deleteMessage(id: string): void {
     console.log(id, this.chatID);
-    this.store$.dispatch(removeMessage({id, chatId: this.chatID}));
+    this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
   };
 
   deleteChat() {
     console.log('удалить чат')
   }
 
-  editMessage(text: string, id: string ,chatId: string):void {
+  editMessage(text: string, id: string, chatId: string): void {
     this.isEditMessage = false;
-    this.store$.dispatch(newEditMessage({text, id, chatId}))
+    this.store$.dispatch(newEditMessage({ text, id, chatId }))
   }
 
   getMessage(id: string, text: string): void {
@@ -132,13 +132,12 @@ export class MessageComponent implements OnInit {
     if (this.message.value.trim() ||
         this.message.value.trim() &&
         this.imageOrFile.length > 0) {
-      this.changeScroll()
-      if(this.isEditMessage) {
-        console.log("abc")
+        this.changeScroll()
+      if (this.isEditMessage) {
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
       }
       else if (this.imageOrFile.length > 0) {
-        const message:IMessage = {
+        const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage
@@ -153,12 +152,12 @@ export class MessageComponent implements OnInit {
       this.imageOrFile = '';
       this.formatImage = '';
       this.message.setValue('');
-      }
-    }
-
-    itemFormat(item: string) {
-      return !! (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"))
     }
   }
+
+  itemFormat(item: string) {
+    return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"))
+  }
+}
 
 

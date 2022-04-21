@@ -1,13 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import { IMessage } from 'src/app/dialog/dialog';
 import { deleteMessage, editMessage, initDialogs, loadDialogs, pushToMessages} from '../actions/dialog.action';
-export const dialogNode = 'Dialog';
 
+export const dialogNode = 'Dialog';
 export interface IDialogState {
     messages: IMessage[],
 }
-
-const newData:IMessage[] = []
 
 const initialState: IDialogState = {
     messages: [],
@@ -27,7 +25,6 @@ export const dialogReducer = createReducer(
         ...state,
         messages: [...state.messages, action.message]
     })),
-
     on(deleteMessage, (state, action) => ({
         ...state,
         messages: state.messages.filter((message) => {
@@ -40,5 +37,4 @@ export const dialogReducer = createReducer(
             return action.message._id === message._id ? action.message : message
         })
     })),
-  
 )

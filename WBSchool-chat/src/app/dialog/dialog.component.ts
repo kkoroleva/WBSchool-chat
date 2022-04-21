@@ -1,7 +1,10 @@
 import { Component } from "@angular/core";
+<<<<<<< HEAD
 import { IMessage, User } from "./dialog";
 import { ConnectEvent } from '../socket/event';
 import { SocketService } from "../socket/socket.service";
+=======
+>>>>>>> f153a9da0c9b4941c4ddf1d783d031190c197adc
 
 @Component({
   selector: 'app-dialog',
