@@ -38,7 +38,7 @@ export const changeLoadFriends = createAction(
 
 export const createChatFriend = createAction(
   '[FRIENDS] createChatFriend',
-  props<{ friend: IFriend, username: string }>()
+  props<{ username: string }>()
 );
 
 export const pushToFriends = createAction(
@@ -53,6 +53,4 @@ export const changeLoadUnreads = createAction(
   props<{ unreads: IUnread[] }>()
 );
 
-export const clearUnreads = createAction(
-  '[UNREADS] clearUnreads'
-);
+export const clearUnreads = createAction('[UNREADS] clearUnreads');

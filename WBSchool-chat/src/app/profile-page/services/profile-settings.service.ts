@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
 
@@ -8,9 +8,12 @@ import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
   providedIn: 'root',
 })
 export class ProfileSettingsService {
-  private url = 'https://wbschool-chat.ru/api/users/me';
+  private url = `${this.apiUrl}/api/users/me`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   // getUsersData(): Observable<IServerResponse> {
   //   return this.http.get<IServerResponse>(this.url).pipe(
