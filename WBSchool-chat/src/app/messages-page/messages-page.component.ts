@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
-import { ChangeComponentService } from '../navmobile/change-component.service';
+import { ChangeComponentService } from '../nav-mobile/change-component.service';
 
 @Component({
   selector: 'app-messages-page',
@@ -31,6 +31,6 @@ export class MessagesPageComponent implements OnInit {
       this.stateMessages.messanger = true;
     }
 
-    this.changeState.hasThreadsInNavButtom = false;
+    this.changeState.hasThreadsInNavMobile = false;
   }
 }

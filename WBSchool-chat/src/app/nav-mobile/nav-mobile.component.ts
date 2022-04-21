@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ChangeComponentService } from './change-component.service';
 
 @Component({
-  selector: 'app-navmobile',
-  templateUrl: './navmobile.component.html',
-  styleUrls: ['./navmobile.component.scss']
+  selector: 'app-nav-mobile',
+  templateUrl: './nav-mobile.component.html',
+  styleUrls: ['./nav-mobile.component.scss']
 })
 export class NavmobileComponent {
 

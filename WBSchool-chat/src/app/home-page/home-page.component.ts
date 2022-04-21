@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
-import { ChangeComponentService } from '../navmobile/change-component.service';
+import { ChangeComponentService } from '../nav-mobile/change-component.service';
 
 @Component({
   selector: 'app-home-page',
@@ -36,7 +36,7 @@ export class HomePageComponent implements OnInit {
       this.stateMain.threads = true
     }
 
-    this.changeState.hasThreadsInNavButtom = true
+    this.changeState.hasThreadsInNavMobile = true
   }
 
 }

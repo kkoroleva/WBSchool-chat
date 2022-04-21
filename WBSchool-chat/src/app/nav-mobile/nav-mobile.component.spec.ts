@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavmobileComponent } from './navmobile.component';
+import { NavmobileComponent } from './nav-mobile.component';
 
 describe('NavbuttomComponent', () => {
   let component: NavmobileComponent;

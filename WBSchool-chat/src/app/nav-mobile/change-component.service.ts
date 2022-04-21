@@ -17,5 +17,5 @@ export class ChangeComponentService {
     messanger: true
   };
 
-  hasThreadsInNavButtom!: boolean
+  hasThreadsInNavMobile!: boolean
 }
