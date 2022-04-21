@@ -42,6 +42,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
@@ -67,6 +69,11 @@ const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
   useClass: AuthInterceptor,
+};
+
+const API_URL_PROVIDER: Provider = {
+  provide: 'API_URL',
+  useValue: 'https://wbschool-chat.ru',
 };
 
 @NgModule({
@@ -96,7 +103,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NavMobileComponent,
     CreatePrivateChatComponent,
     ModalProfileComponent,
-    DecodeImagePipe
+    DecodeImagePipe,
   ],
   imports: [
     BrowserModule,
@@ -122,6 +129,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatRippleModule,
     MatButtonToggleModule,
     MatDialogModule,
+    MatSelectModule,
+    MatAutocompleteModule,
 
     //Forms
     FormsModule,
@@ -143,7 +152,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     StoreRouterConnectingModule.forRoot(),
   ],
 
-  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService],
+  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

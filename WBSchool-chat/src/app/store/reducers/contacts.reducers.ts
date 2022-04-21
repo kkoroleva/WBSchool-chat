@@ -6,20 +6,22 @@ export const contactsNode = 'Contacts';
 
 export interface IContacts {
   _id: string;
-  contacts: IUserData[]
+  contacts: IUserData[];
 }
 
 const initialState: IContacts = {
   _id: '',
-  contacts: [{
-    email: '',
-    username: '',
-    userRights: '',
-    avatar: '',
-    about: '',
-    id: '',
-    v: 0
-  }]
+  contacts: [
+    {
+      email: '',
+      username: '',
+      userRights: '',
+      avatar: '',
+      about: '',
+      id: '',
+      v: 0,
+    },
+  ],
 };
 
 export const contactsReducer = createReducer(
@@ -30,6 +32,6 @@ export const contactsReducer = createReducer(
   on(pushContacts, (state, action) => ({
     ...state,
     _id: action.contacts._id,
-    contacts: action.contacts.contacts
+    contacts: action.contacts.contacts,
   }))
 );
