@@ -6,8 +6,10 @@ import {
   changeLoadFriends,
   changeLoadUnreads,
   chatGroupError,
+  createChatFriend,
   loadFriends,
   loadUnreads,
+  pushToFriends,
 } from '../actions/groups.actions';
 import { catchError, map, mergeMap, throwError, of } from 'rxjs';
 import {
@@ -103,8 +105,8 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(createChatGroup),
       mergeMap(({ group }) =>
-        this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
-          map(() => pushToGroups({ group })),
+        this.http.post<IGroup>(`${this.apiUrl}/chats`, group).pipe(
+          map((group) => pushToGroups({ group })),
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
       )
@@ -119,6 +121,25 @@ export class AppEffects {
           .get<IFriend[]>(`${this.urlApi}/chats/friends`)
           .pipe(
             map((friends) => changeLoadFriends({ friends: friends.reverse() }))
+          )
+      )
+    );
+  });
+
+  createPrivate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createChatFriend),
+      mergeMap(({ friend, username }) =>
+        this.http
+          .post<IFriend>(
+            `${this.apiUrl}/chats/private?username=${username}`,
+            friend
+          )
+          .pipe(
+            map((friend) => pushToFriends({ friend })),
+            catchError((err) =>
+              of(chatGroupError({ error: err.error.message }))
+            )
           )
       )
     );
