@@ -1,15 +1,21 @@
-import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { NgxImageCompressService } from 'ngx-image-compress';
-import { Observable, tap } from 'rxjs';
-import { IGroupsState } from '../../../store/reducers/groups.reducers';
-import { selectChatGroup } from '../../../store/selectors/groups.selectors';
-import { initDialogs, newEditMessage, removeMessage, sendMessage } from 'src/app/store/actions/dialog.action';
-import { selectDialog } from 'src/app/store/selectors/dialog.selector';
-import { IMessage, User } from '../../dialog';
-import { SocketService } from 'src/app/socket/socket.service';
+import {DialogService} from '../../dialog.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {NgxImageCompressService} from 'ngx-image-compress';
+import {Observable, tap} from 'rxjs';
+import {IGroupsState} from '../../../store/reducers/groups.reducers';
+import {selectChatGroup} from '../../../store/selectors/groups.selectors';
+import {
+  initDialogs,
+  newEditMessage,
+  pushToMessages,
+  removeMessage,
+  sendMessage
+} from 'src/app/store/actions/dialog.action';
+import {selectDialog} from 'src/app/store/selectors/dialog.selector';
+import {IMessage, User} from '../../dialog';
+import {SocketService} from 'src/app/socket/socket.service';
 
 @Component({
   selector: 'app-message',
@@ -27,7 +33,7 @@ export class MessageComponent implements OnInit {
   userName = '';
   userID = '';
   myId = '';
-  chatID = '625c2f4031dee2c4b3588ef3';
+  chatID = '6262a52a71a7b93ac13ef3b2';
   imageOrFile = '';
   formatImage = '';
 
@@ -51,21 +57,22 @@ export class MessageComponent implements OnInit {
   constructor(private service: DialogService,
               private imageCompress: NgxImageCompressService,
               private store$: Store<IGroupsState>,
-              private socketService: SocketService) { }
+              private socketService: SocketService) {
+  }
 
   private initIoConnection(): void {
-      this.ioConnection = this.socketService.onMessage()
-        .subscribe((message: IMessage) => {
-          this.messages.push(message);
-        });
-    }
+    this.ioConnection = this.socketService.onMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(sendMessage({message, id: this.chatID}))
+      });
+  }
 
   ngOnInit(): void {
     this.getMyInfo()
-    this.chatGroup$.subscribe((id)=> {
-        this.chatID = id;
-        this.store$.dispatch(initDialogs({id}))
-      })
+    this.chatGroup$.subscribe((id) => {
+      this.chatID = id;
+      this.store$.dispatch(initDialogs({id}))
+    })
     this.initIoConnection()
   };
 
@@ -94,13 +101,11 @@ export class MessageComponent implements OnInit {
               this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
               this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
             });
-        }
-        else {
+        } else {
           this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
           this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }
-      }
-      else {
+      } else {
         alert("Вы отправляете не картинку!")
       }
     }
@@ -109,7 +114,7 @@ export class MessageComponent implements OnInit {
 
   deleteMessage(id: string): void {
     console.log(id, this.chatID);
-    this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
+    this.store$.dispatch(removeMessage({id, chatId: this.chatID}));
   };
 
   deleteChat() {
@@ -118,7 +123,7 @@ export class MessageComponent implements OnInit {
 
   editMessage(text: string, id: string, chatId: string): void {
     this.isEditMessage = false;
-    this.store$.dispatch(newEditMessage({ text, id, chatId }))
+    this.store$.dispatch(newEditMessage({text, id, chatId}))
   }
 
   getMessage(id: string, text: string): void {
@@ -130,24 +135,21 @@ export class MessageComponent implements OnInit {
 
   sendMessage(): void {
     if (this.message.value.trim() ||
-        this.message.value.trim() &&
-        this.imageOrFile.length > 0) {
-        this.changeScroll()
+      this.message.value.trim() &&
+      this.imageOrFile.length > 0) {
+      this.changeScroll()
       if (this.isEditMessage) {
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
-      }
-      else if (this.imageOrFile.length > 0) {
+      } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage
         }
         this.store$.dispatch(sendMessage({message, id: this.chatID}))
-        this.socketService.send(message);
       } else {
-        let message:IMessage = { text: this.message.value }
-        this.store$.dispatch(sendMessage({message, id:this.chatID}))
-        this.socketService.send(message);
+        let message: IMessage = {text: this.message.value}
+        this.store$.dispatch(sendMessage({message, id: this.chatID}))
       }
       this.imageOrFile = '';
       this.formatImage = '';

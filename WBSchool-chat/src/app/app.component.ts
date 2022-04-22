@@ -5,6 +5,8 @@ import { IAuthState } from './store/reducers/auth.reducers';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { SocketService } from './socket/socket.service';
 import { ConnectEvent } from './socket/event';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,8 @@ export class AppComponent implements OnInit {
   constructor(
     private store$: Store<IAuthState>,
     private storage: StorageMap,
-    private socketService: SocketService){}
+    private socketService: SocketService,
+    private http: HttpClient){}
 
   ngOnInit(): void {
     this.storage.get('user').subscribe((newUser: any) => {
@@ -23,6 +26,10 @@ export class AppComponent implements OnInit {
       console.log(newUser)
     })
     this.initIoConnection();
+    // УДАЛИТЬ ПОСЛЕ ВСЕХ ТЕСТОВ
+    this.http.get(`http://localhost:3001/api/clients-count`).pipe(
+      tap((res) => console.log(res))
+    ).subscribe()
   }
 
   private initIoConnection(): void {
