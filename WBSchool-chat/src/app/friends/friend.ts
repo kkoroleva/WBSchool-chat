@@ -8,4 +8,5 @@ export interface IFriend {
   lastActive?: string;
   lastMessage?: string;
   name?: string;
+  formatImage: string;
 }
