@@ -13,16 +13,16 @@ export class SocketService {
   }
 
   public initSocket(): void {
-    this.socket = socketIo.io(this.apiUrl);
+    this.socket = socketIo.io(this.apiUrl, {path: '/api'});
   }
 
   public send(message: IMessage): void {
-    this.socket.emit('message', message);
+    this.socket.emit(message);
   }
 
   public onMessage(): Observable<IMessage> {
     return new Observable<IMessage>(observer => {
-      this.socket.on((data: IMessage) => {
+      this.socket.on('message', (data: IMessage) => {
         console.log('Server message', data);
         observer.next(data)
       });

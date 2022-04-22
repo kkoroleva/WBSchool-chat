@@ -25,3 +25,5 @@ export const newEditMessage = createAction('[DIALOG] newEditMessage',
 
 export const editMessage = createAction('[DIALOG] editMessage',
   props<{ message: IMessage }>());
+
+export const emptyMessage = createAction('[DIALOG] emptyMessage')

@@ -33,7 +33,7 @@ export class MessageComponent implements OnInit {
   userName = '';
   userID = '';
   myId = '';
-  chatID = '6262a52a71a7b93ac13ef3b2';
+  chatID = '';
   imageOrFile = '';
   formatImage = '';
 
@@ -63,7 +63,7 @@ export class MessageComponent implements OnInit {
   private initIoConnection(): void {
     this.ioConnection = this.socketService.onMessage()
       .subscribe((message: IMessage) => {
-        this.store$.dispatch(sendMessage({message, id: this.chatID}))
+        this.store$.dispatch(pushToMessages({message}))
       });
   }
 
@@ -77,7 +77,9 @@ export class MessageComponent implements OnInit {
   };
 
   changeScroll(): void {
-    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
+    if (this.wrapper) {
+      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
+    }
   };
 
   getMyInfo(): void {

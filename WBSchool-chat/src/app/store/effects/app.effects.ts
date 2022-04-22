@@ -5,6 +5,7 @@ import {catchError, map, mergeMap, of, throwError} from 'rxjs';
 import {
   deleteMessage,
   editMessage,
+  emptyMessage,
   initDialogs,
   loadDialogs,
   newEditMessage,
@@ -160,9 +161,9 @@ export class AppEffects {
   pushToMessages$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(sendMessage),
-      mergeMap(({message, id}) => this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message).pipe(
-        map((message) => pushToMessages({message}))
-      ))
+      mergeMap(({message, id}) => this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message).pipe(map(
+        (message) => pushToMessages({message})))
+      )
     )
   })
 
