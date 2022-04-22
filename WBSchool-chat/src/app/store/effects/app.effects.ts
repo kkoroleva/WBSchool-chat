@@ -129,12 +129,8 @@ export class AppEffects {
   createPrivate$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createChatFriend),
-      mergeMap(({ username }) =>
-        this.http
-          .post<IFriend>(
-            `${this.urlApi}/chats/private?username=${username}`,
-            {}
-          )
+      mergeMap(({ username, ownerUsername }) =>
+        this.http.post<IFriend>(`${this.urlApi}/chats/private?username=${username}`, {ownerUsername})
           .pipe(
             map((friend) => pushToFriends({ friend })),
             catchError((err) =>

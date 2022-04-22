@@ -38,7 +38,7 @@ export const changeLoadFriends = createAction(
 
 export const createChatFriend = createAction(
   '[FRIENDS] createChatFriend',
-  props<{ username: string }>()
+  props<{ username: string; ownerUsername: string }>()
 );
 
 export const pushToFriends = createAction(

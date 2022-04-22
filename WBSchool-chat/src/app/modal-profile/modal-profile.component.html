@@ -41,6 +41,10 @@
 				</div>
 			</div>
 		</div>
+		<div class="profile__menu_item">
+			<button mat-raised-button color="primary" (click)="goToChat(userData._id)">Chat</button>
+			<button mat-raised-button color="warn" (click)="deleteContact(userData._id)">Delete Contact</button>
+		</div>
 	</div>
 	<div class="profile__footer">WB School Chat</div>
   </div>

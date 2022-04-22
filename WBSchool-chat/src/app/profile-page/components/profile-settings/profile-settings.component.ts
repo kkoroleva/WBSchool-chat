@@ -92,7 +92,6 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
     public settServ: ProfilePageService,
     private storage: StorageMap,
     private store$: Store,
-    private http: HttpClient,
     private imageCompress: NgxImageCompressService,
     public modalProfileServ: ModalProfileService
   ) {}
