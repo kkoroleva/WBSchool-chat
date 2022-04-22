@@ -32,7 +32,7 @@
       <div class="message__wrapper" #wrapper>
         <p class="message__ifNoMessages" *ngIf="data.length===0">В этом чате пока нет сообщений.</p>
         <div *ngFor="let item of data"
-          [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
+          [ngClass]="item.owner === myId ? 'message__wrapper-blue' : 'message__wrapper-grey'">
           <span *ngIf="item.owner === myId">{{myUserName}}</span>
           <div class="message__user" [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'"
             [matMenuTriggerFor]="block">
