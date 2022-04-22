@@ -80,14 +80,16 @@
 
 						<div class="form-field">
 							<input type="file" id="fileElem" multiple accept="image/*" (change)="onFileInputChange($event)" #input>
-							<label for="fileElem" [ngClass]="{'form-field__input_active': imgInput === true}">Выберите картинку</label>
+							<label for="fileElem"  *ngIf="!imgInput">Выберите картинку</label>
+							<label for='fileElem' class='form-field__input_active'
+							*ngIf="imgInput">Картинка выбрана</label>
 						</div>
 
 						<div class="form-field__btn-wrapper">
 							<button mat-raised-button color="primary" (click)="[addImage(input), toggle = !toggle]">
 								<mat-icon>done</mat-icon>
 							</button>
-							<button mat-raised-button color="warn" (click)="toggle = !toggle">
+							<button mat-raised-button color="warn" (click)="toggle = !toggle;">
 								<mat-icon>close</mat-icon>
 							</button>
 						</div>

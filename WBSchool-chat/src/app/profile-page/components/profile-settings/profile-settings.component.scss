@@ -186,11 +186,22 @@
 				margin: 5px 0 5px 55px;
 
 				.form-field {
+					position: relative;
+
 					input[type="file"] {
-						display: none;
+						position: absolute;
+						// display: none;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						// border: 1px solid black;
+						opacity: 0;
+						cursor: pointer;
 					}
 
 					label {
+						width: 250px;
 						border: 1px solid #ccc;
 						display: inline-block;
 						padding: 6px 12px;
@@ -198,6 +209,7 @@
 						transition: 1s;
 						background-color: rgb(255, 255, 255);
 						color: black;
+						text-align: center;
 
 						&:hover {
 							background-color: rgb(0, 0, 255);
@@ -206,8 +218,10 @@
 					}
 
 					.form-field__input_active {
-						background-color: green;
-						color: black;
+						cursor: pointer;
+						background-color: blue;
+						color: white;
+						text-align: center;
 					}
 				}
 
