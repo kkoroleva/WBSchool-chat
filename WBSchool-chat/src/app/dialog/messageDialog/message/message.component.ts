@@ -63,7 +63,7 @@ export class MessageComponent implements OnInit {
   private initIoConnection(): void {
     this.ioConnection = this.socketService.onMessage()
       .subscribe((message: IMessage) => {
-        this.store$.dispatch(sendMessage({message, id: this.chatID}))
+        this.store$.dispatch(pushToMessages({message}))
       });
   }
 
