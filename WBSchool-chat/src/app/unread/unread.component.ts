@@ -30,13 +30,6 @@ export class UnreadsComponent implements OnInit {
     this.store$.dispatch(loadUnreads());
   }
 
-  // getImageFrom64(img: string | undefined): string {
-  //   if (!img) {
-  //     return '../../assets/image-not-found.jpg';
-  //   }
-  //   return atob(img);
-  // }
-
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);

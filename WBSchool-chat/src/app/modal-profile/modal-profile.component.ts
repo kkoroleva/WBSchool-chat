@@ -21,7 +21,8 @@ export class ModalProfileComponent implements OnInit {
     avatar: this.data.avatar,
     about: this.data.about,
     _id: this.data._id,
-    v: this.data.v
+    v: this.data.v,
+    formatImage: this.data.formatImage
   }
   friendStatus: IUserData | undefined = undefined;
 
