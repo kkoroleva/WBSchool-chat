@@ -32,7 +32,7 @@ $max-width: 1440px;
   @media (min-width: $desktop-width) {
     padding: 30px 0;
     grid-template-columns: minmax(300px, 500px) minmax(600px, 900px);
-    grid-template-rows: repeat(2, auto);
+    grid-template-rows: 60px minmax(300px, 420px) minmax(300px, 420px);
   }
 }
 
@@ -59,13 +59,19 @@ $max-width: 1440px;
 
 .messages-page__recents {
   border-radius: 20px;
-  grid-row: 3/4;
+  grid-row: 2/3;
   grid-column: 1/2;
+
+  @media (min-width: $tablet-width) {
+    grid-row: 3/4;
+
+    grid-column: 1/2;
+  }
 }
 
 .messages-page__chat {
   border-radius: 20px;
-  grid-row: 4/5;
+  grid-row: 2/3;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {

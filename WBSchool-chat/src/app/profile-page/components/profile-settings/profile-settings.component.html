@@ -1,5 +1,5 @@
 <div class="profile-settings">
-	<div class="profile-settings__title">
+	<div class="profile-settings__title main-grid-block__header">
 	  <span>
 		Profile settings
 	  </span>
@@ -34,7 +34,7 @@
 					<div *ngIf="lookContacts">
 						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
 							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
-								<img [src]='contact.avatar' alt="user pic" />
+								<img [src]='contact.formatImage+contact.avatar' alt="user pic" />
 							  </div> -->
 							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
 						</div>
@@ -51,8 +51,8 @@
 			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index" [ngClass]="{'profile-settings__menu_item_disabled':item.description == 'null'}">
 				<div class="profile-settings__menu_item_name">
 					<mat-icon>{{ item.icon }}</mat-icon>
-					<div class="profile-settings__menu_item_title" 
-						 (click)="[onSelect(item), toggle = !toggle]" 
+					<div class="profile-settings__menu_item_title"
+						 (click)="[onSelect(item), toggle = !toggle]"
 						 [class.selected]="item === selectedItem">
 						 {{ item.title }}
 					</div>
@@ -95,7 +95,7 @@
 						</div>
 
 					</ng-template>
-						
+
 				</div>
 			</div>
 			<div class="profile-settings__menu_item">
