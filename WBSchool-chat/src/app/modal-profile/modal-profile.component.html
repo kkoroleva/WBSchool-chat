@@ -6,8 +6,9 @@
 		<mat-icon>close</mat-icon>
 	</div>
 	<div class="profile__user-info">
+<!-- <<<<<<< HEAD -->
 		<div class="profile__user-info_img">
-			<img  *ngIf="!!userData.avatar"  [src]="userData.avatar" alt="user pic" />
+			<img  *ngIf="!!userData.avatar"  [src]="userData.formatImage+userData.avatar" alt="user pic" />
 		</div>
 		<div class="profile__user-info_name" >
 			<span class="profile__user-info_name_username">
@@ -36,6 +37,16 @@
 				</button>
 		</div>
 		</ng-template>
+<!-- =======
+	  <div class="profile__user-info_img">
+		<img  *ngIf="!!userData.avatar"  [src]="userData.formatImage+userData.avatar" alt="user pic" />
+	  </div>
+	  <div class="profile__user-info_name" >
+		<span class="profile__user-info_name_username">
+		  	{{ userData.username }}
+		</span>
+	  </div>
+>>>>>>> 45f3ef7c416a424b2a80f7c5bc8ed4bac2fd4eea -->
 	</div>
 	<div class="profile__menu">
 		<!-- <div class="profile__menu_item">
@@ -66,4 +77,3 @@
 		</div> -->
 	</div>
   </div>
-  
