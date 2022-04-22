@@ -66,6 +66,7 @@ import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
 import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
+import { DragAndDropDirective } from './groups/drag-and-drop.directive';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -108,6 +109,7 @@ const API_URL_PROVIDER: Provider = {
     CreatePrivateChatComponent,
     ModalProfileComponent,
     DecodeImagePipe,
+    DragAndDropDirective,
   ],
   imports: [
     BrowserModule,

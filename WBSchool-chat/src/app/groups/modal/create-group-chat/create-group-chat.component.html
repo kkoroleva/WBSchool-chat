@@ -54,11 +54,10 @@
             </mat-form-field>
         </form>
 
-        <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
-        <label *ngIf="!imageInBase64" class="modal__upload" for="file">
-            <mat-icon>file_upload</mat-icon>
-            Upload image
-        </label>
+        <div *ngIf="!imageInBase64" class="modal__upload" appDragAndDrop>
+            <p class="modal__drag-text">Drag your image</p>
+            <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
+        </div>
         <button *ngIf="imageInBase64" class="modal__btn modal__btn--warn" mat-button (click)="deleteImage()">
             <mat-icon>delete</mat-icon>
             Delete image
