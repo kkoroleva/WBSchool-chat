@@ -4,9 +4,13 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { IUserData } from '../auth/interfaces';
+import { IFriend } from '../friends/friend';
 import { initContacts } from '../store/actions/contacts.actions';
-import { createChatFriend } from '../store/actions/groups.actions';
+import { changeChatGroup, createChatFriend } from '../store/actions/groups.actions';
+import { IContacts } from '../store/reducers/contacts.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
+import { selectContacts } from '../store/selectors/contacts.selectors';
+import { selectFriends } from '../store/selectors/groups.selectors';
 import { ModalProfileService } from './service/modal-profile.service';
 
 @Component({
@@ -26,6 +30,7 @@ export class ModalProfileComponent implements OnInit {
     formatImage: this.data.formatImage
   }
   private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
+  friendStatus: IUserData | undefined = undefined;
 
   constructor(
     public dialogRef: MatDialogRef<ModalProfileComponent>,
@@ -33,24 +38,38 @@ export class ModalProfileComponent implements OnInit {
     private modalServ: ModalProfileService,
     private store$: Store,
     private router: Router,
-    @Inject('API_URL') public apiUrl: string
-  ) {}
+    @Inject('API_URL') public apiUrl: string) {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit(): void {
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.friendStatus = contacts.contacts.find((user: IUserData) => user.username === this.userData.username);
+    })
   }
 
   goToChat(_id: string) {
-    let username = this.userData.username;
-    this.user$.subscribe((user) => {
-     this.store$.dispatch(
-        createChatFriend({ username, ownerUsername: user.username })
-      ); 
-    });
-    this.router.navigateByUrl('/home');
+    this.dialogRef.close();
+    const username = this.userData.username.trim();
+    let clone: IFriend | undefined;
+    this.store$.pipe(select(selectFriends))
+    .subscribe((chats: IFriend[]) => {
+      clone = chats.find((chat: IFriend) => chat.name === username);
+    })
+    if (clone === undefined) {
+      this.user$.subscribe((user) => {
+        this.store$.dispatch(
+           createChatFriend({ username, ownerUsername: user.username })
+         ); 
+       }); 
+       this.router.navigateByUrl('/home');
+    }
+    else {
+        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+        this.router.navigateByUrl('/chat');
+    }
     this.dialogRef.close();
   }
 
@@ -61,5 +80,4 @@ export class ModalProfileComponent implements OnInit {
       this.dialogRef.close();
     })
   }
-
 }

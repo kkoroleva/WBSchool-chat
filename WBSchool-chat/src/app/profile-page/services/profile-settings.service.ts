@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { IUserData } from 'src/app/auth/interfaces';
 import { IContacts } from 'src/app/store/reducers/contacts.reducers';
 import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
@@ -10,7 +10,7 @@ import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
   providedIn: 'root',
 })
 export class ProfileSettingsService {
-  private url = `${this.apiUrl}/api/users`;
+  private url = `${this.apiUrl}/api/users/me`;
 
   constructor(
     private http: HttpClient,
@@ -18,6 +18,7 @@ export class ProfileSettingsService {
   ) {}
 
   getUsers(userName: string) {
+    // return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
     return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
   }
 

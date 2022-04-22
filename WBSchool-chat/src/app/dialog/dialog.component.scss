@@ -347,16 +347,47 @@
           flex-direction: column;
         }
         input{
-          width: 0.1px;
-          height: 0.1px;
+          width: 250px;
+          height: 39px;
           opacity: 0;
           overflow: hidden;
           position: absolute;
-          z-index: -1;
+          z-index: 10;
+          cursor: pointer;
         }
 
-        input + .btn-add{
-            color:#1A66FF;
+        .btn-add {
+          background-color: white;
+          color: blue;
+          padding-top: 7px;
+          padding-bottom: 7px;
+          padding-left: 10px;
+          padding-right: 10px;
+          text-transform: uppercase;
+          width: 250px;
+          text-decoration:none;
+          text-align:center;
+          display: block;
+          margin-right: 10px;
+          background-position: 100% 0;
+          background-size: 200% 100%;
+          transition: all .25s ease-in;
+          font: 400 18px tahoma;
+          border: 1px solid #1A66FF;
+          border-radius: 5px;
+
+          @media(max-width:495px) {
+            margin-bottom: 5px;
+          }
+        }
+
+        .btn-add__active {
+          color: white;
+          background-color: #1A66FF;
+        }
+
+        input:hover + .btn-add {
+            color:white;
             padding-top: 7px;
             padding-bottom: 7px;
             padding-left: 10px;
@@ -367,7 +398,8 @@
             text-align:center;
             display: block;
             margin-right: 10px;
-            background-image: linear-gradient(to left,transparent,transparent 50%,#1A66FF 50%,#1A66FF);
+            background-color: #1A66FF;
+            // background-image: linear-gradient(to left,transparent,transparent 50%,#1A66FF 50%,#1A66FF);
             background-position: 100% 0;
             background-size: 200% 100%;
             transition: all .25s ease-in;
@@ -380,8 +412,8 @@
             }
            }
            input + .btn-add:hover {
-           background-position: 0 0;
-           color:#fff;
+            background-position: 0 0;
+            color:#fff;
            }
 
            .btn-green{

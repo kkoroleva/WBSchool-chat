@@ -28,20 +28,18 @@
 			<div class="profile-settings__menu_item">
 				<div class="profile-settings__menu_item_name contacts">
 					<div  class="profile-settings__menu_item_name_wrp">
-						<mat-icon>{{ "help_outline" }}</mat-icon>
+						<mat-icon>{{ "group" }}</mat-icon>
 						<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
 					</div>
 					<div *ngIf="lookContacts">
 						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
-							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
-								<img [src]='contact.formatImage+contact.avatar' alt="user pic" />
-							  </div> -->
+							  <img  *ngIf="!!contact.avatar"  [src]="contact.formatImage+contact.avatar" alt="user pic" />
 							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
 						</div>
-						<form [formGroup]="form" (ngSubmit)="addFriend()">
-							<div *ngIf="lookContacts">
+						<form [formGroup]="form" (ngSubmit)="addFriend()" class="contacts__form">
+							<div *ngIf="lookContacts" class="contacts__form_wrp">
 								<input type="text" formControlName="contactInput">
-								<button type="submit">AddFriend</button>
+								<button mat-raised-button color="primary" type="submit">AddFriend</button>
 							</div>
 							<p *ngIf="notFound.length > 0">{{notFound}}</p>
 						</form>
@@ -82,14 +80,16 @@
 
 						<div class="form-field">
 							<input type="file" id="fileElem" multiple accept="image/*" (change)="onFileInputChange($event)" #input>
-							<label for="fileElem" [ngClass]="{'form-field__input_active': imgInput === true}">Выберите картинку</label>
+							<label for="fileElem"  *ngIf="!imgInput">Выберите картинку</label>
+							<label for='fileElem' class='form-field__input_active'
+							*ngIf="imgInput">Картинка выбрана</label>
 						</div>
 
 						<div class="form-field__btn-wrapper">
 							<button mat-raised-button color="primary" (click)="[addImage(input), toggle = !toggle]">
 								<mat-icon>done</mat-icon>
 							</button>
-							<button mat-raised-button color="warn" (click)="toggle = !toggle">
+							<button mat-raised-button color="warn" (click)="toggle = !toggle;">
 								<mat-icon>close</mat-icon>
 							</button>
 						</div>

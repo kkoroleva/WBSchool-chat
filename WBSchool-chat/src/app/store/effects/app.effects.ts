@@ -7,9 +7,11 @@ import {
   changeLoadUnreads,
   chatGroupError,
   createChatFriend,
+  deleteChatFriend,
   loadFriends,
   loadUnreads,
   pushToFriends,
+  updateChatFriends,
 } from '../actions/groups.actions';
 import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
 import {
@@ -140,6 +142,20 @@ export class AppEffects {
       )
     );
   });
+
+  deletePrivate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteChatFriend),
+      mergeMap(( {chatId} ) => this.http.delete<any>(`${this.urlApi}/chats/${chatId}`)
+        .pipe(
+          map(() => {
+            return updateChatFriends({chatId})
+          }
+        )
+      )
+    )
+    )
+  })
 
   loadUnreads$ = createEffect(() => {
     return this.actions$.pipe(

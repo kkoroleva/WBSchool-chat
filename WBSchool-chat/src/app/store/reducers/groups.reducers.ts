@@ -2,10 +2,10 @@ import {
   changeLoadFriends,
   changeLoadUnreads,
   chatGroupError,
-  clearUnreads,
   loadFriends,
   loadUnreads,
   pushToFriends,
+  updateChatFriends,
 } from './../actions/groups.actions';
 import { createReducer, on } from '@ngrx/store';
 import {
@@ -81,6 +81,10 @@ export const groupsReducer = createReducer(
   on(pushToFriends, (state, action) => ({
     ...state,
     friends: [action.friend, ...state.friends],
+  })),
+  on(updateChatFriends, (state, action) => ({
+    ...state,
+    friends: state.friends.filter((friendChat) => friendChat._id !== action.chatId)
   })),
   //unreads
   on(loadUnreads, (state) => ({

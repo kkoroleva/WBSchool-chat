@@ -13,7 +13,7 @@ import { selectContacts } from '../../../store/selectors/contacts.selectors';
 import { IContacts } from '../../../store/reducers/contacts.reducers';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { initContacts } from '../../../store/actions/contacts.actions';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 
@@ -58,7 +58,7 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       "id": 2,
       "icon": "textsms",
       "title": "Edit Profile Status Info",
-      "description": 'null' // this.profileData.status
+      "description": this.profileData.status
     },
     {
       "id": 3,
@@ -106,7 +106,6 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
     })
     this.store$.dispatch(initContacts());
   }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.getUsersData();
     this.store$.dispatch(initContacts());
@@ -140,25 +139,24 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
         this.errorMsg = false
       }
       else this.errorMsg = 'Username error'
-
-    } else if (inputData.id == 3) {
-
+    } 
+    else if (inputData.id == 3) {
       this.formData.avatar = btoa(inputData.value)
-
-    } else if (inputData.id == 4) {
-
+    } 
+    else if (inputData.id == 4) {
       if (inputData.value.length >= 4 && inputData.value.length <= 100) {
         this.formData.about = inputData.value;
         this.errorMsg = false
-      } else this.errorMsg = 'Description error'
-
-    } else if (inputData.id == 5) {
-
+      } 
+      else this.errorMsg = 'Description error'
+    } 
+    else if (inputData.id == 5) {
       if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
           inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         this.formData.email = inputData.value;
         this.errorMsg = false
-      } else this.errorMsg = 'Email error'
+      } 
+      else this.errorMsg = 'Email error'
     }
   }
 
@@ -206,7 +204,7 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       this.getUsersData();
     })
     this.formData = {};
-    this.imgInput = false
+    this.imgInput = false;
   }
 
   openDialog(): void {
@@ -230,9 +228,15 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
   addFriend() {
     this.notFound = '';
     const userName: string = this.form.value.contactInput.trim();
-    const clone = this.contacts.find((user) => user.username === userName);
+    const clone: IUserData | undefined = this.contacts.find((user) => user.username === userName);
+    let me: string | undefined;
+    this.store$.pipe(select(selectUser))
+    .subscribe((user: IUserData) => me = user.username);
     if (userName === clone?.username) {
       this.notFound = 'Этот пользователь уже есть в списке контактов.'
+    }
+    else if (userName === me) {
+      this.notFound = 'Вы не можете внести самого себя в список контактов.'
     }
     else {
       this.profileServ.getUsers(userName)
@@ -250,6 +254,10 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       });
     }
     this.form.reset();
+  }
+
+  decodeImg(img: string): string {
+    return atob(img)
   }
 
   itemFormat(item: string) {
