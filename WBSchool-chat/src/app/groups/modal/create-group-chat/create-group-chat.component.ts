@@ -37,6 +37,8 @@ export class CreateGroupChatComponent implements OnInit {
   private inputFile!: HTMLInputElement;
   public contactsControl = new FormControl();
   public contactsList: IUser[] = [];
+  public contactsIsLoaded = false;
+  public myContacts!: IUser[];
   public errMessage$: Observable<string> = this.store$.pipe(
     select(selectChatGroupError)
   );
@@ -80,6 +82,8 @@ export class CreateGroupChatComponent implements OnInit {
 
     this.actions$.pipe(ofType(pushContacts)).subscribe(({ contacts }) => {
       this.contactsList = contacts.contacts;
+      this.myContacts = contacts.contacts;
+      this.contactsIsLoaded = true;
 
       this.contacts$ = this.contactsControl.valueChanges.pipe(
         startWith(''),
