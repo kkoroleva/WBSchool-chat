@@ -18,7 +18,7 @@ const initialState: IContacts = {
       userRights: '',
       avatar: '',
       about: '',
-      id: '',
+      _id: '',
       v: 0,
     },
   ],
