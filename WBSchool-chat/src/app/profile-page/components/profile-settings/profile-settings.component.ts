@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { catchError, concatMap, Subscription, throwError } from 'rxjs';
+import { catchError, concatMap, Subscription, tap, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
@@ -239,7 +239,7 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       this.profileServ.getUsers(userName)
       .pipe(
         concatMap(
-          (user: any) => this.profileServ.addFriend(user._id)
+          (user: IUserData) => this.profileServ.addFriend(user._id)
         ),
         catchError((error: HttpErrorResponse) => {
           this.notFound = 'Данного пользователя не существует.';

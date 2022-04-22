@@ -34,7 +34,7 @@
 					<div *ngIf="lookContacts">
 						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
 							<!-- <div class="profile-settings__user-info profile-settings__user-info_img">
-								<img [src]='contact.avatar' alt="user pic" />
+								<img [src]='contact.formatImage+contact.avatar' alt="user pic" />
 							  </div> -->
 							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
 						</div>
