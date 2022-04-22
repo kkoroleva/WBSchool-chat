@@ -3,13 +3,21 @@
   <component name="ChangeListManager">
     <list default="true" id="506ce886-35ec-4d4c-b547-64099fc50f7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WBSchool-chat/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WBSchool-chat/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.spec.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/components/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/components/register/register.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/guards/auth-guard.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/guards/auth-guard.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/interceptors/auth.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/interceptors/auth.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/nav-mobile/nav-mobile.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/nav-mobile/nav-mobile.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/navbar/navbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/socket/socket.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/socket/socket.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/actions/dialog.action.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/actions/dialog.action.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +64,9 @@
       <workItem from="1650274042422" duration="41810000" />
       <workItem from="1650471568498" duration="1157000" />
       <workItem from="1650472756217" duration="2225000" />
-      <workItem from="1650475570342" duration="14316000" />
+      <workItem from="1650475570342" duration="15078000" />
+      <workItem from="1650563164980" duration="5247000" />
+      <workItem from="1650616483712" duration="13319000" />
     </task>
     <servers />
   </component>

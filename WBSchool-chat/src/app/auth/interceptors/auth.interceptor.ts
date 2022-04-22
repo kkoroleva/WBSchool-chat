@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
           err.url != `${this.apiUrl}/api/users/me/newPass`
         ) {
           this.auth.logout();
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/auth/login');
         }
         return throwError(() => err);
       })

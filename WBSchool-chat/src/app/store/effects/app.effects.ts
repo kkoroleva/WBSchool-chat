@@ -1,9 +1,28 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, throwError } from 'rxjs';
-import { deleteMessage, editMessage, initDialogs, loadDialogs, newEditMessage, pushToMessages, removeMessage, sendMessage } from '../actions/dialog.action';
-import { changeLoadFriends, changeLoadGroups, changeLoadUnreads, chatGroupError, createChatGroup, loadFriends, loadGroups, loadUnreads, pushToGroups } from '../actions/groups.actions';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Inject, Injectable} from '@angular/core';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {catchError, map, mergeMap, of, throwError} from 'rxjs';
+import {
+  deleteMessage,
+  editMessage,
+  initDialogs,
+  loadDialogs,
+  newEditMessage,
+  pushToMessages,
+  removeMessage,
+  sendMessage
+} from '../actions/dialog.action';
+import {
+  changeLoadFriends,
+  changeLoadGroups,
+  changeLoadUnreads,
+  chatGroupError,
+  createChatGroup,
+  loadFriends,
+  loadGroups,
+  loadUnreads,
+  pushToGroups
+} from '../actions/groups.actions';
 
 import {
   changeLoadNotifications,
@@ -11,12 +30,13 @@ import {
   loadNotifications,
   removeNotification,
 } from '../actions/notifications.actions';
-import { IMessage } from 'src/app/dialog/dialog';
-import { IGroup } from '../reducers/groups.reducers';
-import { INotification } from '../reducers/notifications.reducers';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import {IMessage} from 'src/app/dialog/dialog';
+import {IGroup} from '../reducers/groups.reducers';
+import {INotification} from '../reducers/notifications.reducers';
+import {IFriend} from 'src/app/friends/friend';
+import {IUnread} from 'src/app/unread/unread';
+import {DialogService} from 'src/app/dialog/dialog.service';
+
 @Injectable()
 export class AppEffects {
   private urlApi = `${this.apiUrl}/api`;
@@ -25,9 +45,10 @@ export class AppEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private dialogService:DialogService,
-    @Inject('API_URL') public apiUrl: string
-  ) {}
+    private dialogService: DialogService,
+    @Inject('API_URL') readonly apiUrl: string
+  ) {
+  }
 
   // Notifications
   loadNotifications$ = createEffect(() =>
@@ -37,7 +58,7 @@ export class AppEffects {
         this.http
           .get<INotification[]>(`${this.urlApi}/users/notifications`)
           .pipe(
-            map((notifications) => changeLoadNotifications({ notifications }))
+            map((notifications) => changeLoadNotifications({notifications}))
           )
       )
     )
@@ -46,14 +67,14 @@ export class AppEffects {
   removeNotification$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(removeNotification),
-      mergeMap(({ id }) =>
+      mergeMap(({id}) =>
         this.http
           .delete<string>(`${this.urlApi}/users/notifications/${id}`)
           .pipe(
-            map((id) => removeNotification({ id })),
+            map((id) => removeNotification({id})),
             catchError((err: HttpErrorResponse) => {
               if (err.status === 400 || err.status === 404) {
-                map(() => removeNotification({ id: '0' }));
+                map(() => removeNotification({id: '0'}));
               }
               return throwError(() => err);
             })
@@ -69,7 +90,7 @@ export class AppEffects {
         this.http
           .delete<INotification[]>(`${this.urlApi}/users/notifications/clear`)
           .pipe(
-            map((notifications) => changeLoadNotifications({ notifications }))
+            map((notifications) => changeLoadNotifications({notifications}))
           )
       )
     );
@@ -82,7 +103,7 @@ export class AppEffects {
       mergeMap(() =>
         this.http
           .get<IGroup[]>(`${this.urlApi}/chats/groups`)
-          .pipe(map((groups) => changeLoadGroups({ groups: groups.reverse() })))
+          .pipe(map((groups) => changeLoadGroups({groups: groups.reverse()})))
       )
     );
   });
@@ -90,11 +111,11 @@ export class AppEffects {
   createGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createChatGroup),
-      mergeMap(({ group }) =>
-        this.http.post<IGroup>(`${this.apiUrl}/chats`, group).pipe(
-          map(( group ) => pushToGroups({ group })),
+      mergeMap(({group}) =>
+        this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
+          map((group) => pushToGroups({group})),
 
-          catchError((err) => of(chatGroupError({ error: err.error.message })))
+          catchError((err) => of(chatGroupError({error: err.error.message})))
         )
       )
     );
@@ -105,9 +126,9 @@ export class AppEffects {
       ofType(loadFriends),
       mergeMap(() =>
         this.http
-          .get<IFriend[]>(`${this.apiUrl}/chats/friends`)
+          .get<IFriend[]>(`${this.urlApi}/chats/friends`)
           .pipe(
-            map((friends) => changeLoadFriends({ friends: friends.reverse() }))
+            map((friends) => changeLoadFriends({friends: friends.reverse()}))
           )
       )
     );
@@ -118,9 +139,9 @@ export class AppEffects {
       ofType(loadUnreads),
       mergeMap(() =>
         this.http
-          .get<IUnread[]>(`${this.apiUrl}/chats`)
+          .get<IUnread[]>(`${this.urlApi}/chats`)
           .pipe(
-            map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() }))
+            map((unreads) => changeLoadUnreads({unreads: unreads.reverse()}))
           )
       )
     );
@@ -130,8 +151,8 @@ export class AppEffects {
   loadDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(initDialogs),
-      mergeMap(({id}) => this.http.get<IMessage[]>(`${this.apiUrl}/chats/${id}/messages`).pipe(
-        map(( messages ) => loadDialogs({messages}) )
+      mergeMap(({id}) => this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`).pipe(
+        map((messages) => loadDialogs({messages}))
       ))
     )
   });
@@ -139,8 +160,8 @@ export class AppEffects {
   pushToMessages$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(sendMessage),
-      mergeMap(( {message, id}) => this.http.post<IMessage>(`${this.apiUrl}/chats/${id}/messages`, message).pipe(
-        map(( message ) => pushToMessages({ message }) )
+      mergeMap(({message, id}) => this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message).pipe(
+        map((message) => pushToMessages({message}))
       ))
     )
   })
@@ -148,8 +169,8 @@ export class AppEffects {
   deleteMessage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(removeMessage),
-      mergeMap(( { id, chatId }) => this.http.delete<string>(`${this.apiUrl}/chats/${chatId}/messages/${id}`).pipe(
-        map(( id ) => deleteMessage({ id: id }) )
+      mergeMap(({id, chatId}) => this.http.delete<string>(`${this.urlApi}/chats/${chatId}/messages/${id}`).pipe(
+        map((id) => deleteMessage({id: id}))
       ))
     )
   })
@@ -157,8 +178,8 @@ export class AppEffects {
   editMessage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(newEditMessage),
-      mergeMap(( {text, id, chatId}) => this.dialogService.editMessage(text, id, chatId).pipe(
-        map(( message ) => editMessage({ message }) )
+      mergeMap(({text, id, chatId}) => this.dialogService.editMessage(text, id, chatId).pipe(
+        map((message) => editMessage({message}))
       ))
     )
   })

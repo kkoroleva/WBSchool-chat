@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
     )
     .subscribe(() => {
       this.registerForm.reset();
-      this.router.navigate(['login']);
+      this.router.navigate(['auth/login']);
       this.submitted = false;
     },
     () => {
