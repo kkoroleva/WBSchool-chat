@@ -5,10 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/socket/socket.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/socket/socket.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/actions/dialog.action.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/actions/dialog.action.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +54,7 @@
       <workItem from="1650472756217" duration="2225000" />
       <workItem from="1650475570342" duration="15078000" />
       <workItem from="1650563164980" duration="5247000" />
-      <workItem from="1650616483712" duration="20562000" />
+      <workItem from="1650616483712" duration="23824000" />
     </task>
     <servers />
   </component>

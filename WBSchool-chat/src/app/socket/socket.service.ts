@@ -13,7 +13,7 @@ export class SocketService {
   }
 
   public initSocket(): void {
-    this.socket = socketIo.io(this.apiUrl, {path: '/api'});
+    this.socket = socketIo.io(this.apiUrl);
   }
 
   public send(message: IMessage): void {
