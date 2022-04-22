@@ -37,6 +37,8 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   imageOrFile: string = '';
   formatImage: string = '';
 
+  imgInput: boolean = false;
+
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -150,7 +152,12 @@ export class DialogComponent implements OnInit, AfterViewChecked {
       this.message.setValue('');
       this.imageOrFile = '';
       this.formatImage = '';
+      this.imgInput = false
     }
+  }
+
+  onImgAdd() {
+    this.imgInput = true
   }
 
   itemFormat(item: string) {
