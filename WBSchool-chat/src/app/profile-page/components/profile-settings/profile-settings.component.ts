@@ -231,6 +231,7 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
   addFriend() {
     this.notFound = '';
     const userName: string = this.form.value.contactInput.trim();
+    console.log(userName)
     const clone = this.contacts.find((user) => user.username === userName);
     if (userName === clone?.username) {
       this.notFound = 'Этот пользователь уже есть в списке контактов.'
