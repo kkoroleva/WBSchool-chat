@@ -60,10 +60,10 @@
                 <div>
                     <div class="form_save_image" *ngIf="toggle">
                         <input  type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input>
-                        <label for="fileElem" class="btn-add" [ngClass]="{'btn-add__active': imgInput == true}">Выберите файл</label>
+                        <label for="fileElem" class="btn-add" [ngClass]="{'btn-add__active': !!imgInput}">Выберите файл</label>
                         <div class="btn-wrapper">
-                        <button type="button" class="btn-green" (click)="[addImage(input), toggle = !toggle]">V</button>
-                        <button type="button" class="btn-red" (click)="[toggle = !toggle, imageOrFile = '', imgInput = false]">X</button>
+                        <button type="button" class="btn-green" (click)="greenBtnClick(input)">V</button>
+                        <button type="button" class="btn-red" (click)="redBtnClick()">X</button>
                         </div>
                     </div> 
                 </div>
