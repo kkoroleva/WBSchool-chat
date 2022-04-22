@@ -19,24 +19,24 @@
 
 		&::placeholder {
 			color: rgba(61, 61, 61, 0.35);
-
 		}
 	}
 
-	.searchbar__search-icon {
+	&__search-icon {
 		height: 19px;
 		width: 19px;
 		margin: 20px 23px;
 		cursor: pointer;
 	}
-	.searchbar__menu-wrapper {
+
+	&__menu-wrapper {
 		padding: 0;
 		border-radius: 20px;
-		.searchbar__menu-wrapper_more-icon {
+
+		&__menu-wrapper_more-icon {
 			color: #1A66FF;
 			height: 24px;
 			margin: 17.5px 22px;
 		}
 	}
-
 }
