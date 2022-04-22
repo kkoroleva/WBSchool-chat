@@ -34,7 +34,7 @@
 					<div *ngIf="lookContacts">
 						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
 							  <img  *ngIf="!!contact.avatar"  [src]="contact.formatImage+contact.avatar" alt="user pic" />
-							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
+							  <p>{{contact.username}}</p>
 						</div>
 						<form [formGroup]="form" (ngSubmit)="addFriend()" class="contacts__form">
 							<div *ngIf="lookContacts" class="contacts__form_wrp">

@@ -5,6 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { IUserData } from '../auth/interfaces';
 import { IContacts } from '../store/reducers/contacts.reducers';
 import { selectContacts } from '../store/selectors/contacts.selectors';
+import { ModalProfileService } from './service/modal-profile.service';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ModalProfileComponent implements OnInit {
     public dialogRef: MatDialogRef<ModalProfileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IUserData,
     private store$: Store,
-    private http: HttpClient
+    private modalProfileServ: ModalProfileService
   ) {}
 
   onNoClick(): void {
