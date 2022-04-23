@@ -13,11 +13,13 @@ export class SocketService {
   }
 
   public initSocket(): void {
-    this.socket = socketIo.io(this.apiUrl);
+    this.socket = socketIo.io(this.apiUrl, {
+      path: '/api/socket'
+    });
   }
 
   public send(message: IMessage): void {
-    this.socket.emit(message);
+    this.socket.emit('message', message);
   }
 
   public onMessage(): Observable<IMessage> {

@@ -163,7 +163,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(sendMessage),
       mergeMap(({message, id}) => this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message).pipe(map(
-        (message) => pushToMessages({message})))
+        (message) => emptyMessage()))
       )
     )
   })
