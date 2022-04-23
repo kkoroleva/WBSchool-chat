@@ -162,12 +162,15 @@
       .photo {
         margin-left: 13px;
       }
-      .smile{
-          background-color: rgba(0, 0, 0, 0.85);
-          border-radius: 50%;
-      }
       .voice{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         filter: grayscale(100);
+        background: #1A66FF;
+        width: 45px;
+        height: 44px;
+        border-radius: 5px;
       }
     }
     // =============form page

@@ -50,7 +50,7 @@ export class MessageComponent implements OnInit {
     tap(() => {
       setTimeout(() => {
         this.changeScroll()
-      }, 1000);
+      }, 300);
     }),
   )
 
