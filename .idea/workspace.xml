@@ -3,6 +3,65 @@
   <component name="ChangeListManager">
     <list default="true" id="506ce886-35ec-4d4c-b547-64099fc50f7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/components/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/components/register/register.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/components/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/components/register/register.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/guards/auth-guard.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/guards/auth-guard.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/interfaces.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/main/auth.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/auth/main/auth.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/dialog.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friend.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friend.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friends.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friends.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friends.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friends.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friends.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/friends/friends.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/groups/groups.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/groups/groups.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/groups/groups.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/groups/groups.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/groups/modal/create-group-chat/create-group-chat.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/groups/modal/create-group-chat/create-group-chat.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/home-page/home-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/home-page/home-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/home-page/home-page.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/home-page/home-page.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/main-page/main-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/main-page/main-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/main-page/main-page.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/main-page/main-page.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/messages-page/messages-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/messages-page/messages-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/messages-page/messages-page.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/messages-page/messages-page.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/modal-profile.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/modal-profile.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/modal-profile.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/modal-profile.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/modal-profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/modal-profile.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/service/modal-profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/modal-profile/service/modal-profile.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/navbar/navbar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/navbar/navbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/not-found-page/not-found-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/not-found-page/not-found-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/not-found-page/not-found-page.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/not-found-page/not-found-page.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/not-found-page/not-found-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/not-found-page/not-found-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications-page/notifications-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications-page/notifications-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications-page/notifications-page.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications-page/notifications-page.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications/notifications.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications/notifications.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications/notifications.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/notifications/notifications.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/account-settings/account-settings.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/account-settings/account-settings.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/account-settings/account-settings.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/account-settings/account-settings.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/profile-settings/profile-settings.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/profile-settings/profile-settings.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/profile-settings/profile-settings.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/profile-settings/profile-settings.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/profile-settings/profile-settings.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/components/profile-settings/profile-settings.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/interfaces/profile-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/interfaces/profile-settings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/profile-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/profile-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/profile-page.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/profile-page.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/services/profile-settings.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/profile-page/services/profile-settings.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/search/search.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/search/search.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/search/search.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/search/search.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/search/search.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/search/search.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/reducers/auth.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/reducers/auth.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/reducers/contacts.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/reducers/contacts.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/threads/threads.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/threads/threads.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/threads/threads.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/threads/threads.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/threads/threads.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/threads/threads.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/unread/unread.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +118,7 @@
       <workItem from="1650472756217" duration="2225000" />
       <workItem from="1650475570342" duration="15078000" />
       <workItem from="1650563164980" duration="5247000" />
-      <workItem from="1650616483712" duration="29235000" />
+      <workItem from="1650616483712" duration="30719000" />
     </task>
     <servers />
   </component>

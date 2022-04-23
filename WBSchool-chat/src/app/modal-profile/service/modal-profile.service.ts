@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { IUserData } from 'src/app/auth/interfaces';
 import { ModalProfileComponent } from '../modal-profile.component';
 
 @Injectable({
@@ -11,9 +12,10 @@ export class ModalProfileService {
     public dialog: MatDialog
   ) { }
 
-  openDialog(): void {
+  openDialog(contactData: IUserData): void {
     const dialogRef = this.dialog.open(ModalProfileComponent, {
-      panelClass: 'modal-profile'
+      panelClass: 'modal-profile',
+      data: contactData
     });
 
     dialogRef.afterClosed().subscribe(() => {

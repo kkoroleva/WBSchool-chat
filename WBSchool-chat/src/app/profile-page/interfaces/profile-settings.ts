@@ -11,7 +11,7 @@ export interface IServerResponse {
     avatar: string;
     email: string;
     about: string;
-    userRights: string,
+    userRights: string;
     __v: number;
     _id: string;
     wallpaper?: string; 
@@ -24,4 +24,5 @@ export interface IProfileData {
       email?: string;
       about?: string;
       wallpaper?: string; 
+      formatImage?: string;
 }

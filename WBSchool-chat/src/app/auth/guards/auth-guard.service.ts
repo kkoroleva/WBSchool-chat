@@ -16,7 +16,7 @@ export class AuthGuardService {
       return true;
     }
     else {
-      this.router.navigate(['auth/login']);
+      this.router.navigateByUrl('/auth/login');
       return false;
     }
   }

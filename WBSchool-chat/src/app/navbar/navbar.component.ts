@@ -35,8 +35,8 @@ export class NavbarComponent {
   }
 
   logout(): void {
-    this.auth.logout();
-    this.router.navigate(['auth/login']);
+    this.auth.logout()
+    this.router.navigateByUrl('/auth/login')
   }
 
   getImgFromBase64(imgStr: string): string {

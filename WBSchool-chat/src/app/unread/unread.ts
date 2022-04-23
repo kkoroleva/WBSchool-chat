@@ -9,12 +9,6 @@ export interface IUnread {
   lastActive?: string;
   lastMessage?: string;
   avatar?: string;
+  formatImage?: string;
 }
 
-export interface Contact {
-  _id: string;
-  userName: string;
-  avatar: string;
-  isActive: boolean;
-  lastActive?: string;
-}

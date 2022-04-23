@@ -20,11 +20,12 @@ export interface INewUser {
 }
 
 export interface IUserData {
-  email: string;
-  username: string;
-  userRights: string;
-  avatar: string;
-  about: string;
-  id: string;
-  v: number;
+        email: string,
+        username: string,
+        userRights: string,
+        avatar: string,
+        about: string,
+        _id: string,
+        v: number,
+        formatImage?: string
 }

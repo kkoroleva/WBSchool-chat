@@ -1,7 +1,6 @@
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, map, mergeMap, of, throwError} from 'rxjs';
 import {
   deleteMessage,
   editMessage,
@@ -18,12 +17,15 @@ import {
   changeLoadGroups,
   changeLoadUnreads,
   chatGroupError,
-  createChatGroup,
+  createChatFriend,
   loadFriends,
-  loadGroups,
   loadUnreads,
+  pushToFriends,
+  createChatGroup,
+  loadGroups,
   pushToGroups
 } from '../actions/groups.actions';
+import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
 
 import {
   changeLoadNotifications,
@@ -37,6 +39,9 @@ import {INotification} from '../reducers/notifications.reducers';
 import {IFriend} from 'src/app/friends/friend';
 import {IUnread} from 'src/app/unread/unread';
 import {DialogService} from 'src/app/dialog/dialog.service';
+import { Router } from '@angular/router';
+import { IContacts } from '../reducers/contacts.reducers';
+import { initContacts, pushContacts } from '../actions/contacts.actions';
 
 @Injectable()
 export class AppEffects {
@@ -46,10 +51,10 @@ export class AppEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private dialogService: DialogService,
-    @Inject('API_URL') readonly apiUrl: string
-  ) {
-  }
+    public dialogService: DialogService,
+    private router: Router,
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   // Notifications
   loadNotifications$ = createEffect(() =>
@@ -135,6 +140,25 @@ export class AppEffects {
     );
   });
 
+  createPrivate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createChatFriend),
+      mergeMap(({ username }) =>
+        this.http
+          .post<IFriend>(
+            `${this.urlApi}/chats/private?username=${username}`,
+            {}
+          )
+          .pipe(
+            map((friend) => pushToFriends({ friend })),
+            catchError((err) =>
+              of(chatGroupError({ error: err.error.message }))
+            )
+          )
+      )
+    );
+  });
+
   loadUnreads$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadUnreads),
@@ -142,7 +166,10 @@ export class AppEffects {
         this.http
           .get<IUnread[]>(`${this.urlApi}/chats`)
           .pipe(
-            map((unreads) => changeLoadUnreads({unreads: unreads.reverse()}))
+            tap((unreads) => unreads.forEach(unread => {
+              unread.avatar = unread.formatImage! + unread.avatar
+            })),
+            map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() }))
           )
       )
     );
@@ -184,4 +211,20 @@ export class AppEffects {
       ))
     )
   })
+
+  loadContacts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(initContacts),
+      mergeMap(() =>
+        this.http.get<IContacts>(`${this.urlApi}/users/contacts`)
+          .pipe(
+            map((contacts) => pushContacts({ contacts: contacts })),
+            catchError((error: HttpErrorResponse, contacts: any) => {
+              contacts = [];
+              return throwError(() => error)
+            })
+            )
+      )
+    );
+  });
 }

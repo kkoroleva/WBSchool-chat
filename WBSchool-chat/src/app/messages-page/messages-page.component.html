@@ -2,8 +2,8 @@
   <!--TO DO: Блоки компонентов временно будут обозначены div.
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="messages-page__search"></app-search>
-  <app-groups *ngIf="changeState.stateComponentMessages.groups" class="messages-page__groups"></app-groups>
-  <app-unread *ngIf="changeState.stateComponentMessages.unreadMess" class="messages-page__recents"></app-unread>
-  <app-dialog *ngIf="changeState.stateComponentMessages.messanger" class="messages-page__chat"></app-dialog>
+  <app-groups *ngIf="changeState.stateComponentMessages.groups" class="messages-page__groups main-grid-block"></app-groups>
+  <app-unread *ngIf="changeState.stateComponentMessages.unreadMess" class="messages-page__recents main-grid-block"></app-unread>
+  <app-dialog *ngIf="changeState.stateComponentMessages.messanger" class="messages-page__chat main-grid-block"></app-dialog>
   <app-nav-mobile class="messages-page__nav-mobile"></app-nav-mobile>
 </div>

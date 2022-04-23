@@ -1,10 +1,6 @@
-<div class="searchbar">
+<div class="searchbar main-grid-block">
 	<mat-icon class="searchbar__search-icon" (click)="blankClick()">search</mat-icon>
-	<form [formGroup]="form" autocomplete="off" (ngSubmit)="submit()">
-		<input type="text" name="searchbar" placeholder="Search" autocomplete="false" formControlName="search">
-		<button type="submit">search friend</button>
-	</form>
-	
+		<input type="text" name="searchbar" placeholder="Search" autocomplete="false">
 
 	<button mat-button [matMenuTriggerFor]="menu" class="searchbar__menu-wrapper">
 		<mat-icon class="searchbar__menu-wrapper_more-icon">more_vert</mat-icon>

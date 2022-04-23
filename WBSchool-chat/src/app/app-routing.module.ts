@@ -31,13 +31,7 @@ const routes: Routes = [
     component: ProfilePageComponent,
     canActivate: [AuthGuardService],
   },
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full'},
-  { path: 'auth', children: [...authRoutes]},
-  { path: 'home', component: HomePageComponent, canActivate: [AuthGuardService]},
-  { path: 'chat', component: MessagesPageComponent, canActivate: [AuthGuardService]},
-  { path: 'alerts', component: NotificationsPageComponent, canActivate: [AuthGuardService]},
-  { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuardService]},
-  { path: '**', component: NotFoundPageComponent},
+  { path: '**', component: NotFoundPageComponent },
 ];
 
 @NgModule({
