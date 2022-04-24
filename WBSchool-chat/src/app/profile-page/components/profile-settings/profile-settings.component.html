@@ -34,15 +34,22 @@
 					<div *ngIf="lookContacts">
 						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
 							  <img  *ngIf="!!contact.avatar"  [src]="contact.formatImage+contact.avatar" alt="user pic" />
-							  <p (click)="watchProfile(contact)">{{contact.username}}</p>
+							  <p>{{contact.username}}</p>
 						</div>
-						<form [formGroup]="form" (ngSubmit)="addFriend()" class="contacts__form">
-							<div *ngIf="lookContacts" class="contacts__form_wrp">
-								<input type="text" formControlName="contactInput">
-								<button mat-raised-button color="primary" type="submit">AddFriend</button>
-							</div>
-							<p *ngIf="notFound.length > 0">{{notFound}}</p>
-						</form>
+						<div class="contacts__form">
+							<mat-form-field [formGroup]="form" (ngSubmit)="addFriend()"> <!-- " --> 
+								<!-- <div *ngIf="lookContacts" class="contacts__form_wrp"> -->	
+								<mat-label>Friend's name</mat-label>
+								<input matInput color='warn' *ngIf="lookContacts" type="text" formControlName="contactInput">
+								<!-- </div> -->
+							</mat-form-field>
+							<button *ngIf="lookContacts" mat-raised-button 
+									color="primary" type="submit" 
+									(click)="addFriend()"
+							>
+						<mat-icon>add</mat-icon></button>
+						</div>
+						<div *ngIf="notFound.length > 0" class="contacts__form_error">{{notFound}}</div>
 					</div>
 				</div>
 			</div>

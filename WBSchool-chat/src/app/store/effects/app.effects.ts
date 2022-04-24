@@ -13,7 +13,7 @@ import {
   pushToFriends,
   updateChatFriends,
 } from '../actions/groups.actions';
-import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, throwError, of, tap, switchMap } from 'rxjs';
 import {
   changeLoadGroups,
   createChatGroup,
@@ -115,21 +115,22 @@ export class AppEffects {
     );
   });
 
-  loadFriends$ = createEffect(() => {
+  // Chats
+
+  loadChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadFriends),
       mergeMap(() =>
         this.http
           .get<IFriend[]>(`${this.urlApi}/chats/friends`)
           .pipe(
-            tap(resp => console.log(resp)),
             map((friends) => changeLoadFriends({ friends: friends.reverse() }))
           )
       )
     );
   });
 
-  createPrivate$ = createEffect(() => {
+  createChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createChatFriend),
       mergeMap(({ username, ownerUsername }) =>
@@ -144,19 +145,17 @@ export class AppEffects {
     );
   });
 
-  deletePrivate$ = createEffect(() => {
+  deleteChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deleteChatFriend),
-      mergeMap(( {chatId} ) => this.http.delete<any>(`${this.urlApi}/chats/${chatId}`)
+      switchMap(( {chatId} ) => this.http.delete<string>(`${this.urlApi}/chats/${chatId}`)
         .pipe(
-          map(() => {
-            return updateChatFriends({chatId})
-          }
-        )
-      )
-    )
-    )
+          map(id => updateChatFriends({chatId: id})
+        ))
+    ))
   })
+
+  // Unread messages
 
   loadUnreads$ = createEffect(() => {
     return this.actions$.pipe(
@@ -169,10 +168,11 @@ export class AppEffects {
               unread.avatar = unread.formatImage! + unread.avatar
             })),
             map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() }))
-          )
-      )
+          ))
     );
   });
+
+  // Contacts
 
   loadContacts$ = createEffect(() => {
     return this.actions$.pipe(
@@ -185,8 +185,7 @@ export class AppEffects {
               contacts = [];
               return throwError(() => error)
             })
-            )
-      )
+            ))
     );
   });
 }

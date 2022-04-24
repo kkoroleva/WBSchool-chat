@@ -29,7 +29,7 @@ export const chatGroupError = createAction(
   props<{ error: string }>()
 );
 
-//Friends
+// Chats
 export const loadFriends = createAction('[FRIENDS] loadFriends');
 export const changeLoadFriends = createAction(
   '[FRIENDS] changeLoadFriends',

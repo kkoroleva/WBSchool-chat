@@ -35,7 +35,7 @@ const initialState: IGroupsState = {
   friends: [],
   unreads: [],
   chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
-  error: '',
+  error: ''
 };
 
 export const groupsReducer = createReducer(
@@ -60,7 +60,7 @@ export const groupsReducer = createReducer(
     ...state,
     error: action.error,
   })),
-  //friends
+  // Chats
   on(loadFriends, (state) => ({
     ...state,
     friends: state.friends,

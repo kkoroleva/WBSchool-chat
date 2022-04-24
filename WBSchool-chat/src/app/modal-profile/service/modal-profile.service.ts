@@ -10,7 +10,6 @@ import { ModalProfileComponent } from '../modal-profile.component';
   providedIn: 'root'
 })
 export class ModalProfileService {
-
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,

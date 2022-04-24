@@ -2,11 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { defer, finalize, Observable } from 'rxjs';
 import { IUserData } from '../auth/interfaces';
 import { IFriend } from '../friends/friend';
 import { initContacts } from '../store/actions/contacts.actions';
-import { changeChatGroup, createChatFriend } from '../store/actions/groups.actions';
+import { changeChatGroup, createChatFriend, loadFriends } from '../store/actions/groups.actions';
 import { IContacts } from '../store/reducers/contacts.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { selectContacts } from '../store/selectors/contacts.selectors';
@@ -38,7 +38,8 @@ export class ModalProfileComponent implements OnInit {
     private modalServ: ModalProfileService,
     private store$: Store,
     private router: Router,
-    @Inject('API_URL') public apiUrl: string) {}
+    @Inject('API_URL') public apiUrl: string
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -51,20 +52,20 @@ export class ModalProfileComponent implements OnInit {
   }
 
   goToChat(_id: string) {
-    this.dialogRef.close();
     const username = this.userData.username.trim();
     let clone: IFriend | undefined;
     this.store$.pipe(select(selectFriends))
     .subscribe((chats: IFriend[]) => {
       clone = chats.find((chat: IFriend) => chat.name === username);
     })
-    if (clone === undefined) {
-      this.user$.subscribe((user) => {
-        this.store$.dispatch(
-           createChatFriend({ username, ownerUsername: user.username })
-         ); 
-       }); 
-       this.router.navigateByUrl('/home');
+    if (!clone) {
+      this.user$.subscribe({
+          next: (user) => this.store$.dispatch(createChatFriend({ username, ownerUsername: user.username })),
+          complete: () => console.log('complete')
+      });
+      setTimeout(() => {
+        this.router.navigateByUrl('/home')
+      }, 1);
     }
     else {
         this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
