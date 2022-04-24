@@ -1,11 +1,11 @@
-import {DialogService} from '../../dialog.service';
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {select, Store} from '@ngrx/store';
-import {NgxImageCompressService} from 'ngx-image-compress';
-import {Observable, tap} from 'rxjs';
-import {IGroupsState} from '../../../store/reducers/groups.reducers';
-import {selectChatGroup} from '../../../store/selectors/groups.selectors';
+import { DialogService } from '../../dialog.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { Observable, tap } from 'rxjs';
+import { IGroupsState } from '../../../store/reducers/groups.reducers';
+import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import {
   initDialogs,
   newEditMessage,
@@ -13,9 +13,9 @@ import {
   removeMessage,
   sendMessage
 } from 'src/app/store/actions/dialog.action';
-import {selectDialog} from 'src/app/store/selectors/dialog.selector';
-import {IMessage, User} from '../../dialog';
-import {SocketService} from 'src/app/socket/socket.service';
+import { selectDialog } from 'src/app/store/selectors/dialog.selector';
+import { IMessage, User } from '../../dialog';
+import { SocketService } from 'src/app/socket/socket.service';
 
 @Component({
   selector: 'app-message',
@@ -36,7 +36,6 @@ export class MessageComponent implements OnInit {
   chatID = '';
   imageOrFile = '';
   formatImage = '';
-
   messages: IMessage[] = [];
   messageContent = '';
   ioConnection: any;
@@ -55,15 +54,15 @@ export class MessageComponent implements OnInit {
   )
 
   constructor(private service: DialogService,
-              private imageCompress: NgxImageCompressService,
-              private store$: Store<IGroupsState>,
-              private socketService: SocketService) {
+    private imageCompress: NgxImageCompressService,
+    private store$: Store<IGroupsState>,
+    private socketService: SocketService) {
   }
 
   private initIoConnection(): void {
     this.ioConnection = this.socketService.onMessage()
       .subscribe((message: IMessage) => {
-        this.store$.dispatch(pushToMessages({message}))
+        this.store$.dispatch(pushToMessages({ message }))
       });
   }
 
@@ -71,7 +70,7 @@ export class MessageComponent implements OnInit {
     this.getMyInfo()
     this.chatGroup$.subscribe((id) => {
       this.chatID = id;
-      this.store$.dispatch(initDialogs({id}))
+      this.store$.dispatch(initDialogs({ id }))
     })
     this.initIoConnection()
   };
@@ -116,7 +115,7 @@ export class MessageComponent implements OnInit {
 
   deleteMessage(id: string): void {
     console.log(id, this.chatID);
-    this.store$.dispatch(removeMessage({id, chatId: this.chatID}));
+    this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
   };
 
   deleteChat() {
@@ -125,7 +124,7 @@ export class MessageComponent implements OnInit {
 
   editMessage(text: string, id: string, chatId: string): void {
     this.isEditMessage = false;
-    this.store$.dispatch(newEditMessage({text, id, chatId}))
+    this.store$.dispatch(newEditMessage({ text, id, chatId }))
   }
 
   getMessage(id: string, text: string): void {
@@ -148,10 +147,10 @@ export class MessageComponent implements OnInit {
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage
         }
-        this.store$.dispatch(sendMessage({message, id: this.chatID}))
+        this.store$.dispatch(sendMessage({ message, id: this.chatID }))
       } else {
-        let message: IMessage = {text: this.message.value}
-        this.store$.dispatch(sendMessage({message, id: this.chatID}))
+        let message: IMessage = { text: this.message.value }
+        this.store$.dispatch(sendMessage({ message, id: this.chatID }))
       }
       this.imageOrFile = '';
       this.formatImage = '';

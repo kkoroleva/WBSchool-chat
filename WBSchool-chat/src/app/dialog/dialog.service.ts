@@ -8,10 +8,6 @@ import { IMessage, User } from './dialog';
 export class DialogService {
   constructor(private http: HttpClient, @Inject('API_URL') readonly apiUrl: string) { };
 
-  getInfoUser():any{
-    return this.http.get<User>(`${this.apiUrl}/api/chats/friends?username=pashaaa`)
-  }
-
   getMyInfo():Observable<User>{
     return this.http.get<User>(`${this.apiUrl}/api/users/me`)
   }
