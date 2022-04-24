@@ -191,7 +191,7 @@ export class AppEffects {
   pushToMessages$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(sendMessage),
-      mergeMap(({ message, id }) => this.http.post<IMessage>(`${this.urlApi}/${id}/messages`, message).pipe(
+      mergeMap(({ message, id }) => this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message).pipe(
         map(
           (message) => emptyMessage()))
       )
@@ -211,7 +211,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(newEditMessage),
       mergeMap(({ text, id, chatId }) => this.dialogService.editMessage(text, id, chatId).pipe(
-        map((message) => editMessage({ message }))
+        map((message) => emptyMessage())
       ))
     )
   })

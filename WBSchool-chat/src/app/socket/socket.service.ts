@@ -24,11 +24,29 @@ export class SocketService {
 
   public onMessage(): Observable<IMessage> {
     return new Observable<IMessage>(observer => {
-      this.socket.on('message', (data: IMessage) => {
-        console.log('Server message', data);
-        observer.next(data)
+      this.socket.on('message', (message: IMessage) => {
+        console.log('Server message', message);
+        observer.next(message)
       });
     });
+  }
+
+  public onDeleteMessage(): Observable<string> {
+    return new Observable<string>(observer => {
+      this.socket.on('delete message', (messageId: string) => {
+        console.log('Deleted message id', messageId);
+        observer.next(messageId);
+      })
+    })
+  }
+
+  public onUpdateMessage(): Observable<IMessage> {
+    return new Observable<IMessage>(observer => {
+      this.socket.on('update message', (message: IMessage) => {
+        console.log('Update message', message);
+        observer.next(message);
+      })
+    })
   }
 
   public onEvent(event: ConnectEvent): Observable<any> {
