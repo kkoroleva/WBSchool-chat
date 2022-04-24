@@ -16,6 +16,7 @@ import {
 } from '../actions/groups.actions';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
+import { IGroup } from 'src/app/groups/group';
 
 export const groupsNode = 'Groups';
 
@@ -25,16 +26,6 @@ export interface IGroupsState {
   unreads: IUnread[];
   chatGroup: string;
   error: string;
-}
-
-export interface IGroup {
-  _id?: string;
-  name: string;
-  about?: string;
-  owner?: string;
-  lastMessage?: string;
-  avatar?: string;
-  users?: string[];
 }
 
 const chatIDFromLocalStorage = localStorage.getItem('chatID');

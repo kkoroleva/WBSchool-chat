@@ -10,7 +10,7 @@ import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
   providedIn: 'root',
 })
 export class ProfileSettingsService {
-  private url = `${this.apiUrl}/api/users/me`;
+  private url = `${this.apiUrl}/api/users`;
 
   constructor(
     private http: HttpClient,
@@ -18,7 +18,6 @@ export class ProfileSettingsService {
   ) {}
 
   getUsers(userName: string) {
-    // return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
     return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
   }
 

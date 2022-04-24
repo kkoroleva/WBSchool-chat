@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-auth',
   template: `<section class="auth main-grid-block">
   <router-outlet></router-outlet>
-  </section>`
+  </section>`,
+  styles: [`.auth { padding: 15px; }`]
 })
 export class AuthComponent {}

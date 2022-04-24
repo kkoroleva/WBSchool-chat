@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { IFriend } from 'src/app/friends/friend';
+import { IGroup } from 'src/app/groups/group';
 import { IUnread } from 'src/app/unread/unread';
-import { IGroup } from '../reducers/groups.reducers';
 
 export const loadGroups = createAction('[GROUPS] loadGroups');
 export const changeLoadGroups = createAction(

@@ -106,6 +106,7 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
     })
     this.store$.dispatch(initContacts());
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.getUsersData();
     this.store$.dispatch(initContacts());
@@ -254,10 +255,6 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       });
     }
     this.form.reset();
-  }
-
-  decodeImg(img: string): string {
-    return atob(img)
   }
 
   itemFormat(item: string) {

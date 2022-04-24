@@ -26,12 +26,12 @@ import {
   loadNotifications,
   removeNotification,
 } from '../actions/notifications.actions';
-import { IGroup } from '../reducers/groups.reducers';
 import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
 import { initContacts, pushContacts } from '../actions/contacts.actions';
 import { IContacts } from '../reducers/contacts.reducers';
+import { IGroup } from 'src/app/groups/group';
 
 @Injectable()
 export class AppEffects {
@@ -122,6 +122,7 @@ export class AppEffects {
         this.http
           .get<IFriend[]>(`${this.urlApi}/chats/friends`)
           .pipe(
+            tap(resp => console.log(resp)),
             map((friends) => changeLoadFriends({ friends: friends.reverse() }))
           )
       )

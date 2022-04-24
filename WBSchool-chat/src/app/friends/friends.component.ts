@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IFriend } from './friend';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -14,7 +14,7 @@ import { CreatePrivateChatComponent } from './create-private-chat/create-private
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.scss'],
 })
-export class FriendsComponent implements OnInit {
+export class FriendsComponent implements OnInit, OnChanges {
   public friendsState$: Observable<IFriend[]> = this.store$.pipe(
     select(selectFriends)
   );
@@ -31,6 +31,10 @@ export class FriendsComponent implements OnInit {
     this.getChats();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.store$.dispatch(loadFriends());
+  }
+
   getChats(): void {
     this.store$.dispatch(loadFriends());
   }
@@ -38,7 +42,6 @@ export class FriendsComponent implements OnInit {
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);
-
     this.router.navigateByUrl('/chat');
   }
 
