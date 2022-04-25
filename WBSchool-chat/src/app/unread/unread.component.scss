@@ -1,9 +1,4 @@
 //Подключить шрифт глобально потом
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
-
-$main-font: "Poppins",
-Arial,
-sans-serif;
 $main-text-color: #000000;
 $box-shadow: rgba(0, 0, 0, 0.25);
 $background-color: #FFFFFF;
@@ -23,24 +18,18 @@ $thumbnail-size: 52px;
   flex-wrap: wrap;
   justify-content: space-between;
 
-  background: $background-color;
-  box-shadow: 0px 4px 4px $box-shadow;
-  border-radius: 20px;
-
   * {
     box-sizing: border-box;
+  }
+
+  &__is-no-unreads {
+    margin: 0;
+    width: 100%;
   }
 }
 
 .unreads__header {
   padding: 0;
-  margin-bottom: 5px;
-  font-family: $main-font;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 30px;
-  color: $main-text-color;
 }
 
 .unreads__more-button {
@@ -122,7 +111,6 @@ $thumbnail-size: 52px;
 
 
 .unreads__name {
-  font-family: $main-font;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -136,7 +124,6 @@ $thumbnail-size: 52px;
   width: 100%;
   max-height: 30px;
   overflow: hidden;
-  font-family: $main-font;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -167,7 +154,6 @@ $thumbnail-size: 52px;
   margin: 0;
   max-width: 100px;
   overflow: hidden;
-  font-family: $main-font;
   text-align: right;
   font-style: normal;
   font-weight: 500;

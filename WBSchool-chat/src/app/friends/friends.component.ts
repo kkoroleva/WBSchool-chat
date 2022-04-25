@@ -35,13 +35,6 @@ export class FriendsComponent implements OnInit {
     this.store$.dispatch(loadFriends());
   }
 
-  getImageFrom64(img: string | undefined): string {
-    if (!img) {
-      return '../../assets/image-not-found.jpg';
-    }
-    return atob(img);
-  }
-
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);

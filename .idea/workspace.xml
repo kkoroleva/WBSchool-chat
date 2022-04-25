@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="506ce886-35ec-4d4c-b547-64099fc50f7a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/dialog/messageDialog/message/message.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/socket/socket.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/socket/socket.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/effects/app.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WBSchool-chat/src/app/store/reducers/groups.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/WBSchool-chat/src/app/store/reducers/groups.reducers.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="27kOtv5TaMKdbiXBrCZdRcf7Ana" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="506ce886-35ec-4d4c-b547-64099fc50f7a" name="Changes" comment="" />
+      <created>1649860835846</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1649860835846</updated>
+      <workItem from="1649860837870" duration="5753000" />
+      <workItem from="1649925133271" duration="655000" />
+      <workItem from="1649933863612" duration="3904000" />
+      <workItem from="1650103403402" duration="9583000" />
+      <workItem from="1650211858249" duration="737000" />
+      <workItem from="1650274042422" duration="41810000" />
+      <workItem from="1650471568498" duration="1157000" />
+      <workItem from="1650472756217" duration="2225000" />
+      <workItem from="1650475570342" duration="15078000" />
+      <workItem from="1650563164980" duration="5247000" />
+      <workItem from="1650616483712" duration="37183000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
