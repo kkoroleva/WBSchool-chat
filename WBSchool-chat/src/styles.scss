@@ -92,7 +92,7 @@ mat-label,
 
 /*Общие блоки на всех страницах*/
 .main-grid-block {
-  padding: 20px;
+  width: 100%;
   margin: 0 auto;
   background: $block-background;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -102,6 +102,7 @@ mat-label,
 
   &__header {
     margin: 0;
+    margin-bottom: 15px;
     font-family: $main-font;
     font-style: normal;
     font-weight: 600;
@@ -191,7 +192,7 @@ mat-label,
     .mat-chip.mat-standard-chip .mat-chip-remove {
       color: #000;
     }
-  }
+}
 
 .modal__field.mat-focused .mat-form-field-ripple {
   background-color: #1A66FF;
@@ -209,18 +210,6 @@ mat-label,
   }
 }
 
-.mat-pseudo-checkbox {
-    color: #000;
-}
-
-.modal__select.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate {
-  background-color: #1A66FF;
-}
-
-.modal__select.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-  color: #1A66FF;
-}
-
 .edit-group-chat-modal {
   .mat-dialog-container {
     background-color: #fff;
@@ -228,3 +217,4 @@ mat-label,
     border-radius: 20px;
   }
 }
+

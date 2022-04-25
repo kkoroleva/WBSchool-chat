@@ -57,10 +57,6 @@ const initialState: IGroupsState = {
 
 export const groupsReducer = createReducer(
   initialState,
-  on(loadGroups, (state) => ({
-    ...state,
-    groups: state.groups,
-  })),
   on(changeChatGroup, (state, action) => ({
     ...state,
     chatGroup: action.chatGroup,
@@ -92,10 +88,6 @@ export const groupsReducer = createReducer(
     groupUsers: action.users,
   })),
   //friends
-  on(loadFriends, (state) => ({
-    ...state,
-    friends: state.friends,
-  })),
   on(changeLoadFriends, (state, action) => ({
     ...state,
     friends: action.friends,
@@ -105,10 +97,6 @@ export const groupsReducer = createReducer(
     friends: [action.friend, ...state.friends],
   })),
   //unreads
-  on(loadUnreads, (state) => ({
-    ...state,
-    unreads: state.unreads,
-  })),
   on(changeLoadUnreads, (state, action) => ({
     ...state,
     unreads: action.unreads,

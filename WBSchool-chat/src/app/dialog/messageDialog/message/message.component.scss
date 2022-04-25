@@ -162,12 +162,15 @@
       .photo {
         margin-left: 13px;
       }
-      .smile{
-          background-color: rgba(0, 0, 0, 0.85);
-          border-radius: 50%;
-      }
       .voice{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         filter: grayscale(100);
+        background: #1A66FF;
+        width: 45px;
+        height: 44px;
+        border-radius: 5px;
       }
     }
     // =============form page
@@ -179,7 +182,7 @@
       box-shadow: 0 5px 30px 0 rgba(0,0,0,0.2);
       top: 690px;
         @media (max-width:495px) {
-          top:260px;
+          top:450px;
           display: flex;
           flex-direction: column;
         }
@@ -216,9 +219,11 @@
 
             @media(max-width:495px) {
               margin-bottom: 5px;
+              margin: auto;
             }
             @media screen and (max-width: 1020px) {
               padding: 4px ;
+              width: 170px;
             }
           
            }
@@ -245,8 +250,14 @@
                 font: 400 18px tahoma;
                 border: 1px solid #11b157;
                 border-radius: 5px;
+                @media(max-width:495px) {
+                  width: 40px;
+                  border-radius: 20px;
+                  margin-top: 5px;
+                }
                 @media screen and (max-width: 1020px) {
                   padding: 4px ;
+                  width: 50px;
                 }
            }
            .btn-green:hover {
@@ -271,8 +282,14 @@
                 font: 400 18px tahoma;
                 border: 1px solid #cb2042;
                 border-radius: 5px;
+                @media(max-width:495px) {
+                  width: 40px;
+                  border-radius: 20px;
+                  margin-top: 5px;
+                }
                 @media screen and (max-width: 1020px) {
                   padding: 4px ;
+                  width: 50px;
                 }
            }
            .btn-red:hover {

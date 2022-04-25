@@ -5,6 +5,8 @@ import { IAuthState } from './store/reducers/auth.reducers';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { SocketService } from './socket/socket.service';
 import { ConnectEvent } from './socket/event';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +17,12 @@ export class AppComponent implements OnInit {
   constructor(
     private store$: Store<IAuthState>,
     private storage: StorageMap,
-    private socketService: SocketService){}
+    private socketService: SocketService,
+    private http: HttpClient){}
 
   ngOnInit(): void {
     this.storage.get('user').subscribe((newUser: any) => {
       this.store$.dispatch(initAuth({newUser}))
-      console.log(newUser)
     })
     this.initIoConnection();
   }

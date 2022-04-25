@@ -6,7 +6,15 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
-import { initDialogs, newEditMessage, removeMessage, sendMessage } from 'src/app/store/actions/dialog.action';
+import {
+  deleteMessage,
+  editMessage,
+  initDialogs,
+  newEditMessage,
+  pushToMessages,
+  removeMessage,
+  sendMessage
+} from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 import { IMessage, User } from '../../dialog';
 import { SocketService } from 'src/app/socket/socket.service';
@@ -27,10 +35,9 @@ export class MessageComponent implements OnInit {
   userName = '';
   userID = '';
   myId = '';
-  chatID = '625c2f4031dee2c4b3588ef3';
+  chatID = '';
   imageOrFile = '';
   formatImage = '';
-
   messages: IMessage[] = [];
   messageContent = '';
   ioConnection: any;
@@ -44,33 +51,44 @@ export class MessageComponent implements OnInit {
     tap(() => {
       setTimeout(() => {
         this.changeScroll()
-      }, 1000);
+      }, 300);
     }),
   )
 
   constructor(private service: DialogService,
-              private imageCompress: NgxImageCompressService,
-              private store$: Store<IGroupsState>,
-              private socketService: SocketService) { }
+    private imageCompress: NgxImageCompressService,
+    private store$: Store<IGroupsState>,
+    private socketService: SocketService) {
+  }
 
   private initIoConnection(): void {
-      this.ioConnection = this.socketService.onMessage()
-        .subscribe((message: IMessage) => {
-          this.messages.push(message);
-        });
-    }
+    this.socketService.onMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(pushToMessages({ message }))
+      });
+    this.socketService.onDeleteMessage()
+      .subscribe((messageId: string) => {
+        this.store$.dispatch(deleteMessage({id: messageId}))
+      })
+    this.socketService.onUpdateMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(editMessage({message}))
+      })
+  }
 
   ngOnInit(): void {
     this.getMyInfo()
-    this.chatGroup$.subscribe((id)=> {
-        this.chatID = id;
-        this.store$.dispatch(initDialogs({id}))
-      })
+    this.chatGroup$.subscribe((id) => {
+      this.chatID = id;
+      this.store$.dispatch(initDialogs({ id }))
+    })
     this.initIoConnection()
   };
 
   changeScroll(): void {
-    this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
+    if (this.wrapper) {
+      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight
+    }
   };
 
   getMyInfo(): void {
@@ -94,13 +112,11 @@ export class MessageComponent implements OnInit {
               this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
               this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
             });
-        }
-        else {
+        } else {
           this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
           this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }
-      }
-      else {
+      } else {
         alert("Вы отправляете не картинку!")
       }
     }
@@ -130,24 +146,21 @@ export class MessageComponent implements OnInit {
 
   sendMessage(): void {
     if (this.message.value.trim() ||
-        this.message.value.trim() &&
-        this.imageOrFile.length > 0) {
-        this.changeScroll()
+      this.message.value.trim() &&
+      this.imageOrFile.length > 0) {
+      this.changeScroll()
       if (this.isEditMessage) {
         this.editMessage(this.message.value, this.editMessageID, this.chatID)
-      }
-      else if (this.imageOrFile.length > 0) {
+      } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
-          formatImage: this.formatImage
+          formatImage: this.formatImage,
         }
-        this.store$.dispatch(sendMessage({message, id: this.chatID}))
-        this.socketService.send(message);
+        this.store$.dispatch(sendMessage({ message, id: this.chatID }))
       } else {
-        let message:IMessage = { text: this.message.value }
-        this.store$.dispatch(sendMessage({message, id:this.chatID}))
-        this.socketService.send(message);
+        let message: IMessage = { text: this.message.value }
+        this.store$.dispatch(sendMessage({ message, id: this.chatID }))
       }
       this.imageOrFile = '';
       this.formatImage = '';

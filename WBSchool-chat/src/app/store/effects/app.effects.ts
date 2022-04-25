@@ -2,13 +2,15 @@ import { IUser } from './../../groups/user';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, tap, throwError } from 'rxjs';
 import {
   deleteMessage,
   editMessage,
+  emptyMessage,
+  getInfoChat,
   initDialogs,
   loadDialogs,
   newEditMessage,
+  newGetInfoChat,
   pushToMessages,
   removeMessage,
   sendMessage,
@@ -19,17 +21,19 @@ import {
   changeLoadUnreads,
   chatGroupError,
   createChatFriend,
-  createChatGroup,
   editGroup,
   editToGroups,
   getGroupUsers,
   loadFriends,
-  loadGroups,
   loadUnreads,
   pushToFriends,
+  createChatGroup,
+  loadGroups,
   pushToGroups,
   setGroupUsers,
 } from '../actions/groups.actions';
+import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
+
 import {
   changeLoadNotifications,
   clearNotifications,
@@ -42,18 +46,21 @@ import { INotification } from '../reducers/notifications.reducers';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
 import { DialogService } from 'src/app/dialog/dialog.service';
-import { initContacts, pushContacts } from '../actions/contacts.actions';
+import { Router } from '@angular/router';
 import { IContacts } from '../reducers/contacts.reducers';
+import { initContacts, pushContacts } from '../actions/contacts.actions';
+import { IChatInfo } from '../reducers/dialog.reducer';
+
 @Injectable()
 export class AppEffects {
   private urlApi = `${this.apiUrl}/api`;
   public getGroups: IGroup[] = [];
-  private chatId = '';
 
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private dialogService: DialogService,
+    public dialogService: DialogService,
+    private router: Router,
     @Inject('API_URL') public apiUrl: string
   ) {}
 
@@ -200,15 +207,11 @@ export class AppEffects {
   // Dialog
   loadDialog$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(initContacts),
-      mergeMap(() =>
-        this.http.get<IContacts>(`${this.urlApi}/users/contacts`).pipe(
-          map((contacts) => pushContacts({ contacts: contacts })),
-          catchError((error: HttpErrorResponse, contacts: any) => {
-            contacts = [];
-            return throwError(() => error);
-          })
-        )
+      ofType(initDialogs),
+      mergeMap(({ id }) =>
+        this.http
+          .get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
+          .pipe(map((messages) => loadDialogs({ messages })))
       )
     );
   });
@@ -216,10 +219,11 @@ export class AppEffects {
   pushToMessages$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(sendMessage),
+
       mergeMap(({ message, id }) =>
         this.http
           .post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message)
-          .pipe(map((message) => pushToMessages({ message })))
+          .pipe(map((message) => emptyMessage()))
       )
     );
   });
@@ -227,6 +231,7 @@ export class AppEffects {
   deleteMessage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(removeMessage),
+
       mergeMap(({ id, chatId }) =>
         this.http
           .delete<string>(`${this.urlApi}/chats/${chatId}/messages/${id}`)
@@ -241,7 +246,36 @@ export class AppEffects {
       mergeMap(({ text, id, chatId }) =>
         this.dialogService
           .editMessage(text, id, chatId)
-          .pipe(map((message) => editMessage({ message })))
+          .pipe(map((message) => emptyMessage()))
+      )
+    );
+  });
+
+  loadContacts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(initContacts),
+      mergeMap(() =>
+        this.http.get<IContacts>(`${this.urlApi}/users/contacts`).pipe(
+          map((contacts) => pushContacts({ contacts: contacts })),
+          catchError((error: HttpErrorResponse, contacts: any) => {
+            contacts = [];
+            return throwError(() => error);
+          })
+        )
+      )
+    );
+  });
+
+  getInfoChats$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getInfoChat),
+      mergeMap(({ chatId }) =>
+        this.http
+          .get<IChatInfo>(
+            `${this.urlApi}/chats/${chatId}
+      `
+          )
+          .pipe(map((chatInfo) => newGetInfoChat({ chatInfo })))
       )
     );
   });

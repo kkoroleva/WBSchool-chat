@@ -8,22 +8,4 @@ import { SocketService } from '../socket/socket.service';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
 })
-export class DialogComponent {
-  messages: IMessage[] = [];
-  messageContent = '';
-  ioConnection: any;
-
-  constructor(private socketService: SocketService) {}
-
-  ngOnInit(): void {
-    this.initIoConnection();
-  }
-
-  private initIoConnection(): void {
-    this.ioConnection = this.socketService
-      .onMessage()
-      .subscribe((message: IMessage) => {
-        this.messages.push(message);
-      });
-  }
-}
+export class DialogComponent {}
