@@ -208,6 +208,9 @@ export class AppEffects {
             ownerUsername,
           })
           .pipe(
+            tap((friend) =>
+            friend.avatar = friend.formatImage! + friend.avatar
+          ),
             map((friend) => pushToFriends({ friend })),
             catchError((err) =>
               of(chatGroupError({ error: err.error.message }))
