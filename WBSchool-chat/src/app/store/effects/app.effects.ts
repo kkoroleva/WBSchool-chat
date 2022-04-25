@@ -235,8 +235,7 @@ export class AppEffects {
   getInfoChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getInfoChat),
-      mergeMap(({ chatId }) => this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}
-      `).pipe(
+      mergeMap(({ chatId }) => this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}`).pipe(
         map(
           (chatInfo) => newGetInfoChat({ chatInfo })))
       )
