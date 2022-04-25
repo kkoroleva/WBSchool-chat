@@ -56,9 +56,9 @@ export class ModalProfileComponent implements OnInit {
     const username = this.userData.username.trim();
     let clone: IFriend | undefined;
     this.store$.pipe(select(selectFriends))
-    .subscribe((chats: IFriend[]) => {
-      clone = chats.find((chat: IFriend) => chat.name === username);
-    })
+      .subscribe((chats: IFriend[]) => {
+        clone = chats.find((chat: IFriend) => chat.usernames[0] === username || chat.usernames[1] === username);
+      })
     setTimeout(() => {
       if (!clone) {
         this.user$.subscribe({

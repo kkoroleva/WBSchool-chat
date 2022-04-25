@@ -45,7 +45,6 @@ export class MessageComponent implements OnInit {
   chatID = '';
   imageOrFile = '';
   formatImage = '';
-  messages: IMessage[] = [];
   messageContent = '';
   ioConnection: any;
   contacts: IUserData[] = [];
@@ -57,7 +56,7 @@ export class MessageComponent implements OnInit {
 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap(() => {
+    tap((resp) => {
       setTimeout(() => {
         this.changeScroll()
       }, 300);

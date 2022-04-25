@@ -26,6 +26,6 @@ export class ModalProfileService {
   }
 
   deleteContact(_id: string): Observable<IContacts> {
-    return this.http.patch<IContacts>(`${this.apiUrl}/api/users/contacts`, _id)
+    return this.http.patch<IContacts>(`${this.apiUrl}/api/users/contacts`, {id: _id})
   }
 }

@@ -15,8 +15,9 @@
             [src]="friend.formatImage!+friend.avatar"
             alt="Your best friend face" width="52" height="52">
         </div>
-        <div class="friends__item-text">
-          <b class="friends__name">{{friend.name}}</b>
+        <div class="friends__item-text" *ngIf="user$ | async as user">
+          <b class="friends__name" *ngIf="friend.usernames[0] === user.username">{{friend.usernames[1]}}</b>
+          <b class="friends__name" *ngIf="friend.usernames[1] === user.username">{{friend.usernames[0]}}</b>
           <p class="friends__last-active">{{friend.lastActive? 'friend.lastActive' : 'Unknown'}}</p>
           <p class="friends__last-message">{{friend.lastMessage? 'friend.lastActive' : 'Here will be last message'}}</p>
         </div>

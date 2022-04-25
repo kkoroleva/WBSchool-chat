@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog.service';
 import { select, Store } from '@ngrx/store';
 import { IChatInfo } from 'src/app/store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
@@ -9,6 +8,8 @@ import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
 import { IUserData } from 'src/app/auth/interfaces';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 import { selectUser } from 'src/app/store/selectors/auth.selectors';
+import { deleteChatFriend, loadFriends } from 'src/app/store/actions/groups.actions';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -34,13 +35,14 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private store$: Store<IChatInfo>,
-    private modalServ: ModalProfileService
-  ) { }
+    private modalServ: ModalProfileService, 
+    private router: Router) { }
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id: string) => {
         this.store$.dispatch(getInfoChat({ chatId: id }))
     })
+
     this.chatInfo$.subscribe(item => {
       console.log('called for ' + item.name)
       this.userData = {
@@ -58,8 +60,12 @@ export class HeaderComponent implements OnInit {
     // this.chatInfo$.subscribe(resp => console.log(resp))
   }
 
-  deleteChat() {
-    console.log('удалить чат')
+  deleteChat(_id: string) {
+    this.store$.dispatch(deleteChatFriend({chatId: _id}));
+    this.store$.dispatch(loadFriends());
+    setTimeout(() => {
+      this.router.navigateByUrl('/home')
+    }, 0)
   }
 
   modalClick() {
