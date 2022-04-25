@@ -34,6 +34,8 @@ import {
   loadGroups,
   pushToGroups,
   setGroupUsers,
+  deleteGroup,
+  deleteFromGroups,
 } from '../actions/groups.actions';
 import { catchError, map, mergeMap, throwError, of, tap, switchMap } from 'rxjs';
 
@@ -66,7 +68,7 @@ export class AppEffects {
     public dialogService: DialogService,
     private router: Router,
     @Inject('API_URL') public apiUrl: string
-  ) {}
+  ) { }
 
   // Notifications
   loadNotifications$ = createEffect(() =>
@@ -136,6 +138,7 @@ export class AppEffects {
       ofType(createChatGroup),
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
+          tap((group) => (group.avatar = group.formatImage! + group.avatar)),
           map((group) => pushToGroups({ group })),
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
@@ -147,12 +150,23 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(editGroup),
       mergeMap(({ id, editGroup }) =>
-        this.http
-          .patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
+        this.http.patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
           .pipe(tap((group) => (group.avatar = group.formatImage! + group.avatar)),
-            switchMap((group) => 
-            [newGetInfoChat({chatInfo: group as IChatInfo}), editToGroups({ group })]
-          ))
+            switchMap((group) =>
+              [newGetInfoChat({ chatInfo: group as IChatInfo }), editToGroups({ group })]
+            ))
+      )
+    );
+  });
+
+
+  deleteGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteGroup),
+      mergeMap(({ id }) =>
+        this.http
+          .delete(`${this.urlApi}/chats/${id}`)
+          .pipe(map(() => deleteFromGroups({ id })))
       )
     );
   });
