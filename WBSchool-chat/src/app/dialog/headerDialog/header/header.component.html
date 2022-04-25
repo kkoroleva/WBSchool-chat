@@ -1,11 +1,11 @@
 <header class="header">
-    <section class="header__info">
+    <section *ngIf="chatInfo$ | async as chatInfo" class="header__info">
         <div class="header__avatar">
-            <img [src]="this.formatImage + this.avatar" alt="avatar" width="76px" height="75px">
+            <img [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
             <span></span>
         </div>
         <div class="header__name">
-            <p class="name">{{this.name}}</p>
+            <p class="name">{{chatInfo.name}}</p>
             <span>Online</span>
         </div>
     </section>
