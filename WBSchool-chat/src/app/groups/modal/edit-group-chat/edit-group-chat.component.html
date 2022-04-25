@@ -1,14 +1,8 @@
 <div class="modal">
-    <h2 class="modal__title" mat-dialog-title>Create new group chat</h2>
-    <mat-dialog-content>
+    <h2 class="modal__title" mat-dialog-title>Edit group chat</h2>
+    <mat-dialog-content *ngIf="group$ | async as group">
 
-        <div *ngIf="!myContacts && contactsIsLoaded">
-            <p class="modal__err">You cannot create a chat because your contact list is empty :(</p>
-        </div>
-
-        <form *ngIf="myContacts && contactsIsLoaded" [formGroup]="form" class="modal__form">
-            <p class="modal__err" *ngIf="errMessage$ | async as err">{{err}}</p>
-
+        <form [formGroup]="form" class="modal__form">
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Group chat name</mat-label>
                 <input class="modal__input" matInput placeholder="Chat" formControlName="name">
@@ -31,15 +25,19 @@
             <mat-form-field class="modal__field" appearance="fill">
                 <mat-label>Add users</mat-label>
                 <mat-chip-list #contacts>
-                    <mat-chip *ngFor="let contact of form.get('contacts')?.value" (removed)="removeContact(contact)">
-                        <div class="modal__contact">
-                            <img class="modal__avatar" [src]="contact.formatImage + contact.avatar" alt="User avatar">
-                            <span class="modal__username">{{contact.username}}</span>
-                        </div>
-                        <button matChipRemove>
-                            <mat-icon>cancel</mat-icon>
-                        </button>
-                    </mat-chip>
+                    <ng-container *ngIf="contactsIsLoaded">
+                        <mat-chip *ngFor="let contact of form.get('contacts')?.value"
+                            (removed)="removeContact(contact)">
+                            <div class="modal__contact">
+                                <img class="modal__avatar" [src]="contact.formatImage + contact.avatar"
+                                    alt="User avatar">
+                                <span class="modal__username">{{contact.username}}</span>
+                            </div>
+                            <button matChipRemove>
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </ng-container>
                     <input class="modal__input" placeholder="Add user to group chat" #contactsInput
                         [formControl]="contactsControl" [matAutocomplete]="auto" [matChipInputFor]="contacts">
                 </mat-chip-list>
@@ -58,7 +56,14 @@
             </mat-form-field>
         </form>
 
-        <div *ngIf="!imageInBase64 && myContacts && contactsIsLoaded" class="modal__upload" appDragAndDrop>
+        <div class="modal__avatars">
+            <span class="modal__avatars-heading">Current group avatar</span>
+            <img *ngIf="!imageInBase64" class="modal__current-avatar" [src]="group.avatar || '/assets/not-found.png'"
+                alt="Group avatar">
+            <img *ngIf="imageInBase64" class="modal__new-avatar" [src]="formatImage + imageInBase64" alt="Group avatar">
+        </div>
+
+        <div *ngIf="!imageInBase64" class="modal__upload" appDragAndDrop>
             <p class="modal__drag-text">Drag your image</p>
             <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
         </div>
@@ -71,7 +76,6 @@
 
     <mat-dialog-actions align="end">
         <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
-        <button *ngIf="myContacts && contactsIsLoaded" class="modal__btn" mat-button (click)="createGroupChat()"
-            [disabled]="form.invalid">Create</button>
+        <button class="modal__btn" mat-button (click)="editGroupChat()" [disabled]="form.invalid">Edit</button>
     </mat-dialog-actions>
 </div>

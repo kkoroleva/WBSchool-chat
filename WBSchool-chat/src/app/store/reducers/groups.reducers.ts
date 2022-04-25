@@ -2,8 +2,11 @@ import {
   changeLoadFriends,
   changeLoadUnreads,
   chatGroupError,
+  editToGroups,
   loadFriends,
   pushToFriends,
+  setGroup,
+  setGroupUsers,
   updateChatFriends,
 } from './../actions/groups.actions';
 import { createReducer, on } from '@ngrx/store';
@@ -14,26 +17,41 @@ import {
 } from '../actions/groups.actions';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
-import { IGroup } from 'src/app/groups/group';
+import { IUser } from 'src/app/groups/user';
 
 export const groupsNode = 'Groups';
 
 export interface IGroupsState {
   groups: IGroup[];
+  group: IGroup;
+  groupUsers: IUser[];
   friends: IFriend[];
   unreads: IUnread[];
   chatGroup: string;
   error: string;
 }
 
+export interface IGroup {
+  _id?: string;
+  name: string;
+  about?: string;
+  owner?: string;
+  lastMessage?: string;
+  avatar?: string;
+  users?: string[];
+  formatImage?: string;
+}
+
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
 
 const initialState: IGroupsState = {
   groups: [],
+  group: { name: '' },
+  groupUsers: [],
   friends: [],
   unreads: [],
   chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
-  error: ''
+  error: '',
 };
 
 export const groupsReducer = createReducer(
@@ -54,6 +72,20 @@ export const groupsReducer = createReducer(
     ...state,
     error: action.error,
   })),
+  on(setGroup, (state, action) => ({
+    ...state,
+    group: action.group,
+  })),
+  on(editToGroups, (state, action) => ({
+    ...state,
+    groups: state.groups.map((group) =>
+      group._id === action.group._id ? action.group : group
+    ),
+  })),
+  on(setGroupUsers, (state, action) => ({
+    ...state,
+    groupUsers: action.users,
+  })),
   // Chats
   on(loadFriends, (state) => ({
     ...state,
@@ -69,7 +101,9 @@ export const groupsReducer = createReducer(
   })),
   on(updateChatFriends, (state, action) => ({
     ...state,
-    friends: state.friends.filter((friendChat) => friendChat._id !== action.chatId)
+    friends: state.friends.filter(
+      (friendChat) => friendChat._id !== action.chatId
+    ),
   })),
   //unreads
   on(changeLoadUnreads, (state, action) => ({

@@ -5,7 +5,12 @@ import { Observable } from 'rxjs/internal/Observable';
 import { selectFriends } from '../store/selectors/groups.selectors';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
-import { changeChatGroup, deleteChatFriend, loadFriends, updateChatFriends } from '../store/actions/groups.actions';
+import {
+  changeChatGroup,
+  deleteChatFriend,
+  loadFriends,
+  updateChatFriends,
+} from '../store/actions/groups.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 
@@ -30,7 +35,7 @@ export class FriendsComponent implements OnInit {
   }
 
   updateChats(_id: string): void {
-    this.store$.dispatch(updateChatFriends({chatId: _id}))
+    this.store$.dispatch(updateChatFriends({ chatId: _id }));
   }
 
   goToChat(chatId: string): void {
@@ -53,7 +58,7 @@ export class FriendsComponent implements OnInit {
   }
 
   deleteChat(_id: string) {
-    this.store$.dispatch(deleteChatFriend({chatId: _id}));
+    this.store$.dispatch(deleteChatFriend({ chatId: _id }));
     this.store$.dispatch(loadFriends());
   }
 }

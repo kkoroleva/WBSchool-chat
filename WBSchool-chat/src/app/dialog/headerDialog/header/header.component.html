@@ -1,7 +1,7 @@
 <header class="header">
-    <section class="header__info" *ngIf="chatInfo$ | async as chatInfo">
+    <section *ngIf="chatInfo$ | async as chatInfo" class="header__info">
         <div class="header__avatar">
-            <img *ngIf="!!chatInfo.avatar" [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
+            <img [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
             <span></span>
         </div>
         <div class="header__name">
