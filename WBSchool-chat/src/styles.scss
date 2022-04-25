@@ -184,6 +184,7 @@ mat-label,
       color: #000;
     }
 
+
     .mat-chip.mat-standard-chip {
       background-color: #fff;
     }
@@ -192,21 +193,20 @@ mat-label,
       color: #000;
     }
   }
-}
 
-.modal__field.mat-focused .mat-form-field-ripple {
-  background-color: #1A66FF;
-}
+  .modal__field.mat-focused .mat-form-field-ripple {
+    background-color: #1A66FF;
+  }
 
-.modal__field.mat-form-field-invalid .mat-form-field-ripple {
-  background-color: #f44336;
-}
+  .modal__field.mat-form-field-invalid .mat-form-field-ripple {
+    background-color: #f44336;
+  }
 
-.modal__autocomplete.mat-autocomplete-panel {
-  background-color: #fff;
+  .modal__autocomplete.mat-autocomplete-panel {
+    background-color: #fff;
 
-  .mat-option:hover {
-    background: #e9e8e8;
+    .mat-option:hover {
+      background: #e9e8e8;
+    }
   }
 }
-

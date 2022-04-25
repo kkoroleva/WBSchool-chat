@@ -19,8 +19,6 @@ export class FriendsComponent implements OnInit, OnChanges, DoCheck {
     select(selectFriends)
   );
 
-  // friendList: IFriend[] = [];
-
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -42,7 +40,7 @@ export class FriendsComponent implements OnInit, OnChanges, DoCheck {
   updateChats(_id: string): void {
     this.store$.dispatch(updateChatFriends({chatId: _id}))
   }
-  
+
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);
