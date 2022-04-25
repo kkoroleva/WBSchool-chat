@@ -58,20 +58,22 @@ export class ModalProfileComponent implements OnInit {
     .subscribe((chats: IFriend[]) => {
       clone = chats.find((chat: IFriend) => chat.name === username);
     })
-    if (!clone) {
-      this.user$.subscribe({
-          next: (user) => this.store$.dispatch(createChatFriend({ username, ownerUsername: user.username })),
-          complete: () => console.log('complete')
-      });
-      setTimeout(() => {
-        this.router.navigateByUrl('/home')
-      }, 1);
-    }
-    else {
-        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
-        this.router.navigateByUrl('/chat');
-    }
-    this.dialogRef.close();
+    setTimeout(() => {
+      if (!clone) {
+        this.user$.subscribe({
+            next: (user) => this.store$.dispatch(createChatFriend({ username, ownerUsername: user.username })),
+            complete: () => console.log('complete')
+        });
+        setTimeout(() => {
+          this.router.navigateByUrl('/home')
+        }, 0);
+      }
+      else {
+          this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+          this.router.navigateByUrl('/chat');
+      }
+      this.dialogRef.close();
+    }, 1);
   }
 
   deleteContact(_id: string) {

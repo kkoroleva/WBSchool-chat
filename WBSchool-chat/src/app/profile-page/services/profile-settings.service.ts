@@ -26,7 +26,7 @@ export class ProfileSettingsService {
   }
 
   editProfileSettings(formData: IProfileData): Observable<IServerResponse> {
-    return this.http.patch<IServerResponse>(this.url, formData).pipe(
+    return this.http.patch<IServerResponse>(`${this.url}/me`, formData).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error);
       })

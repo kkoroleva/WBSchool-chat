@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IFriend } from './friend';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -14,7 +14,7 @@ import { CreatePrivateChatComponent } from './create-private-chat/create-private
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.scss'],
 })
-export class FriendsComponent implements OnInit, OnChanges, DoCheck {
+export class FriendsComponent implements OnInit {
   public friendsState$: Observable<IFriend[]> = this.store$.pipe(
     select(selectFriends)
   );
@@ -29,14 +29,6 @@ export class FriendsComponent implements OnInit, OnChanges, DoCheck {
     this.store$.dispatch(loadFriends());
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.store$.dispatch(loadFriends());
-  }
-
-  ngDoCheck(): void {
-    // this.store$.dispatch(loadFriends());
-  }
-
   updateChats(_id: string): void {
     this.store$.dispatch(updateChatFriends({chatId: _id}))
   }
@@ -44,7 +36,9 @@ export class FriendsComponent implements OnInit, OnChanges, DoCheck {
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);
-    this.router.navigateByUrl('/chat');
+    setTimeout(() => {
+      this.router.navigateByUrl('/chat');
+    }, 1000);
   }
 
   getFriend(data: IFriend): string {
@@ -60,6 +54,6 @@ export class FriendsComponent implements OnInit, OnChanges, DoCheck {
 
   deleteChat(_id: string) {
     this.store$.dispatch(deleteChatFriend({chatId: _id}));
-    // this.updateChats(_id);
+    this.store$.dispatch(loadFriends());
   }
 }

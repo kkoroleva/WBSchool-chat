@@ -1,5 +1,5 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { catchError, concatMap, Subscription, tap, throwError } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { catchError, concatMap, Subject, Subscription, tap, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
@@ -22,7 +22,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent implements OnInit, OnChanges {
+export class ProfileSettingsComponent implements OnInit {
   private url = 'https://wbschool-chat.ru/api/users';
   profileData: IProfileData = {
     username: '',
@@ -101,29 +101,26 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
     })
     this.getUsersData();
-    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-      this.contacts = contacts.contacts
-    })
     this.store$.dispatch(initContacts());
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.getUsersData();
-    this.store$.dispatch(initContacts());
+    setTimeout(() => {
+      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+        this.contacts = contacts.contacts;
+      })
+    }, 0);
   }
 
   getUsersData() {
-    this.store$.pipe(select(selectUser))
-    .subscribe((newUser: IUserData) => {
-      this.profileData = Object.assign({}, {
-        username: newUser.username,
-        about: newUser.about,
-        avatar: newUser.formatImage + newUser.avatar,
-        email: newUser.email
-      })
-      this.settingsList[0].description = newUser.username;
-      this.settingsList[3].description = newUser.about;
-      this.settingsList[4].description = newUser.email;
+    this.storage.get('user')
+    .subscribe((user: IServerResponse | any) => {
+      this.profileData = {
+        username: user.username,
+        about: user.about,
+        avatar: user.formatImage + user.avatar,
+        email: user.email
+      }
+      this.settingsList[0].description = user.username;
+      this.settingsList[3].description = user.about;
+      this.settingsList[4].description = user.email;
     })
   }
 
@@ -197,11 +194,8 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
         return throwError(() => error);
       })
     )
-    .subscribe((newUser: IServerResponse) => {
-      this.storage.set('user', newUser)
-      .subscribe(() => {
-        location.reload();
-      });
+    .subscribe((user: IServerResponse) => {
+      this.storage.set('user', user).subscribe(() => {});
       this.getUsersData();
     })
     this.formData = {};
