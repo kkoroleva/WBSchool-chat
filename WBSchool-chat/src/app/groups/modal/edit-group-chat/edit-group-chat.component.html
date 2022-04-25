@@ -58,8 +58,8 @@
 
         <div class="modal__avatars">
             <span class="modal__avatars-heading">Current group avatar</span>
-            <img *ngIf="!imageInBase64" class="modal__current-avatar"
-                [src]="group.avatar ? group.formatImage + group.avatar : '/assets/not-found.png'" alt="Group avatar">
+            <img *ngIf="!imageInBase64" class="modal__current-avatar" [src]="group.avatar || '/assets/not-found.png'"
+                alt="Group avatar">
             <img *ngIf="imageInBase64" class="modal__new-avatar" [src]="formatImage + imageInBase64" alt="Group avatar">
         </div>
 
