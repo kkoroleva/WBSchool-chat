@@ -6,14 +6,14 @@
         </mat-menu>
         <mat-icon>more_vert</mat-icon>
     </a>
-    <p class="groups__is-no-groups" *ngIf="(groups$ | async)?.length === 0">Sorry. No group chats detected. Please, create one.</p>
+    <p class="groups__is-no-groups" *ngIf="(groups$ | async)?.length === 0">Sorry. No group chats detected. Please,
+        create one.</p>
 
     <ul class="groups__list">
         <li class="groups__item" *ngFor="let group of groups$ | async">
             <a (click)="openGroupChat(group)" class="groups__chat-link">
-                <img class="groups__thumbnail"
-                    [src]="group.avatar ? group.formatImage + group.avatar : '/assets/not-found.png'"
-                    alt="Group chat image" width="70" height="70">
+                <img class="groups__thumbnail" [src]="group.avatar || '/assets/not-found.png'" alt="Group chat image"
+                    width="70" height="70">
                 <div class="groups__item-text">
                     <b class="groups__name">{{group.name}}</b>
                     <p class="groups__last-message">

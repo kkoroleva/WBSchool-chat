@@ -115,9 +115,14 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(loadGroups),
       mergeMap(() =>
-        this.http
-          .get<IGroup[]>(`${this.urlApi}/chats/groups`)
-          .pipe(map((groups) => changeLoadGroups({ groups: groups.reverse() })))
+        this.http.get<IGroup[]>(`${this.urlApi}/chats/groups`).pipe(
+          tap((groups) =>
+            groups.forEach((group) => {
+              group.avatar = group.formatImage! + group.avatar;
+            })
+          ),
+          map((groups) => changeLoadGroups({ groups: groups.reverse() }))
+        )
       )
     );
   });
@@ -128,7 +133,6 @@ export class AppEffects {
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
           map((group) => pushToGroups({ group })),
-
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
       )
@@ -161,11 +165,14 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(loadFriends),
       mergeMap(() =>
-        this.http
-          .get<IFriend[]>(`${this.urlApi}/chats/friends`)
-          .pipe(
-            map((friends) => changeLoadFriends({ friends: friends.reverse() }))
-          )
+        this.http.get<IFriend[]>(`${this.urlApi}/chats/friends`).pipe(
+          tap((friends) =>
+            friends.forEach((friend) => {
+              friend.avatar = friend.formatImage! + friend.avatar;
+            })
+          ),
+          map((friends) => changeLoadFriends({ friends: friends.reverse() }))
+        )
       )
     );
   });
@@ -231,7 +238,6 @@ export class AppEffects {
   deleteMessage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(removeMessage),
-
       mergeMap(({ id, chatId }) =>
         this.http
           .delete<string>(`${this.urlApi}/chats/${chatId}/messages/${id}`)
@@ -271,10 +277,7 @@ export class AppEffects {
       ofType(getInfoChat),
       mergeMap(({ chatId }) =>
         this.http
-          .get<IChatInfo>(
-            `${this.urlApi}/chats/${chatId}
-      `
-          )
+          .get<IChatInfo>(`${this.urlApi}/chats/${chatId}`)
           .pipe(map((chatInfo) => newGetInfoChat({ chatInfo })))
       )
     );
