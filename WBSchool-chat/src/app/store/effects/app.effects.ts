@@ -149,9 +149,10 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(editGroup),
       mergeMap(({ id, editGroup }) =>
-        this.http
-          .patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
-          .pipe(map((group) => editToGroups({ group })))
+        this.http.patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup).pipe(
+          tap((group) => (group.avatar = group.formatImage! + group.avatar)),
+          map((group) => editToGroups({ group }))
+        )
       )
     );
   });
