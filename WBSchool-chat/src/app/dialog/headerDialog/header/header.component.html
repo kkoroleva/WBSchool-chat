@@ -1,16 +1,6 @@
-<<<<<<< HEAD
-<header class="header">
-    <section class="header__info" *ngIf="chatInfo$ | async as chatInfo" >
-        <div class="header__avatar" (click)="modalClick()">
-            <img *ngIf="!!chatInfo.avatar" [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
-            <span></span>
-        </div>
-        <div class="header__name" *ngIf="user$ | async as user">
-            <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
-            <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
-=======
+
 <header class="header" *ngIf="chatInfo$ | async as chatInfo">
-    <section class="header__info">
+    <section class="header__info"  (click)="modalClick()">
         <div class="header__avatar">
             <img *ngIf="!!chatInfo.avatar" [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
             <span></span>
@@ -19,7 +9,6 @@
             <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
             <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
             <span>Online</span>
->>>>>>> 6a294a27f3d1ba9e320a77a7b3e6493b5f00101c
         </div>
     </section>
 
