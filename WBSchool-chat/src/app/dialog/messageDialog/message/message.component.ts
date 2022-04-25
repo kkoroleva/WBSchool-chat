@@ -64,7 +64,9 @@ export class MessageComponent implements OnInit {
   private initIoConnection(): void {
     this.socketService.onMessage()
       .subscribe((message: IMessage) => {
-        this.store$.dispatch(pushToMessages({ message }))
+        if (this.chatID === message.chatId) {
+          this.store$.dispatch(pushToMessages({ message }))
+        }
       });
     this.socketService.onDeleteMessage()
       .subscribe((messageId: string) => {

@@ -1,6 +1,6 @@
 <header class="header">
-    <section class="header__info" *ngIf="chatInfo$ | async as chatInfo">
-        <div class="header__avatar">
+    <section class="header__info" *ngIf="chatInfo$ | async as chatInfo" >
+        <div class="header__avatar" (click)="modalClick()">
             <img *ngIf="!!chatInfo.avatar" [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
             <span></span>
         </div>
