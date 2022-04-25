@@ -22,9 +22,7 @@ export class ModalProfileService {
       data: contactData
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   deleteContact(_id: string): Observable<IContacts> {

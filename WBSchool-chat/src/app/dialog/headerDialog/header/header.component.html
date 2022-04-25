@@ -4,9 +4,9 @@
             <img *ngIf="!!chatInfo.avatar" [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
             <span></span>
         </div>
-        <div class="header__name">
-            <p class="name">{{chatInfo.name}}</p>
-            <span>Online</span>
+        <div class="header__name" *ngIf="user$ | async as user">
+            <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
+            <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
         </div>
     </section>
 

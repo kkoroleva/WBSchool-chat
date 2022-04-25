@@ -55,6 +55,7 @@ export class HeaderComponent implements OnInit {
       }
       }
     )
+    // this.chatInfo$.subscribe(resp => console.log(resp))
   }
 
   deleteChat() {

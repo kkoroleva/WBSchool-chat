@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { Observable, tap } from 'rxjs';
+import { catchError, concatMap, Observable, tap, throwError } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import {
@@ -18,6 +18,13 @@ import {
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
 import { SocketService } from 'src/app/socket/socket.service';
+import { IContacts } from 'src/app/store/reducers/contacts.reducers';
+import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+import { IUserData } from 'src/app/auth/interfaces';
+import { initContacts } from 'src/app/store/actions/contacts.actions';
+import { ProfileSettingsService } from 'src/app/profile-page/services/profile-settings.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 
 @Component({
   selector: 'app-message',
@@ -41,6 +48,8 @@ export class MessageComponent implements OnInit {
   messages: IMessage[] = [];
   messageContent = '';
   ioConnection: any;
+  contacts: IUserData[] = [];
+  userData: IUserData | undefined;
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup),
@@ -55,10 +64,13 @@ export class MessageComponent implements OnInit {
     }),
   )
 
-  constructor(private service: DialogService,
+  constructor(
+    private service: DialogService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
-    private socketService: SocketService) {
+    private socketService: SocketService,
+    private profileServ: ProfileSettingsService,
+    private modalServ: ModalProfileService) {
   }
 
   private initIoConnection(): void {
@@ -172,6 +184,32 @@ export class MessageComponent implements OnInit {
 
   itemFormat(item: string) {
     return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"))
+  }
+
+  openProfile(item: any) {
+    this.userData = undefined
+    this.store$.dispatch(initContacts());
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      contacts.contacts.map(contact => {
+        if (contact._id == item.owner) {
+          this.userData = contact
+        }
+      })
+      if (this.userData == undefined) {
+        this.profileServ.getUsers(item.username)
+          .pipe(
+            catchError((error: HttpErrorResponse) => {
+              return throwError(() => error);
+            })
+          )
+          .subscribe((user: IUserData) => {
+            this.userData = user
+          });
+      }
+    })
+    setTimeout(() => {
+      if (this.userData != undefined) this.modalServ.openDialog(this.userData)
+    }, 500);
   }
 }
 
