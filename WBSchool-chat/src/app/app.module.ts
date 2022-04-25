@@ -59,6 +59,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { HeaderComponent } from './dialog/headerDialog/header/header.component';
+import { MessageComponent } from './dialog/messageDialog/message/message.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
 import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
@@ -99,6 +101,8 @@ const API_URL_PROVIDER: Provider = {
     PasswordModalComponent,
     CreateGroupChatComponent,
     ThreadsComponent,
+    HeaderComponent,
+    MessageComponent,
     NotFoundPageComponent,
     NavMobileComponent,
     CreatePrivateChatComponent,

@@ -1,5 +1,5 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { catchError, concatMap, Subscription, tap, throwError } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { catchError, concatMap, Subject, Subscription, tap, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
@@ -13,7 +13,7 @@ import { selectContacts } from '../../../store/selectors/contacts.selectors';
 import { IContacts } from '../../../store/reducers/contacts.reducers';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { initContacts } from '../../../store/actions/contacts.actions';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 
@@ -22,7 +22,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss']
 })
-export class ProfileSettingsComponent implements OnInit, OnChanges {
+export class ProfileSettingsComponent implements OnInit {
   private url = 'https://wbschool-chat.ru/api/users';
   profileData: IProfileData = {
     username: '',
@@ -58,7 +58,7 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       "id": 2,
       "icon": "textsms",
       "title": "Edit Profile Status Info",
-      "description": 'null' // this.profileData.status
+      "description": this.profileData.status
     },
     {
       "id": 3,
@@ -92,7 +92,6 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
     public settServ: ProfilePageService,
     private storage: StorageMap,
     private store$: Store,
-    private http: HttpClient,
     private imageCompress: NgxImageCompressService,
     public modalProfileServ: ModalProfileService
   ) {}
@@ -102,29 +101,26 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
     })
     this.getUsersData();
-    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-      this.contacts = contacts.contacts
-    })
     this.store$.dispatch(initContacts());
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.getUsersData();
-    this.store$.dispatch(initContacts());
+    setTimeout(() => {
+      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+        this.contacts = contacts.contacts;
+      })
+    }, 0);
   }
 
   getUsersData() {
-    this.store$.pipe(select(selectUser))
-    .subscribe((newUser: IUserData) => {
-      this.profileData = Object.assign({}, {
-        username: newUser.username,
-        about: newUser.about,
-        avatar: newUser.formatImage + newUser.avatar,
-        email: newUser.email
-      })
-      this.settingsList[0].description = newUser.username;
-      this.settingsList[3].description = newUser.about;
-      this.settingsList[4].description = newUser.email;
+    this.storage.get('user')
+    .subscribe((user: IServerResponse | any) => {
+      this.profileData = {
+        username: user.username,
+        about: user.about,
+        avatar: user.formatImage + user.avatar,
+        email: user.email
+      }
+      this.settingsList[0].description = user.username;
+      this.settingsList[3].description = user.about;
+      this.settingsList[4].description = user.email;
     })
   }
 
@@ -141,25 +137,24 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
         this.errorMsg = false
       }
       else this.errorMsg = 'Username error'
-
-    } else if (inputData.id == 3) {
-
+    } 
+    else if (inputData.id == 3) {
       this.formData.avatar = btoa(inputData.value)
-
-    } else if (inputData.id == 4) {
-
+    } 
+    else if (inputData.id == 4) {
       if (inputData.value.length >= 4 && inputData.value.length <= 100) {
         this.formData.about = inputData.value;
         this.errorMsg = false
-      } else this.errorMsg = 'Description error'
-
-    } else if (inputData.id == 5) {
-
+      } 
+      else this.errorMsg = 'Description error'
+    } 
+    else if (inputData.id == 5) {
       if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
           inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         this.formData.email = inputData.value;
         this.errorMsg = false
-      } else this.errorMsg = 'Email error'
+      } 
+      else this.errorMsg = 'Email error'
     }
   }
 
@@ -199,15 +194,12 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
         return throwError(() => error);
       })
     )
-    .subscribe((newUser: IServerResponse) => {
-      this.storage.set('user', newUser)
-      .subscribe(() => {
-        location.reload();
-      });
+    .subscribe((user: IServerResponse) => {
+      this.storage.set('user', user).subscribe(() => {});
       this.getUsersData();
     })
     this.formData = {};
-    this.imgInput = false
+    this.imgInput = false;
   }
 
   openDialog(): void {
@@ -231,10 +223,15 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
   addFriend() {
     this.notFound = '';
     const userName: string = this.form.value.contactInput.trim();
-    console.log(userName)
-    const clone = this.contacts.find((user) => user.username === userName);
+    const clone: IUserData | undefined = this.contacts.find((user) => user.username === userName);
+    let me: string | undefined;
+    this.store$.pipe(select(selectUser))
+    .subscribe((user: IUserData) => me = user.username);
     if (userName === clone?.username) {
       this.notFound = 'Этот пользователь уже есть в списке контактов.'
+    }
+    else if (userName === me) {
+      this.notFound = 'Вы не можете внести самого себя в список контактов.'
     }
     else {
       this.profileServ.getUsers(userName)
@@ -252,10 +249,6 @@ export class ProfileSettingsComponent implements OnInit, OnChanges {
       });
     }
     this.form.reset();
-  }
-
-  decodeImg(img: string): string {
-    return atob(img)
   }
 
   itemFormat(item: string) {

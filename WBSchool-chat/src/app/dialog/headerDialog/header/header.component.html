@@ -1,22 +1,24 @@
-<div class="header">
-    <div class="header__info">
+<header class="header">
+    <section class="header__info" *ngIf="chatInfo$ | async as chatInfo">
         <div class="header__avatar">
-            <img src="../../assets/avatar.svg" alt="avatar" width="76px" height="75px">
+            <img *ngIf="!!chatInfo.avatar" [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
             <span></span>
         </div>
         <div class="header__name">
-            <p class="name">Swathi</p>
+            <p class="name">{{chatInfo.name}}</p>
             <span>Online</span>
         </div>
-    </div>
+    </section>
 
-    <div class="header__icon">
-        <a><img src="../../assets/icon-phone.svg" alt="phone" class="phone" width="20px" height="20px" ></a>
-        <a [matMenuTriggerFor]="blockMenu" class="menu"><mat-icon>more_vert</mat-icon></a>
-            <mat-menu #blockMenu="matMenu" >
-                <button (click)="deleteChat()" mat-menu-item>
-                  <span>Очистить чат</span>
-                </button>
-            </mat-menu>
-    </div>
-</div>
+    <section class="header__icon">
+        <mat-icon class="phone" width="20px" height="20px"> call</mat-icon>
+        <a [matMenuTriggerFor]="blockMenu" class="menu">
+            <mat-icon>more_vert</mat-icon>
+        </a>
+        <mat-menu #blockMenu="matMenu">
+            <button (click)="deleteChat()" mat-menu-item>
+                <span>Очистить чат</span>
+            </button>
+        </mat-menu>
+    </section>
+</header>

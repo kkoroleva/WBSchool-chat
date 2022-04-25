@@ -1,13 +1,14 @@
 <section class="unreads">
-  <h3 class="unreads__header">Unread messages</h3>
+  <h3 class="unreads__header main-grid-block__header">Unread messages</h3>
   <a class="unreads__more-button">
     <mat-icon>more_vert</mat-icon>
   </a>
+  <p class="unreads__is-no-unreads" *ngIf="(unreadsState$ | async)?.length === 0">No unreads detected. You've read it all!</p>
   <ul class="unreads__list">
     <li class="unreads__item" *ngFor="let unread of unreadsState$ | async; index as i;">
       <a (click)="goToChat(unread._id)" class="unreads__chat-link">
         <div class="unreads__online" [ngClass]="{unreads__online:unread.isActive}">
-          <img class="unreads__thumbnail" src="{{unread.avatar}}" alt="Your best friend face" width="70"
+          <img *ngIf="!!unread.avatar" class="unreads__thumbnail" src="{{unread.avatar}}" alt="Your best friend face" width="70"
             height="70">
         </div>
         <div class="unreads__item-text">

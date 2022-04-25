@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { selectFriends } from '../store/selectors/groups.selectors';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
-import { changeChatGroup, loadFriends } from '../store/actions/groups.actions';
+import { changeChatGroup, deleteChatFriend, loadFriends, updateChatFriends } from '../store/actions/groups.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 
@@ -19,8 +19,6 @@ export class FriendsComponent implements OnInit {
     select(selectFriends)
   );
 
-  friendList: IFriend[] = [];
-
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -28,18 +26,19 @@ export class FriendsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getChats();
-  }
-
-  getChats(): void {
     this.store$.dispatch(loadFriends());
   }
-  
+
+  updateChats(_id: string): void {
+    this.store$.dispatch(updateChatFriends({chatId: _id}))
+  }
+
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
     localStorage.setItem('chatID', chatId);
-
-    this.router.navigateByUrl('/chat');
+    setTimeout(() => {
+      this.router.navigateByUrl('/chat');
+    }, 1000);
   }
 
   getFriend(data: IFriend): string {
@@ -51,5 +50,10 @@ export class FriendsComponent implements OnInit {
       panelClass: 'create-private-chat-modal',
       maxWidth: '100vw',
     });
+  }
+
+  deleteChat(_id: string) {
+    this.store$.dispatch(deleteChatFriend({chatId: _id}));
+    this.store$.dispatch(loadFriends());
   }
 }

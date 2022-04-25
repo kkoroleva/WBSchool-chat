@@ -30,7 +30,6 @@
 
 	.profile__title {
 		padding: 26px 0 0 39px;
-		font-family: 'Poppins';
 		font-style: normal;
 		font-weight: 600;
 		font-size: 20px;
@@ -67,7 +66,6 @@
 			max-width: calc(100vw - 188px);
 
 			.profile__user-info_name_username {
-				font-family: 'Poppins';
 				font-style: normal;
 				font-weight: 600;
 				font-size: 25px;
@@ -181,7 +179,6 @@
 			}
 
 			.profile__menu_item_title {
-				font-family: 'Poppins';
 				font-style: normal;
 				font-weight: 400;
 				font-size: 20px;
@@ -196,7 +193,6 @@
 
 			&:hover {
 				.profile__menu_item_title {
-					font-family: 'Poppins';
 					font-style: normal;
 					font-weight: 600;
 					font-size: 20px;
@@ -207,7 +203,6 @@
 					}
 				}
 			}
-			
 		}
 
 		@media (max-width: 460px) {
@@ -221,5 +216,15 @@
 		@media (max-width: 330px) {
 			margin-left: 20px;
 		}
+	}
+
+	.profile__footer {
+		font-style: normal;
+		font-weight: 400;
+		font-size: 20px;
+		line-height: 30px;
+		color: rgba(0, 0, 0, 0.5);
+		margin: 0 auto 38px;
+		text-align: center;
 	}
 }
