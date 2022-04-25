@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UnreadsComponent } from './unread.component';
 
-describe('UnreadsComponent', () => {
+describe('RecentsComponent', () => {
   let component: UnreadsComponent;
   let fixture: ComponentFixture<UnreadsComponent>;
 

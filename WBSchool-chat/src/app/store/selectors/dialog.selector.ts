@@ -1,9 +1,15 @@
-import { createFeatureSelector, createSelector, select } from '@ngrx/store';
-import { dialogNode, IDialogState, IMessage } from '../reducers/dialog.reducer';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { IMessage } from 'src/app/dialog/dialog';
+import { dialogNode, IChatInfo, IDialogState } from '../reducers/dialog.reducer';
 
 export const selectDialogFeature = createFeatureSelector<IDialogState>(dialogNode)
 
 export const selectDialog = createSelector(
     selectDialogFeature,
-    (state: IDialogState) : IMessage[] => state.messages
+    (state: IDialogState): IMessage[] => state.messages
+)
+
+export const selectChatInfo = createSelector(
+    selectDialogFeature,
+    (state: IDialogState): IChatInfo => state.chatInfo
 )
