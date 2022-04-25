@@ -22,6 +22,10 @@ export class SocketService {
     this.socket.emit('message', message);
   }
 
+  public deleteMessage(id: string): void {
+    this.socket.emit('messages:delete', id);
+  }
+
   public onMessage(): Observable<IMessage> {
     return new Observable<IMessage>(observer => {
       this.socket.on('message', (message: IMessage) => {
@@ -33,7 +37,7 @@ export class SocketService {
 
   public onDeleteMessage(): Observable<string> {
     return new Observable<string>(observer => {
-      this.socket.on('delete message', (messageId: string) => {
+      this.socket.on('messages:delete', (messageId: string) => {
         console.log('Deleted message id', messageId);
         observer.next(messageId);
       })
