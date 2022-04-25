@@ -1,11 +1,12 @@
-<header class="header">
-    <section class="header__info" *ngIf="chatInfo$ | async as chatInfo">
+<header class="header" *ngIf="chatInfo$ | async as chatInfo">
+    <section class="header__info">
         <div class="header__avatar">
             <img *ngIf="!!chatInfo.avatar" [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
             <span></span>
         </div>
-        <div class="header__name">
-            <p class="name">{{chatInfo.name}}</p>
+        <div class="header__name" *ngIf="user$ |async as user">
+            <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
+            <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
             <span>Online</span>
         </div>
     </section>
@@ -16,7 +17,7 @@
             <mat-icon>more_vert</mat-icon>
         </a>
         <mat-menu #blockMenu="matMenu">
-            <button (click)="deleteChat()" mat-menu-item>
+            <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
                 <span>Очистить чат</span>
             </button>
         </mat-menu>

@@ -1,6 +1,6 @@
 <section class="message">
     <ul class="message__wrapper" #wrapper>
-        <li *ngFor="let item of messages$ | async "
+        <li *ngFor="let item of messages$ | async"
             [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
             <span *ngIf="item.owner === myId">{{userName}}</span>
             <span *ngIf="item.owner !== myId ">{{(item.username)}}</span>
