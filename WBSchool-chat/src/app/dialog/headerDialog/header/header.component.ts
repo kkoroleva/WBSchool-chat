@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog.service';
 import { select, Store } from '@ngrx/store';
 import { IChatInfo } from 'src/app/store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
@@ -13,11 +12,6 @@ import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  name = '';
-  avatar = '';
-  formatImage = '';
-  chatId = '';
-
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -26,15 +20,11 @@ export class HeaderComponent implements OnInit {
     select(selectChatInfo)
   );
 
-  constructor(
-    private service: DialogService,
-    private store$: Store<IChatInfo>
-  ) {}
+  constructor(private store$: Store<IChatInfo>) {}
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
-      this.chatId = id;
-      this.store$.dispatch(getInfoChat({ chatId: this.chatId }));
+      this.store$.dispatch(getInfoChat({ chatId: id }));
     });
   }
 
