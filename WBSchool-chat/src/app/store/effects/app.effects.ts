@@ -1,9 +1,10 @@
+import { IUser } from './../../groups/user';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  changeChatInfo,
   deleteMessage,
-  editMessage,
   emptyMessage,
   getInfoChat,
   initDialogs,
@@ -12,7 +13,7 @@ import {
   newGetInfoChat,
   pushToMessages,
   removeMessage,
-  sendMessage
+  sendMessage,
 } from '../actions/dialog.action';
 
 import {
@@ -21,6 +22,9 @@ import {
   changeLoadUnreads,
   chatGroupError,
   createChatFriend,
+  editGroup,
+  editToGroups,
+  getGroupUsers,
   deleteChatFriend,
   loadFriends,
   loadUnreads,
@@ -28,9 +32,10 @@ import {
   updateChatFriends,
   createChatGroup,
   loadGroups,
-  pushToGroups
+  pushToGroups,
+  setGroupUsers,
 } from '../actions/groups.actions';
-import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, throwError, of, tap, switchMap } from 'rxjs';
 
 import {
   changeLoadNotifications,
@@ -61,7 +66,7 @@ export class AppEffects {
     public dialogService: DialogService,
     private router: Router,
     @Inject('API_URL') public apiUrl: string
-  ) { }
+  ) {}
 
   // Notifications
   loadNotifications$ = createEffect(() =>
@@ -114,9 +119,14 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(loadGroups),
       mergeMap(() =>
-        this.http
-          .get<IGroup[]>(`${this.urlApi}/chats/groups`)
-          .pipe(map((groups) => changeLoadGroups({ groups: groups.reverse() })))
+        this.http.get<IGroup[]>(`${this.urlApi}/chats/groups`).pipe(
+          tap((groups) =>
+            groups.forEach((group) => {
+              group.avatar = group.formatImage! + group.avatar;
+            })
+          ),
+          map((groups) => changeLoadGroups({ groups: groups.reverse() }))
+        )
       )
     );
   });
@@ -127,24 +137,50 @@ export class AppEffects {
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
           map((group) => pushToGroups({ group })),
-
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
       )
     );
   });
 
-  // Chats
+  editGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(editGroup),
+      mergeMap(({ id, editGroup }) =>
+        this.http
+          .patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
+          .pipe(tap((group) => (group.avatar = group.formatImage! + group.avatar)),
+            switchMap((group) => 
+            [newGetInfoChat({chatInfo: group as IChatInfo}), editToGroups({ group })]
+          ))
+      )
+    );
+  });
 
+  getGroupUsers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getGroupUsers),
+      mergeMap(({ id }) =>
+        this.http
+          .get<IUser[]>(`${this.urlApi}/chats/${id}/users`)
+          .pipe(map((users) => setGroupUsers({ users })))
+      )
+    );
+  });
+
+  // Chats
   loadChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadFriends),
       mergeMap(() =>
-        this.http
-          .get<IFriend[]>(`${this.urlApi}/chats/friends`)
-          .pipe(
-            map((friends) => changeLoadFriends({ friends: friends.reverse() }))
-          )
+        this.http.get<IFriend[]>(`${this.urlApi}/chats/friends`).pipe(
+          tap((friends) =>
+            friends.forEach((friend) => {
+              friend.avatar = friend.formatImage! + friend.avatar;
+            })
+          ),
+          map((friends) => changeLoadFriends({ friends: friends.reverse() }))
+        )
       )
     );
   });
@@ -153,7 +189,10 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(createChatFriend),
       mergeMap(({ username, ownerUsername }) =>
-        this.http.post<IFriend>(`${this.urlApi}/chats/private?username=${username}`, {ownerUsername})
+        this.http
+          .post<IFriend>(`${this.urlApi}/chats/private?username=${username}`, {
+            ownerUsername,
+          })
           .pipe(
             map((friend) => pushToFriends({ friend })),
             catchError((err) =>
@@ -167,12 +206,13 @@ export class AppEffects {
   deleteChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deleteChatFriend),
-      mergeMap(( {chatId} ) => this.http.delete<string>(`${this.urlApi}/chats/${chatId}`)
-        .pipe(
-          map(id => updateChatFriends({chatId: id})
-        ))
-    ))
-  })
+      mergeMap(({ chatId }) =>
+        this.http
+          .delete<string>(`${this.urlApi}/chats/${chatId}`)
+          .pipe(map((id) => updateChatFriends({ chatId: id })))
+      )
+    );
+  });
 
   // Unread messages
 
@@ -180,14 +220,15 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(loadUnreads),
       mergeMap(() =>
-        this.http
-          .get<IUnread[]>(`${this.urlApi}/chats`)
-          .pipe(
-            tap((unreads) => unreads.forEach(unread => {
-              unread.avatar = unread.formatImage! + unread.avatar
-            })),
-            map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() }))
-          ))
+        this.http.get<IUnread[]>(`${this.urlApi}/chats`).pipe(
+          tap((unreads) =>
+            unreads.forEach((unread) => {
+              unread.avatar = unread.formatImage! + unread.avatar;
+            })
+          ),
+          map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() }))
+        )
+      )
     );
   });
 
@@ -196,14 +237,14 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(initContacts),
       mergeMap(() =>
-        this.http.get<IContacts>(`${this.urlApi}/users/contacts`)
-          .pipe(
-            map((contacts) => pushContacts({ contacts: contacts })),
-            catchError((error: HttpErrorResponse, contacts: any) => {
-              contacts = [];
-              return throwError(() => error)
-            })
-      ))
+        this.http.get<IContacts>(`${this.urlApi}/users/contacts`).pipe(
+          map((contacts) => pushContacts({ contacts: contacts })),
+          catchError((error: HttpErrorResponse, contacts: any) => {
+            contacts = [];
+            return throwError(() => error);
+          })
+        )
+      )
     );
   });
 
@@ -211,47 +252,59 @@ export class AppEffects {
   loadDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(initDialogs),
-      mergeMap(({ id }) => this.http.get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`).pipe(
-        map((messages) => loadDialogs({ messages }))
-      ))
-    )
+      mergeMap(({ id }) =>
+        this.http
+          .get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
+          .pipe(map((messages) => loadDialogs({ messages })))
+      )
+    );
   });
 
   pushToMessages$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(sendMessage),
-      mergeMap(({ message, id }) => this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message).pipe(
-        map(
-          (message) => emptyMessage()))
+
+      mergeMap(({ message, id }) =>
+        this.http
+          .post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message)
+          .pipe(map((message) => emptyMessage()))
       )
-    )
-  })
+    );
+  });
 
   deleteMessage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(removeMessage),
-      mergeMap(({ id, chatId }) => this.http.delete<string>(`${this.urlApi}/chats/${chatId}/messages/${id}`).pipe(
-        map((id) => deleteMessage({ id: id }))
-      ))
-    )
-  })
+      mergeMap(({ id, chatId }) =>
+        this.http
+          .delete<string>(`${this.urlApi}/chats/${chatId}/messages/${id}`)
+          .pipe(map((id) => deleteMessage({ id: id })))
+      )
+    );
+  });
 
   editMessage$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(newEditMessage),
-      mergeMap(({ text, id, chatId }) => this.dialogService.editMessage(text, id, chatId).pipe(
-        map(_ => emptyMessage())
-      ))
-    )
-  })
+
+      mergeMap(({ text, id, chatId }) =>
+        this.dialogService
+          .editMessage(text, id, chatId)
+          .pipe(map((message) => emptyMessage()))
+      )
+    );
+  });
 
   getInfoChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getInfoChat),
       mergeMap(({ chatId }) => this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}`).pipe(
+        tap((chatInfo) => (chatInfo.avatar = chatInfo.formatImage! + chatInfo.avatar)),
         map(
           (chatInfo) => newGetInfoChat({ chatInfo })))
+
       )
-    )
-  })
+    );
+  });
+
 }
