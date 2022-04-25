@@ -34,6 +34,8 @@ import {
   loadGroups,
   pushToGroups,
   setGroupUsers,
+  deleteGroup,
+  deleteFromGroups,
 } from '../actions/groups.actions';
 import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
 
@@ -150,6 +152,17 @@ export class AppEffects {
         this.http
           .patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
           .pipe(map((group) => editToGroups({ group })))
+      )
+    );
+  });
+
+  deleteGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteGroup),
+      mergeMap(({ id }) =>
+        this.http
+          .delete(`${this.urlApi}/chats/${id}`)
+          .pipe(map(() => deleteFromGroups({ id })))
       )
     );
   });
