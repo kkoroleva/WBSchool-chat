@@ -13,6 +13,8 @@ import {
 } from '../store/actions/groups.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
+import { selectUser } from '../store/selectors/auth.selectors';
+import { IUserData } from '../auth/interfaces';
 
 @Component({
   selector: 'app-friends',
@@ -24,6 +26,10 @@ export class FriendsComponent implements OnInit {
     select(selectFriends)
   );
 
+  public user$: Observable<IUserData> = this.store$.pipe(
+    select(selectUser)
+  )
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -32,6 +38,7 @@ export class FriendsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store$.dispatch(loadFriends());
+    // this.friendsState$.subscribe(resp => console.log(resp))
   }
 
   updateChats(_id: string): void {
@@ -40,10 +47,8 @@ export class FriendsComponent implements OnInit {
 
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
-    localStorage.setItem('chatID', chatId);
-    setTimeout(() => {
+    localStorage.setItem('chatID', chatId)
       this.router.navigateByUrl('/chat');
-    }, 1000);
   }
 
   getFriend(data: IFriend): string {

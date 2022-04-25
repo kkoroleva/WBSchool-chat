@@ -4,10 +4,11 @@
             <img [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
                 <span *ngIf="chatInfo.users.length === 2 "></span>
         </div>
-        <div class="header__name">
-            <p class="name">{{chatInfo.name}}</p>
-            <span *ngIf="chatInfo.users.length === 2">Online</span>
-        </div>
+            <div class="header__name" *ngIf="user$ |async as user">
+                <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
+                <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
+                <span *ngIf="chatInfo.users.length === 2">Online</span>
+            </div>
     </section>
 
     <section class="header__icon">
@@ -16,7 +17,7 @@
             <mat-icon>more_vert</mat-icon>
         </a>
         <mat-menu #blockMenu="matMenu">
-            <button (click)="deleteChat()" mat-menu-item>
+            <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
                 <span>Очистить чат</span>
             </button>
             <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2"  mat-menu-item>

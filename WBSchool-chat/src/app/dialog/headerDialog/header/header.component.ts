@@ -8,7 +8,10 @@ import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from 'src/app/groups/modal/edit-group-chat/edit-group-chat.component';
 import { changeChatGroup, setGroup } from 'src/app/store/actions/groups.actions';
-
+import { IUserData } from 'src/app/auth/interfaces';
+import { selectUser } from 'src/app/store/selectors/auth.selectors';
+import { deleteChatFriend, loadFriends } from 'src/app/store/actions/groups.actions';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -24,7 +27,12 @@ export class HeaderComponent implements OnInit {
   );
 
   constructor(private store$: Store<IChatInfo>,
-    private modalWindow: MatDialog) { }
+              private router: Router,
+              private modalWindow: MatDialog) { }
+              public user$: Observable<IUserData> = this.store$.pipe(
+    select(selectUser)
+  )
+
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
@@ -41,8 +49,12 @@ export class HeaderComponent implements OnInit {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id }));
   }
 
-  deleteChat() {
-    console.log('удалить чат');
+  deleteChat(_id: string) {
+    this.store$.dispatch(deleteChatFriend({chatId: _id}));
+    this.store$.dispatch(loadFriends());
+    setTimeout(() => {
+      this.router.navigateByUrl('/home')
+    }, 0)
   }
 
 }

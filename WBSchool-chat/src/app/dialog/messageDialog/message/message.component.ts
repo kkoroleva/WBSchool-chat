@@ -38,7 +38,6 @@ export class MessageComponent implements OnInit {
   chatID = '';
   imageOrFile = '';
   formatImage = '';
-  messages: IMessage[] = [];
   messageContent = '';
   ioConnection: any;
 
@@ -48,7 +47,7 @@ export class MessageComponent implements OnInit {
 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap(() => {
+    tap((resp) => {
       setTimeout(() => {
         this.changeScroll();
       }, 300);
@@ -131,10 +130,6 @@ export class MessageComponent implements OnInit {
   deleteMessage(id: string): void {
     console.log(id, this.chatID);
     this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
-  }
-
-  deleteChat() {
-    console.log('удалить чат');
   }
 
   editMessage(text: string, id: string, chatId: string): void {
