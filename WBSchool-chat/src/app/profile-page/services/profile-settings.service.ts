@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { IUserData } from 'src/app/auth/interfaces';
 import { IContacts } from 'src/app/store/reducers/contacts.reducers';
 import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
@@ -26,7 +26,7 @@ export class ProfileSettingsService {
   }
 
   editProfileSettings(formData: IProfileData): Observable<IServerResponse> {
-    return this.http.patch<IServerResponse>(this.url, formData).pipe(
+    return this.http.patch<IServerResponse>(`${this.url}/me`, formData).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error);
       })
