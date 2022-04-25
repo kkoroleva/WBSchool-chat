@@ -1,22 +1,18 @@
 <div class="profile">
-	<!-- <div class="profile__title">
-	  <span> {{ userData.username }}'s Profile </span>
-	</div> -->
 	<div class="profile__close" (click)="dialogRef.close()">
 		<mat-icon>close</mat-icon>
 	</div>
 	<div class="profile__user-info">
-<!-- <<<<<<< HEAD -->
-		<div class="profile__user-info_img">
+		<div class="profile__user-info_img"  (click)="openImg()" [ngClass]="{'full_img': hideData}">
 			<img  *ngIf="!!userData.avatar"  [src]="userData.formatImage+userData.avatar" alt="user pic" />
 		</div>
-		<div class="profile__user-info_name" >
+		<div class="profile__user-info_name" [ngClass]="{'displayZeroClass': hideData}">
 			<span class="profile__user-info_name_username">
 				{{ userData.username }}
 			</span>
 		</div>
 	</div>
-	<div class="profile__contact-btns">
+	<div class="profile__contact-btns" [ngClass]="{'displayZeroClass': hideData}">
 		<div class="profile__contact-btns_chat" (click)="goToChat(userData._id)">
 			<button>
 				<mat-icon>chat</mat-icon>
@@ -37,7 +33,7 @@
 		</div>
 		</ng-template>
 	</div>
-	<div class="profile__menu">
+	<div class="profile__menu" [ngClass]="{'displayZeroClass': hideData}">
 		<div class="profile__menu_item">
 			<div class="profile__menu_item_name">
 				<mat-icon> description </mat-icon>

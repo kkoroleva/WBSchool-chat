@@ -8,6 +8,7 @@ import { getInfoChat } from 'src/app/store/actions/dialog.action';
 import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
 import { IUserData } from 'src/app/auth/interfaces';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
+import { selectUser } from 'src/app/store/selectors/auth.selectors';
 
 
 @Component({
@@ -25,6 +26,10 @@ export class HeaderComponent implements OnInit {
 
   public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
+  )
+
+  public user$: Observable<IUserData> = this.store$.pipe(
+    select(selectUser)
   )
 
   constructor(

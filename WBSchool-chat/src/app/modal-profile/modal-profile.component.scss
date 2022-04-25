@@ -44,6 +44,7 @@
 		.profile__user-info_img {
 			height: 150px;
 			width: 100%;
+			cursor: pointer;
 			// border: 3px solid #FFFFFF;
 			// border-radius: 50px;
 			// box-sizing: border-box;
@@ -64,6 +65,7 @@
 			flex-direction: column;
 			width: calc(100% - 41px);
 			max-width: calc(100vw - 188px);
+			transition: 0.5s;
 
 			.profile__user-info_name_username {
 				font-style: normal;
@@ -83,6 +85,7 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-evenly;
+		transition: 0.5s;
 
 		.profile__contact-btns_chat {
 			width: 45%;
@@ -158,6 +161,7 @@
 		margin: 60px 20px 25px 30px;
 		display: flex;
 		flex-direction: column;
+		transition: 0.5s;
 
 		.profile__menu_item {
 			display: flex;
@@ -227,4 +231,18 @@
 		margin: 0 auto 38px;
 		text-align: center;
 	}
+}
+
+.full_img {
+	height: 100%!important;
+	transition: 0.5s;
+	img {
+		mask-image: none!important;
+	}
+}
+
+.displayZeroClass {
+	display: none!important;
+	
+	transition: 0.5s;
 }

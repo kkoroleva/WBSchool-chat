@@ -31,6 +31,7 @@ export class ModalProfileComponent implements OnInit {
   }
   private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
   friendStatus: IUserData | undefined = undefined;
+  hideData = false;
 
   constructor(
     public dialogRef: MatDialogRef<ModalProfileComponent>,
@@ -82,5 +83,10 @@ export class ModalProfileComponent implements OnInit {
       this.store$.dispatch(initContacts());
       this.dialogRef.close();
     })
+  }
+
+  openImg() {
+    this.hideData = !this.hideData
+    console.log(this.hideData)
   }
 }
