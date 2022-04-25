@@ -1,7 +1,7 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import { authNode, authReducer, IAuthState } from './auth.reducers';
-import { contactsNode, contactsReducer, IContacts } from './contacts.reducers';
+import { contactsNode, IContacts, contactsReducer } from './contacts.reducers';
 import { dialogNode, dialogReducer, IDialogState } from './dialog.reducer';
 import { groupsNode, groupsReducer, IGroupsState } from './groups.reducers';
 import {
@@ -15,7 +15,7 @@ export interface State {
   [groupsNode]: IGroupsState;
   [authNode]: IAuthState;
   [dialogNode]: IDialogState;
-  [contactsNode]: IContacts
+  [contactsNode]: IContacts;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -23,7 +23,7 @@ export const reducers: ActionReducerMap<State> = {
   [groupsNode]: groupsReducer,
   [authNode]: authReducer,
   [dialogNode]: dialogReducer,
-  [contactsNode]: contactsReducer
+  [contactsNode]: contactsReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

@@ -6,14 +6,14 @@
     </mat-menu>
     <mat-icon>more_vert</mat-icon>
   </a>
-  <p class="friends__is-no-friends" *ngIf="(friendsState$ | async)?.length === 0">Sorry. No private chats detected. Please, create one.</p>
+  <p class="friends__is-no-friends" *ngIf="(friendsState$ | async)?.length === 0">Sorry. No private chats detected.
+    Please, create one.</p>
   <ul class="friends__list">
     <li class="friends__item" *ngFor="let friend of friendsState$ | async; index as i;">
       <a (click)="goToChat(friend._id!)" class="friends__chat-link">
         <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
-          <img class="friends__thumbnail"
-            [src]="friend.formatImage!+friend.avatar"
-            alt="Your best friend face" width="52" height="52">
+          <img class="friends__thumbnail" [src]="friend.avatar || '/assets/not-found.png'" alt="Your best friend face"
+            width="52" height="52">
         </div>
         <div class="friends__item-text" *ngIf="user$ | async as user">
           <b class="friends__name" *ngIf="friend.usernames[0] === user.username">{{friend.usernames[1]}}</b>

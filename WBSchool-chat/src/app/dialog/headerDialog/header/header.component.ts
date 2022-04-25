@@ -11,11 +11,10 @@ import { selectUser } from 'src/app/store/selectors/auth.selectors';
 import { deleteChatFriend, loadFriends } from 'src/app/store/actions/groups.actions';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   
@@ -23,11 +22,11 @@ export class HeaderComponent implements OnInit {
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
-  )
+  );
 
   public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
-  )
+  );
 
   public user$: Observable<IUserData> = this.store$.pipe(
     select(selectUser)
