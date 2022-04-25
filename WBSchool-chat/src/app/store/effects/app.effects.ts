@@ -138,6 +138,7 @@ export class AppEffects {
       ofType(createChatGroup),
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
+          tap((group) => (group.avatar = group.formatImage! + group.avatar)),
           map((group) => pushToGroups({ group })),
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
