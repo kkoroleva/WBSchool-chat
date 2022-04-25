@@ -55,6 +55,16 @@ export const setGroupUsers = createAction(
   props<{ users: IUser[] }>()
 );
 
+export const deleteGroup = createAction(
+  '[GROUPS] deleteGroup',
+  props<{ id: string }>()
+);
+
+export const deleteFromGroups = createAction(
+  '[GROUPS] deleteFromGroups',
+  props<{ id: string }>()
+);
+
 // Chats
 export const loadFriends = createAction('[FRIENDS] loadFriends');
 export const changeLoadFriends = createAction(

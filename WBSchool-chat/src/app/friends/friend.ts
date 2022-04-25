@@ -9,4 +9,5 @@ export interface IFriend {
   lastMessage?: string;
   name?: string;
   formatImage?: string;
+  usernames: string[];
 }

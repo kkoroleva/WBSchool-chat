@@ -23,7 +23,7 @@ export class UnreadsComponent implements OnInit {
 
   ngOnInit(): void {
     this.unreadsState$.subscribe((res) => {});
-    this.getUnreads();
+    // this.getUnreads();
   }
 
   getUnreads(): void {
