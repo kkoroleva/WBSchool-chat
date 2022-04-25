@@ -1,3 +1,4 @@
+import { IUser } from './../../groups/user';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -19,11 +20,15 @@ import {
   chatGroupError,
   createChatFriend,
   createChatGroup,
+  editGroup,
+  editToGroups,
+  getGroupUsers,
   loadFriends,
   loadGroups,
   loadUnreads,
   pushToFriends,
   pushToGroups,
+  setGroupUsers,
 } from '../actions/groups.actions';
 import {
   changeLoadNotifications,
@@ -119,6 +124,28 @@ export class AppEffects {
 
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
+      )
+    );
+  });
+
+  editGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(editGroup),
+      mergeMap(({ id, editGroup }) =>
+        this.http
+          .patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
+          .pipe(map((group) => editToGroups({ group })))
+      )
+    );
+  });
+
+  getGroupUsers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getGroupUsers),
+      mergeMap(({ id }) =>
+        this.http
+          .get<IUser[]>(`${this.urlApi}/chats/${id}/users`)
+          .pipe(map((users) => setGroupUsers({ users })))
       )
     );
   });

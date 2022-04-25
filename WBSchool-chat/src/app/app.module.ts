@@ -67,6 +67,7 @@ import { CreatePrivateChatComponent } from './friends/create-private-chat/create
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 import { DragAndDropDirective } from './groups/drag-and-drop.directive';
+import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -110,6 +111,7 @@ const API_URL_PROVIDER: Provider = {
     ModalProfileComponent,
     DecodeImagePipe,
     DragAndDropDirective,
+    EditGroupChatComponent,
   ],
   imports: [
     BrowserModule,

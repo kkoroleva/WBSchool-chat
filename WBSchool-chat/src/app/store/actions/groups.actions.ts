@@ -1,3 +1,4 @@
+import { IUser } from 'src/app/groups/user';
 import { createAction, props } from '@ngrx/store';
 import { IFriend } from 'src/app/friends/friend';
 import { IUnread } from 'src/app/unread/unread';
@@ -27,6 +28,31 @@ export const pushToGroups = createAction(
 export const chatGroupError = createAction(
   '[GROUPS] chatGroupError',
   props<{ error: string }>()
+);
+
+export const setGroup = createAction(
+  '[GROUPS] setGroup',
+  props<{ group: IGroup }>()
+);
+
+export const editGroup = createAction(
+  '[GROUPS] editGroup',
+  props<{ id: string; editGroup: IGroup }>()
+);
+
+export const editToGroups = createAction(
+  '[GROUPS] editToGroups',
+  props<{ group: IGroup }>()
+);
+
+export const getGroupUsers = createAction(
+  '[GROUPS] getGroupUsers',
+  props<{ id: string }>()
+);
+
+export const setGroupUsers = createAction(
+  '[GROUPS] setGroupUsers',
+  props<{ users: IUser[] }>()
 );
 
 //Friends

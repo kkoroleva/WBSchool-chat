@@ -7,7 +7,7 @@ import { ConnectEvent } from './event';
 const SERVER_URL = 'http://localhost:3001';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SocketService {
   private socket: any;
@@ -21,13 +21,13 @@ export class SocketService {
   }
 
   public onMessage(): Observable<IMessage> {
-    return new Observable<IMessage>(observer => {
+    return new Observable<IMessage>((observer) => {
       this.socket.on('message', (data: IMessage) => observer.next(data));
     });
   }
 
   public onEvent(event: ConnectEvent): Observable<any> {
-    return new Observable<Event>(observer => {
+    return new Observable<Event>((observer) => {
       this.socket.on(event, () => observer.next());
     });
   }

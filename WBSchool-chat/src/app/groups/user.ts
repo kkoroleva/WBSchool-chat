@@ -4,4 +4,5 @@ export interface IUser {
   about?: string;
   avatar?: string;
   formatImage?: string;
+  owner?: string;
 }

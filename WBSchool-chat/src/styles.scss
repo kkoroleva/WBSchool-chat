@@ -220,3 +220,11 @@ mat-label,
 .modal__select.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: #1A66FF;
 }
+
+.edit-group-chat-modal {
+  .mat-dialog-container {
+    background-color: #fff;
+    color: #000;
+    border-radius: 20px;
+  }
+}
