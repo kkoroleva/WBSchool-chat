@@ -16,7 +16,7 @@ import {
   sendMessage
 } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
-import { IMessage, User } from '../../dialog';
+import { IMessage } from '../../dialog';
 import { SocketService } from 'src/app/socket/socket.service';
 
 @Component({

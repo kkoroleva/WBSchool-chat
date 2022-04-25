@@ -29,9 +29,6 @@ export const editMessage = createAction('[DIALOG] editMessage',
 
 export const emptyMessage = createAction('[DIALOG] emptyMessage')
 
-
-
-
 export const getInfoChat = createAction('[DIALOG] getInfoChat', 
   props<{chatId: string }>());
 

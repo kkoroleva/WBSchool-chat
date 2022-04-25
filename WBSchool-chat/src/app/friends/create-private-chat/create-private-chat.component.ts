@@ -70,7 +70,6 @@ export class CreatePrivateChatComponent implements OnInit {
 
   createPrivateChat(): void {
     const username: string = this.contactsControl.value;
-
     if (this.form.valid) {
       this.user$.subscribe((user) => {
         this.store$.dispatch(

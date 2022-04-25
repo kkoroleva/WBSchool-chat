@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
-import { IGroup, IGroupsState } from '../store/reducers/groups.reducers';
+import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
@@ -11,6 +11,7 @@ import {
   loadGroups,
   setGroup,
 } from '../store/actions/groups.actions';
+import { IGroup } from './group';
 import { EditGroupChatComponent } from './modal/edit-group-chat/edit-group-chat.component';
 
 @Component({

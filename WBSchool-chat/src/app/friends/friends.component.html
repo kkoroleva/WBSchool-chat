@@ -21,6 +21,7 @@
           <p class="friends__last-message">{{friend.lastMessage? 'friend.lastActive' : 'Here will be last message'}}</p>
         </div>
       </a>
+      <button (click)="deleteChat(friend._id!)">Delete</button>
     </li>
   </ul>
 </div>

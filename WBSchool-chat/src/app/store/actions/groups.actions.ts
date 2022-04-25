@@ -1,8 +1,8 @@
 import { IUser } from 'src/app/groups/user';
 import { createAction, props } from '@ngrx/store';
 import { IFriend } from 'src/app/friends/friend';
+import { IGroup } from 'src/app/groups/group';
 import { IUnread } from 'src/app/unread/unread';
-import { IGroup } from '../reducers/groups.reducers';
 
 export const loadGroups = createAction('[GROUPS] loadGroups');
 export const changeLoadGroups = createAction(
@@ -55,7 +55,7 @@ export const setGroupUsers = createAction(
   props<{ users: IUser[] }>()
 );
 
-//Friends
+// Chats
 export const loadFriends = createAction('[FRIENDS] loadFriends');
 export const changeLoadFriends = createAction(
   '[FRIENDS] changeLoadFriends',
@@ -65,6 +65,16 @@ export const changeLoadFriends = createAction(
 export const createChatFriend = createAction(
   '[FRIENDS] createChatFriend',
   props<{ username: string; ownerUsername: string }>()
+);
+
+export const deleteChatFriend = createAction(
+  '[FRIENDS] deleteChatFriend',
+  props<{ chatId: string }>()
+);
+
+export const updateChatFriends = createAction(
+  '[FRIENDS] updateChatFriends',
+  props<{ chatId: string }>()
 );
 
 export const pushToFriends = createAction(
