@@ -1,29 +1,43 @@
 <div class="profile">
-	<div class="profile__title">
-	  <span>
-		{{ userData.username }}'s Profile
-	  </span>
+	<!-- <div class="profile__title">
+	  <span> {{ userData.username }}'s Profile </span>
+	</div> -->
+	<div class="profile__close" (click)="dialogRef.close()">
+		<mat-icon>close</mat-icon>
 	</div>
 	<div class="profile__user-info">
-	  <div class="profile__user-info_img">
-		<img  *ngIf="!!userData.avatar"  [src]="userData.formatImage+userData.avatar" alt="user pic" />
-	  </div>
-	  <div class="profile__user-info_name" >
-		<span class="profile__user-info_name_username">
-		  	{{ userData.username }}
-		</span>
-	  </div>
+<!-- <<<<<<< HEAD -->
+		<div class="profile__user-info_img">
+			<img  *ngIf="!!userData.avatar"  [src]="userData.formatImage+userData.avatar" alt="user pic" />
+		</div>
+		<div class="profile__user-info_name" >
+			<span class="profile__user-info_name_username">
+				{{ userData.username }}
+			</span>
+		</div>
 	</div>
-	<div class="profile__line"></div>
+	<div class="profile__contact-btns">
+		<div class="profile__contact-btns_chat" (click)="goToChat(userData._id)">
+			<button>
+				<mat-icon>chat</mat-icon>
+			</button>
+		</div>
+		<div *ngIf="friendStatus == undefined; else addFriend" 
+			 class="profile__contact-btns_add">
+			<button>
+				<mat-icon>person_add</mat-icon>
+			</button>
+		</div>
+		<ng-template #addFriend>
+			<div class="profile__contact-btns_delete"
+			(click)="deleteContact(userData._id)">
+				<button>
+					<mat-icon>person_remove</mat-icon>
+				</button>
+		</div>
+		</ng-template>
+	</div>
 	<div class="profile__menu">
-		<div class="profile__menu_item">
-			<div class="profile__menu_item_name">
-				<mat-icon> email </mat-icon>
-				<div class="profile__menu_item_title">
-					Email: {{ userData.email }}
-				</div>
-			</div>
-		</div>	
 		<div class="profile__menu_item">
 			<div class="profile__menu_item_name">
 				<mat-icon> description </mat-icon>
@@ -33,14 +47,5 @@
 				</div>
 			</div>
 		</div>
-		<div class="profile__menu_item">
-			<div class="profile__menu_item_name">
-				<mat-icon> admin_panel_settings </mat-icon>
-				<div class="profile__menu_item_title">
-					Rights: {{ userData.userRights }}
-				</div>
-			</div>
-		</div>
 	</div>
-	<div class="profile__footer">WB School Chat</div>
   </div>

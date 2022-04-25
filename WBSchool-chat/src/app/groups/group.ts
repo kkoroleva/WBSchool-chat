@@ -6,4 +6,5 @@ export interface IGroup {
   lastMessage?: string;
   avatar?: string;
   users?: string[];
+  formatImage?: string;
 }

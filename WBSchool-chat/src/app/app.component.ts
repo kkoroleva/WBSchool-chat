@@ -25,10 +25,6 @@ export class AppComponent implements OnInit {
       this.store$.dispatch(initAuth({newUser}))
     })
     this.initIoConnection();
-    // УДАЛИТЬ ПОСЛЕ ВСЕХ ТЕСТОВ
-    // this.http.get(`http://localhost:3001/api/clients-count`).pipe(
-    //   tap((res) => console.log(res))
-    // ).subscribe()
   }
 
   private initIoConnection(): void {

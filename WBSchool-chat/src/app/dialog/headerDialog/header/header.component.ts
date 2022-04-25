@@ -14,33 +14,22 @@ import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  name = "";
-  avatar = "";
-  formatImage = "";
-  chatId = "";
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   )
 
-  private chatInfo$: Observable<IChatInfo> = this.store$.pipe(
+  public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
   )
 
   constructor( private store$: Store<IChatInfo>) { }
 
   ngOnInit(): void {
-    this.chatGroup$.subscribe((id) => {
-      this.chatId = id;
-      this.store$.dispatch(getInfoChat({ chatId: this.chatId }))
-    })
-    this.chatInfo$.subscribe((chatInfo) => {
-      this.avatar = chatInfo.avatar;
-      this.formatImage = chatInfo.formatImage;
-      this.name = chatInfo.name
+    this.chatGroup$.subscribe((id: string) => {
+        this.store$.dispatch(getInfoChat({ chatId: id }))
     })
   }
-
 
   deleteChat() {
     console.log('удалить чат')

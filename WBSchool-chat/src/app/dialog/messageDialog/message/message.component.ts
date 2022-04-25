@@ -7,6 +7,8 @@ import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import {
+  deleteMessage,
+  editMessage,
   initDialogs,
   newEditMessage,
   pushToMessages,
@@ -14,7 +16,7 @@ import {
   sendMessage
 } from 'src/app/store/actions/dialog.action';
 import { selectDialog } from 'src/app/store/selectors/dialog.selector';
-import { IMessage, User } from '../../dialog';
+import { IMessage } from '../../dialog';
 import { SocketService } from 'src/app/socket/socket.service';
 
 @Component({
@@ -60,10 +62,20 @@ export class MessageComponent implements OnInit {
   }
 
   private initIoConnection(): void {
-    this.ioConnection = this.socketService.onMessage()
+    this.socketService.onMessage()
       .subscribe((message: IMessage) => {
-        this.store$.dispatch(pushToMessages({ message }))
+        if (this.chatID === message.chatId) {
+          this.store$.dispatch(pushToMessages({ message }))
+        }
       });
+    this.socketService.onDeleteMessage()
+      .subscribe((messageId: string) => {
+        this.store$.dispatch(deleteMessage({id: messageId}))
+      })
+    this.socketService.onUpdateMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(editMessage({message}))
+      })
   }
 
   ngOnInit(): void {
@@ -145,7 +157,7 @@ export class MessageComponent implements OnInit {
         const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
-          formatImage: this.formatImage
+          formatImage: this.formatImage,
         }
         this.store$.dispatch(sendMessage({ message, id: this.chatID }))
       } else {
