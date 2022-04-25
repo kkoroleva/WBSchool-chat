@@ -129,10 +129,6 @@ export class MessageComponent implements OnInit {
     this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
   };
 
-  deleteChat() {
-    console.log('удалить чат')
-  }
-
   editMessage(text: string, id: string, chatId: string): void {
     this.isEditMessage = false;
     this.store$.dispatch(newEditMessage({ text, id, chatId }))
