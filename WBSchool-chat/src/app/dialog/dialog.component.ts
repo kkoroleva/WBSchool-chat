@@ -32,7 +32,7 @@ export class DialogComponent implements OnInit, AfterViewChecked {
 
   myUserName: string = '';
   myId: string = '';
-  chatID: string = '625555ea8ef822301dab93c8';
+  chatID: string = '';
 
   imageOrFile: string = '';
   formatImage: string = '';
@@ -67,8 +67,11 @@ export class DialogComponent implements OnInit, AfterViewChecked {
   }
 
   changeScroll(): void {
-    this.wrapper.nativeElement.scrollTop =
+    if(this.wrapper) {
+      this.wrapper.nativeElement.scrollTop =
       this.wrapper.nativeElement.scrollHeight;
+    }
+
   }
 
   addImage(input: any) {

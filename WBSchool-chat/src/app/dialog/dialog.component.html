@@ -1,5 +1,6 @@
 <ng-container>
-  <div class="container">
+  <p class="dialog__if-no-chat" *ngIf="!chatID"> <span>Чата тут нет. Кликни на какой-нибудь сбоку.</span><span class="sasha">Сааааш!</span></p>
+  <div class="container" *ngIf="chatID">
     <!-- header -->
     <div class="header">
       <div class="header__info">

@@ -1,3 +1,31 @@
+.dialog__if-no-chat {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background: url('https://www.meme-arsenal.com/memes/537edf824c342afb56919ee23756af0d.jpg');
+  background-color: rgba(88, 155, 104, 1);
+  background-position: bottom right;
+  background-repeat: no-repeat;
+
+  & span {
+    display: block;
+    max-width: 200px;
+    padding: 120px 10px;
+    color: white;
+  }
+
+  & .sasha {
+    color: black;
+    font-weight: 700;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+  }
+
+}
+
+
 .container {
   margin: 0 auto;
   border-radius: 20px;
