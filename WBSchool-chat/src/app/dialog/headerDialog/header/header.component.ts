@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog.service';
 import { select, Store } from '@ngrx/store';
 import { IChatInfo } from 'src/app/store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
@@ -7,31 +6,29 @@ import { selectChatGroup } from 'src/app/store/selectors/groups.selectors';
 import { getInfoChat } from 'src/app/store/actions/dialog.action';
 import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
-  )
+  );
 
   public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
-  )
+  );
 
-  constructor(private store$: Store<IChatInfo>) { }
+  constructor(private store$: Store<IChatInfo>) {}
 
   ngOnInit(): void {
-    this.chatGroup$.subscribe((id: string) => {
-        this.store$.dispatch(getInfoChat({ chatId: id }))
-    })
+    this.chatGroup$.subscribe((id) => {
+      this.store$.dispatch(getInfoChat({ chatId: id }));
+    });
   }
 
   deleteChat() {
-    console.log('удалить чат')
+    console.log('удалить чат');
   }
 }

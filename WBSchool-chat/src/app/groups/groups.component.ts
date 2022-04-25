@@ -6,8 +6,13 @@ import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
-import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
+import {
+  changeChatGroup,
+  loadGroups,
+  setGroup,
+} from '../store/actions/groups.actions';
 import { IGroup } from './group';
+import { EditGroupChatComponent } from './modal/edit-group-chat/edit-group-chat.component';
 
 @Component({
   selector: 'app-groups',
@@ -38,10 +43,16 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  openGroupChat(id: string): void {
-    this.store$.dispatch(changeChatGroup({ chatGroup: id }));
-    localStorage.setItem('chatID', id);
+  openGroupChat(group: IGroup): void {
+    this.dialog.open(EditGroupChatComponent, {
+      panelClass: 'edit-group-chat-modal',
+      maxWidth: '100vw',
+    });
 
-    this.router.navigateByUrl('/chat');
+    this.store$.dispatch(setGroup({ group }));
+    this.store$.dispatch(changeChatGroup({ chatGroup: group._id! }));
+    localStorage.setItem('chatID', group._id!);
+
+    // this.router.navigateByUrl('/chat');
   }
 }
