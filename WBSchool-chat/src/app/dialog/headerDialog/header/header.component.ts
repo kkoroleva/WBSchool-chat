@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
     select(selectChatInfo)
   )
 
-  constructor(private service: DialogService, private store$: Store<IChatInfo>) { }
+  constructor( private store$: Store<IChatInfo>) { }
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
