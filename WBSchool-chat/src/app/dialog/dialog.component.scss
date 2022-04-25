@@ -1,9 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
-
 .container {
   margin: 0 auto;
   border-radius: 20px;
-  // max-width: 699px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -17,18 +14,16 @@
   box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
 
-    @media(max-width:495px) {
-        padding-left: 10px;
-        padding-right: 10px;
-        max-height: 100vh;
-    }
-
+  @media(max-width:495px) {
+    padding-left: 10px;
+    padding-right: 10px;
+    max-height: 100vh;
+  }
 
   hr {
     border: 1px solid rgba(0, 0, 0, 0.25);
     max-width: 606px;
     width: 100%;
   }
-
 }
 

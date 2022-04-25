@@ -1,16 +1,43 @@
 import { createReducer, on } from '@ngrx/store';
-import { IMessage, User } from 'src/app/dialog/dialog';
-import { deleteMessage, editMessage, initDialogs, loadDialogs, pushToMessages, usersDataResponse } from '../actions/dialog.action';
-export const dialogNode = 'Dialog';
+import { IMessage } from 'src/app/dialog/dialog';
+import { deleteMessage, editMessage, getInfoChat, initDialogs, loadDialogs, newGetInfoChat, pushToMessages } from '../actions/dialog.action';
 
+export const dialogNode = 'Dialog';
 export interface IDialogState {
     messages: IMessage[],
+    chatInfo: IChatInfo
+
 }
 
-const newData:IMessage[] = []
+export interface IChatInfo {
+    _id: string,
+    name: string,
+    formatImage: string,
+    about: string,
+    isNotifications: boolean,
+    isRead: boolean,
+    isActive: boolean,
+    owner: string, 
+    __v: number, 
+    chatGroup: string,
+    avatar : string,
+}
 
 const initialState: IDialogState = {
     messages: [],
+    chatInfo: {
+        _id: "",
+        name: "",
+        formatImage: "", 
+        about: "", 
+        isNotifications: false, 
+        isRead: false, 
+        isActive: false, 
+        owner: "", 
+        __v: 0,
+        chatGroup: "",
+        avatar: ""
+    }
 }
 
 export const dialogReducer = createReducer(
@@ -27,7 +54,6 @@ export const dialogReducer = createReducer(
         ...state,
         messages: [...state.messages, action.message]
     })),
-
     on(deleteMessage, (state, action) => ({
         ...state,
         messages: state.messages.filter((message) => {
@@ -40,17 +66,9 @@ export const dialogReducer = createReducer(
             return action.message._id === message._id ? action.message : message
         })
     })),
-    on(usersDataResponse, (state, action) => ({
+    
+    on(newGetInfoChat, (state, action) => ({
         ...state,
-        messages: state.messages.map((message) => {
-            action.usersData.forEach((user) => {
-                if (message.owner === user._id){
-                    console.log(message , "tut")
-                    message.username = user.username;
-                    message.avatar = user.avatar
-                }
-            })
-            return message;
-        })
+        chatInfo: action.chatInfo
     }))
 )

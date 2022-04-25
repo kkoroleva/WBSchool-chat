@@ -1,8 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap");
 
-$main-font: "Poppins",
-Arial,
-sans-serif;
 $main-text-color: #000000;
 $box-shadow: rgba(0, 0, 0, 0.25);
 $background-color: #FFFFFF;
@@ -13,16 +9,11 @@ $main-blue: #1A66FF;
 $thumbnail-size: 52px;
 
 .groups {
-  min-width: 320px;
-  height: 100%;
   padding: 20px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background: $background-color;
-  box-shadow: 0px 4px 4px $box-shadow;
-  border-radius: 20px;
 
   * {
     box-sizing: border-box;
@@ -30,24 +21,22 @@ $thumbnail-size: 52px;
 
   &__header {
     padding: 0;
-    margin-bottom: 5px;
-    font-family: $main-font;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 30px;
     color: $main-text-color;
+  }
+
+  &__is-no-groups {
+    margin: 0;
   }
 
   &__more-button {
     color: $main-blue;
     cursor: pointer;
   }
-  
+
   &__more-button:hover {
     opacity: 0.7;
   }
-  
+
   &__list {
     max-height: 302px;
     width: 100%;
@@ -55,7 +44,7 @@ $thumbnail-size: 52px;
     margin: 0;
     overflow-y: auto;
   }
-  
+
   &__item {
     min-height: 72px;
     max-height: fit-content;
@@ -64,24 +53,24 @@ $thumbnail-size: 52px;
     border-bottom: 1px solid $divider;
     cursor: pointer;
   }
-  
+
   &__item-text {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    flex: 1;  
+    flex: 1;
   }
-  
+
   &__item:last-child {
     border-bottom: none;
   }
-  
+
   &__thumbnail {
     border-radius: 50%;
     position: relative;
     border: 2px solid rgba(0, 0, 0, 0.25);
   }
-  
+
   &__chat-link {
     display: flex;
     flex-wrap: wrap;
@@ -91,34 +80,32 @@ $thumbnail-size: 52px;
     padding-bottom: 10px;
     text-decoration: none;
   }
-  
+
   &__chat-link:hover {
     opacity: 0.7;
   }
-  
+
   &__name {
-    font-family: $main-font;
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
     line-height: 27px;
     color: $main-text-color;
   }
-  
+
   &__last-message {
     position: relative;
     margin: 0;
     width: 100%;
     max-height: 30px;
     overflow: hidden;
-    font-family: $main-font;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 30px;
     color: $last-message-color;
   }
-  
+
   &__last-message-text {
     display: block;
     max-width: 80%;

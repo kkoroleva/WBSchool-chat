@@ -1,26 +1,32 @@
 <nav class="nav" *ngIf="isAuthenticated()">
   <ul class="nav__list">
     <li class="nav__list-item nav__list-img"><a routerLink="./profile" class="nav__list-link">
-      <img src="../../assets/ava.svg" alt="avatar" class="nav__img" width="60" height="60"/>
+      <img src="http://cdn.onlinewebfonts.com/svg/img_176857.png" alt="avatar" class="nav__img" width="60" height="60"/>
+    <!-- <li class="nav__list-item nav__list-img"><a routerLink="./profile" class="nav__list-link" >
+      <img [src]="getImgFromBase64((userState$ | async )!.avatar)" alt="avatar" class="nav__img" width="60" height="60"/> -->
     </a></li>
-    <li class="nav__list-item" [ngClass]="{'nav__list-item--active' : path == 'home' }">
-      <a routerLink="./home" class="nav__list-link">
+    <li class="nav__list-item">
+      <a routerLink="./home" class="nav__list-link" routerLinkActive="nav__list-link--active">
         <mat-icon (click)="loadGroups()">home</mat-icon>
-      </a></li>
-    <li class="nav__list-item" [ngClass]="{'nav__list-item--active' : path == 'chat'  }">
-      <a routerLink="./chat" class="nav__list-link">
+      </a>
+    </li>
+    <li class="nav__list-item">
+      <a routerLink="./chat" class="nav__list-link" routerLinkActive="nav__list-link--active">
         <mat-icon (click)="loadGroups()">message</mat-icon>
-      </a></li>
-    <li class="nav__list-item" [ngClass]="{'nav__list-item--active' : path == 'alerts'}">
-      <a routerLink="./alerts" class="nav__list-link">
+      </a>
+    </li>
+    <li class="nav__list-item">
+      <a routerLink="./alerts" class="nav__list-link" routerLinkActive="nav__list-link--active">
         <mat-icon>notifications_none</mat-icon>
-      </a></li>
-    <li class="nav__list-item" [ngClass]="{'nav__list-item--active' : path == 'profile'}">
-      <a routerLink="./profile" class="nav__list-link">
+      </a>
+    </li>
+    <li class="nav__list-item">
+      <a routerLink="./profile" class="nav__list-link" routerLinkActive="nav__list-link--active">
         <mat-icon>settings</mat-icon>
+      </a>
+    </li>
+    <li class="nav__list-item"><a class="nav__list-link">
+        <mat-icon (click)="logout()">exit_to_app</mat-icon>
       </a></li>
-    <li class="nav__list-item"><a href="" class="nav__list-link">
-      <mat-icon (click)="logout()">exit_to_app</mat-icon>
-    </a></li>
   </ul>
 </nav>

@@ -1,15 +1,67 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+/*Переменные*/
 $main-background: #EAEAEA;
+$block-background: #ffffff;
 $main-blue: #1A66FF;
+$grid-block-shadow: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+$grid-block-header-color: #000000;
+$main-font: 'Raleway',
+'Arial',
+sans-serif;
+
+
+/* Font */
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Raleway"),
+    url("../src/assets/fonts/Raleway-Medium.woff2") format("woff2"),
+    url("../src/assets/fonts/Raleway-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local("Raleway"),
+    url("../src/assets/fonts/Raleway-SemiBold.woff2") format("woff2"),
+    url("../src/assets/fonts/Raleway-SemiBold.woff") format("woff");
+}
+
+html,
+body {
+  height: 100%;
+}
 
 body {
+  margin: 0;
   background-color: $main-background;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+input::placeholder,
+mat-label,
+.mat-typography h3,
+.mat-typography h1 {
+  font-family: $main-font;
+}
+
+.mat-raised-button {
+  display: block;
+  margin: 0 auto;
+  width: 250px;
+  font-family: $main-font;
 }
 
 *::-webkit-scrollbar {
@@ -38,18 +90,40 @@ body {
   overflow: hidden;
 }
 
+/*Общие блоки на всех страницах*/
+.main-grid-block {
+  width: 100%;
+  margin: 0 auto;
+  background: $block-background;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 20px;
+  font-family: $main-font;
+  overflow: hidden;
+
+  &__header {
+    margin: 0;
+    margin-bottom: 15px;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: $grid-block-header-color;
+  }
+
+  &__more-button {
+    color: #1A66FF;
+  }
+}
+
+/**/
 .auth {
   margin: 0 auto;
   margin-bottom: 20px;
   width: 400px;
-  padding: 20px;
-
- background-color:aliceblue;
-  box-shadow: 1px 2px 4px rgb(177, 151, 229);
-  border-radius: 20px;
 }
 
-@media(max-width: 420px) {
+@media(max-width: 425px) {
   .auth {
     margin-top: 20px;
     width: 300px;
@@ -57,22 +131,29 @@ body {
   }
 }
 
-.modal-help .mat-dialog-container{
-	background-color: white;
-	color: black;
-	border-radius: 20px;
+.modal-help .mat-dialog-container {
+  background-color: white;
+  color: black;
+  border-radius: 20px;
 }
 
-.delete-modal .mat-dialog-container{
+.delete-modal .mat-dialog-container {
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+}
+
+.password-modal .mat-dialog-container {
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+}
+
+.modal-profile .mat-dialog-container{
   background-color: white;
 	color: black;
 	border-radius: 20px;
-}
-
-.password-modal .mat-dialog-container{
-  background-color: white;
-	color: black;
-	border-radius: 20px;
+  padding: 0;
 }
 
 .create-group-chat-modal {
@@ -102,21 +183,30 @@ body {
     .mat-select-value {
       color: #000;
     }
+
+
+    .mat-chip.mat-standard-chip {
+      background-color: #fff;
+    }
+
+    .mat-chip.mat-standard-chip .mat-chip-remove {
+      color: #000;
+    }
   }
-}
 
-.modal__select.mat-select-panel {
-  background-color: #fff;
-
-  .mat-pseudo-checkbox {
-    color: #000;
+  .modal__field.mat-focused .mat-form-field-ripple {
+    background-color: #1A66FF;
   }
-}
 
-.modal__select.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate {
-  background-color: #1A66FF;
-}
+  .modal__field.mat-form-field-invalid .mat-form-field-ripple {
+    background-color: #f44336;
+  }
 
-.modal__select.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-  color: #1A66FF;
+  .modal__autocomplete.mat-autocomplete-panel {
+    background-color: #fff;
+
+    .mat-option:hover {
+      background: #e9e8e8;
+    }
+  }
 }

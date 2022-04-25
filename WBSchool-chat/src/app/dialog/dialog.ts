@@ -16,5 +16,6 @@ export interface User {
     avatar: string;
     email?: string;
     about?: string;
+    formatImage:string;
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IThread } from './thread';
 
 const mockThreads: IThread[] = [
@@ -46,15 +46,11 @@ const mockThreads: IThread[] = [
   templateUrl: './threads.component.html',
   styleUrls: ['./threads.component.scss']
 })
-export class ThreadsComponent implements OnInit {
+export class ThreadsComponent {
 
   threadsList: IThread[];
 
   constructor() {
-    this.threadsList = mockThreads;
+    this.threadsList = [];
   }
-
-  ngOnInit(): void {
-  }
-
 }
