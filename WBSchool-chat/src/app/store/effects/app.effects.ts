@@ -19,7 +19,6 @@ import {
 import {
   changeLoadFriends,
   changeLoadGroups,
-  changeLoadUnreads,
   chatGroupError,
   createChatFriend,
   editGroup,
@@ -27,7 +26,6 @@ import {
   getGroupUsers,
   deleteChatFriend,
   loadFriends,
-  loadUnreads,
   pushToFriends,
   updateChatFriends,
   createChatGroup,
@@ -48,8 +46,7 @@ import {
 
 import { IMessage } from 'src/app/dialog/dialog';
 import { INotification } from '../reducers/notifications.reducers';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
+import { IPrivate } from 'src/app/friends/private';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { Router } from '@angular/router';
 import { IContacts } from '../reducers/contacts.reducers';
@@ -187,7 +184,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(loadFriends),
       mergeMap(() =>
-        this.http.get<IFriend[]>(`${this.urlApi}/chats/friends`).pipe(
+        this.http.get<IPrivate[]>(`${this.urlApi}/chats/friends`).pipe(
           tap((friends) =>
             friends.forEach((friend) => {
               friend.avatar = friend.formatImage! + friend.avatar;
@@ -204,7 +201,7 @@ export class AppEffects {
       ofType(createChatFriend),
       mergeMap(({ username, ownerUsername }) =>
         this.http
-          .post<IFriend>(`${this.urlApi}/chats/private?username=${username}`, {
+          .post<IPrivate>(`${this.urlApi}/chats/private?username=${username}`, {
             ownerUsername,
           })
           .pipe(
@@ -224,24 +221,6 @@ export class AppEffects {
         this.http
           .delete<string>(`${this.urlApi}/chats/${chatId}`)
           .pipe(map((id) => updateChatFriends({ chatId: id })))
-      )
-    );
-  });
-
-  // Unread messages
-
-  loadUnreads$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadUnreads),
-      mergeMap(() =>
-        this.http.get<IUnread[]>(`${this.urlApi}/chats`).pipe(
-          tap((unreads) =>
-            unreads.forEach((unread) => {
-              unread.avatar = unread.formatImage! + unread.avatar;
-            })
-          ),
-          map((unreads) => changeLoadUnreads({ unreads: unreads.reverse() }))
-        )
       )
     );
   });

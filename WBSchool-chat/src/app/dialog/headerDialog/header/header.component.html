@@ -12,7 +12,7 @@
             </div>
     </section>
 
-    <section class="header__icon">
+    <section class="header__icon" *ngIf="user$ |async as user">
         <mat-icon class="phone" width="20px" height="20px"> call</mat-icon>
         <a [matMenuTriggerFor]="blockMenu" class="menu">
             <mat-icon>more_vert</mat-icon>
@@ -21,7 +21,7 @@
             <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
                 <span>Очистить чат</span>
             </button>
-            <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2"  mat-menu-item>
+            <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2  && chatInfo.owner === user._id"  mat-menu-item>
                 <span>Редактировать чат</span>
             </button>
         </mat-menu>

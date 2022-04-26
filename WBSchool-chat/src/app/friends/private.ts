@@ -1,4 +1,4 @@
-export interface IFriend {
+export interface IPrivate {
   _id?: string;
   owner?: string;
   isActive?: boolean;

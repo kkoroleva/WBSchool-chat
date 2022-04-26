@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { IMessage } from 'src/app/dialog/dialog';
-import { changeChatInfo, deleteMessage, editMessage, initDialogs, loadDialogs, newGetInfoChat, pushToMessages } from '../actions/dialog.action';
+import { deleteMessage, editMessage, initDialogs, loadDialogs, newGetInfoChat, pushToMessages } from '../actions/dialog.action';
 
 export const dialogNode = 'Dialog';
 export interface IDialogState {

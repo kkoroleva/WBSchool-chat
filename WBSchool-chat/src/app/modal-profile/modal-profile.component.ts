@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { defer, finalize, Observable } from 'rxjs';
 import { IUserData } from '../auth/interfaces';
-import { IFriend } from '../friends/friend';
+import { IPrivate } from '../friends/private';
 import { initContacts } from '../store/actions/contacts.actions';
 import { changeChatGroup, createChatFriend, loadFriends } from '../store/actions/groups.actions';
 import { IContacts } from '../store/reducers/contacts.reducers';
@@ -53,10 +53,10 @@ export class ModalProfileComponent implements OnInit {
 
   goToChat(_id: string) {
     const username = this.userData.username.trim();
-    let clone: IFriend | undefined;
+    let clone: IPrivate | undefined;
     this.store$.pipe(select(selectFriends))
-      .subscribe((chats: IFriend[]) => {
-        clone = chats.find((chat: IFriend) => chat.usernames[0] === username || chat.usernames[1] === username);
+      .subscribe((chats: IPrivate[]) => {
+        clone = chats.find((chat: IPrivate) => chat.usernames[0] === username || chat.usernames[1] === username);
       })
     setTimeout(() => {
       if (!clone) {

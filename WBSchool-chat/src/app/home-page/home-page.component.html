@@ -4,8 +4,7 @@
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="home-page__search"></app-search>
   <app-groups *ngIf="changeState.stateComponentMain.groups" class="home-page__groups main-grid-block">Groups</app-groups>
-  <app-unread *ngIf="changeState.stateComponentMain.unreadMess" class="home-page__recents main-grid-block">Unread</app-unread>
-  <app-friends *ngIf="changeState.stateComponentMain.tetATet" class="home-page__friends main-grid-block">Friends</app-friends>
+  <app-private *ngIf="changeState.stateComponentMain.tetATet" class="home-page__friends main-grid-block">Friends</app-private>
   <app-threads *ngIf="changeState.stateComponentMain.threads" class="home-page__threads main-grid-block">Threads</app-threads>
   <app-nav-mobile class="home-page__nav-mobile"></app-nav-mobile>
 </section>
