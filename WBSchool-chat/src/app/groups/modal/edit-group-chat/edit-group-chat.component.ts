@@ -24,6 +24,7 @@ import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
 import { initContacts } from 'src/app/store/actions/contacts.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-group-chat',
@@ -57,7 +58,8 @@ export class EditGroupChatComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<EditGroupChatComponent>,
     private store$: Store<IGroupsState>,
-    private actions$: Actions
+    private actions$: Actions,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -127,6 +129,7 @@ export class EditGroupChatComponent implements OnInit {
 
   deleteGroupChat(): void {
     this.store$.dispatch(deleteGroup({ id: this.chatId }));
+    this.router.navigateByUrl('/home');
   }
 
   editGroupChat(): void {
