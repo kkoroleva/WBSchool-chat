@@ -38,9 +38,11 @@ import {
 import { catchError, map, mergeMap, throwError, of, tap, switchMap } from 'rxjs';
 
 import {
+  addAuthNotification,
   changeLoadNotifications,
   clearNotifications,
   loadNotifications,
+  pushToNotification,
   removeNotification,
 } from '../actions/notifications.actions';
 
@@ -110,6 +112,20 @@ export class AppEffects {
           .pipe(
             map((notifications) => changeLoadNotifications({ notifications }))
           )
+      )
+    );
+  });
+
+  addAuthNotification$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(addAuthNotification),
+      mergeMap(({ notification }) =>
+        this.http
+          .post<INotification>(
+            `${this.urlApi}/users/notifications`,
+            notification
+          )
+          .pipe(map((notification: INotification) => pushToNotification({ notification })))
       )
     );
   });
@@ -278,7 +294,6 @@ export class AppEffects {
   pushToMessages$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(sendMessage),
-
       mergeMap(({ message, id }) =>
         this.http
           .post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message)
