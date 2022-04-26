@@ -44,6 +44,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
 
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
@@ -68,6 +69,7 @@ import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 import { DragAndDropDirective } from './groups/drag-and-drop.directive';
 import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
+import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -112,6 +114,7 @@ const API_URL_PROVIDER: Provider = {
     DecodeImagePipe,
     DragAndDropDirective,
     EditGroupChatComponent,
+    OutFromGroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,6 +142,7 @@ const API_URL_PROVIDER: Provider = {
     MatDialogModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatBadgeModule,
 
     //Forms
     FormsModule,

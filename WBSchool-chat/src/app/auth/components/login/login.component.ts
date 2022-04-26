@@ -8,6 +8,8 @@ import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from '../../../store/actions/auth.actions';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { IPostNotification } from 'src/app/store/reducers/notifications.reducers';
+import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +20,9 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted!: boolean;
   errorMessage: string = '';
+  notificationAuth: IPostNotification = {
+    text: 'Был выполнен вход в аккаунт.'
+  }
 
   constructor(
     private auth: AuthService, 
@@ -68,6 +73,7 @@ export class LoginComponent implements OnInit {
         newUser = resp.newUser;
         this.storage.set('user', newUser).subscribe(() => {});
         this.store$.dispatch(initAuth({newUser}));
+        this.store$.dispatch(addAuthNotification({notification: this.notificationAuth}))
       },
       () => {
         this.submitted = false;

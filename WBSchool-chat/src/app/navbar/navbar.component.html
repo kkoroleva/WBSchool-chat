@@ -16,6 +16,10 @@
       </a>
     </li>
     <li class="nav__list-item">
+      <p class="nav__list-item-count" 
+        *ngIf="(notificationsList$ | async)?.length">
+        {{(notificationsList$ | async)?.length}}
+      </p>
       <a routerLink="./alerts" class="nav__list-link" routerLinkActive="nav__list-link--active">
         <mat-icon>notifications_none</mat-icon>
       </a>
