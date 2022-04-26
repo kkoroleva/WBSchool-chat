@@ -4,6 +4,7 @@
 	border-radius: 20px;
 	min-width: 320px;
 	width: 100%;
+	
 
 	.profile-settings__title {
 		padding: 26px 0 0 39px;
@@ -70,6 +71,7 @@
 		margin: 60px 20px 25px 55px;
 		display: flex;
 		flex-direction: column;
+		transition: 0.1s;
 
 		.profile-settings__menu_item {
 			display: flex;
@@ -94,22 +96,101 @@
 
 					.contacts__list {
 						margin: 5px 0 5px 65px;
-						padding: 5px 0 5px 5px;
 						display: flex;
 						flex-direction: row;
 						width: 200px;
 						background: rgb(241, 241, 241);
 						border-radius: 10px;
 						transition: 0.5s;
+						overflow: hidden;
+						white-space: normal;
+						transition: 0.1s;
+						border-top-left-radius: 30px;
+						border-bottom-left-radius: 30px;
 
 						&:hover {
 							background: rgb(117, 117, 117);
 							color: white;
+							p {
+								font-weight: 600;
+							}
 						}
 
 						p {
 							margin: 0;
 							line-height: 20px;
+							margin: auto 0 auto 10px;
+							font-size: large;
+							text-overflow: ellipsis " [..]";
+							font-family: 'Poppins';
+							font-style: normal;
+							font-weight: 400;
+							word-break: break-all;
+						}
+
+						img {
+							width: 60px;
+							border-radius: 30px;
+							height: 60px;
+							object-fit: cover;
+						}
+
+						@media (max-width: 435px) {
+							margin-left: 40px;
+						}
+					}
+
+					.contacts__form {
+						margin: 15px 0 0 65px;
+						transition: 0.5s;
+						
+						button {
+							width: 150px;
+							margin: 15px 0 15px 10px;
+
+							mat-icon {
+								margin: 0;
+								font-size: 24px;
+							}
+						}
+
+						@media (max-width: 505px) {
+							margin-left: 30px;
+
+							mat-form-field {
+								width: 60%;
+							}
+							button {
+								width: calc(40% - 10px);
+							}
+						}
+					}
+
+					.contacts__form_error {
+						margin-left: 65px;
+						border: 2px solid rgb(149, 0, 0);
+						padding: 10px;
+						width: fit-content;
+						border-radius: 10px;
+						background-color: rgb(253, 72, 72);
+						color: white;
+						// scale: 0;
+						// transform: opacity(1);
+						animation-name: appear;
+						animation-duration: 0.5s;
+						transition: 0.5s;
+
+						@media (max-width: 505px) {
+							margin-left: 30px;
+						}
+					}
+
+					@keyframes appear {
+						from {
+							opacity: 0;
+						}
+						to {
+							opacity: 1;
 						}
 					}
 				}
@@ -123,11 +204,22 @@
 				margin: 5px 0 5px 55px;
 
 				.form-field {
+					position: relative;
+
 					input[type="file"] {
-						display: none;
+						position: absolute;
+						// display: none;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						// border: 1px solid black;
+						opacity: 0;
+						cursor: pointer;
 					}
 
 					label {
+						width: 250px;
 						border: 1px solid #ccc;
 						display: inline-block;
 						padding: 6px 12px;
@@ -135,6 +227,7 @@
 						transition: 1s;
 						background-color: rgb(255, 255, 255);
 						color: black;
+						text-align: center;
 
 						&:hover {
 							background-color: rgb(0, 0, 255);
@@ -143,8 +236,10 @@
 					}
 
 					.form-field__input_active {
-						background-color: green;
-						color: black;
+						cursor: pointer;
+						background-color: blue;
+						color: white;
+						text-align: center;
 					}
 				}
 
@@ -160,6 +255,7 @@
 					button {
 						margin-left: 5px;
 						height: 40px;
+						width: 70px;
 					}
 					mat-icon {
 						margin: 0 5px 3px 0;

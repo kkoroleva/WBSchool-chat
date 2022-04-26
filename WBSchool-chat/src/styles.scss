@@ -163,10 +163,6 @@ mat-label,
     border-radius: 20px;
   }
 
-  .mat-dialog-content {
-    height: 42vh;
-  }
-
   .modal__field {
     .mat-form-field-flex {
       background-color: #f1f1f1;
@@ -183,6 +179,11 @@ mat-label,
     .mat-select-value {
       color: #000;
     }
+  }
+}
+
+.modal__select.mat-select-panel {
+  background-color: #fff;
 
     .mat-chip.mat-standard-chip {
       background-color: #fff;
@@ -191,7 +192,6 @@ mat-label,
     .mat-chip.mat-standard-chip .mat-chip-remove {
       color: #000;
     }
-  }
 }
 
 .modal__field.mat-focused .mat-form-field-ripple {
@@ -207,6 +207,14 @@ mat-label,
 
   .mat-option:hover {
     background: #e9e8e8;
+  }
+}
+
+.edit-group-chat-modal {
+  .mat-dialog-container {
+    background-color: #fff;
+    color: #000;
+    border-radius: 20px;
   }
 }
 

@@ -1,159 +1,182 @@
 import { DialogService } from '../../dialog.service';
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
+import {
+  deleteMessage,
+  editMessage,
+  initDialogs,
+  newEditMessage,
+  pushToMessages,
+  removeMessage,
+  sendMessage,
+} from '../../../store/actions/dialog.action';
+import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
-import { initDialogs, sendMessage } from 'src/app/store/actions/dialog.action';
-import { selectDialog } from 'src/app/store/selectors/dialog.selector';
+import { SocketService } from '../../../socket/socket.service';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss']
+  styleUrls: ['./message.component.scss'],
 })
-export class MessageComponent implements OnInit, AfterViewChecked {
+export class MessageComponent implements OnInit {
+  @ViewChild('wrapper') wrapper!: ElementRef;
 
-  @ViewChild("wrapper") wrapper!:ElementRef;
-  // @ViewChild("blockTrigger") blockTrigger!:MatMenuTrigger;
-
-  editMessageID: string = '';
-  isEditMessage: boolean = false;
+  editMessageID = '';
+  isEditMessage = false;
   toggle!: boolean;
-
   message: FormControl = new FormControl('');
-  data: IMessage[] = [];
-
-  userName: string = '';
-  userID: string = '';
-  myId: string = ''; 
-  chatID: string = '625555ea8ef822301dab93c8';
-
-
-  imageOrFile: string = '';
-  formatImage: string = '';
+  userName = '';
+  userID = '';
+  myId = '';
+  chatID = '';
+  imageOrFile = '';
+  formatImage = '';
+  messageContent = '';
+  ioConnection: any;
 
   private chatGroup$: Observable<string> = this.store$.pipe(
-    select(selectChatGroup),
-  )
-  public messages$: Observable<IMessage[]> = this.store$.pipe(
-    select(selectDialog)
-  )
+    select(selectChatGroup)
+  );
 
-  constructor(private service: DialogService, 
+  public messages$: Observable<IMessage[]> = this.store$.pipe(
+    select(selectDialog),
+    tap((resp) => {
+      setTimeout(() => {
+        this.changeScroll();
+      }, 300);
+    })
+  );
+
+  constructor(
+    private service: DialogService,
     private imageCompress: NgxImageCompressService,
-    private store$: Store<IGroupsState>) { }
+    private store$: Store<IGroupsState>,
+    private socketService: SocketService, 
+  ) { }
+
+  private initIoConnection(): void {
+    this.socketService.onMessage()
+      .subscribe((message: IMessage) => {
+        if (this.chatID === message.chatId) {
+          this.store$.dispatch(pushToMessages({ message }))
+        }
+      });
+    this.socketService.onDeleteMessage(this.chatID)
+      .subscribe((messageId: string) => {
+        this.store$.dispatch(deleteMessage({ id: messageId }))
+      })
+    this.socketService.onUpdateMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(editMessage({ message }))
+      })
+
+  }
 
   ngOnInit(): void {
-    this.getMyInfo()
-    this.chatGroup$.subscribe((id)=> { 
-        this.chatID = id;
-        this.store$.dispatch(initDialogs({id}))
-        // this.getMessages(id);
-      })
-  };
+    this.getMyInfo();
+    this.chatGroup$.subscribe((id) => {
+      this.chatID = id;
+      this.store$.dispatch(initDialogs({ id }));
+    });
+    this.initIoConnection();
+  }
 
-  ngAfterViewChecked(): void {
-    this.changeScroll();
-  };
+  changeScroll(): void {
+    if (this.wrapper) {
+      this.wrapper.nativeElement.scrollTop =
+        this.wrapper.nativeElement.scrollHeight;
+    }
+  }
 
   getMyInfo(): void {
-    this.service.getMyInfo()
-    .subscribe((response) => {
-        this.myId = response._id;
-        this.userName = response.username;
-      })
-  };
-    
-  changeScroll(): void {
-      this.wrapper.nativeElement.scrollTop = this.wrapper.nativeElement.scrollHeight;
-  };
-    
+    this.service.getMyInfo().subscribe((response) => {
+      this.myId = response._id;
+      this.userName = response.username;
+    });
+  }
+
   addImage(input: any) {
-      let imageOrFile = '';
-      let reader = new FileReader();
-      let file = input.files[0];
-        reader.onloadend = () => {
-          if (typeof reader.result == "string") {
-            imageOrFile = reader.result;
-            if (+this.imageCompress.byteCount(reader.result) > 1048576) {
-              this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
-              .then(result =>  {
-                this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
-                this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
-                // console.log(this.imageCompress.byteCount(this.imageOrFile))
-              });
-            }
-            else {
-              this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
-              this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
-            }
-          }
-          else {
-            alert("Вы отправляете не картинку!")
-          }
+    let imageOrFile = '';
+    let reader = new FileReader();
+    let file = input.files[0];
+    reader.onloadend = () => {
+      if (typeof reader.result == 'string') {
+        imageOrFile = reader.result;
+        if (+this.imageCompress.byteCount(reader.result) > 1048576) {
+          this.imageCompress
+            .compressFile(imageOrFile, -1, 50, 50, 800, 600)
+            .then((result) => {
+              this.imageOrFile = result.slice(imageOrFile.indexOf(',') + 1);
+              this.formatImage = result.slice(0, imageOrFile.indexOf(',') + 1);
+            });
+        } else {
+          this.imageOrFile = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
+          this.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }
+      } else {
+        alert('Вы отправляете не картинку!');
+      }
+    };
     reader.readAsDataURL(file);
   }
-  
-  getMessages(idChat: string):void {
-    this.service.getMessages(idChat).subscribe((res) => {
-      this.data = res;
-      console.log(this.data, "this data")
-    })
-  };
 
   deleteMessage(id: string): void {
-    this.service.deleteMessage(id, this.chatID).subscribe(() => {
-        this.getMessages(this.chatID)
-     })
+    this.socketService.deleteMessage(this.chatID, id);
   };
 
   deleteChat() {
     console.log('удалить чат')
   }
 
-  editMessage(text: string, id: string):void {
-    this.service.editMessage(text, id, this.chatID).subscribe(() => {
-        this.getMessages(this.chatID);
-        this.isEditMessage = false;
-      })
+  editMessage(text: string, id: string, chatId: string): void {
+    this.isEditMessage = false;
+    this.store$.dispatch(newEditMessage({ text, id, chatId }));
   }
 
   getMessage(id: string, text: string): void {
     this.isEditMessage = true;
     this.editMessageID = id;
     this.message.setValue(text);
-  };
+  }
 
-  sendMessage(event: KeyboardEvent): void {
-    if (this.message.value.trim() && event.key === 'Enter' 
-    || 
-    this.message.value.trim() && event.key === 'Enter' && this.imageOrFile.length > 0 && event.key === 'Enter') {
-      
-      if(this.isEditMessage) {
-        console.log("i am working")
-        this.editMessage(this.message.value, this.editMessageID)
+  sendMessage(): void {
+    if (
+      this.message.value.trim() ||
+      (this.message.value.trim() && this.imageOrFile.length > 0)
+    ) {
+      this.changeScroll();
+      if (this.isEditMessage) {
+        this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
+      } else if (this.imageOrFile.length > 0) {
+        const message: IMessage = {
+          text: this.message.value,
+          imageOrFile: this.imageOrFile,
+          formatImage: this.formatImage,
+        }
+        this.socketService.send(this.chatID, message);
+      } else {
+        let message: IMessage = { text: this.message.value }
+        this.socketService.send(this.chatID, message);
       }
-      else {
-            let message:IMessage = {
-              text: this.message.value,
-              // imageOrFile: this.imageOrFile,
-              // formatImage: this.formatImage,
-            }
-            this.store$.dispatch(sendMessage({message, id:this.chatID}))
-            this.message.setValue('');
-            this.imageOrFile = '';
-            this.formatImage = '';
-          }
-      }
-    }
-    itemFormat(item: string) {
-      return !! (item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif")) 
+      this.imageOrFile = '';
+      this.formatImage = '';
+      this.message.setValue('');
     }
   }
 
-
+  itemFormat(item: string) {
+    return !!(
+      item.includes('.png') ||
+      item.includes('.jpg') ||
+      item.includes('.jpeg') ||
+      item.includes('.svg') ||
+      item.includes('.gif')
+    );
+  }
+}

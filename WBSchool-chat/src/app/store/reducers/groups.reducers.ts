@@ -1,28 +1,30 @@
 import {
   changeLoadFriends,
-  changeLoadUnreads,
   chatGroupError,
-  clearUnreads,
+  deleteFromGroups,
+  editToGroups,
   loadFriends,
-  loadUnreads,
   pushToFriends,
+  setGroup,
+  setGroupUsers,
+  updateChatFriends,
 } from './../actions/groups.actions';
 import { createReducer, on } from '@ngrx/store';
 import {
   changeChatGroup,
   changeLoadGroups,
-  loadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
+import { IPrivate } from 'src/app/friends/private';
+import { IUser } from 'src/app/groups/user';
 
 export const groupsNode = 'Groups';
 
 export interface IGroupsState {
   groups: IGroup[];
-  friends: IFriend[];
-  unreads: IUnread[];
+  group: IGroup;
+  groupUsers: IUser[];
+  friends: IPrivate[];
   chatGroup: string;
   error: string;
 }
@@ -35,24 +37,22 @@ export interface IGroup {
   lastMessage?: string;
   avatar?: string;
   users?: string[];
+  formatImage?: string;
 }
 
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
 
 const initialState: IGroupsState = {
   groups: [],
+  group: { name: '' },
+  groupUsers: [],
   friends: [],
-  unreads: [],
   chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
   error: '',
 };
 
 export const groupsReducer = createReducer(
   initialState,
-  on(loadGroups, (state) => ({
-    ...state,
-    groups: state.groups,
-  })),
   on(changeChatGroup, (state, action) => ({
     ...state,
     chatGroup: action.chatGroup,
@@ -69,7 +69,25 @@ export const groupsReducer = createReducer(
     ...state,
     error: action.error,
   })),
-  //friends
+  on(setGroup, (state, action) => ({
+    ...state,
+    group: action.group,
+  })),
+  on(editToGroups, (state, action) => ({
+    ...state,
+    groups: state.groups.map((group) =>
+      group._id === action.group._id ? action.group : group
+    ),
+  })),
+  on(setGroupUsers, (state, action) => ({
+    ...state,
+    groupUsers: action.users,
+  })),
+  on(deleteFromGroups, (state, action) => ({
+    ...state,
+    groups: state.groups.filter((group) => group._id !== action.id),
+  })),
+  // Chats
   on(loadFriends, (state) => ({
     ...state,
     friends: state.friends,
@@ -82,13 +100,10 @@ export const groupsReducer = createReducer(
     ...state,
     friends: [action.friend, ...state.friends],
   })),
-  //unreads
-  on(loadUnreads, (state) => ({
+  on(updateChatFriends, (state, action) => ({
     ...state,
-    unreads: state.unreads,
+    friends: state.friends.filter(
+      (friendChat) => friendChat._id !== action.chatId
+    ),
   })),
-  on(changeLoadUnreads, (state, action) => ({
-    ...state,
-    unreads: action.unreads,
-  }))
 );

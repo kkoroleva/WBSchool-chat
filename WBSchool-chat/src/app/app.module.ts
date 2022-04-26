@@ -9,8 +9,6 @@ import { AngularResizeEventModule } from 'angular-resize-event';
 
 /*Components */
 import { AppComponent } from './app.component';
-import { UnreadsComponent } from './unread/unread.component';
-import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -44,6 +42,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
 
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
@@ -59,11 +58,18 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { HeaderComponent } from './dialog/headerDialog/header/header.component';
+import { MessageComponent } from './dialog/messageDialog/message/message.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
 import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { DragAndDropDirective } from './groups/drag-and-drop.directive';
+import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
+import { PrivateComponent } from './friends/private.component';
+import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -79,8 +85,7 @@ const API_URL_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    UnreadsComponent,
-    FriendsComponent,
+    PrivateComponent,
     GroupsComponent,
     SearchComponent,
     ProfileSettingsComponent,
@@ -99,11 +104,16 @@ const API_URL_PROVIDER: Provider = {
     PasswordModalComponent,
     CreateGroupChatComponent,
     ThreadsComponent,
+    HeaderComponent,
+    MessageComponent,
     NotFoundPageComponent,
     NavMobileComponent,
     CreatePrivateChatComponent,
     ModalProfileComponent,
     DecodeImagePipe,
+    DragAndDropDirective,
+    EditGroupChatComponent,
+    OutFromGroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -131,6 +141,7 @@ const API_URL_PROVIDER: Provider = {
     MatDialogModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatBadgeModule,
 
     //Forms
     FormsModule,
@@ -150,6 +161,12 @@ const API_URL_PROVIDER: Provider = {
     }),
     EffectsModule.forRoot([AppEffects]),
     StoreRouterConnectingModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
 
   providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],

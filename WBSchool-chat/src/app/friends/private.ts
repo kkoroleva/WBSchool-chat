@@ -1,4 +1,4 @@
-export interface IFriend {
+export interface IPrivate {
   _id?: string;
   owner?: string;
   isActive?: boolean;
@@ -8,5 +8,6 @@ export interface IFriend {
   lastActive?: string;
   lastMessage?: string;
   name?: string;
-  formatImage: string;
+  formatImage?: string;
+  usernames: string[];
 }
