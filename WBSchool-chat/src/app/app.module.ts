@@ -9,8 +9,6 @@ import { AngularResizeEventModule } from 'angular-resize-event';
 
 /*Components */
 import { AppComponent } from './app.component';
-import { UnreadsComponent } from './unread/unread.component';
-import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -67,6 +65,9 @@ import { CreatePrivateChatComponent } from './friends/create-private-chat/create
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
 import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { DragAndDropDirective } from './groups/drag-and-drop.directive';
+import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
+import { PrivateComponent } from './friends/private.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -82,8 +83,7 @@ const API_URL_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    UnreadsComponent,
-    FriendsComponent,
+    PrivateComponent,
     GroupsComponent,
     SearchComponent,
     ProfileSettingsComponent,
@@ -109,6 +109,8 @@ const API_URL_PROVIDER: Provider = {
     CreatePrivateChatComponent,
     ModalProfileComponent,
     DecodeImagePipe,
+    DragAndDropDirective,
+    EditGroupChatComponent,
   ],
   imports: [
     BrowserModule,

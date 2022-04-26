@@ -1,0 +1,123 @@
+.modal {
+  width: 600px;
+  max-width: 100%;
+  
+  &__current-avatar {
+    width: 200px;
+    height: 200px;
+  }
+
+  &__new-avatar {
+    width: 200px;
+    height: 200px;
+  }
+
+  &__avatars {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 21px;
+  }
+
+  &__avatars-heading {
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 5px;
+  }
+
+    &__title {
+      font-family: "Poppins", sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 30px;
+    }
+    
+    &__form {
+      width: 100%;
+    }
+    
+    &__field {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    &__input {
+      &::placeholder {
+        color: rgb(185, 181, 181);
+      }
+    }
+  
+    &__textarea {
+      min-height: 50px;
+  
+      &::placeholder {
+        color: rgb(185, 181, 181);
+      }
+    }
+  
+    &__err {
+      color: #f44336;
+      font-family: "Poppins", sans-serif;
+    }
+  
+    &__btn {
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      background-color: #1A66FF;
+   
+      &--warn {
+        background-color: #f44336;
+      }
+    }
+  
+    &__upload {
+      text-align: center;
+      position: relative;
+      width: 100%;
+      height: 55px;
+      border: 3px dashed #000;
+      cursor: pointer;
+      
+      .modal__input-file {
+        cursor: pointer;
+        position: absolute;
+        z-index: 10;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+  
+      .modal__drag-text {
+        font-family: "Poppins", sans-serif;
+        font-weight: bold;
+      }
+    }
+  
+    &__image-name {
+      font-family: "Poppins", sans-serif;
+      margin-top: 5px;
+      word-break: break-all;
+    }
+  
+    &__option {
+      color: #000;
+    }
+  
+    &__avatar {
+      width: 25px;
+      height: 25px;
+    }
+  
+    &__contact {
+      display: flex;
+      align-items: center;
+      color: #000;
+    }
+  
+  &__username {
+    font-weight: bold;
+    padding-left: 10px;
+  }
+}

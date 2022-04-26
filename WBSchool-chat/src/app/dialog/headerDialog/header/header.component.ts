@@ -1,48 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../dialog.service';
 import { select, Store } from '@ngrx/store';
-import { IChatInfo } from 'src/app/store/reducers/dialog.reducer';
+import { IChatInfo } from '../../../store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
-import { selectChatGroup } from 'src/app/store/selectors/groups.selectors';
-import { getInfoChat } from 'src/app/store/actions/dialog.action';
-import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
-
-
+import { selectChatGroup } from '../../../store/selectors/groups.selectors';
+import { getInfoChat } from '../../../store/actions/dialog.action';
+import { selectChatInfo } from '../../../store/selectors/dialog.selector';
+import { MatDialog } from '@angular/material/dialog';
+import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
+import { changeChatGroup, setGroup } from '../../../store/actions/groups.actions';
+import { IUserData } from '../../../auth/interfaces';
+import { selectUser } from '../../../store/selectors/auth.selectors';
+import { deleteChatFriend, loadFriends } from '../../../store/actions/groups.actions';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  name = "";
-  avatar = "";
-  formatImage = "";
-  chatId = "";
-
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
-  )
+  );
 
-  private chatInfo$: Observable<IChatInfo> = this.store$.pipe(
+  public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
-  )
+  );
+  public user$: Observable<IUserData> = this.store$.pipe(
+    select(selectUser))
 
-  constructor(private service: DialogService, private store$: Store<IChatInfo>) { }
+
+  constructor(private store$: Store<IChatInfo>,
+              private router: Router,
+              private modalWindow: MatDialog) { }
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
-      this.chatId = id;
-      this.store$.dispatch(getInfoChat({ chatId: this.chatId }))
+      this.store$.dispatch(getInfoChat({ chatId: id }));
+    });
+  }
+  
+  getModalWindow(chatInfo: IChatInfo): void {
+    this.modalWindow.open(EditGroupChatComponent, {
+      panelClass: 'edit-group-chat-modal',
+      maxWidth: '100vw',
     })
-    this.chatInfo$.subscribe((chatInfo) => {
-      this.avatar = chatInfo.avatar;
-      this.formatImage = chatInfo.formatImage;
-      this.name = chatInfo.name
-    })
+    this.store$.dispatch(setGroup({ group: chatInfo }));
+    this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id }));
   }
 
-
-  deleteChat() {
-    console.log('удалить чат')
+  deleteChat(_id: string) {
+    this.store$.dispatch(deleteChatFriend({chatId: _id}));
+    this.store$.dispatch(loadFriends());
+    setTimeout(() => {
+      this.router.navigateByUrl('/home')
+    }, 0)
   }
+
 }

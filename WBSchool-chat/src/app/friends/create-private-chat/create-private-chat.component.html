@@ -9,8 +9,8 @@
                 <mat-autocomplete #auto="matAutocomplete">
                     <mat-option *ngFor="let contact of contacts$ | async" [value]="contact.username">
                         <div class="modal__contact">
-                            <img class="modal__avatar" [src]="'data:image/png;base64,' + contact.avatar"
-                                alt="User avatar">
+                            <img class="modal__avatar" *ngIf="contact.avatar"
+                                [src]="contact.formatImage + contact.avatar">
                             <span class="modal__username">{{contact.username}}</span>
                         </div>
                     </mat-option>

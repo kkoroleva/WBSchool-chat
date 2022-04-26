@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith } from 'rxjs';
@@ -10,12 +11,16 @@ import {
   pushContacts,
 } from 'src/app/store/actions/contacts.actions';
 import {
+  changeChatGroup,
   createChatFriend,
   pushToFriends,
 } from 'src/app/store/actions/groups.actions';
 
 import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { selectUser } from 'src/app/store/selectors/auth.selectors';
 import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+import { selectFriends } from 'src/app/store/selectors/groups.selectors';
+import { IPrivate } from '../private';
 
 @Component({
   selector: 'app-create-private-chat',
@@ -30,11 +35,13 @@ export class CreatePrivateChatComponent implements OnInit {
     select(selectContacts),
     map((contacts) => contacts.contacts)
   );
+  private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
   constructor(
     private dialogRef: MatDialogRef<CreatePrivateChatComponent>,
     private store$: Store<IGroupsState>,
-    private actions$: Actions
+    private actions$: Actions,
+    private router: Router
   ) {
     this.form = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -67,11 +74,25 @@ export class CreatePrivateChatComponent implements OnInit {
   }
 
   createPrivateChat(): void {
-    const username: string = this.contactsControl.value;
-
+    const username: string = this.contactsControl.value.trim();
     if (this.form.valid) {
-      this.store$.dispatch(createChatFriend({ username }));
+      let clone: IPrivate | undefined;
+      this.store$.pipe(select(selectFriends))
+      .subscribe((chats: IPrivate[]) => {
+        clone = chats.find((chat: IPrivate) => chat.usernames[0] === username || chat.usernames[1] === username);
+      })
+      if (!clone) {
+        this.user$.subscribe({
+            next: (user) => this.store$.dispatch(createChatFriend({ username, ownerUsername: user.username })),
+            complete: () => console.log('complete')
+        });
+      }
+      else {
+          this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+          this.router.navigateByUrl('/chat');
+      }
     }
+    this.dialogRef.close();
   }
 
   private filterContacts(username: string): IUserData[] {

@@ -1,76 +1,89 @@
-import { selectContacts } from './../../../store/selectors/contacts.selectors';
-import {
-  initContacts,
-  pushContacts,
-} from './../../../store/actions/contacts.actions';
+import { selectUser } from 'src/app/store/selectors/auth.selectors';
+import { IUser } from './../../user';
 import { Actions, ofType } from '@ngrx/effects';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { map, Observable, startWith, Subscriber } from 'rxjs';
-import { IGroup } from '../../group';
-import { select, Store } from '@ngrx/store';
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
 import {
-  chatGroupError,
-  createChatGroup,
-  pushToGroups,
+  selectGroup,
+  selectGroupUsers,
+} from './../../../store/selectors/groups.selectors';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
+import { map, Observable, startWith, Subscriber, tap, zip } from 'rxjs';
+import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { IGroup } from '../../group';
+import {
+  deleteFromGroups,
+  deleteGroup,
+  editGroup,
+  editToGroups,
+  getGroupUsers,
+  setGroupUsers,
 } from 'src/app/store/actions/groups.actions';
-import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
+import { MatDialogRef } from '@angular/material/dialog';
+import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+import { initContacts } from 'src/app/store/actions/contacts.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
-import { IUser } from '../../user';
 
 @Component({
-  selector: 'groups-create-group-chat',
-  templateUrl: './create-group-chat.component.html',
-  styleUrls: ['./create-group-chat.component.scss'],
+  selector: 'app-edit-group-chat',
+  templateUrl: './edit-group-chat.component.html',
+  styleUrls: ['./edit-group-chat.component.scss'],
 })
-export class CreateGroupChatComponent implements OnInit {
+export class EditGroupChatComponent implements OnInit {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('contacts') contactsMatChipList!: MatChipList;
 
   public form!: FormGroup;
+  public group$: Observable<IGroup> = this.store$.pipe(select(selectGroup));
   public imageName = '';
   public imageInBase64 = '';
   public formatImage = '';
   private inputFile!: HTMLInputElement;
   public contactsControl = new FormControl();
+  private chatId!: string;
+  private user!: IUser;
   public contactsList: IUser[] = [];
   public contactsIsLoaded = false;
-  public myContacts!: IUser[];
-  public errMessage$: Observable<string> = this.store$.pipe(
-    select(selectChatGroupError)
-  );
   public contacts$: Observable<IUser[]> = this.store$.pipe(
     select(selectContacts),
     map((contacts) => contacts.contacts)
   );
+  public groupUsers$: Observable<IUser[]> = this.store$.pipe(
+    select(selectGroupUsers)
+  );
+  public user$: Observable<IUser> = this.store$.pipe(select(selectUser));
 
   constructor(
-    private dialogRef: MatDialogRef<CreateGroupChatComponent>,
+    private dialogRef: MatDialogRef<EditGroupChatComponent>,
     private store$: Store<IGroupsState>,
     private actions$: Actions
   ) {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      name: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(40),
-      ]),
-      about: new FormControl('', [
-        Validators.minLength(4),
-        Validators.maxLength(100),
-      ]),
-      contacts: new FormControl(
-        [],
-        [Validators.required, Validators.minLength(2)]
-      ),
+    this.user$.subscribe((user) => (this.user = user));
+
+    this.group$.subscribe((group) => {
+      this.chatId = group._id!;
+
+      this.form = new FormGroup({
+        name: new FormControl(group.name, [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(40),
+        ]),
+        about: new FormControl(group.about, [
+          Validators.minLength(4),
+          Validators.maxLength(100),
+        ]),
+        contacts: new FormControl(group.users, [
+          Validators.required,
+          Validators.minLength(2),
+        ]),
+      });
     });
 
-    this.actions$.pipe(ofType(pushToGroups)).subscribe(() => {
+    this.actions$.pipe(ofType(editToGroups, deleteFromGroups)).subscribe(() => {
       this.dialogRef.close();
     });
 
@@ -79,30 +92,48 @@ export class CreateGroupChatComponent implements OnInit {
 
   getContacts(): void {
     this.store$.dispatch(initContacts());
+    this.store$.dispatch(getGroupUsers({ id: this.chatId }));
 
-    this.actions$.pipe(ofType(pushContacts)).subscribe(({ contacts }) => {
-      this.contactsList = contacts.contacts;
-      this.myContacts = contacts.contacts;
-      this.contactsIsLoaded = true;
+    zip(this.contacts$, this.groupUsers$)
+      .pipe(
+        tap(() => {
+          this.actions$.pipe(ofType(setGroupUsers)).subscribe(() => {
+            this.contactsIsLoaded = true;
+          });
+        })
+      )
+      .subscribe((contactsAndUsers) => {
+        let cloneContacts = [...contactsAndUsers[0]];
+        const cloneGroupUsers = [...contactsAndUsers[1]];
 
-      this.contacts$ = this.contactsControl.valueChanges.pipe(
-        startWith(''),
-        map((username: string | null) =>
-          username ? this.filterContacts(username) : this.contactsList
-        )
-      );
-    });
+        this.form.get('contacts')?.patchValue(contactsAndUsers[1]);
+
+        cloneGroupUsers.forEach((user) => {
+          cloneContacts = cloneContacts.filter(
+            (contact) => user._id !== contact._id
+          );
+        });
+
+        this.contactsList = cloneContacts;
+
+        this.contacts$ = this.contactsControl.valueChanges.pipe(
+          startWith(''),
+          map((username: string | null) =>
+            username ? this.filterContacts(username) : this.contactsList
+          )
+        );
+      });
   }
 
-  createGroupChat(): void {
+  deleteGroupChat(): void {
+    this.store$.dispatch(deleteGroup({ id: this.chatId }));
+  }
+
+  editGroupChat(): void {
     const group = this.createGroupObject();
 
     if (this.form.valid) {
-      this.store$.dispatch(createChatGroup({ group }));
-
-      this.dialogRef.afterClosed().subscribe(() => {
-        this.store$.dispatch(chatGroupError({ error: '' }));
-      });
+      this.store$.dispatch(editGroup({ id: this.chatId, editGroup: group }));
     }
   }
 
@@ -115,7 +146,7 @@ export class CreateGroupChatComponent implements OnInit {
 
     const group: IGroup = {
       name,
-      users: contacts.map((contact) => contact._id!),
+      users: contacts.map((contact) => contact._id!).concat([this.user._id!]),
     };
 
     if (nameLength < 4) {
