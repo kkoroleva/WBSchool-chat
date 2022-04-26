@@ -10,7 +10,6 @@ import {
   loadDialogs,
   newEditMessage,
   newGetInfoChat,
-  pushToMessages,
   removeMessage,
   sendMessage,
 } from '../actions/dialog.action';
@@ -33,8 +32,10 @@ import {
   loadGroups,
   pushToGroups,
   setGroupUsers,
+  deleteGroup,
+  deleteFromGroups,
 } from '../actions/groups.actions';
-import { catchError, map, mergeMap, throwError, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, throwError, of, tap, switchMap } from 'rxjs';
 
 import {
   addAuthNotification,
@@ -45,14 +46,14 @@ import {
   removeNotification,
 } from '../actions/notifications.actions';
 
-import { IMessage } from 'src/app/dialog/dialog';
+import { IMessage } from '../../dialog/dialog';
 import { INotification } from '../reducers/notifications.reducers';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { IFriend } from '../../friends/friend';
+import { IUnread } from '../../unread/unread';
+import { DialogService } from '../../dialog/dialog.service';
 import { Router } from '@angular/router';
 import { IContacts } from '../reducers/contacts.reducers';
-import { IGroup } from 'src/app/groups/group';
+import { IGroup } from '../../groups/group';
 import { initContacts, pushContacts } from '../actions/contacts.actions';
 import { IChatInfo } from '../reducers/dialog.reducer';
 
@@ -67,7 +68,7 @@ export class AppEffects {
     public dialogService: DialogService,
     private router: Router,
     @Inject('API_URL') public apiUrl: string
-  ) {}
+  ) { }
 
   // Notifications
   loadNotifications$ = createEffect(() =>
@@ -151,6 +152,7 @@ export class AppEffects {
       ofType(createChatGroup),
       mergeMap(({ group }) =>
         this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
+          tap((group) => (group.avatar = group.formatImage! + group.avatar)),
           map((group) => pushToGroups({ group })),
           catchError((err) => of(chatGroupError({ error: err.error.message })))
         )
@@ -162,9 +164,23 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(editGroup),
       mergeMap(({ id, editGroup }) =>
+        this.http.patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
+          .pipe(tap((group) => (group.avatar = group.formatImage! + group.avatar)),
+            switchMap((group) =>
+              [newGetInfoChat({ chatInfo: group as IChatInfo }), editToGroups({ group })]
+            ))
+      )
+    );
+  });
+
+
+  deleteGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteGroup),
+      mergeMap(({ id }) =>
         this.http
-          .patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
-          .pipe(map((group) => editToGroups({ group })))
+          .delete(`${this.urlApi}/chats/${id}`)
+          .pipe(map(() => deleteFromGroups({ id })))
       )
     );
   });
@@ -206,6 +222,9 @@ export class AppEffects {
             ownerUsername,
           })
           .pipe(
+            tap((friend) =>
+            friend.avatar = friend.formatImage! + friend.avatar
+          ),
             map((friend) => pushToFriends({ friend })),
             catchError((err) =>
               of(chatGroupError({ error: err.error.message }))
@@ -309,11 +328,13 @@ export class AppEffects {
   getInfoChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getInfoChat),
-      mergeMap(({ chatId }) =>
-        this.http
-          .get<IChatInfo>(`${this.urlApi}/chats/${chatId}`)
-          .pipe(map((chatInfo) => newGetInfoChat({ chatInfo })))
+      mergeMap(({ chatId }) => this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}`).pipe(
+        tap((chatInfo) => (chatInfo.avatar = chatInfo.formatImage! + chatInfo.avatar)),
+        map(
+          (chatInfo) => newGetInfoChat({ chatInfo })))
+
       )
     );
   });
+
 }

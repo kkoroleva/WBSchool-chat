@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 
-import {IMessage} from 'src/app/dialog/dialog';
+import {IMessage} from '../../dialog/dialog';
 import { IChatInfo } from '../reducers/dialog.reducer';
 
 export const initDialogs = createAction('[DIALOG] initDialogs',
@@ -35,4 +35,6 @@ export const getInfoChat = createAction('[DIALOG] getInfoChat',
 export const newGetInfoChat = createAction('[DIALOG] getInfoChat',
   props<{chatInfo: IChatInfo}>());
 
+export const changeChatInfo = createAction('[DIALOG] changeChatInfo',
+  props<{chatInfo : IChatInfo}>());
 

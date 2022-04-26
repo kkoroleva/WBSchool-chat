@@ -2,6 +2,7 @@ import {
   changeLoadFriends,
   changeLoadUnreads,
   chatGroupError,
+  deleteFromGroups,
   editToGroups,
   loadFriends,
   pushToFriends,
@@ -15,9 +16,9 @@ import {
   changeLoadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
-import { IUser } from 'src/app/groups/user';
+import { IFriend } from '../../friends/friend';
+import { IUnread } from '../../unread/unread';
+import { IUser } from '../../groups/user';
 
 export const groupsNode = 'Groups';
 
@@ -85,6 +86,10 @@ export const groupsReducer = createReducer(
   on(setGroupUsers, (state, action) => ({
     ...state,
     groupUsers: action.users,
+  })),
+  on(deleteFromGroups, (state, action) => ({
+    ...state,
+    groups: state.groups.filter((group) => group._id !== action.id),
   })),
   // Chats
   on(loadFriends, (state) => ({

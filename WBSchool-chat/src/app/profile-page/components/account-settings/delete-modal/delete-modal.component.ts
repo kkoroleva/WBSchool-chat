@@ -3,8 +3,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { IProfileData, IServerResponse } from 'src/app/profile-page/interfaces/profile-settings';
+import { AuthService } from '../../../../auth/services/auth.service';
+import { IProfileData, IServerResponse } from '../../../../profile-page/interfaces/profile-settings';
 import { IUserDeleteData } from '../../../interfaces/account-settings';
 import { AccountSettingsService } from '../../../services/account-settings.service';
 

@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IFriend } from 'src/app/friends/friend';
-import { IGroup } from 'src/app/groups/group';
-import { IUser } from 'src/app/groups/user';
-import { IUnread } from 'src/app/unread/unread';
+import { IFriend } from '../../friends/friend';
+import { IGroup } from '../../groups/group';
+import { IUser } from '../../groups/user';
+import { IUnread } from '../../unread/unread';
 import { groupsNode, IGroupsState } from '../reducers/groups.reducers';
 
 export const selectGroupsFeature =

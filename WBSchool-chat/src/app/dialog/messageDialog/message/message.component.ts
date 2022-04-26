@@ -14,10 +14,10 @@ import {
   pushToMessages,
   removeMessage,
   sendMessage,
-} from 'src/app/store/actions/dialog.action';
-import { selectDialog } from 'src/app/store/selectors/dialog.selector';
+} from '../../../store/actions/dialog.action';
+import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
-import { SocketService } from 'src/app/socket/socket.service';
+import { SocketService } from '../../../socket/socket.service';
 
 @Component({
   selector: 'app-message',
@@ -37,7 +37,6 @@ export class MessageComponent implements OnInit {
   chatID = '';
   imageOrFile = '';
   formatImage = '';
-  messages: IMessage[] = [];
   messageContent = '';
   ioConnection: any;
 
@@ -47,7 +46,7 @@ export class MessageComponent implements OnInit {
 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap(() => {
+    tap((resp) => {
       setTimeout(() => {
         this.changeScroll();
       }, 300);
@@ -58,21 +57,25 @@ export class MessageComponent implements OnInit {
     private service: DialogService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
-    private socketService: SocketService
-  ) {}
+    private socketService: SocketService, 
+  ) { }
 
   private initIoConnection(): void {
-    this.socketService.onMessage().subscribe((message: IMessage) => {
-      if (this.chatID === message.chatId) {
-        this.store$.dispatch(pushToMessages({ message }));
-      }
-    });
-    this.socketService.onDeleteMessage().subscribe((messageId: string) => {
-      this.store$.dispatch(deleteMessage({ id: messageId }));
-    });
-    this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(editMessage({ message }));
-    });
+    this.socketService.onMessage()
+      .subscribe((message: IMessage) => {
+        if (this.chatID === message.chatId) {
+          this.store$.dispatch(pushToMessages({ message }))
+        }
+      });
+    this.socketService.onDeleteMessage()
+      .subscribe((messageId: string) => {
+        this.store$.dispatch(deleteMessage({ id: messageId }))
+      })
+    this.socketService.onUpdateMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(editMessage({ message }))
+      })
+
   }
 
   ngOnInit(): void {
@@ -126,10 +129,6 @@ export class MessageComponent implements OnInit {
   deleteMessage(id: string): void {
     console.log(id, this.chatID);
     this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
-  }
-
-  deleteChat() {
-    console.log('удалить чат');
   }
 
   editMessage(text: string, id: string, chatId: string): void {

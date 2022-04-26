@@ -1,4 +1,4 @@
-import { selectUser } from 'src/app/store/selectors/auth.selectors';
+import { selectUser } from '../../../store/selectors/auth.selectors';
 import { IUser } from './../../user';
 import { Actions, ofType } from '@ngrx/effects';
 import {
@@ -9,17 +9,19 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith, Subscriber, tap, zip } from 'rxjs';
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { IGroup } from '../../group';
 import {
+  deleteFromGroups,
+  deleteGroup,
   editGroup,
   editToGroups,
   getGroupUsers,
   setGroupUsers,
-} from 'src/app/store/actions/groups.actions';
+} from '../../../store/actions/groups.actions';
 import { MatDialogRef } from '@angular/material/dialog';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
-import { initContacts } from 'src/app/store/actions/contacts.actions';
+import { selectContacts } from '../../../store/selectors/contacts.selectors';
+import { initContacts } from '../../../store/actions/contacts.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 
@@ -81,7 +83,7 @@ export class EditGroupChatComponent implements OnInit {
       });
     });
 
-    this.actions$.pipe(ofType(editToGroups)).subscribe(() => {
+    this.actions$.pipe(ofType(editToGroups, deleteFromGroups)).subscribe(() => {
       this.dialogRef.close();
     });
 
@@ -121,6 +123,10 @@ export class EditGroupChatComponent implements OnInit {
           )
         );
       });
+  }
+
+  deleteGroupChat(): void {
+    this.store$.dispatch(deleteGroup({ id: this.chatId }));
   }
 
   editGroupChat(): void {

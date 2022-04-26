@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { IUserData } from 'src/app/auth/interfaces';
-import { IContacts } from 'src/app/store/reducers/contacts.reducers';
+import { IUserData } from '../../auth/interfaces';
+import { IContacts } from '../../store/reducers/contacts.reducers';
 import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
 
 
