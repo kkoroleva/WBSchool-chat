@@ -5,18 +5,24 @@ import {
 } from './../../../store/actions/contacts.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { map, Observable, startWith, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
 import { select, Store } from '@ngrx/store';
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { IGroupsState } from './../../../store/reducers/groups.reducers';
 import {
   chatGroupError,
   createChatGroup,
   pushToGroups,
-} from 'src/app/store/actions/groups.actions';
-import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
+} from './../../../store/actions/groups.actions';
+import { selectChatGroupError } from './../../../store/selectors/groups.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';
@@ -26,7 +32,7 @@ import { IUser } from '../../user';
   templateUrl: './create-group-chat.component.html',
   styleUrls: ['./create-group-chat.component.scss'],
 })
-export class CreateGroupChatComponent implements OnInit {
+export class CreateGroupChatComponent implements OnInit, DoCheck {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('contacts') contactsMatChipList!: MatChipList;
 
@@ -75,6 +81,16 @@ export class CreateGroupChatComponent implements OnInit {
     });
 
     this.getContacts();
+  }
+
+  ngDoCheck(): void {
+    if (this.contactsMatChipList) {
+      if (this.form.get('contacts')?.value.length < 2) {
+        this.contactsMatChipList.errorState = true;
+      } else {
+        this.contactsMatChipList.errorState = false;
+      }
+    }
   }
 
   getContacts(): void {
@@ -200,12 +216,6 @@ export class CreateGroupChatComponent implements OnInit {
       avatar: event.option.value.avatar,
       formatImage: event.option.value.formatImage,
     };
-
-    if (contactsValue.length + 1 < 2) {
-      this.contactsMatChipList.errorState = true;
-    } else {
-      this.contactsMatChipList.errorState = false;
-    }
 
     contacts.patchValue([...contactsValue, contact]);
 

@@ -51,7 +51,6 @@ export class ModalProfileService {
   }
 
   openDialog(contactData: IUserData): void {
-    console.log('i was called')
     const dialogRef = this.dialog.open(ModalProfileComponent, {
       panelClass: 'modal-profile',
       data: contactData

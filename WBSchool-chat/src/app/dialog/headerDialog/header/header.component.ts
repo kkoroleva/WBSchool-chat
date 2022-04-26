@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { IChatInfo } from 'src/app/store/reducers/dialog.reducer';
-import { Observable, Subscription } from 'rxjs';
-import { selectChatGroup } from 'src/app/store/selectors/groups.selectors';
-import { getInfoChat } from 'src/app/store/actions/dialog.action';
-import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
+
+import { IChatInfo } from '../../../store/reducers/dialog.reducer';
+import { Observable } from 'rxjs';
+import { selectChatGroup } from '../../../store/selectors/groups.selectors';
+import { getInfoChat } from '../../../store/actions/dialog.action';
+import { selectChatInfo } from '../../../store/selectors/dialog.selector';
 import { MatDialog } from '@angular/material/dialog';
-import { EditGroupChatComponent } from 'src/app/groups/modal/edit-group-chat/edit-group-chat.component';
-import { changeChatGroup, setGroup } from 'src/app/store/actions/groups.actions';
-import { IUserData } from 'src/app/auth/interfaces';
-import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
-import { selectUser } from 'src/app/store/selectors/auth.selectors';
-import { deleteChatFriend, loadFriends } from 'src/app/store/actions/groups.actions';
+import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
+import { changeChatGroup, setGroup } from '../../../store/actions/groups.actions';
+import { IUserData } from '../../../auth/interfaces';
+import { selectUser } from '../../../store/selectors/auth.selectors';
+import { deleteChatFriend, loadFriends } from '../../../store/actions/groups.actions';
 import { Router } from '@angular/router';
+import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -36,7 +37,6 @@ export class HeaderComponent implements OnInit {
     public user$: Observable<IUserData> = this.store$.pipe(
 select(selectUser)
   )
-
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {

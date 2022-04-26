@@ -274,6 +274,7 @@
         padding: 4px ;
         width: 50px;
       }
+
     }
     .btn-green:hover {
       background-position: 0 0;
@@ -307,6 +308,16 @@
       @media screen and (max-width: 1020px) {
         padding: 4px ;
         width: 50px;
+      }
+      .voice{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        filter: grayscale(100);
+        background: #1A66FF;
+        width: 45px;
+        height: 44px;
+        border-radius: 10px;
       }
     }
 

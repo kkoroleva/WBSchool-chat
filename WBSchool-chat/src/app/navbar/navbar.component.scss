@@ -30,10 +30,27 @@
   }
 
   &__list-item {
+    position: relative;
     min-width: 45px;
     height: 70px;
     width: 70px;
     border-radius: 10px;
+  }
+
+  &__list-item-count {
+    position: absolute;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    right: 5px;
+    top: -8px;
+    background-color: #fc5549;
+    font-family: "Raleway", "Arial", sans-serif;
+    padding: 3px;
+    border-radius: 25px;
   }
 
   &__list-link {
@@ -68,6 +85,14 @@
       text-align: center;
     }
 
+    .nav__list-item-count {
+      width: 17px;
+      right: 12px;
+      top: -12px;
+      font-size: 13px;
+      padding: 0;
+    }
+
     .nav__img {
       height: 30px;
       width: 30px;
@@ -99,4 +124,8 @@
       height: initial;
     }
   }
+}
+
+.mat-badge {
+  position: absolute;
 }

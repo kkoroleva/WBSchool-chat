@@ -1,7 +1,7 @@
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Action, select, Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { catchError, concatMap, Observable, tap, throwError } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
@@ -14,18 +14,19 @@ import {
   pushToMessages,
   removeMessage,
   sendMessage,
-} from 'src/app/store/actions/dialog.action';
-import { selectDialog } from 'src/app/store/selectors/dialog.selector';
+} from '../../../store/actions/dialog.action';
+import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
-import { SocketService } from 'src/app/socket/socket.service';
-import { IContacts } from 'src/app/store/reducers/contacts.reducers';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
-import { IUserData } from 'src/app/auth/interfaces';
-import { initContacts } from 'src/app/store/actions/contacts.actions';
-import { ProfileSettingsService } from 'src/app/profile-page/services/profile-settings.service';
+import { IContacts } from '../../../store/reducers/contacts.reducers';
+import { selectContacts } from '../../../store/selectors/contacts.selectors';
+import { IUserData } from '../../../auth/interfaces';
+import { initContacts } from '../../../store/actions/contacts.actions';
+import { ProfileSettingsService } from '../../../profile-page/services/profile-settings.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
+import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
+
+import { SocketService } from '../../../socket/socket.service';
 
 @Component({
   selector: 'app-message',
@@ -80,7 +81,7 @@ export class MessageComponent implements OnInit {
           this.store$.dispatch(pushToMessages({ message }))
         }
       });
-    this.socketService.onDeleteMessage()
+    this.socketService.onDeleteMessage(this.chatID)
       .subscribe((messageId: string) => {
         this.store$.dispatch(deleteMessage({ id: messageId }))
       })
@@ -139,8 +140,11 @@ export class MessageComponent implements OnInit {
   }
 
   deleteMessage(id: string): void {
-    console.log(id, this.chatID);
-    this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
+    this.socketService.deleteMessage(this.chatID, id);
+  };
+
+  deleteChat() {
+    console.log('удалить чат')
   }
 
   editMessage(text: string, id: string, chatId: string): void {
@@ -161,17 +165,17 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.editMessage(this.message.value, this.editMessageID, this.chatID);
+        this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
-        };
-        this.store$.dispatch(sendMessage({ message, id: this.chatID }));
+        }
+        this.socketService.send(this.chatID, message);
       } else {
-        let message: IMessage = { text: this.message.value };
-        this.store$.dispatch(sendMessage({ message, id: this.chatID }));
+        let message: IMessage = { text: this.message.value }
+        this.socketService.send(this.chatID, message);
       }
       this.imageOrFile = '';
       this.formatImage = '';

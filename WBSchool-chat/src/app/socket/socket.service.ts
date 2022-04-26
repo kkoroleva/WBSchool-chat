@@ -12,27 +12,39 @@ export class SocketService {
   constructor(@Inject('API_URL') readonly apiUrl: string) {}
 
   public initSocket(): void {
-    this.socket = socketIo.io(this.apiUrl, {
-      path: '/api/socket',
-    });
+    if (localStorage.getItem('token')) {
+      this.socket = socketIo.io(this.apiUrl, {
+        path: '/api/socket',
+        auth: {token: localStorage.getItem('token')}
+      })
+    }
   }
 
-  public send(message: IMessage): void {
-    this.socket.emit('message', message);
+  public send(chatId: string, message: IMessage): void {
+    this.socket.emit('messages:create', {chatId, message});
+  }
+
+  public deleteMessage(chatId: string, messageId: string): void {
+    console.log(this.socket);
+    this.socket.emit(`messages:delete`, {chatId, messageId});
+  }
+
+  public updateMessage(chatId: string, message: IMessage): void {
+    this.socket.emit('messages:update', {chatId, message})
   }
 
   public onMessage(): Observable<IMessage> {
-    return new Observable<IMessage>((observer) => {
-      this.socket.on('message', (message: IMessage) => {
+    return new Observable<IMessage>(observer => {
+      this.socket.on('messages:create', (message: IMessage) => {
         console.log('Server message', message);
         observer.next(message);
       });
     });
   }
 
-  public onDeleteMessage(): Observable<string> {
-    return new Observable<string>((observer) => {
-      this.socket.on('delete message', (messageId: string) => {
+  public onDeleteMessage(chatId: string): Observable<string> {
+    return new Observable<string>(observer => {
+      this.socket.on(`messages:delete`, (messageId: string) => {
         console.log('Deleted message id', messageId);
         observer.next(messageId);
       });
@@ -40,8 +52,8 @@ export class SocketService {
   }
 
   public onUpdateMessage(): Observable<IMessage> {
-    return new Observable<IMessage>((observer) => {
-      this.socket.on('update message', (message: IMessage) => {
+    return new Observable<IMessage>(observer => {
+      this.socket.on('messages:update', (message: IMessage) => {
         console.log('Update message', message);
         observer.next(message);
       });

@@ -14,7 +14,7 @@ import { IContacts } from '../../../store/reducers/contacts.reducers';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { initContacts } from '../../../store/actions/contacts.actions';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
+import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
