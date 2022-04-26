@@ -5,21 +5,21 @@ import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith } from 'rxjs';
-import { IUserData } from 'src/app/auth/interfaces';
+import { IUserData } from '../../auth/interfaces';
 import {
   initContacts,
   pushContacts,
-} from 'src/app/store/actions/contacts.actions';
+} from '../../store/actions/contacts.actions';
 import {
   changeChatGroup,
   createChatFriend,
   pushToFriends,
-} from 'src/app/store/actions/groups.actions';
+} from '../../store/actions/groups.actions';
 
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
-import { selectUser } from 'src/app/store/selectors/auth.selectors';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
-import { selectFriends } from 'src/app/store/selectors/groups.selectors';
+import { IGroupsState } from '../../store/reducers/groups.reducers';
+import { selectUser } from '../../store/selectors/auth.selectors';
+import { selectContacts } from '../../store/selectors/contacts.selectors';
+import { selectFriends } from '../../store/selectors/groups.selectors';
 import { IFriend } from '../friend';
 
 @Component({

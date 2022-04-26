@@ -6,7 +6,6 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { SocketService } from './socket/socket.service';
 import { ConnectEvent } from './socket/event';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
