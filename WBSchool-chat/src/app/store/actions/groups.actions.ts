@@ -1,8 +1,7 @@
 import { IUser } from '../../groups/user';
 import { createAction, props } from '@ngrx/store';
-import { IFriend } from '../../friends/friend';
-import { IGroup } from '../../groups/group';
-import { IUnread } from '../../unread/unread';
+import { IPrivate } from 'src/app/friends/private';
+import { IGroup } from 'src/app/groups/group';
 
 export const loadGroups = createAction('[GROUPS] loadGroups');
 export const changeLoadGroups = createAction(
@@ -69,7 +68,7 @@ export const deleteFromGroups = createAction(
 export const loadFriends = createAction('[FRIENDS] loadFriends');
 export const changeLoadFriends = createAction(
   '[FRIENDS] changeLoadFriends',
-  props<{ friends: IFriend[] }>()
+  props<{ friends: IPrivate[] }>()
 );
 
 export const createChatFriend = createAction(
@@ -89,14 +88,7 @@ export const updateChatFriends = createAction(
 
 export const pushToFriends = createAction(
   '[FRIENDS] pushToFriends',
-  props<{ friend: IFriend }>()
+  props<{ friend: IPrivate }>()
 );
 
-//Unreads
-export const loadUnreads = createAction('[UNREADS] loadUnreads');
-export const changeLoadUnreads = createAction(
-  '[UNREADS] changeLoadUnreads',
-  props<{ unreads: IUnread[] }>()
-);
 
-export const clearUnreads = createAction('[UNREADS] clearUnreads');

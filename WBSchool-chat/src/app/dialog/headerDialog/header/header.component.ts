@@ -25,14 +25,13 @@ export class HeaderComponent implements OnInit {
   public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
   );
+  public user$: Observable<IUserData> = this.store$.pipe(
+    select(selectUser))
+
 
   constructor(private store$: Store<IChatInfo>,
               private router: Router,
               private modalWindow: MatDialog) { }
-              public user$: Observable<IUserData> = this.store$.pipe(
-    select(selectUser)
-  )
-
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
