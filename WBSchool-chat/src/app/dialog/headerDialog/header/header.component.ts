@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { IChatInfo } from 'src/app/store/reducers/dialog.reducer';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { selectChatGroup } from 'src/app/store/selectors/groups.selectors';
 import { getInfoChat } from 'src/app/store/actions/dialog.action';
 import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
@@ -19,6 +19,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  chatInfo: IChatInfo | undefined 
+
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -40,6 +42,7 @@ select(selectUser)
     this.chatGroup$.subscribe((id) => {
       this.store$.dispatch(getInfoChat({ chatId: id }));
     });
+    this.chatInfo$.subscribe(data => this.chatInfo = data)
   }
   
   getModalWindow(chatInfo: IChatInfo): void {
@@ -60,7 +63,7 @@ select(selectUser)
   }
 
   modalClick() {
-    this.chatInfo$.subscribe(data => this.modalServ.searchAndOpenDialog(data.name))
+    if (this.chatInfo) this.modalServ.searchAndOpenDialog(this.chatInfo?.name)
   }
 
 }

@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, Subscription, throwError } from 'rxjs';
 import { IUserData } from 'src/app/auth/interfaces';
 import { ProfileSettingsService } from 'src/app/profile-page/services/profile-settings.service';
 import { initContacts } from 'src/app/store/actions/contacts.actions';
@@ -17,6 +17,8 @@ import { ModalProfileComponent } from '../modal-profile.component';
 })
 export class ModalProfileService {
   userData: IUserData | undefined;
+  sub: Subscription | undefined;
+
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
@@ -25,12 +27,10 @@ export class ModalProfileService {
     private profileServ: ProfileSettingsService,
   ) { }
 
-  
-
   searchAndOpenDialog(username: string) {
     this.userData = undefined
     this.store$.dispatch(initContacts())  
-    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+    this.sub = this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
       contacts.contacts.map(contact => {
         if (contact.username == username) {
           if (this.userData == undefined) this.openDialog(contact)
@@ -51,17 +51,18 @@ export class ModalProfileService {
   }
 
   openDialog(contactData: IUserData): void {
+    console.log('i was called')
     const dialogRef = this.dialog.open(ModalProfileComponent, {
       panelClass: 'modal-profile',
       data: contactData
     });
 
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => {
+      if (this.sub) this.sub.unsubscribe()
+    });
   }
 
   deleteContact(_id: string): Observable<IContacts> {
     return this.http.patch<IContacts>(`${this.apiUrl}/api/users/contacts`, {id: _id})
   }
-
-  
 }
