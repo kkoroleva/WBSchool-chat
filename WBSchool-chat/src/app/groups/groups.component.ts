@@ -6,8 +6,13 @@ import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
-import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
+import {
+  changeChatGroup,
+  loadGroups,
+  setGroup,
+} from '../store/actions/groups.actions';
 import { IGroup } from './group';
+import { OutFromGroupComponent } from './modal/out-from-group/out-from-group.component';
 
 @Component({
   selector: 'app-groups',
@@ -39,9 +44,16 @@ export class GroupsComponent implements OnInit {
   }
 
   openGroupChat(group: IGroup): void {
+    this.dialog.open(OutFromGroupComponent, {
+      panelClass: 'out-from-group-modal',
+      maxWidth: '100vw',
+    });
+    
+    this.store$.dispatch(setGroup({ group }));
+
     this.store$.dispatch(changeChatGroup({ chatGroup: group._id! }));
     localStorage.setItem('chatID', group._id!);
 
-    this.router.navigateByUrl('/chat');
+    // this.router.navigateByUrl('/chat');
   }
 }
