@@ -188,34 +188,6 @@ export class AppEffects {
     )
   });
 
-  pushToMessages$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(sendMessage),
-      mergeMap(({ message, id }) => this.http.post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message).pipe(
-        map(
-          (message) => emptyMessage()))
-      )
-    )
-  })
-
-  deleteMessage$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(removeMessage),
-      mergeMap(({ id, chatId }) => this.http.delete<string>(`${this.urlApi}/chats/${chatId}/messages/${id}`).pipe(
-        map((id) => deleteMessage({ id: id }))
-      ))
-    )
-  })
-
-  editMessage$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(newEditMessage),
-      mergeMap(({ text, id, chatId }) => this.dialogService.editMessage(text, id, chatId).pipe(
-        map((message) => emptyMessage())
-      ))
-    )
-  })
-
   loadContacts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(initContacts),
