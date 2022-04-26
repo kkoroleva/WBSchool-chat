@@ -43,7 +43,6 @@ export class HeaderComponent implements OnInit {
     })
 
     this.chatInfo$.subscribe(item => {
-      console.log('called for ' + item.name)
       this.userData = {
         email: '',
         username: item.name,
@@ -54,9 +53,7 @@ export class HeaderComponent implements OnInit {
         v: item.__v,
         formatImage: item.formatImage
       }
-      }
-    )
-    // this.chatInfo$.subscribe(resp => console.log(resp))
+    })
   }
 
   deleteChat(_id: string) {

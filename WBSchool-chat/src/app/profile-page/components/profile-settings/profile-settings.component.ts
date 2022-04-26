@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, concatMap, Subject, Subscription, tap, throwError } from 'rxjs';
+import { catchError, concatMap, Observable, Subject, Subscriber, Subscription, tap, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
@@ -47,6 +47,8 @@ export class ProfileSettingsComponent implements OnInit {
   contacts: IUserData[] = [];
   sub$!: Subscription;
 
+  public imageInBase64 = '';
+
   settingsList: ISettingsList[] = [
     {
       "id": 1,
@@ -85,6 +87,8 @@ export class ProfileSettingsComponent implements OnInit {
       "description": "null"
     }
   ]
+  private inputFile!: HTMLInputElement;
+  public imageName = '';
 
   constructor(
     private profileServ: ProfileSettingsService, 
@@ -158,6 +162,13 @@ export class ProfileSettingsComponent implements OnInit {
     }
   }
 
+  deleteImage(): void {
+    this.inputFile.value = '';
+    this.imageInBase64 = '';
+    this.imageName = '';
+    this.toggle = !this.toggle;
+  }
+
   addImage(input: any) {
     let imageOrFile = '';
     let reader = new FileReader();
@@ -165,6 +176,8 @@ export class ProfileSettingsComponent implements OnInit {
     reader.onloadend = () => {
       if (typeof reader.result == "string") {
         imageOrFile = reader.result;
+        this.imageName = input.files[0]?.name
+        console.log(this.imageName)
         if (+this.imageCompress.byteCount(reader.result) > 1048576) {
           this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
           .then(result =>  {
@@ -175,8 +188,7 @@ export class ProfileSettingsComponent implements OnInit {
           this.formData.avatar = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
           this.formData.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }
-      }
-      else {
+      } else {
         alert("Вы отправляете не картинку!")
       }
     }
