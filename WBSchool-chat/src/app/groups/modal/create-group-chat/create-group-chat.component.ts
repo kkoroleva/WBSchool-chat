@@ -5,7 +5,13 @@ import {
 } from './../../../store/actions/contacts.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { map, Observable, startWith, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
