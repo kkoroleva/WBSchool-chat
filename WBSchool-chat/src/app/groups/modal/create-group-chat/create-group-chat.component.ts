@@ -6,8 +6,8 @@ import {
 import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
-  AfterViewChecked,
   Component,
+  DoCheck,
   ElementRef,
   OnInit,
   ViewChild,
@@ -32,7 +32,7 @@ import { IUser } from '../../user';
   templateUrl: './create-group-chat.component.html',
   styleUrls: ['./create-group-chat.component.scss'],
 })
-export class CreateGroupChatComponent implements OnInit {
+export class CreateGroupChatComponent implements OnInit, DoCheck {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('contacts') contactsMatChipList!: MatChipList;
 
@@ -58,6 +58,12 @@ export class CreateGroupChatComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private actions$: Actions
   ) {}
+
+  ngDoCheck(): void {
+    if (this.contactsMatChipList) {
+      this.contactsMatChipList.errorState = true;
+    }
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
