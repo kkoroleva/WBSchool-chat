@@ -53,12 +53,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index" [ngClass]="{'profile-settings__menu_item_disabled':item.description == 'null'}">
+			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index" [ngClass]="{'profile-settings__menu_item_disabled': item.description == 'null'}">
 				<div class="profile-settings__menu_item_name">
 					<mat-icon>{{ item.icon }}</mat-icon>
 					<div class="profile-settings__menu_item_title"
 						 (click)="[onSelect(item), toggle = !toggle]"
-						 [class.selected]="item === selectedItem">
+						 [class.selected]="item === selectedItem"
+						 [ngClass]="{'title_changed': compare(item.description, item.type)}"
+					>
 						 {{ item.title }}
 					</div>
 				</div>
@@ -69,7 +71,6 @@
 						<mat-form-field appearance="fill">
 							<mat-label>{{selectedItem.title}}</mat-label>
 							<input matInput color='warn' type="text" id={{item.id}} value={{item.description}} #input>
-							<!-- <textarea name="" id="" cols="30" rows="10" value={{item.description}}></textarea> -->
 						</mat-form-field>
 
 						<div class="form-field__btn-wrapper">

@@ -52,36 +52,42 @@ export class ProfileSettingsComponent implements OnInit {
   settingsList: ISettingsList[] = [
     {
       "id": 1,
+      "type": "username",
       "icon": "person",
       "title": "Edit Profile Name",
       "description": this.profileData.username
     },
     {
       "id": 2,
+      "type": "status",
       "icon": "textsms",
       "title": "Edit Profile Status Info",
-      "description": this.profileData.status
+      "description": "null" // this.profileData.status
     },
     {
       "id": 3,
+      "type": "avatar",
       "icon": "add_photo_alternate",
       "title": "Edit Profile Photo",
       "description": this.profileData.avatar
     },
     {
       "id": 4,
+      "type": "about",
       "icon": "edit",
       "title": "Edit Description",
       "description": this.profileData.about
     },
     {
       "id": 5,
+      "type": "email",
       "icon": "mail",
       "title": "Edit Email",
       "description": this.profileData.email
     },
     {
       "id": 6,
+      "type": "wallpaper",
       "icon": "wallpaper",
       "title": "Change wallpaper",
       "description": "null"
@@ -265,5 +271,20 @@ export class ProfileSettingsComponent implements OnInit {
 
   itemFormat(item: string) {
     return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"));
+  }
+
+  compare(desc: string | undefined, type: string) {
+    switch (type) {
+      case 'username':
+        return desc != this.formData.username && this.formData.username != undefined;
+      case 'avatar':
+        return desc != this.formData.avatar && this.formData.avatar != undefined;
+      case 'about':
+        return desc != this.formData.about && this.formData.about != undefined;
+      case 'email':
+        return desc != this.formData.email && this.formData.email != undefined;
+      default:
+        return false
+    }
   }
 }
