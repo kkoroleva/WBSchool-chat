@@ -34,6 +34,7 @@ import {
   setGroupUsers,
   deleteGroup,
   deleteFromGroups,
+  outChatFriend,
 } from '../actions/groups.actions';
 import { catchError, map, mergeMap, throwError, of, tap, switchMap } from 'rxjs';
 
@@ -224,6 +225,17 @@ export class AppEffects {
       mergeMap(({ chatId }) =>
         this.http
           .delete<string>(`${this.urlApi}/chats/${chatId}`)
+          .pipe(map((id) => updateChatFriends({ chatId: id })))
+      )
+    );
+  });
+
+  outChat$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(outChatFriend),
+      mergeMap(({ chatId, _id }) =>
+        this.http
+          .patch<string>(`${this.urlApi}/chats/${chatId}`, _id)
           .pipe(map((id) => updateChatFriends({ chatId: id })))
       )
     );

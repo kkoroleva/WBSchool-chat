@@ -7,7 +7,7 @@ import { getInfoChat } from '../../../store/actions/dialog.action';
 import { selectChatInfo } from '../../../store/selectors/dialog.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
-import { changeChatGroup, setGroup } from '../../../store/actions/groups.actions';
+import { changeChatGroup, outChatFriend, setGroup } from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../auth/interfaces';
 import { selectUser } from '../../../store/selectors/auth.selectors';
 import { deleteChatFriend, loadFriends } from '../../../store/actions/groups.actions';
@@ -52,6 +52,13 @@ export class HeaderComponent implements OnInit {
   deleteChat(_id: string) {
     this.store$.dispatch(deleteChatFriend({chatId: _id}));
     this.store$.dispatch(loadFriends());
+    setTimeout(() => {
+      this.router.navigateByUrl('/home')
+    }, 0)
+  }
+
+  outChat(chatId: string, id: string) {
+    this.store$.dispatch(outChatFriend({chatId: chatId, _id: id}));
     setTimeout(() => {
       this.router.navigateByUrl('/home')
     }, 0)
