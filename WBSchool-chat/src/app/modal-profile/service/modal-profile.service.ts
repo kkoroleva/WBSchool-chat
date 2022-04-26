@@ -25,54 +25,29 @@ export class ModalProfileService {
     private profileServ: ProfileSettingsService,
   ) { }
 
-  async searchAndOpenDialog(username: string): Promise<void> {
+  
+
+  searchAndOpenDialog(username: string) {
     this.userData = undefined
-    this.store$.dispatch(initContacts());
-    console.log(0.5)
-    await this.store$.pipe(select(selectContacts)).subscribe(async (contacts: IContacts) => {
-        await contacts.contacts.map(contact => {
-          if (contact.username == username) {
-            this.userData = contact
-          }
-        })
-        await console.log(1)
+    this.store$.dispatch(initContacts())  
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      contacts.contacts.map(contact => {
+        if (contact.username == username) {
+          if (this.userData == undefined) this.openDialog(contact)
+          this.userData = contact
+        }
       })
-    if (this.userData == undefined) {
-      await this.profileServ.getUsers(username)
+      this.profileServ.getUsers(username)
         .pipe(
           catchError((error: HttpErrorResponse) => {
             return throwError(() => error);
           })
-        )
-        .subscribe((user: IUserData) => {
+        ).subscribe((user: IUserData) => {
+          if (this.userData == undefined) this.openDialog(user)
           this.userData = user
         });
-        await console.log(2)
-    }
-    if (this.userData != undefined) await this.openDialog(this.userData)
-    await console.log(this.userData)
-    
-    // this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-    //   contacts.contacts.map(contact => {
-    //     if (contact.username == username) {
-    //       this.userData = contact
-    //     }
-    //   })
-    //   if (this.userData == undefined) {
-    //     this.profileServ.getUsers(username)
-    //       .pipe(
-    //         catchError((error: HttpErrorResponse) => {
-    //           return throwError(() => error);
-    //         })
-    //       )
-    //       .subscribe((user: IUserData) => {
-    //         this.userData = user
-    //       });
-    //   }
-    // })
-    // setTimeout(() => {
-    //   if (this.userData != undefined) this.openDialog(this.userData)
-    // }, 500);
+      }
+    )
   }
 
   openDialog(contactData: IUserData): void {
@@ -87,4 +62,6 @@ export class ModalProfileService {
   deleteContact(_id: string): Observable<IContacts> {
     return this.http.patch<IContacts>(`${this.apiUrl}/api/users/contacts`, {id: _id})
   }
+
+  
 }

@@ -19,9 +19,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  
-  userData: IUserData | undefined;
-
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -43,18 +40,6 @@ select(selectUser)
     this.chatGroup$.subscribe((id) => {
       this.store$.dispatch(getInfoChat({ chatId: id }));
     });
-    this.chatInfo$.subscribe(item => {
-      this.userData = {
-        email: '',
-        username: item?.name,
-        userRights: '',
-        avatar: item?.avatar,
-        about: item?.about,
-        _id: item?._id,
-        v: item?.__v,
-        formatImage: item?.formatImage
-      }
-    })
   }
   
   getModalWindow(chatInfo: IChatInfo): void {
@@ -75,7 +60,7 @@ select(selectUser)
   }
 
   modalClick() {
-    if (this.userData != undefined) this.modalServ.openDialog(this.userData)
+    this.chatInfo$.subscribe(data => this.modalServ.searchAndOpenDialog(data.name))
   }
 
 }

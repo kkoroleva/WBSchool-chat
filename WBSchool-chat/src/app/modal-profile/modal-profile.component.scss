@@ -1,8 +1,8 @@
 .profile {
 	background: #FFFFFF;
 	border-radius: 20px;
-	min-width: 250px;
-	width: 100%;
+	width: 400px;
+	transition: 0.5s;
 	position: relative;
 
 	.profile__close {
@@ -230,6 +230,14 @@
 		color: rgba(0, 0, 0, 0.5);
 		margin: 0 auto 38px;
 		text-align: center;
+	}
+
+	@media (max-width: 450px) {
+		width: 300px;
+	}
+
+	@media (max-width: 350px) {
+		width: 250px;
 	}
 }
 
