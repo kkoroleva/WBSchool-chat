@@ -49,6 +49,7 @@ export class MessageComponent implements OnInit {
   ioConnection: any;
   contacts: IUserData[] = [];
   userData: IUserData | undefined;
+  imgInput: boolean = false;
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
@@ -175,6 +176,7 @@ export class MessageComponent implements OnInit {
       this.imageOrFile = '';
       this.formatImage = '';
       this.message.setValue('');
+      this.imgInput = false
     }
   }
 
@@ -190,5 +192,9 @@ export class MessageComponent implements OnInit {
 
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user)
+  }
+
+  onImgAdd() {
+    this.imgInput = true
   }
 }
