@@ -1,7 +1,12 @@
 <div class="modal">
     <h3 class="modal__title" mat-dialog-title>Create new private chat</h3>
     <mat-dialog-content>
-        <form [formGroup]="form" class="modal__form">
+
+        <div *ngIf="!myContacts.length && contactsIsLoaded">
+            <p class="modal__err">You cannot create a chat because your contact list is empty :(</p>
+        </div>
+
+        <form *ngIf="myContacts.length && contactsIsLoaded" [formGroup]="form" class="modal__form">
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Add user</mat-label>
                 <input class="modal__input" matInput placeholder="Username" [formControl]="contactsControl"

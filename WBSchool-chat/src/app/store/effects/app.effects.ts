@@ -35,7 +35,15 @@ import {
   deleteGroup,
   deleteFromGroups,
 } from '../actions/groups.actions';
-import { catchError, map, mergeMap, throwError, of, tap, switchMap } from 'rxjs';
+import {
+  catchError,
+  map,
+  mergeMap,
+  throwError,
+  of,
+  tap,
+  switchMap,
+} from 'rxjs';
 
 import {
   addAuthNotification,
@@ -68,7 +76,7 @@ export class AppEffects {
     public dialogService: DialogService,
     private router: Router,
     @Inject('API_URL') public apiUrl: string
-  ) { }
+  ) {}
 
   // Notifications
   loadNotifications$ = createEffect(() =>
@@ -125,7 +133,11 @@ export class AppEffects {
             `${this.urlApi}/users/notifications`,
             notification
           )
-          .pipe(map((notification: INotification) => pushToNotification({ notification })))
+          .pipe(
+            map((notification: INotification) =>
+              pushToNotification({ notification })
+            )
+          )
       )
     );
   });
@@ -164,15 +176,16 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(editGroup),
       mergeMap(({ id, editGroup }) =>
-        this.http.patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup)
-          .pipe(tap((group) => (group.avatar = group.formatImage! + group.avatar)),
-            switchMap((group) =>
-              [newGetInfoChat({ chatInfo: group as IChatInfo }), editToGroups({ group })]
-            ))
+        this.http.patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup).pipe(
+          tap((group) => (group.avatar = group.formatImage! + group.avatar)),
+          switchMap((group) => [
+            newGetInfoChat({ chatInfo: group as IChatInfo }),
+            editToGroups({ group }),
+          ])
+        )
       )
     );
   });
-
 
   deleteGroup$ = createEffect(() => {
     return this.actions$.pipe(
@@ -222,9 +235,9 @@ export class AppEffects {
             ownerUsername,
           })
           .pipe(
-            tap((friend) =>
-            friend.avatar = friend.formatImage! + friend.avatar
-          ),
+            tap(
+              (friend) => (friend.avatar = friend.formatImage! + friend.avatar)
+            ),
             map((friend) => pushToFriends({ friend })),
             catchError((err) =>
               of(chatGroupError({ error: err.error.message }))
@@ -328,13 +341,15 @@ export class AppEffects {
   getInfoChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getInfoChat),
-      mergeMap(({ chatId }) => this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}`).pipe(
-        tap((chatInfo) => (chatInfo.avatar = chatInfo.formatImage! + chatInfo.avatar)),
-        map(
-          (chatInfo) => newGetInfoChat({ chatInfo })))
-
+      mergeMap(({ chatId }) =>
+        this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}`).pipe(
+          tap(
+            (chatInfo) =>
+              (chatInfo.avatar = chatInfo.formatImage! + chatInfo.avatar)
+          ),
+          map((chatInfo) => newGetInfoChat({ chatInfo }))
+        )
       )
     );
   });
-
 }
