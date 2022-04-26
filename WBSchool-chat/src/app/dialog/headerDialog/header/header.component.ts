@@ -45,13 +45,13 @@ export class HeaderComponent implements OnInit {
     this.chatInfo$.subscribe(item => {
       this.userData = {
         email: '',
-        username: item.name,
+        username: item?.name,
         userRights: '',
-        avatar: item.avatar,
-        about: item.about,
-        _id: item._id,
-        v: item.__v,
-        formatImage: item.formatImage
+        avatar: item?.avatar,
+        about: item?.about,
+        _id: item?._id,
+        v: item?.__v,
+        formatImage: item?.formatImage
       }
     })
   }

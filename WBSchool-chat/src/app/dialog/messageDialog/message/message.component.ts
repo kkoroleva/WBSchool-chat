@@ -192,28 +192,30 @@ export class MessageComponent implements OnInit {
   }
 
   openProfile(item: any) {
-    this.userData = undefined
-    this.store$.dispatch(initContacts());
-    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-      contacts.contacts.map(contact => {
-        if (contact._id == item.owner) {
-          this.userData = contact
-        }
-      })
-      if (this.userData == undefined) {
-        this.profileServ.getUsers(item.username)
-          .pipe(
-            catchError((error: HttpErrorResponse) => {
-              return throwError(() => error);
-            })
-          )
-          .subscribe((user: IUserData) => {
-            this.userData = user
-          });
-      }
-    })
-    setTimeout(() => {
-      if (this.userData != undefined) this.modalServ.openDialog(this.userData)
-    }, 500);
+    console.log(0)
+    this.modalServ.searchAndOpenDialog(item.username)
+    // this.userData = undefined
+    // this.store$.dispatch(initContacts());
+    // this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+    //   contacts.contacts.map(contact => {
+    //     if (contact._id == item.owner) {
+    //       this.userData = contact
+    //     }
+    //   })
+    //   if (this.userData == undefined) {
+    //     this.profileServ.getUsers(item.username)
+    //       .pipe(
+    //         catchError((error: HttpErrorResponse) => {
+    //           return throwError(() => error);
+    //         })
+    //       )
+    //       .subscribe((user: IUserData) => {
+    //         this.userData = user
+    //       });
+    //   }
+    // })
+    // setTimeout(() => {
+    //   if (this.userData != undefined) this.modalServ.openDialog(this.userData)
+    // }, 500);
   }
 }
