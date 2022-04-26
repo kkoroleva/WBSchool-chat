@@ -1,4 +1,4 @@
-import { IUser } from 'src/app/groups/user';
+import { IUser } from '../../groups/user';
 import { createAction, props } from '@ngrx/store';
 import { IPrivate } from 'src/app/friends/private';
 import { IGroup } from 'src/app/groups/group';

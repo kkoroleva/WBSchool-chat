@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, throwError } from 'rxjs';
-import { IProfileData, IServerResponse } from 'src/app/profile-page/interfaces/profile-settings';
+import { IProfileData, IServerResponse } from '../../../../profile-page/interfaces/profile-settings';
 import { IFormData, IPasswordEditData } from '../../../interfaces/account-settings';
 import { AccountSettingsService } from '../../../services/account-settings.service';
 

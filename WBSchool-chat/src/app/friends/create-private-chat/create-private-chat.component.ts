@@ -5,16 +5,16 @@ import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith } from 'rxjs';
-import { IUserData } from 'src/app/auth/interfaces';
+import { IUserData } from '../../auth/interfaces';
 import {
   initContacts,
   pushContacts,
-} from 'src/app/store/actions/contacts.actions';
+} from '../../store/actions/contacts.actions';
 import {
   changeChatGroup,
   createChatFriend,
   pushToFriends,
-} from 'src/app/store/actions/groups.actions';
+} from '../../store/actions/groups.actions';
 
 import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
 import { selectUser } from 'src/app/store/selectors/auth.selectors';
@@ -36,6 +36,8 @@ export class CreatePrivateChatComponent implements OnInit {
     map((contacts) => contacts.contacts)
   );
   private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
+  public myContacts!: IUserData[];
+  public contactsIsLoaded = false;
 
   constructor(
     private dialogRef: MatDialogRef<CreatePrivateChatComponent>,
@@ -63,6 +65,8 @@ export class CreatePrivateChatComponent implements OnInit {
 
     this.actions$.pipe(ofType(pushContacts)).subscribe(({ contacts }) => {
       this.contactsList = contacts.contacts;
+      this.myContacts = contacts.contacts;
+      this.contactsIsLoaded = true;
 
       this.contacts$ = this.contactsControl.valueChanges.pipe(
         startWith(''),
@@ -83,13 +87,15 @@ export class CreatePrivateChatComponent implements OnInit {
       })
       if (!clone) {
         this.user$.subscribe({
-            next: (user) => this.store$.dispatch(createChatFriend({ username, ownerUsername: user.username })),
-            complete: () => console.log('complete')
+          next: (user) =>
+            this.store$.dispatch(
+              createChatFriend({ username, ownerUsername: user.username })
+            ),
+          complete: () => console.log('complete'),
         });
-      }
-      else {
-          this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
-          this.router.navigateByUrl('/chat');
+      } else {
+        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+        this.router.navigateByUrl('/chat');
       }
     }
     this.dialogRef.close();

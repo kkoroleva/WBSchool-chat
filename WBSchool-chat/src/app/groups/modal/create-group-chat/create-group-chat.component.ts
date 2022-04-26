@@ -10,13 +10,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { map, Observable, startWith, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
 import { select, Store } from '@ngrx/store';
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { IGroupsState } from './../../../store/reducers/groups.reducers';
 import {
   chatGroupError,
   createChatGroup,
   pushToGroups,
-} from 'src/app/store/actions/groups.actions';
-import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
+} from './../../../store/actions/groups.actions';
+import { selectChatGroupError } from './../../../store/selectors/groups.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';

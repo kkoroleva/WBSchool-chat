@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { changeLoadNotifications, removeNotification } from '../actions/notifications.actions';
+import { addAuthNotification, changeLoadNotifications, pushToNotification, removeNotification } from '../actions/notifications.actions';
 
 export const notificationNode = 'Notifications';
 
@@ -12,12 +12,16 @@ export interface INotification {
   text: string;
 }
 
+export interface IPostNotification {
+  text: string
+}
+
 const initialState: INotificationsState = {
   notifications: [
     {
-      _id: '123',
-      expiresIn: 'string',
-      text: 'string'
+      _id: '',
+      expiresIn: '',
+      text: ''
     }
   ],
 };
@@ -33,4 +37,8 @@ export const notificationsReducer = createReducer(
     notifications: state.notifications.filter(
       (notification) => notification._id !== action.id),
   })),
+  on(pushToNotification, (state, action) => ({
+    ...state,
+    notifications: [action.notification, ...state.notifications]
+  }))
 );
