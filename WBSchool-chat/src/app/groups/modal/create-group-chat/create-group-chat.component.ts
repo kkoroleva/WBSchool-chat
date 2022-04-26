@@ -59,12 +59,6 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
     private actions$: Actions
   ) {}
 
-  ngDoCheck(): void {
-    if (this.contactsMatChipList) {
-      this.contactsMatChipList.errorState = true;
-    }
-  }
-
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', [
@@ -87,6 +81,16 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
     });
 
     this.getContacts();
+  }
+
+  ngDoCheck(): void {
+    if (this.contactsMatChipList) {
+      if (this.form.get('contacts')?.value.length < 2) {
+        this.contactsMatChipList.errorState = true;
+      } else {
+        this.contactsMatChipList.errorState = false;
+      }
+    }
   }
 
   getContacts(): void {
@@ -212,12 +216,6 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
       avatar: event.option.value.avatar,
       formatImage: event.option.value.formatImage,
     };
-
-    if (contactsValue.length + 1 < 2) {
-      this.contactsMatChipList.errorState = true;
-    } else {
-      this.contactsMatChipList.errorState = false;
-    }
 
     contacts.patchValue([...contactsValue, contact]);
 
