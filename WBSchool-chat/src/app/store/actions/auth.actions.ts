@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IUserData } from 'src/app/auth/interfaces';
+import { IUserData } from '../../auth/interfaces';
 
 export const initAuth = createAction(
   '[AUTH] initAuth',

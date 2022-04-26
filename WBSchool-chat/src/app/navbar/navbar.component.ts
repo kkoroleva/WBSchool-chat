@@ -6,8 +6,9 @@ import { IUserData } from '../auth/interfaces';
 import { AuthService } from '../auth/services/auth.service';
 import { loadGroups } from '../store/actions/groups.actions';
 import { IGroupsState } from '../store/reducers/groups.reducers';
-import { INotificationsState } from '../store/reducers/notifications.reducers';
+import { INotification, INotificationsState } from '../store/reducers/notifications.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
+import { selectElNotifications } from '../store/selectors/notifications.selectors';
 
 @Component({
   selector: 'app-navbar',
@@ -22,6 +23,12 @@ export class NavbarComponent {
     private store$: Store<INotificationsState | IGroupsState>
   ) {}
 
+  public notificationsList$: Observable<INotification[]> = this.store$.pipe(
+    select(selectElNotifications)
+  );
+  
+  
+  
   public userState$: Observable<IUserData> = this.store$.pipe(
     select(selectUser)
   );

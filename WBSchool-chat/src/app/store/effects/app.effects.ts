@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  changeChatInfo,
   deleteMessage,
   emptyMessage,
   getInfoChat,
@@ -11,7 +10,6 @@ import {
   loadDialogs,
   newEditMessage,
   newGetInfoChat,
-  pushToMessages,
   removeMessage,
   sendMessage,
 } from '../actions/dialog.action';
@@ -48,20 +46,22 @@ import {
 } from 'rxjs';
 
 import {
+  addAuthNotification,
   changeLoadNotifications,
   clearNotifications,
   loadNotifications,
+  pushToNotification,
   removeNotification,
 } from '../actions/notifications.actions';
 
-import { IMessage } from 'src/app/dialog/dialog';
+import { IMessage } from '../../dialog/dialog';
 import { INotification } from '../reducers/notifications.reducers';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { IFriend } from '../../friends/friend';
+import { IUnread } from '../../unread/unread';
+import { DialogService } from '../../dialog/dialog.service';
 import { Router } from '@angular/router';
 import { IContacts } from '../reducers/contacts.reducers';
-import { IGroup } from 'src/app/groups/group';
+import { IGroup } from '../../groups/group';
 import { initContacts, pushContacts } from '../actions/contacts.actions';
 import { IChatInfo } from '../reducers/dialog.reducer';
 
@@ -119,6 +119,24 @@ export class AppEffects {
           .delete<INotification[]>(`${this.urlApi}/users/notifications/clear`)
           .pipe(
             map((notifications) => changeLoadNotifications({ notifications }))
+          )
+      )
+    );
+  });
+
+  addAuthNotification$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(addAuthNotification),
+      mergeMap(({ notification }) =>
+        this.http
+          .post<INotification>(
+            `${this.urlApi}/users/notifications`,
+            notification
+          )
+          .pipe(
+            map((notification: INotification) =>
+              pushToNotification({ notification })
+            )
           )
       )
     );
@@ -289,7 +307,6 @@ export class AppEffects {
   pushToMessages$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(sendMessage),
-
       mergeMap(({ message, id }) =>
         this.http
           .post<IMessage>(`${this.urlApi}/chats/${id}/messages`, message)

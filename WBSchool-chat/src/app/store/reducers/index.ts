@@ -1,5 +1,5 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { authNode, authReducer, IAuthState } from './auth.reducers';
 import { contactsNode, IContacts, contactsReducer } from './contacts.reducers';
 import { dialogNode, dialogReducer, IDialogState } from './dialog.reducer';

@@ -1,7 +1,7 @@
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Action, select, Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
@@ -14,11 +14,10 @@ import {
   pushToMessages,
   removeMessage,
   sendMessage,
-} from 'src/app/store/actions/dialog.action';
-import { selectDialog } from 'src/app/store/selectors/dialog.selector';
+} from '../../../store/actions/dialog.action';
+import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
-import { SocketService } from 'src/app/socket/socket.service';
-import { Actions, ofType } from '@ngrx/effects';
+import { SocketService } from '../../../socket/socket.service';
 
 @Component({
   selector: 'app-message',

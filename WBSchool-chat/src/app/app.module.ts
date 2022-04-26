@@ -44,6 +44,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
 
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
@@ -141,6 +142,7 @@ const API_URL_PROVIDER: Provider = {
     MatDialogModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatBadgeModule,
 
     //Forms
     FormsModule,

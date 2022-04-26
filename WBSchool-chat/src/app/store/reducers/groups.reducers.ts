@@ -16,9 +16,9 @@ import {
   changeLoadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
-import { IUser } from 'src/app/groups/user';
+import { IFriend } from '../../friends/friend';
+import { IUnread } from '../../unread/unread';
+import { IUser } from '../../groups/user';
 
 export const groupsNode = 'Groups';
 

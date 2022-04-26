@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { IChatInfo } from 'src/app/store/reducers/dialog.reducer';
+import { IChatInfo } from '../../../store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
-import { selectChatGroup } from 'src/app/store/selectors/groups.selectors';
-import { getInfoChat } from 'src/app/store/actions/dialog.action';
-import { selectChatInfo } from 'src/app/store/selectors/dialog.selector';
+import { selectChatGroup } from '../../../store/selectors/groups.selectors';
+import { getInfoChat } from '../../../store/actions/dialog.action';
+import { selectChatInfo } from '../../../store/selectors/dialog.selector';
 import { MatDialog } from '@angular/material/dialog';
-import { EditGroupChatComponent } from 'src/app/groups/modal/edit-group-chat/edit-group-chat.component';
-import { changeChatGroup, setGroup } from 'src/app/store/actions/groups.actions';
-import { IUserData } from 'src/app/auth/interfaces';
-import { selectUser } from 'src/app/store/selectors/auth.selectors';
-import { deleteChatFriend, loadFriends } from 'src/app/store/actions/groups.actions';
+import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
+import { changeChatGroup, setGroup } from '../../../store/actions/groups.actions';
+import { IUserData } from '../../../auth/interfaces';
+import { selectUser } from '../../../store/selectors/auth.selectors';
+import { deleteChatFriend, loadFriends } from '../../../store/actions/groups.actions';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
