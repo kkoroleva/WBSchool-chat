@@ -2,6 +2,7 @@ import {
   changeLoadFriends,
   changeLoadUnreads,
   chatGroupError,
+  deleteFromGroups,
   editToGroups,
   loadFriends,
   pushToFriends,
@@ -85,6 +86,10 @@ export const groupsReducer = createReducer(
   on(setGroupUsers, (state, action) => ({
     ...state,
     groupUsers: action.users,
+  })),
+  on(deleteFromGroups, (state, action) => ({
+    ...state,
+    groups: state.groups.filter((group) => group._id !== action.id),
   })),
   // Chats
   on(loadFriends, (state) => ({

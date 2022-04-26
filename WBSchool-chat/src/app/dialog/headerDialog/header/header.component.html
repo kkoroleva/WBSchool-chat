@@ -1,14 +1,20 @@
+<<<<<<< HEAD
 <header class="header" *ngIf="chatInfo$ | async as chatInfo">
     <section class="header__info"  (click)="modalClick()">
+=======
+<header *ngIf="chatInfo$ | async as chatInfo" class="header">
+    <section  class="header__info">
+>>>>>>> 14ee517770710373af456bff683ad12e55edc3f7
         <div class="header__avatar">
-            <img [src]="chatInfo.formatImage + chatInfo.avatar" alt="avatar" width="76px" height="75px">
-            <span></span>
-        </div>
-        <div class="header__name" *ngIf="user$ |async as user">
-            <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
-            <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
-            <span>Online</span>
-        </div>
+            <img [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
+                <span *ngIf="chatInfo.users.length === 2 "></span>
+        </div>        
+            <div class="header__name" *ngIf="user$ |async as user">
+                <p class="name" *ngIf="chatInfo.users.length > 2">{{chatInfo.name}}</p>
+                <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
+                <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
+                <span *ngIf="chatInfo.users.length === 2">Online</span>
+            </div>
     </section>
 
     <section class="header__icon">
@@ -19,6 +25,9 @@
         <mat-menu #blockMenu="matMenu">
             <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
                 <span>Очистить чат</span>
+            </button>
+            <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2"  mat-menu-item>
+                <span>Редактировать чат</span>
             </button>
         </mat-menu>
     </section>

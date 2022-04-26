@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { IMessage } from 'src/app/dialog/dialog';
-import { deleteMessage, editMessage, getInfoChat, initDialogs, loadDialogs, newGetInfoChat, pushToMessages } from '../actions/dialog.action';
+import { changeChatInfo, deleteMessage, editMessage, initDialogs, loadDialogs, newGetInfoChat, pushToMessages } from '../actions/dialog.action';
 
 export const dialogNode = 'Dialog';
 export interface IDialogState {
@@ -39,7 +39,7 @@ const initialState: IDialogState = {
         __v: 0,
         chatGroup: "",
         avatar: "",
-        users: [],
+        users:[],
         usernames: []
     }
 }
@@ -70,9 +70,8 @@ export const dialogReducer = createReducer(
             return action.message._id === message._id ? action.message : message
         })
     })),
-    
     on(newGetInfoChat, (state, action) => ({
         ...state,
         chatInfo: action.chatInfo
-    }))
+    })), 
 )

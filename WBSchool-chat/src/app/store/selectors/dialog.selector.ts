@@ -1,3 +1,4 @@
+import { state } from '@angular/animations';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IMessage } from 'src/app/dialog/dialog';
 import { dialogNode, IChatInfo, IDialogState } from '../reducers/dialog.reducer';

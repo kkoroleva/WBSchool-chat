@@ -92,6 +92,7 @@ export class CreatePrivateChatComponent implements OnInit {
           this.router.navigateByUrl('/chat');
       }
     }
+    this.dialogRef.close();
   }
 
   private filterContacts(username: string): IUserData[] {

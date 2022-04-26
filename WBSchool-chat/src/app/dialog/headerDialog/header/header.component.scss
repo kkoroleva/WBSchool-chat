@@ -19,12 +19,16 @@
     }
 
     &__avatar {
-      width: 76px;
-      height: 75px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       position: relative;
       margin-right: 33px;
       filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+      .avatar_img{
+        border-radius: 50%;
+      }
 
       span {
         position: absolute;
@@ -32,15 +36,20 @@
         width: 15px;
         height: 15px;
         border-radius: 50%;
-        right: 4px;
-        bottom: 10px;
+        right: 0;
+        bottom: -2px;
         border: 2px solid white;
+
+        @media (max-width: 495px) {
+          bottom: 1px;
+        }
       }
 
       @media (max-width: 495px) {
         width: 70px;
         height: 70px;
         margin-right: 10px;
+
 
         span {
           width: 15px;
@@ -50,6 +59,7 @@
         img {
           width: 70px;
           height: 70px;
+          border-radius: 50%;
         }
       }
     }

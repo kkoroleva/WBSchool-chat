@@ -1,7 +1,7 @@
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { catchError, concatMap, Observable, tap, throwError } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
@@ -25,6 +25,7 @@ import { initContacts } from 'src/app/store/actions/contacts.actions';
 import { ProfileSettingsService } from 'src/app/profile-page/services/profile-settings.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-message',
@@ -68,8 +69,8 @@ export class MessageComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private socketService: SocketService,
     private profileServ: ProfileSettingsService,
-    private modalServ: ModalProfileService) {
-  }
+    private modalServ: ModalProfileService
+  ) { }
 
   private initIoConnection(): void {
     this.socketService.onMessage()
@@ -80,11 +81,11 @@ export class MessageComponent implements OnInit {
       });
     this.socketService.onDeleteMessage()
       .subscribe((messageId: string) => {
-        this.store$.dispatch(deleteMessage({id: messageId}))
+        this.store$.dispatch(deleteMessage({ id: messageId }))
       })
     this.socketService.onUpdateMessage()
       .subscribe((message: IMessage) => {
-        this.store$.dispatch(editMessage({message}))
+        this.store$.dispatch(editMessage({ message }))
       })
   }
 
@@ -139,10 +140,6 @@ export class MessageComponent implements OnInit {
   deleteMessage(id: string): void {
     console.log(id, this.chatID);
     this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
-  }
-
-  deleteChat() {
-    console.log('удалить чат');
   }
 
   editMessage(text: string, id: string, chatId: string): void {

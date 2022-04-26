@@ -12,6 +12,8 @@ import { map, Observable, startWith, Subscriber, tap, zip } from 'rxjs';
 import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
 import { IGroup } from '../../group';
 import {
+  deleteFromGroups,
+  deleteGroup,
   editGroup,
   editToGroups,
   getGroupUsers,
@@ -81,7 +83,7 @@ export class EditGroupChatComponent implements OnInit {
       });
     });
 
-    this.actions$.pipe(ofType(editToGroups)).subscribe(() => {
+    this.actions$.pipe(ofType(editToGroups, deleteFromGroups)).subscribe(() => {
       this.dialogRef.close();
     });
 
@@ -121,6 +123,10 @@ export class EditGroupChatComponent implements OnInit {
           )
         );
       });
+  }
+
+  deleteGroupChat(): void {
+    this.store$.dispatch(deleteGroup({ id: this.chatId }));
   }
 
   editGroupChat(): void {
