@@ -7,19 +7,29 @@ import { getInfoChat } from '../../../store/actions/dialog.action';
 import { selectChatInfo } from '../../../store/selectors/dialog.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
-import { changeChatGroup, setGroup } from '../../../store/actions/groups.actions';
+import {
+  changeChatGroup,
+  setGroup,
+} from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../auth/interfaces';
 import { selectUser } from '../../../store/selectors/auth.selectors';
-import { deleteChatFriend, loadFriends } from '../../../store/actions/groups.actions';
+import {
+  deleteChatFriend,
+  loadFriends,
+} from '../../../store/actions/groups.actions';
 import { Router } from '@angular/router';
 import { AboutGroupComponent } from './../../../groups/modal/about-group/about-group.component';
 import { OutFromGroupComponent } from './../../../groups/modal/out-from-group/out-from-group.component';
+import { ModalProfileService } from './../../../modal-profile/service/modal-profile.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  chatInfo: IChatInfo | undefined;
+
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -27,42 +37,44 @@ export class HeaderComponent implements OnInit {
   public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
   );
-  public user$: Observable<IUserData> = this.store$.pipe(
-    select(selectUser))
 
-
-  constructor(private store$: Store<IChatInfo>,
-              private router: Router,
-              private modalWindow: MatDialog) { }
+  constructor(
+    private store$: Store<IChatInfo>,
+    private modalServ: ModalProfileService,
+    private router: Router,
+    private modalWindow: MatDialog
+  ) {}
+  public user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
       this.store$.dispatch(getInfoChat({ chatId: id }));
     });
+    this.chatInfo$.subscribe((data) => (this.chatInfo = data));
   }
-  
+
   getModalWindow(chatInfo: IChatInfo): void {
     this.modalWindow.open(EditGroupChatComponent, {
       panelClass: 'edit-group-chat-modal',
       maxWidth: '100vw',
-    })
+    });
     this.store$.dispatch(setGroup({ group: chatInfo }));
     this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id }));
   }
 
   deleteChat(_id: string) {
-    this.store$.dispatch(deleteChatFriend({chatId: _id}));
+    this.store$.dispatch(deleteChatFriend({ chatId: _id }));
     this.store$.dispatch(loadFriends());
     setTimeout(() => {
-      this.router.navigateByUrl('/home')
-    }, 0)
+      this.router.navigateByUrl('/home');
+    }, 0);
   }
 
   aboutChat(chatInfo: IChatInfo): void {
     this.modalWindow.open(AboutGroupComponent, {
       panelClass: 'about-group-chat-modal',
       maxWidth: '100vw',
-    })
+    });
 
     this.store$.dispatch(setGroup({ group: chatInfo }));
   }
@@ -72,12 +84,15 @@ export class HeaderComponent implements OnInit {
       this.modalWindow.open(OutFromGroupComponent, {
         panelClass: 'out-group-chat-modal',
         maxWidth: '100vw',
-      })
-      
+      });
+
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
-      this.router.navigateByUrl("/home")
+      this.router.navigateByUrl('/home');
     }
   }
 
+  modalClick() {
+    if (this.chatInfo) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
+  }
 }
