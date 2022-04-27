@@ -16,7 +16,6 @@ export class SocketService {
   private socket: any;
   constructor(
     @Inject('API_URL') readonly apiUrl: string,
-    store$: Store<INotificationsState>
   ) {}
 
   public initSocket(): void {
@@ -114,5 +113,11 @@ export class SocketService {
     return new Observable<Event>((observer) => {
       this.socket.on(event, () => observer.next());
     });
+  }
+
+  public offMessages(){
+    this.socket.off('messages:create')
+    this.socket.off('messages:update')
+    this.socket.off('messages:delete')
   }
 }

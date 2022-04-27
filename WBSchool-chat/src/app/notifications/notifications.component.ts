@@ -41,7 +41,6 @@ export class NotificationsComponent implements OnInit {
     this.socketService
       .onDeleteNotification()
       .subscribe((notificationId: string) => {
-        console.log('notificationId', notificationId);
         this.store$.dispatch(removeNotification({ id: notificationId }));
       });
     this.socketService

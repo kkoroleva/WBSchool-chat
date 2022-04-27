@@ -34,7 +34,6 @@ export const notificationsReducer = createReducer(
   on(removeNotification, (state, action) => ({
     ...state,
     notifications: state.notifications.filter((notification) => {
-      console.log("actoin", action, action.id)
       return notification._id !== action.id;
     }),
   })),

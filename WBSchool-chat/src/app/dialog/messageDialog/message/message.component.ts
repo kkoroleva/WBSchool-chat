@@ -1,5 +1,5 @@
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -12,8 +12,6 @@ import {
   initDialogs,
   newEditMessage,
   pushToMessages,
-  removeMessage,
-  sendMessage,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
@@ -75,6 +73,7 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.socketService.offMessages();
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
       this.chatID = id;
