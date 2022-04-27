@@ -90,7 +90,6 @@ export class ModalProfileComponent implements OnInit {
 
   openImg() {
     this.hideData = !this.hideData
-    console.log(this.hideData)
   }
 
   addToFriends(userId: string) {

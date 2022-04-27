@@ -16,7 +16,7 @@ import { ModalProfileComponent } from '../modal-profile.component';
   providedIn: 'root'
 })
 export class ModalProfileService {
-  userData: IUserData | undefined;
+  userData: IUserData | null = null;
   sub: Subscription | undefined;
 
   constructor(
@@ -28,12 +28,12 @@ export class ModalProfileService {
   ) { }
 
   searchAndOpenDialog(username: string) {
-    this.userData = undefined
+    this.userData = null
     this.store$.dispatch(initContacts())  
     this.sub = this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
       contacts.contacts.map(contact => {
         if (contact.username == username) {
-          if (this.userData == undefined) this.openDialog(contact)
+          if (!this.userData) this.openDialog(contact)
           this.userData = contact
         }
       })
@@ -43,7 +43,7 @@ export class ModalProfileService {
             return throwError(() => error);
           })
         ).subscribe((user: IUserData) => {
-          if (this.userData == undefined) this.openDialog(user)
+          if (!this.userData) this.openDialog(user)
           this.userData = user
         });
       }
@@ -57,7 +57,8 @@ export class ModalProfileService {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      if (this.sub) this.sub.unsubscribe()
+      if (!this.sub) { return }
+      this.sub.unsubscribe()
     });
   }
 

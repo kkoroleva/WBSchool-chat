@@ -59,7 +59,7 @@
 					<div class="profile-settings__menu_item_title"
 						 (click)="[onSelect(item), toggle = !toggle]"
 						 [class.selected]="item === selectedItem"
-						 [ngClass]="{'title_changed': compare(item.description, item.type)}"
+						 [ngClass]="{'title_changed': compare(item.description!, item.type)}"
 					>
 						 {{ item.title }}
 					</div>
@@ -87,14 +87,14 @@
 					<ng-template #photoInput>
 
 						<div class="form-field" appDragAndDrop>
-							<input type="file" id="fileElem" multiple accept="image/*" (change)="[addImage(input), onFileInputChange($event)]" #input>
+							<input type="file" id="fileElem" multiple accept="image/*" (change)="addImage(input)" #input>
 							<label for="fileElem" *ngIf="!imgInput">Выберите картинку</label>
 							<label for='fileElem' class='form-field__input_active'
 							*ngIf="imgInput">{{imageName}}</label>
 						</div>
 
 						<div class="form-field__btn-wrapper">
-							<button mat-raised-button color="warn" (click)="[toggle = !toggle, imgInput = false, formData.formatImage = undefined]">
+							<button mat-raised-button color="warn" (click)="deleteImage()">
 								<mat-icon>delete</mat-icon>
 							</button>
 						</div>

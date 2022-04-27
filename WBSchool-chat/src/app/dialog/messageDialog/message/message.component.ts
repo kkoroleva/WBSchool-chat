@@ -201,4 +201,15 @@ export class MessageComponent implements OnInit {
   onImgAdd() {
     this.imgInput = true
   }
+
+  greenBtnClick(input: any) {
+    this.addImage(input);
+    this.toggle = !this.toggle
+  }
+
+  redBtnClick() {
+    this.toggle = !this.toggle;
+    this.imageOrFile = '';
+    this.imgInput = false
+  }
 }

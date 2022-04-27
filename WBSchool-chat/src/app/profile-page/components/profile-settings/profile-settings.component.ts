@@ -119,7 +119,7 @@ export class ProfileSettingsComponent implements OnInit {
     }, 0);
   }
 
-  getUsersData() {
+  getUsersData(): void {
     this.storage.get('user')
     .subscribe((user: IServerResponse | any) => {
       this.profileData = {
@@ -138,7 +138,7 @@ export class ProfileSettingsComponent implements OnInit {
     this.selectedItem = item;
   }
 
-  addToFormData(inputData: any) {
+  addToFormData(inputData: any): void {
     if (inputData.id == 1) {
       if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
           inputData.value.length >= 4 && 
@@ -169,13 +169,13 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   deleteImage(): void {
-    this.inputFile.value = '';
-    this.imageInBase64 = '';
-    this.imageName = '';
     this.toggle = !this.toggle;
+    this.imgInput = false;
+    this.formData.formatImage = '';
   }
 
-  addImage(input: any) {
+  addImage(input: any): void {
+    this.imgInput = true
     let imageOrFile = '';
     let reader = new FileReader();
     let file = input.files[0];
@@ -201,11 +201,7 @@ export class ProfileSettingsComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  onFileInputChange(event: any) {
-    this.imgInput = true
-  }
-
-  submit() {
+  submit(): void {
     this.profileServ.editProfileSettings(this.formData)
     .pipe(
       catchError((error) => {
@@ -230,15 +226,15 @@ export class ProfileSettingsComponent implements OnInit {
     });
   }
 
-  watchProfile(contact: IUserData) {
+  watchProfile(contact: IUserData): void {
     this.modalProfileServ.openDialog(contact)
   }
 
-  lengthForm() {
+  lengthForm(): boolean {
     return Object.keys(this.formData).length > 0 ? true : false;
   }
 
-  addFriend() {
+  addFriend(): void {
     this.notFound = '';
     const userName: string = this.form.value.contactInput.trim();
     const clone: IUserData | undefined = this.contacts.find((user) => user.username === userName);
@@ -269,22 +265,23 @@ export class ProfileSettingsComponent implements OnInit {
     this.form.reset();
   }
 
-  itemFormat(item: string) {
+  itemFormat(item: string): boolean {
     return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"));
   }
 
-  compare(desc: string | undefined, type: string) {
+  compare(desc: string, type: string): boolean {
     switch (type) {
       case 'username':
-        return desc != this.formData.username && this.formData.username != undefined;
+        return desc !== this.formData.username && !!this.formData.username;
       case 'avatar':
-        return desc != this.formData.avatar && this.formData.avatar != undefined;
+        return desc !== this.formData.avatar && !!this.formData.avatar;
       case 'about':
-        return desc != this.formData.about && this.formData.about != undefined;
+        return desc !== this.formData.about && !!this.formData.about;
       case 'email':
-        return desc != this.formData.email && this.formData.email != undefined;
+        return desc !== this.formData.email && !!this.formData.email;
       default:
         return false
     }
+    
   }
 }

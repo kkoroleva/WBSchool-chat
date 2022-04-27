@@ -103,7 +103,10 @@
 					background: rgb(61, 61, 144);
 				}
 			}
+
 		}
+
+		
 
 		.profile__contact-btns_add {
 			width: 45%;
@@ -238,6 +241,10 @@
 	@media (max-width: 350px) {
 		width: 250px;
 	}
+
+	// .displayZeroClass {
+	// 	display: none!important;
+	// }
 }
 
 .full_img {
@@ -251,8 +258,3 @@
 	}
 }
 
-.displayZeroClass {
-	display: none!important;
-	
-	transition: 0.5s;
-}

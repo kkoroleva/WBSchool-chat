@@ -6,13 +6,13 @@
 		<div class="profile__user-info_img"  (click)="openImg()" [ngClass]="{'full_img': hideData}">
 			<img  *ngIf="!!userData.avatar"  [src]="userData.formatImage+userData.avatar" alt="user pic" />
 		</div>
-		<div class="profile__user-info_name" [ngClass]="{'displayZeroClass': hideData}">
+		<div class="profile__user-info_name" [ngStyle]="{'display': hideData ? 'none' : ''}">
 			<span class="profile__user-info_name_username">
 				{{ userData.username }}
 			</span>
 		</div>
 	</div>
-	<div class="profile__contact-btns" [ngClass]="{'displayZeroClass': hideData}">
+	<div class="profile__contact-btns" [ngStyle]="{'display': hideData ? 'none' : ''}">
 		<div class="profile__contact-btns_chat" (click)="goToChat(userData._id)">
 			<button>
 				<mat-icon>chat</mat-icon>
@@ -33,7 +33,7 @@
 		</div>
 		</ng-template>
 	</div>
-	<div class="profile__menu" [ngClass]="{'displayZeroClass': hideData}">
+	<div class="profile__menu" [ngStyle]="{'display': hideData ? 'none' : ''}">
 		<div class="profile__menu_item">
 			<div class="profile__menu_item_name">
 				<mat-icon> description </mat-icon>
