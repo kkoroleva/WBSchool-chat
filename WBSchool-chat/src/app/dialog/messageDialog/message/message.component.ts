@@ -50,7 +50,7 @@ export class MessageComponent implements OnInit {
   ioConnection: any;
   contacts: IUserData[] = [];
   userData: IUserData | undefined;
-  imgInput: boolean = false;
+  imgInput = false;
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
