@@ -2,11 +2,12 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
-import { IGroup, IGroupsState } from '../store/reducers/groups.reducers';
+import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
 import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
+import { IGroup } from './group';
 
 @Component({
   selector: 'app-groups',
@@ -37,9 +38,9 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  openGroupChat(id: string): void {
-    this.store$.dispatch(changeChatGroup({ chatGroup: id }));
-    localStorage.setItem('chatID', id);
+  openGroupChat(group: IGroup): void {
+    this.store$.dispatch(changeChatGroup({ chatGroup: group._id! }));
+    localStorage.setItem('chatID', group._id!);
 
     this.router.navigateByUrl('/chat');
   }

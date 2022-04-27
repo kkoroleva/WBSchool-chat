@@ -47,32 +47,33 @@ $max-width: 1440px;
 
 .home-page__groups {
   border-radius: 20px;
-  grid-row: 2/3;
-  grid-column: 1/2;
+  grid-row: 3/3;
+  // grid-column: 2/2;
 
   @media (min-width: $tablet-width) {
     grid-row: 3/4;
-    grid-column: 2/3;
+    // grid-column: 2/3;
   }
 
   @media (min-width: $desktop-width) {
-    grid-row: 2/3;
+    // grid-row: 2/3;
     grid-column: 1/2;
   }
 }
 
-.home-page__recents {
-  max-height: 490px;
-  overflow: hidden;
-  border-radius: 20px;
-  grid-row: 2/3;
-  grid-column: 1/2;
+// .home-page__recents {
+//   border: 3px solid red;
+//   max-height: 490px;
+//   overflow: hidden;
+//   border-radius: 20px;
+//   // grid-row: 2/3;
+//   // grid-column: 1/2;
 
-  @media (min-width: $tablet-width) {
-    grid-row: 3/4;
-    grid-column: 1/2;
-  }
-}
+//   @media (min-width: $tablet-width) {
+//     // grid-row: 3/4;
+//     // grid-column: 1/2;
+//   }
+// }
 
 .home-page__friends {
   overflow: hidden;
@@ -96,7 +97,7 @@ $max-width: 1440px;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
-    grid-row: 2/3;
+    grid-row: 2/4;
     grid-column: 2/3;
     align-self: stretch;
   }

@@ -1,6 +1,6 @@
-<section class="message">
+<section class="message" >
     <ul class="message__wrapper" #wrapper>
-        <li *ngFor="let item of messages$ | async "
+        <li *ngFor="let item of messages$ | async"
             [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
             <span *ngIf="item.owner === myId">{{userName}}</span>
             <span *ngIf="item.owner !== myId ">{{(item.username)}}</span>
@@ -12,8 +12,7 @@
                     <p class="message__text" *ngIf="!itemFormat(item.text)">{{item.text}}</p>
                 </div>
             </div>
-            <span>{{item.expiresIn | date:'dd/MM/yyyy h:mm:ss '}}</span>
-
+            <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>
             <mat-menu #block="matMenu">
                 <button (click)="deleteMessage(item._id!)" mat-menu-item>
                     <span>Удалить</span>
