@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+
 import { IChatInfo } from '../../../store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
@@ -12,12 +13,15 @@ import { IUserData } from '../../../auth/interfaces';
 import { selectUser } from '../../../store/selectors/auth.selectors';
 import { deleteChatFriend, loadFriends } from '../../../store/actions/groups.actions';
 import { Router } from '@angular/router';
+import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  chatInfo: IChatInfo | undefined 
+
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -25,18 +29,20 @@ export class HeaderComponent implements OnInit {
   public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
   );
-  public user$: Observable<IUserData> = this.store$.pipe(
-    select(selectUser))
 
-
-  constructor(private store$: Store<IChatInfo>,
-              private router: Router,
-              private modalWindow: MatDialog) { }
+  constructor( private store$: Store<IChatInfo>,
+    private modalServ: ModalProfileService, 
+    private router: Router,
+    private modalWindow: MatDialog) { }
+    public user$: Observable<IUserData> = this.store$.pipe(
+select(selectUser)
+  )
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
       this.store$.dispatch(getInfoChat({ chatId: id }));
     });
+    this.chatInfo$.subscribe(data => this.chatInfo = data)
   }
   
   getModalWindow(chatInfo: IChatInfo): void {
@@ -54,6 +60,10 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       this.router.navigateByUrl('/home')
     }, 0)
+  }
+
+  modalClick() {
+    if (this.chatInfo) this.modalServ.searchAndOpenDialog(this.chatInfo?.name)
   }
 
 }
