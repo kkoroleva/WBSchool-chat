@@ -2,11 +2,11 @@
     <h2 class="modal__title" mat-dialog-title>Create new group chat</h2>
     <mat-dialog-content>
 
-        <div *ngIf="!myContacts && contactsIsLoaded">
+        <div *ngIf="!myContacts.length && contactsIsLoaded">
             <p class="modal__err">You cannot create a chat because your contact list is empty :(</p>
         </div>
 
-        <form *ngIf="myContacts && contactsIsLoaded" [formGroup]="form" class="modal__form">
+        <form *ngIf="myContacts.length && contactsIsLoaded" [formGroup]="form" class="modal__form">
             <p class="modal__err" *ngIf="errMessage$ | async as err">{{err}}</p>
 
             <mat-form-field appearance="fill" class="modal__field">
@@ -58,7 +58,8 @@
             </mat-form-field>
         </form>
 
-        <div *ngIf="!imageInBase64 && myContacts && contactsIsLoaded" class="modal__upload" appDragAndDrop>
+        <div *ngIf="myContacts.length && !imageInBase64 && myContacts && contactsIsLoaded" class="modal__upload"
+            appDragAndDrop>
             <p class="modal__drag-text">Drag your image</p>
             <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
         </div>
