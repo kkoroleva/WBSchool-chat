@@ -81,7 +81,7 @@ export class MessageComponent implements OnInit {
           this.store$.dispatch(pushToMessages({ message }))
         }
       });
-    this.socketService.onDeleteMessage(this.chatID)
+    this.socketService.onDeleteMessage()
       .subscribe((messageId: string) => {
         this.store$.dispatch(deleteMessage({ id: messageId }))
       })

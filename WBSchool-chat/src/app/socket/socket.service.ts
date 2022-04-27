@@ -42,7 +42,7 @@ export class SocketService {
     });
   }
 
-  public onDeleteMessage(chatId: string): Observable<string> {
+  public onDeleteMessage(): Observable<string> {
     return new Observable<string>(observer => {
       this.socket.on(`messages:delete`, (messageId: string) => {
         console.log('Deleted message id', messageId);

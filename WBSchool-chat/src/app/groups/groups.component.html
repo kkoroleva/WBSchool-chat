@@ -17,7 +17,10 @@
                 <div class="groups__item-text">
                     <b class="groups__name">{{group.name}}</b>
                     <p class="groups__last-message">
-                        <span class="groups__last-message-text">{{group.about}}</span>
+                        <ng-container *ngFor="let message of lastMessages">
+                            <span *ngIf="message.chatId === group._id"
+                                class="groups__last-message-text">{{message.text}}</span>
+                        </ng-container>
                     </p>
                 </div>
             </a>
