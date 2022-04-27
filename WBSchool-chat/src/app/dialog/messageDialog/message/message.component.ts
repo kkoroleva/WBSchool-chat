@@ -1,5 +1,11 @@
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -12,8 +18,6 @@ import {
   initDialogs,
   newEditMessage,
   pushToMessages,
-  removeMessage,
-  sendMessage,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
@@ -72,26 +76,25 @@ export class MessageComponent implements OnInit {
     private socketService: SocketService,
     private profileServ: ProfileSettingsService,
     private modalServ: ModalProfileService
-  ) { }
+  ) {}
 
   private initIoConnection(): void {
-    this.socketService.onMessage()
-      .subscribe((message: IMessage) => {
-        if (this.chatID === message.chatId) {
-          this.store$.dispatch(pushToMessages({ message }))
-        }
-      });
-    this.socketService.onDeleteMessage()
+    this.socketService.onMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(pushToMessages({ message }));
+    });
+    this.socketService
+      .onDeleteMessage()
+
       .subscribe((messageId: string) => {
-        this.store$.dispatch(deleteMessage({ id: messageId }))
-      })
-    this.socketService.onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(editMessage({ message }))
-      })
+        this.store$.dispatch(deleteMessage({ id: messageId }));
+      });
+    this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(editMessage({ message }));
+    });
   }
 
   ngOnInit(): void {
+    this.socketService.offMessages();
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
       this.chatID = id;
@@ -141,10 +144,10 @@ export class MessageComponent implements OnInit {
 
   deleteMessage(id: string): void {
     this.socketService.deleteMessage(this.chatID, id);
-  };
+  }
 
   deleteChat() {
-    console.log('удалить чат')
+    console.log('удалить чат');
   }
 
   editMessage(text: string, id: string, chatId: string): void {
@@ -165,23 +168,26 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
+        this.socketService.updateMessage(this.chatID, {
+          text: this.message.value,
+          _id: this.editMessageID,
+        });
         this.isEditMessage = false;
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
-        }
+        };
         this.socketService.send(this.chatID, message);
       } else {
-        let message: IMessage = { text: this.message.value }
+        let message: IMessage = { text: this.message.value };
         this.socketService.send(this.chatID, message);
       }
       this.imageOrFile = '';
       this.formatImage = '';
       this.message.setValue('');
-      this.imgInput = false
+      this.imgInput = false;
     }
   }
 
@@ -196,21 +202,21 @@ export class MessageComponent implements OnInit {
   }
 
   openProfile(user: string | undefined) {
-    if (user) this.modalServ.searchAndOpenDialog(user)
+    if (user) this.modalServ.searchAndOpenDialog(user);
   }
 
   onImgAdd() {
-    this.imgInput = true
+    this.imgInput = true;
   }
 
   greenBtnClick(input: any) {
     this.addImage(input);
-    this.toggle = !this.toggle
+    this.toggle = !this.toggle;
   }
 
   redBtnClick() {
     this.toggle = !this.toggle;
     this.imageOrFile = '';
-    this.imgInput = false
+    this.imgInput = false;
   }
 }

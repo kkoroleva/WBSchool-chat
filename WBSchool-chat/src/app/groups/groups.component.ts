@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
-import { Observable, zip } from 'rxjs';
+import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
 import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
 import { IGroup } from './group';
@@ -19,9 +19,6 @@ import { StorageMap } from '@ngx-pwa/local-storage';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-  public messages$: Observable<IMessage[]> = this.store$.pipe(
-    select(selectDialog)
-  );
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
   public lastMessages!: IMessage[];
 
