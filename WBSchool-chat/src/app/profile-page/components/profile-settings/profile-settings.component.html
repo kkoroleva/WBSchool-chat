@@ -8,17 +8,22 @@
 	  <div class="profile-settings__user-info_img">
 		<img  *ngIf="!!profileData.avatar"  [src]="profileData.avatar" alt="user pic" />
 	  </div>
-	  <div class="profile-settings__user-info_name" >
-		<span class="profile-settings__user-info_name_username">
+	  <div class="profile-settings__user-info_name">
+		  {{copied}}
+		<span class="profile-settings__user-info_name_username"
+			  (click)="copyToClipBoard(profileData.username!, 'Username')">
 		  	{{ profileData.username }}
 		</span>
-		<span class="profile-settings__user-info_name_status">
+		<span class="profile-settings__user-info_name_status"
+			  (click)="copyToClipBoard(profileData.status!, 'Status')">
 		  	{{ profileData.status }}
 		</span>
-		<span class="profile-settings__user-info_name_status">
+		<span class="profile-settings__user-info_name_status"
+			  (click)="copyToClipBoard(profileData.email!, 'Email')">
 			{{ profileData.email }}
 		</span>
-		<span class="profile-settings__user-info_name_status">
+		<span class="profile-settings__user-info_name_status"
+			  (click)="copyToClipBoard(profileData.about!, 'About')">
 		  	{{ profileData.about }}
 		</span>
 	  </div>
@@ -64,17 +69,22 @@
 						 {{ item.title }}
 					</div>
 				</div>
-				<div *ngIf="toggle && selectedItem.id == i+1" class="profile-settings__menu_item_form-field">
+				<div *ngIf="toggle && selectedItem.id == i + 1" class="profile-settings__menu_item_form-field">
 
-					<div *ngIf="item.id != 3; else photoInput">
+					<div *ngIf="item.id != 3; else photoInput" [formGroup]="userDataForm" class="profile-settings__menu_item_form-field_wrp">
 
 						<mat-form-field appearance="fill">
 							<mat-label>{{selectedItem.title}}</mat-label>
-							<input matInput color='warn' type="text" id={{item.id}} value={{item.description}} #input>
+							<input matInput color='warn' 
+								   type="text" id={{item.id}} 
+								   value={{item.description}} 
+								   formControlName={{item.type}}
+								   #input>
+							<mat-error *ngIf=userDataForm.controls[item.type].invalid>{{item.type}} error</mat-error>
 						</mat-form-field>
 
 						<div class="form-field__btn-wrapper">
-							<button mat-raised-button color="primary" (click)="[addToFormData(input), toggle = !toggle]">
+							<button mat-raised-button color="primary" (click)="addToFormData(input)" [disabled]="userDataForm.controls[item.type].invalid || userDataForm.controls[item.type].value == item.description">
 								<mat-icon>done</mat-icon>
 							</button>
 							<button mat-raised-button color="warn" (click)="toggle = !toggle">

@@ -4,7 +4,6 @@
 	border-radius: 20px;
 	min-width: 320px;
 	width: 100%;
-	
 
 	.profile-settings__title {
 		padding: 26px 0 0 39px;
@@ -38,8 +37,10 @@
 			max-width: calc(100vw - 188px);
 			margin-right: 10px;
 			mask-image: linear-gradient(90deg, #000 60%, transparent);
+			cursor: pointer;
 
 			.profile-settings__user-info_name_username {
+				font-family: "Raleway", sans-serif;
 				font-style: normal;
 				font-weight: 600;
 				font-size: 25px;
@@ -50,6 +51,7 @@
 			}
 
 			.profile-settings__user-info_name_status {
+				font-family: "Raleway", sans-serif;
 				font-style: normal;
 				font-weight: 400;
 				font-size: 20px;
@@ -203,6 +205,23 @@
 				width: 250px;
 				margin: 5px 0 5px 55px;
 
+				.profile-settings__menu_item_form-field_wrp {
+					display: flex;
+					flex-direction: row;
+
+					.form-field__btn-wrapper {
+						margin: 10px 0 0 15px;
+					}
+
+					@media (max-width: 520px) {
+						flex-direction: column;
+
+						.form-field__btn-wrapper {
+							margin: 0 auto;
+						}
+					}
+				}
+
 				.form-field {
 					position: relative;
 
@@ -217,6 +236,7 @@
 					}
 
 					label {
+						font-family: "Raleway", sans-serif;
 						width: 350px;
 						max-width: 70%;
 						height: 80px;
@@ -306,7 +326,6 @@
 					line-height: 30px;
 				}
 			}
-
 		}
 
 		.profile-settings__menu_item_disabled {
@@ -316,7 +335,7 @@
 
 		.profile-settings__menu_error {
 			background: rgb(255, 156, 156);
-			color: red;
+			color: white;
 			max-width: 500px;
 			text-align: center;
 			padding: 10px 0;

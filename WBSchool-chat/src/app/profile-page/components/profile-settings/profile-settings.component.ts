@@ -16,6 +16,7 @@ import { initContacts } from '../../../store/actions/contacts.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { initAuth } from 'src/app/store/actions/auth.actions';
 
 @Component({
   selector: 'app-profile-settings',
@@ -46,6 +47,9 @@ export class ProfileSettingsComponent implements OnInit {
   form!: FormGroup;
   contacts: IUserData[] = [];
   sub$!: Subscription;
+  userDataForm!: FormGroup;
+
+  copied = '';
 
   public imageInBase64 = '';
 
@@ -108,15 +112,30 @@ export class ProfileSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
+      contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])  
+    })
+    this.userDataForm = new FormGroup({
+      username: new FormControl('', [Validators.minLength(4)]),
+      about: new FormControl('', [Validators.minLength(4)]),
+      email: new FormControl('', [Validators.email])    
     })
     this.getUsersData();
     this.store$.dispatch(initContacts());
-    setTimeout(() => {
-      this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-        this.contacts = contacts.contacts;
-      })
-    }, 0);
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.contacts = contacts.contacts;
+    })
+    // this.profileServ.getContacts().pipe(
+    //   catchError((error) => {
+    //     return throwError(() => error);
+    //   })
+    // ).subscribe((contacts: any) => {
+    //   this.contacts = contacts.contacts;
+    //   console.log(contacts.contacts[4].username)
+    //   this.store$.dispatch(initContacts());
+    //   this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+    //         this.contacts = contacts.contacts;
+    //   })
+    // })
   }
 
   getUsersData(): void {
@@ -131,6 +150,9 @@ export class ProfileSettingsComponent implements OnInit {
       this.settingsList[0].description = user.username;
       this.settingsList[3].description = user.about;
       this.settingsList[4].description = user.email;
+      this.userDataForm.controls['username'].setValue(user.username);
+      this.userDataForm.controls['about'].setValue(user.about);
+      this.userDataForm.controls['email'].setValue(user.email)
     })
   }
 
@@ -140,21 +162,33 @@ export class ProfileSettingsComponent implements OnInit {
 
   addToFormData(inputData: any): void {
     if (inputData.id == 1) {
-      if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
-          inputData.value.length >= 4 && 
-          inputData.value.length <= 100) {
-        this.formData.username = inputData.value;
-        this.errorMsg = false
-      }
-      else this.errorMsg = 'Username error'
+      this.profileServ.getUsers(inputData.value).pipe(
+        catchError((error) => {
+          if (error.status = 404) {
+            if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
+            inputData.value.length >= 4 && 
+            inputData.value.length <= 100) {
+              this.formData.username = inputData.value;
+              this.errorMsg = false;
+              this.toggle = !this.toggle;
+            } else this.errorMsg = 'Username error'
+          } 
+          return throwError(() => error);
+        })
+      ).subscribe(() => {
+        this.errorMsg = 'Username taken'
+      })
+      
     } 
     else if (inputData.id == 3) {
-      this.formData.avatar = btoa(inputData.value)
+      this.formData.avatar = btoa(inputData.value);
+      this.toggle = !this.toggle;
     } 
     else if (inputData.id == 4) {
       if (inputData.value.length >= 4 && inputData.value.length <= 100) {
         this.formData.about = inputData.value;
-        this.errorMsg = false
+        this.errorMsg = false;
+        this.toggle = !this.toggle;
       } 
       else this.errorMsg = 'Description error'
     } 
@@ -162,7 +196,8 @@ export class ProfileSettingsComponent implements OnInit {
       if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
           inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         this.formData.email = inputData.value;
-        this.errorMsg = false
+        this.errorMsg = false;
+        this.toggle = !this.toggle;
       } 
       else this.errorMsg = 'Email error'
     }
@@ -209,8 +244,23 @@ export class ProfileSettingsComponent implements OnInit {
       })
     )
     .subscribe((user: IServerResponse) => {
+      console.log(user)
+      const storeUser: { newUser: IUserData; } = {
+        newUser: {
+          email: user.email,
+          username: user.username,
+          userRights: user.userRights,
+          avatar: user.avatar,
+          about: user.about,
+          _id: user._id,
+          v: user.__v,
+          formatImage: user.formatImage
+        }
+      }
       this.storage.set('user', user).subscribe(() => {});
       this.getUsersData();
+      
+      this.store$.dispatch(initAuth(storeUser));
     })
     this.formData = {};
     this.imgInput = false;
@@ -240,7 +290,7 @@ export class ProfileSettingsComponent implements OnInit {
     const clone: IUserData | undefined = this.contacts.find((user) => user.username === userName);
     let me: string | undefined;
     this.store$.pipe(select(selectUser))
-    .subscribe((user: IUserData) => me = user.username);
+      .subscribe((user: IUserData) => me = user.username);
     if (userName === clone?.username) {
       this.notFound = 'Этот пользователь уже есть в списке контактов.'
     }
@@ -250,8 +300,8 @@ export class ProfileSettingsComponent implements OnInit {
     else {
       this.profileServ.getUsers(userName)
       .pipe(
-        concatMap(
-          (user: IUserData) => this.profileServ.addFriend(user._id)
+        // concatMap((user: IUserData) => this.contacts.find((userCont) => userCont._id === user._id) ? this.notFound = 'Этот пользователь уже есть в списке контактов.' : this.profileServ.addFriend(user._id)
+        concatMap((user: IUserData) => this.profileServ.addFriend(user._id)
         ),
         catchError((error: HttpErrorResponse) => {
           this.notFound = 'Данного пользователя не существует.';
@@ -282,6 +332,11 @@ export class ProfileSettingsComponent implements OnInit {
       default:
         return false
     }
-    
+  }
+
+  copyToClipBoard(val: string, type: string) {
+    navigator.clipboard.writeText(val);
+    this.copied = type + ' copied!'
+    setTimeout(() => this.copied = '', 1000)
   }
 }
