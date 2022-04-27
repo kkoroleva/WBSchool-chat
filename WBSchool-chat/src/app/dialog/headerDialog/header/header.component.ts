@@ -12,6 +12,8 @@ import { IUserData } from '../../../auth/interfaces';
 import { selectUser } from '../../../store/selectors/auth.selectors';
 import { deleteChatFriend, loadFriends } from '../../../store/actions/groups.actions';
 import { Router } from '@angular/router';
+import { AboutGroupComponent } from './../../../groups/modal/about-group/about-group.component';
+import { OutFromGroupComponent } from './../../../groups/modal/out-from-group/out-from-group.component';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -54,6 +56,28 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       this.router.navigateByUrl('/home')
     }, 0)
+  }
+
+  aboutChat(chatInfo: IChatInfo): void {
+    this.modalWindow.open(AboutGroupComponent, {
+      panelClass: 'about-group-chat-modal',
+      maxWidth: '100vw',
+    })
+
+    this.store$.dispatch(setGroup({ group: chatInfo }));
+  }
+
+  leaveFromChat(chatInfo: IChatInfo, user: IUserData): void {
+    if (user._id === chatInfo.owner) {
+      this.modalWindow.open(OutFromGroupComponent, {
+        panelClass: 'out-group-chat-modal',
+        maxWidth: '100vw',
+      })
+      
+      this.store$.dispatch(setGroup({ group: chatInfo }));
+    } else {
+      this.router.navigateByUrl("/home")
+    }
   }
 
 }
