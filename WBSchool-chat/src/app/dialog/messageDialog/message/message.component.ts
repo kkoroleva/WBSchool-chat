@@ -57,25 +57,21 @@ export class MessageComponent implements OnInit {
     private service: DialogService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
-    private socketService: SocketService, 
-  ) { }
+    private socketService: SocketService
+  ) {}
 
   private initIoConnection(): void {
-    this.socketService.onMessage()
-      .subscribe((message: IMessage) => {
-        if (this.chatID === message.chatId) {
-          this.store$.dispatch(pushToMessages({ message }))
-        }
-      });
-    this.socketService.onDeleteMessage(this.chatID)
+    this.socketService.onMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(pushToMessages({ message }));
+    });
+    this.socketService
+      .onDeleteMessage()
       .subscribe((messageId: string) => {
-        this.store$.dispatch(deleteMessage({ id: messageId }))
-      })
-    this.socketService.onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(editMessage({ message }))
-      })
-
+        this.store$.dispatch(deleteMessage({ id: messageId }));
+      });
+    this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(editMessage({ message }));
+    });
   }
 
   ngOnInit(): void {
@@ -128,10 +124,10 @@ export class MessageComponent implements OnInit {
 
   deleteMessage(id: string): void {
     this.socketService.deleteMessage(this.chatID, id);
-  };
+  }
 
   deleteChat() {
-    console.log('удалить чат')
+    console.log('удалить чат');
   }
 
   editMessage(text: string, id: string, chatId: string): void {
@@ -152,16 +148,19 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
+        this.socketService.updateMessage(this.chatID, {
+          text: this.message.value,
+          _id: this.editMessageID,
+        });
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
-        }
+        };
         this.socketService.send(this.chatID, message);
       } else {
-        let message: IMessage = { text: this.message.value }
+        let message: IMessage = { text: this.message.value };
         this.socketService.send(this.chatID, message);
       }
       this.imageOrFile = '';
