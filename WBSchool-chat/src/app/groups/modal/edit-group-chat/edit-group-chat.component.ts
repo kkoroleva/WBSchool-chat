@@ -92,6 +92,16 @@ export class EditGroupChatComponent implements OnInit {
     this.getContacts();
   }
 
+  ngDoCheck(): void {
+    if (this.contactsMatChipList) {
+      if (this.form.get('contacts')?.value.length < 2) {
+        this.contactsMatChipList.errorState = true;
+      } else {
+        this.contactsMatChipList.errorState = false;
+      }
+    }
+  }
+
   getContacts(): void {
     this.store$.dispatch(initContacts());
     this.store$.dispatch(getGroupUsers({ id: this.chatId }));
@@ -234,12 +244,6 @@ export class EditGroupChatComponent implements OnInit {
       avatar: event.option.value.avatar,
       formatImage: event.option.value.formatImage,
     };
-
-    if (contactsValue.length + 1 < 2) {
-      this.contactsMatChipList.errorState = true;
-    } else {
-      this.contactsMatChipList.errorState = false;
-    }
 
     contacts.patchValue([...contactsValue, contact]);
 

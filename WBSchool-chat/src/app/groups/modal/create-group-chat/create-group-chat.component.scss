@@ -4,7 +4,6 @@
 
   &__title {
     font-style: normal;
-    font-weight: 600;
     font-size: 20px;
     line-height: 30px;
   }
@@ -33,6 +32,7 @@
   }
 
   &__err {
+    font-family: "Open Sans", sans-serif;
     color: #f44336;
   }
 
@@ -65,7 +65,7 @@
     }
 
     .modal__drag-text {
-      font-family: "Poppins", sans-serif;
+      font-family: "Open Sans", sans-serif;
       font-weight: bold;
     }
   }
