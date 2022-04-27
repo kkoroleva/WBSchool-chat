@@ -3,7 +3,7 @@
         <li *ngFor="let item of messages$ | async"
             [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
             <span *ngIf="item.owner === myId">{{userName}}</span>
-            <span *ngIf="item.owner !== myId ">{{(item.username)}}</span>
+            <span *ngIf="item.owner !== myId" (click)="openProfile(item.username!)">{{(item.username)}}</span>
             <div [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
                 <div>
                     <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend"
@@ -27,13 +27,15 @@
     <form class="message__send">
         <div>
             <div class="form_save_image" *ngIf="toggle">
-                <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" #input>
-                <label for="fileElem" class="btn-add">Выберите файл</label>
-                <div class="btn-wrapper">
-                    <button type="button" class="btn-green" (click)="[addImage(input), toggle = !toggle]">V</button>
-                    <button type="button" class="btn-red" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
-                </div>
+                <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input>
+                <label for="fileElem" class="btn-add" [ngClass]="{'btn-add__active': imgInput == true}">
+                    {{ !imgInput ? "Выберите файл" : "Файл выбран" }}
+                </label>
 
+                <div class="btn-wrapper">
+                    <button type="button" class="btn-green" (click)="greenBtnClick(input)">V</button>
+                    <button type="button" class="btn-red" (click)="redBtnClick()">X</button>
+                </div>
             </div>
         </div>
         <div class="wrapper__send">
