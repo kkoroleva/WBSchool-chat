@@ -22,15 +22,6 @@ export class NavMobileComponent {
     this.stateMessages.messanger = false
   }
 
-  openUnreadMess(): void {
-    this.stateMain.groups = false
-    this.stateMain.tetATet = false
-    this.stateMain.threads = false
-
-    this.stateMessages.groups = false
-    this.stateMessages.messanger = false
-  }
-
   openTetATet(): void {
     this.stateMain.groups = false
     this.stateMain.tetATet = true
