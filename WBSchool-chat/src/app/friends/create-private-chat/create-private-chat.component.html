@@ -26,6 +26,7 @@
 
     <mat-dialog-actions align="end">
         <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
-        <button class="modal__btn" mat-button (click)="createPrivateChat()" [disabled]="form.invalid">Create</button>
+        <button *ngIf="contactsIsLoaded && myContacts.length" class="modal__btn" mat-button
+            (click)="createPrivateChat() " [disabled]="form.invalid">Create</button>
     </mat-dialog-actions>
 </div>
