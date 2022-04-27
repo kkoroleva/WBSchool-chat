@@ -153,6 +153,7 @@ export class MessageComponent implements OnInit {
       this.changeScroll();
       if (this.isEditMessage) {
         this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
+        this.isEditMessage = false;
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
