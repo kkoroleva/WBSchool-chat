@@ -1,5 +1,5 @@
-<header *ngIf="chatInfo$ | async as chatInfo" class="header">
-    <section  class="header__info">
+<header class="header" *ngIf="chatInfo$ | async as chatInfo">
+    <section class="header__info" (click)="modalClick()">
         <div class="header__avatar">
             <img [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
                 <span *ngIf="chatInfo.users.length === 2 "></span>

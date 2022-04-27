@@ -1,8 +1,9 @@
 export interface ISettingsList {
     id: number,
+    type: string,
     icon: string,
     title: string,
-    description: string | undefined
+    description?: string
 }
   
 export interface IServerResponse {

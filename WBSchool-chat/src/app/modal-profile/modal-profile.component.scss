@@ -1,9 +1,10 @@
 .profile {
 	background: #FFFFFF;
 	border-radius: 20px;
-	min-width: 250px;
-	width: 100%;
+	width: 400px;
+	transition: 0.5s;
 	position: relative;
+	height: 100%;
 
 	.profile__close {
 		position: absolute;
@@ -44,13 +45,9 @@
 		.profile__user-info_img {
 			height: 150px;
 			width: 100%;
-			// border: 3px solid #FFFFFF;
-			// border-radius: 50px;
-			// box-sizing: border-box;
-			// filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.5));
+			cursor: pointer;
 
 			img {
-				// border-radius: 50px;
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
@@ -64,6 +61,7 @@
 			flex-direction: column;
 			width: calc(100% - 41px);
 			max-width: calc(100vw - 188px);
+			transition: 0.5s;
 
 			.profile__user-info_name_username {
 				font-style: normal;
@@ -83,9 +81,11 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-evenly;
+		transition: 0.5s;
 
 		.profile__contact-btns_chat {
 			width: 45%;
+
 			button {
 				width: 100%;
 				height: 40px;
@@ -103,10 +103,14 @@
 					background: rgb(61, 61, 144);
 				}
 			}
+
 		}
+
+		
 
 		.profile__contact-btns_add {
 			width: 45%;
+
 			button {
 				width: 100%;
 				height: 40px;
@@ -128,6 +132,7 @@
 
 		.profile__contact-btns_delete {
 			width: 45%;
+
 			button {
 				width: 100%;
 				height: 40px;
@@ -155,9 +160,10 @@
 	}
 
 	.profile__menu {
-		margin: 60px 20px 25px 55px;
+		margin: 60px 20px 25px 30px;
 		display: flex;
 		flex-direction: column;
+		transition: 0.5s;
 
 		.profile__menu_item {
 			display: flex;
@@ -175,7 +181,7 @@
 
 			mat-icon {
 				font-size: 30px;
-				margin-right: 39px;
+				margin-right: 20px;
 			}
 
 			.profile__menu_item_title {
@@ -227,4 +233,28 @@
 		margin: 0 auto 38px;
 		text-align: center;
 	}
+
+	@media (max-width: 450px) {
+		width: 300px;
+	}
+
+	@media (max-width: 350px) {
+		width: 250px;
+	}
+
+	// .displayZeroClass {
+	// 	display: none!important;
+	// }
 }
+
+.full_img {
+	height: 100%!important;
+	transition: 0.5s;
+	
+	img {
+		height: 110%!important;
+		object-fit: cover!important;
+		mask-image: none!important;
+	}
+}
+
