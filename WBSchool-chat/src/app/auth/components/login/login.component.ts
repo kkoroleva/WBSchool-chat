@@ -12,6 +12,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { INotification } from 'src/app/store/reducers/notifications.reducers';
 import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
 import { SocketService } from 'src/app/socket/socket.service';
+import { ConnectEvent } from 'src/app/socket/event';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   submitted!: boolean;
   errorMessage: string = '';
   notificationAuth: INotification = {
-    text: 'Был выполнен вход в аккаунт.',
+    text: `Был выполнен вход в аккаунт. ${Date.now()}`,
   };
 
   constructor(
@@ -50,6 +51,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  private initIoConnection(): void {
+    this.socketService.initSocket();
+
+    this.socketService.onEvent(ConnectEvent.CONNECT).subscribe(() => {
+      console.log('connected');
+    });
+  }
+
   submit() {
     this.submitted = true;
 
@@ -72,6 +81,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (resp: INewUser) => {
           this.submitted = false;
+          this.initIoConnection();
           this.router.navigate(['home']);
           newUser = resp.newUser;
           this.storage.set('user', newUser).subscribe(() => {});

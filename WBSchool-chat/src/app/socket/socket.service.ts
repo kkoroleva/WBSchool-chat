@@ -4,13 +4,27 @@ import { Observable } from 'rxjs';
 import * as socketIo from 'socket.io-client';
 import { IMessage } from '../dialog/dialog';
 import { ConnectEvent } from './event';
+import { AuthService } from '../auth/services/auth.service';
+import { Router } from '@angular/router';
+import {
+  changeLoadNotifications,
+  loadNotifications,
+  pushToNotification,
+  removeNotification,
+} from '../store/actions/notifications.actions';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
   private socket: any;
-  constructor(@Inject('API_URL') readonly apiUrl: string) {}
+  constructor(
+    @Inject('API_URL') readonly apiUrl: string,
+    private auth: AuthService,
+    private router: Router,
+    private store$: Store
+  ) {}
 
   public initSocket(): void {
     if (localStorage.getItem('token')) {
@@ -18,6 +32,10 @@ export class SocketService {
         path: '/api/socket',
         auth: { token: localStorage.getItem('token') },
       });
+    } else if (!localStorage.getItem('token')) {
+      this.auth.logout();
+      this.socket.offAny();
+      this.router.navigateByUrl('/auth/login');
     }
   }
 
@@ -27,9 +45,14 @@ export class SocketService {
 
   public createGroupNotification(
     notification: INotification,
-    chatId: string
+    chatId: string,
+    userId: string
   ): void {
-    this.socket.emit('notifications:addNotification', { notification, chatId });
+    this.socket.emit('notifications:addNotification', {
+      notification,
+      chatId,
+      userId,
+    });
   }
 
   public deleteNotification(notificationId: string) {
@@ -110,9 +133,26 @@ export class SocketService {
     });
   }
 
+  public disconnect(): void {
+    this.socket.offAny();
+    console.log('Работает');
+  }
+
   public onEvent(event: ConnectEvent): Observable<any> {
     return new Observable<Event>((observer) => {
       this.socket.on(event, () => observer.next());
+    });
+  }
+
+  public initIoConnectionNotification(): void {
+    this.onCreateNotification().subscribe((notification: INotification) => {
+      this.store$.dispatch(pushToNotification({ notification }));
+    });
+    this.onDeleteNotification().subscribe((notificationId: string) => {
+      this.store$.dispatch(removeNotification({ id: notificationId }));
+    });
+    this.onClearNotifications().subscribe((notifications: INotification[]) => {
+      this.store$.dispatch(changeLoadNotifications({ notifications }));
     });
   }
 
@@ -120,5 +160,11 @@ export class SocketService {
     this.socket.off('messages:create');
     this.socket.off('messages:update');
     this.socket.off('messages:delete');
+  }
+
+  public offNotifications() {
+    this.socket.off('notifications:clear');
+    this.socket.off('notifications:delete');
+    this.socket.off('notifications:create');
   }
 }

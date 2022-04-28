@@ -8,7 +8,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SocketService } from '../socket/socket.service';
 import {
-  clearNotifications,
   loadNotifications,
   removeNotification,
 } from '../store/actions/notifications.actions';
@@ -32,26 +31,8 @@ export class NotificationsComponent implements OnInit {
     private socketService: SocketService
   ) {}
 
-  private initIoConnection(): void {
-    this.socketService
-      .onCreateNotification()
-      .subscribe((notification: INotification) => {
-        this.store$.dispatch(pushToNotification({ notification }));
-      });
-    this.socketService
-      .onDeleteNotification()
-      .subscribe((notificationId: string) => {
-        this.store$.dispatch(removeNotification({ id: notificationId }));
-      });
-    this.socketService
-      .onClearNotifications()
-      .subscribe((notifications: INotification[]) => {
-        this.store$.dispatch(changeLoadNotifications({ notifications }));
-      });
-  }
-
   ngOnInit(): void {
-    this.initIoConnection();
+    // this.socketService.offNotifications();
     this.store$.dispatch(loadNotifications());
   }
 

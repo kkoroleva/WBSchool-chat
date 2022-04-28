@@ -18,23 +18,19 @@ export class AppComponent implements OnInit {
   constructor(
     private store$: Store<IAuthState | INotificationsState>,
     private storage: StorageMap,
-    private socketService: SocketService,
-    private http: HttpClient
+    private socketService: SocketService
   ) {}
 
   ngOnInit(): void {
     this.storage.get('user').subscribe((newUser: any) => {
       this.store$.dispatch(initAuth({ newUser }));
     });
-    if (localStorage.getItem('token')) {
-      this.initIoConnection();
-    }
+    this.initIoConnection();
     this.store$.dispatch(loadNotifications());
   }
 
   private initIoConnection(): void {
     this.socketService.initSocket();
-
     this.socketService.onEvent(ConnectEvent.CONNECT).subscribe(() => {
       console.log('connected');
     });
