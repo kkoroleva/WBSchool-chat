@@ -43,6 +43,3 @@ export const getAllChatsMessages = createAction('[DIALOG] getAlChatsMessages',
 
 export const allChatsMessages = createAction('[DIALOG] allChatsMessages',
   props<{chatId: string, lastMessage : string}>());
-
-export const pushAllChatsMessages = createAction('[DIALOG] pushAllChatsMessages',
-  props<{chatId: string, lastMessage: string}>());

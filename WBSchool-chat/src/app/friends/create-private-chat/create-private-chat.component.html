@@ -2,11 +2,11 @@
     <h3 class="modal__title" mat-dialog-title>Create new private chat</h3>
     <mat-dialog-content>
 
-        <div *ngIf="!myContacts.length && contactsIsLoaded">
+        <div *ngIf="contactsIsLoaded && !myContacts.length">
             <p class="modal__err">You cannot create a chat because your contact list is empty :(</p>
         </div>
 
-        <form *ngIf="myContacts.length && contactsIsLoaded" [formGroup]="form" class="modal__form">
+        <form *ngIf="contactsIsLoaded && myContacts.length" [formGroup]="form" class="modal__form">
             <mat-form-field appearance="fill" class="modal__field">
                 <mat-label>Add user</mat-label>
                 <input class="modal__input" matInput placeholder="Username" [formControl]="contactsControl"
@@ -26,6 +26,7 @@
 
     <mat-dialog-actions align="end">
         <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
-        <button class="modal__btn" mat-button (click)="createPrivateChat()" [disabled]="form.invalid">Create</button>
+        <button *ngIf="contactsIsLoaded && myContacts.length" class="modal__btn" mat-button
+            (click)="createPrivateChat() " [disabled]="form.invalid">Create</button>
     </mat-dialog-actions>
 </div>

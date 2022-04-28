@@ -5,9 +5,8 @@ import {
     deleteMessage, 
     editMessage, initDialogs, 
     loadDialogs, 
-    newGetInfoChat, 
-    pushAllChatsMessages, 
-    pushToMessages,  
+    newGetInfoChat,
+    pushToMessages, 
 } from '../actions/dialog.action';
 
 export const dialogNode = 'Dialog';
@@ -104,9 +103,5 @@ export const allChatsMessagesReducer = createReducer(
     on(allChatsMessages, (state, action) => ({
         ...state,
         chatsMessages: [...state.chatsMessages.filter((chat) => chat.chatId !== action.chatId), {chatId: action.chatId, lastMessage: action.lastMessage}] 
-    })),
-    on(pushAllChatsMessages, (state, action) => ({
-        ...state,
-        chatsMessages: [...state.chatsMessages.filter((chat) => chat.chatId !== action.chatId), {chatId: action.chatId, lastMessage: action.lastMessage}]
     }))
 )

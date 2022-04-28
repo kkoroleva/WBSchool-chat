@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, concatMap, Subject, Subscription, tap, throwError } from 'rxjs';
+import { catchError, concatMap, Observable, Subject, Subscriber, Subscription, tap, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalHelpComponent } from './modal-help/modal-help.component';
@@ -47,44 +47,54 @@ export class ProfileSettingsComponent implements OnInit {
   contacts: IUserData[] = [];
   sub$!: Subscription;
 
+  public imageInBase64 = '';
+
   settingsList: ISettingsList[] = [
     {
       "id": 1,
+      "type": "username",
       "icon": "person",
       "title": "Edit Profile Name",
       "description": this.profileData.username
     },
     {
       "id": 2,
+      "type": "status",
       "icon": "textsms",
       "title": "Edit Profile Status Info",
-      "description": this.profileData.status
+      "description": "null" // this.profileData.status
     },
     {
       "id": 3,
+      "type": "avatar",
       "icon": "add_photo_alternate",
       "title": "Edit Profile Photo",
       "description": this.profileData.avatar
     },
     {
       "id": 4,
+      "type": "about",
       "icon": "edit",
       "title": "Edit Description",
       "description": this.profileData.about
     },
     {
       "id": 5,
+      "type": "email",
       "icon": "mail",
       "title": "Edit Email",
       "description": this.profileData.email
     },
     {
       "id": 6,
+      "type": "wallpaper",
       "icon": "wallpaper",
       "title": "Change wallpaper",
       "description": "null"
     }
   ]
+  private inputFile!: HTMLInputElement;
+  public imageName = '';
 
   constructor(
     private profileServ: ProfileSettingsService, 
@@ -109,7 +119,7 @@ export class ProfileSettingsComponent implements OnInit {
     }, 0);
   }
 
-  getUsersData() {
+  getUsersData(): void {
     this.storage.get('user')
     .subscribe((user: IServerResponse | any) => {
       this.profileData = {
@@ -128,7 +138,7 @@ export class ProfileSettingsComponent implements OnInit {
     this.selectedItem = item;
   }
 
-  addToFormData(inputData: any) {
+  addToFormData(inputData: any): void {
     if (inputData.id == 1) {
       if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
           inputData.value.length >= 4 && 
@@ -158,13 +168,22 @@ export class ProfileSettingsComponent implements OnInit {
     }
   }
 
-  addImage(input: any) {
+  deleteImage(): void {
+    this.toggle = !this.toggle;
+    this.imgInput = false;
+    this.formData.formatImage = '';
+  }
+
+  addImage(input: any): void {
+    this.imgInput = true
     let imageOrFile = '';
     let reader = new FileReader();
     let file = input.files[0];
     reader.onloadend = () => {
       if (typeof reader.result == "string") {
         imageOrFile = reader.result;
+        this.imageName = input.files[0]?.name
+        console.log(this.imageName)
         if (+this.imageCompress.byteCount(reader.result) > 1048576) {
           this.imageCompress.compressFile(imageOrFile, -1, 50, 50, 800, 600)
           .then(result =>  {
@@ -175,19 +194,14 @@ export class ProfileSettingsComponent implements OnInit {
           this.formData.avatar = imageOrFile.slice(imageOrFile.indexOf(',') + 1);
           this.formData.formatImage = imageOrFile.slice(0, imageOrFile.indexOf(',') + 1);
         }
-      }
-      else {
+      } else {
         alert("Вы отправляете не картинку!")
       }
     }
     reader.readAsDataURL(file);
   }
 
-  onFileInputChange(event: any) {
-    this.imgInput = true
-  }
-
-  submit() {
+  submit(): void {
     this.profileServ.editProfileSettings(this.formData)
     .pipe(
       catchError((error) => {
@@ -212,15 +226,15 @@ export class ProfileSettingsComponent implements OnInit {
     });
   }
 
-  watchProfile(contact: IUserData) {
+  watchProfile(contact: IUserData): void {
     this.modalProfileServ.openDialog(contact)
   }
 
-  lengthForm() {
+  lengthForm(): boolean {
     return Object.keys(this.formData).length > 0 ? true : false;
   }
 
-  addFriend() {
+  addFriend(): void {
     this.notFound = '';
     const userName: string = this.form.value.contactInput.trim();
     const clone: IUserData | undefined = this.contacts.find((user) => user.username === userName);
@@ -254,7 +268,23 @@ export class ProfileSettingsComponent implements OnInit {
     this.form.reset();
   }
 
-  itemFormat(item: string) {
+  itemFormat(item: string): boolean {
     return !!(item.includes(".png") || item.includes(".jpg") || item.includes(".jpeg") || item.includes(".svg") || item.includes(".gif"));
+  }
+
+  compare(desc: string, type: string): boolean {
+    switch (type) {
+      case 'username':
+        return desc !== this.formData.username && !!this.formData.username;
+      case 'avatar':
+        return desc !== this.formData.avatar && !!this.formData.avatar;
+      case 'about':
+        return desc !== this.formData.about && !!this.formData.about;
+      case 'email':
+        return desc !== this.formData.email && !!this.formData.email;
+      default:
+        return false
+    }
+    
   }
 }

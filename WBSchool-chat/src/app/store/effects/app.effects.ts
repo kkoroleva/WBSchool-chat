@@ -86,55 +86,55 @@ export class AppEffects {
     )
   );
 
-  removeNotification$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(removeNotification),
-      mergeMap(({id}) =>
-        this.http
-          .delete<string>(`${this.urlApi}/users/notifications/${id}`)
-          .pipe(
-            map((id) => removeNotification({id})),
-            catchError((err: HttpErrorResponse) => {
-              if (err.status === 400 || err.status === 404) {
-                map(() => removeNotification({id: '0'}));
-              }
-              return throwError(() => err);
-            })
-          )
-      )
-    );
-  });
+  // removeNotification$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(removeNotification),
+  //     mergeMap(({id}) =>
+  //       this.http
+  //         .delete<string>(`${this.urlApi}/users/notifications/${id}`)
+  //         .pipe(
+  //           map((id) => removeNotification({id})),
+  //           catchError((err: HttpErrorResponse) => {
+  //             if (err.status === 400 || err.status === 404) {
+  //               map(() => removeNotification({id: '0'}));
+  //             }
+  //             return throwError(() => err);
+  //           })
+  //         )
+  //     )
+  //   );
+  // });
 
-  clearNotification$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(clearNotifications),
-      mergeMap(() =>
-        this.http
-          .delete<INotification[]>(`${this.urlApi}/users/notifications/clear`)
-          .pipe(
-            map((notifications) => changeLoadNotifications({notifications}))
-          )
-      )
-    );
-  });
+  // clearNotification$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(clearNotifications),
+  //     mergeMap(() =>
+  //       this.http
+  //         .delete<INotification[]>(`${this.urlApi}/users/notifications/clear`)
+  //         .pipe(
+  //           map((notifications) => changeLoadNotifications({notifications}))
+  //         )
+  //     )
+  //   );
+  // });
 
-  addAuthNotification$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(addAuthNotification),
-      mergeMap(({ notification }) =>
-        this.http
-          .post<INotification>(
-            `${this.urlApi}/users/notifications`,
-            notification
-          )
-          .pipe(
-            map((notification: INotification) =>
-              pushToNotification({ notification })
-            )
-          )
-      )
-    );
-  });
+  // addAuthNotification$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(addAuthNotification),
+  //     mergeMap(({ notification }) =>
+  //       this.http
+  //         .post<INotification>(
+  //           `${this.urlApi}/users/notifications`,
+  //           notification
+  //         )
+  //         .pipe(
+  //           map((notification: INotification) =>
+  //             pushToNotification({ notification })
+  //           )
+  //         )
+  //     )
+  //   );
+  // });
 
   // Groups
   loadGroups$ = createEffect(() => {

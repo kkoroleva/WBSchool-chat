@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { defer, finalize, Observable } from 'rxjs';
 import { IUserData } from '../auth/interfaces';
+import { ProfileSettingsService } from '../profile-page/services/profile-settings.service';
 import { IPrivate } from '../friends/private';
 import { initContacts } from '../store/actions/contacts.actions';
 import { changeChatGroup, createChatFriend, loadFriends } from '../store/actions/groups.actions';
@@ -31,6 +32,7 @@ export class ModalProfileComponent implements OnInit {
   }
   private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
   friendStatus: IUserData | undefined = undefined;
+  hideData = false;
 
   constructor(
     public dialogRef: MatDialogRef<ModalProfileComponent>,
@@ -38,7 +40,8 @@ export class ModalProfileComponent implements OnInit {
     private modalServ: ModalProfileService,
     private store$: Store,
     private router: Router,
-    @Inject('API_URL') public apiUrl: string
+    @Inject('API_URL') public apiUrl: string,
+    private profileServ: ProfileSettingsService,
   ) {}
 
   onNoClick(): void {
@@ -46,6 +49,7 @@ export class ModalProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store$.dispatch(initContacts())
     this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
       this.friendStatus = contacts.contacts.find((user: IUserData) => user.username === this.userData.username);
     })
@@ -79,6 +83,17 @@ export class ModalProfileComponent implements OnInit {
   deleteContact(_id: string) {
     this.modalServ.deleteContact(_id)
     .subscribe(() => {
+      this.store$.dispatch(initContacts());
+      this.dialogRef.close();
+    })
+  }
+
+  openImg() {
+    this.hideData = !this.hideData
+  }
+
+  addToFriends(userId: string) {
+    this.profileServ.addFriend(userId).subscribe(() => {
       this.store$.dispatch(initContacts());
       this.dialogRef.close();
     })

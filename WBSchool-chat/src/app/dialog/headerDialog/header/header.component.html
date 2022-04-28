@@ -1,5 +1,5 @@
-<header *ngIf="chatInfo$ | async as chatInfo" class="header">
-    <section  class="header__info">
+<header class="header" *ngIf="chatInfo$ | async as chatInfo">
+    <section class="header__info" (click)="modalClick()">
         <div class="header__avatar">
             <img [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
                 <span *ngIf="chatInfo.users.length === 2 "></span>
@@ -23,6 +23,12 @@
             </button>
             <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2  && chatInfo.owner === user._id"  mat-menu-item>
                 <span>Редактировать чат</span>
+            </button>
+            <button (click)="aboutChat(chatInfo)" mat-menu-item>
+                <span>О чате</span>
+            </button>
+            <button (click)="leaveFromChat(chatInfo, user)" mat-menu-item>
+                <span>Выйти из чата</span>
             </button>
         </mat-menu>
     </section>

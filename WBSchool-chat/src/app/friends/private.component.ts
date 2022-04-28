@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { IPrivate } from './private';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -14,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { IUserData } from '../auth/interfaces';
-import { getAllChatsMessages, pushAllChatsMessages } from '../store/actions/dialog.action';
+import { allChatsMessages, getAllChatsMessages } from '../store/actions/dialog.action';
 import { IAllMessages } from '../store/reducers/dialog.reducer';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
 import { SocketService } from '../socket/socket.service';
@@ -43,32 +43,35 @@ export class PrivateComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private store$: Store<IGroupsState>,
-    private socketService: SocketService,
-    private storage: StorageMap
+    private socketService: SocketService
   ) {}
 
   ngOnInit(): void {
     this.store$.dispatch(loadFriends());
-    let chats: number | undefined = 0;
+    let chatsLength: number | undefined = 0;
     this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {
-      chats = messages.length;
+      chatsLength = messages.length;
     })
-    console.log(chats)
-    if (chats === 0) {
-      this.store$.pipe(select(selectFriends)).subscribe((chats: IPrivate[]) => {
-        chats.forEach((chat: IPrivate) => {
+    this.store$.pipe(select(selectFriends)).subscribe((chats: IPrivate[]) => {
+      if (chatsLength === 0) {
+        chats.forEach((chat: IPrivate) => {  
           this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
         })
+      }
     })
-    }
     this.getLastMessages();
   }
 
   getLastMessages() {
     this.socketService.onMessage().subscribe((message: IMessage) => {
-          this.store$.dispatch(pushAllChatsMessages({chatId: message._id!, lastMessage: message.text}));
-          this.store$.dispatch(loadFriends());
+        this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
+    this.socketService.onDeleteMessage().subscribe((messageId: string) => {
+        console.log(messageId)
+    });
+    this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
+    })
   }
 
   goToChat(chatId: string): void {
