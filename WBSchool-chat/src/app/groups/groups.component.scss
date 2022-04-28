@@ -37,11 +37,15 @@ $thumbnail-size: 52px;
   }
 
   &__list {
-    max-height: 302px;
+    max-height: 545px;
     width: 100%;
     padding: 0;
     margin: 0;
     overflow-y: auto;
+
+    @media (max-width: 1024px) {
+      max-height: 345px;
+    }
   }
 
   &__item {

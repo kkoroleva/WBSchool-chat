@@ -41,7 +41,7 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {
     this.getGroupChats();
 
-    let chatsLength: number | undefined = 0;
+    let chatsLength = 0;
 
     this.store$.pipe(select(selectAllGroupsMessages)).subscribe((messages) => {
       chatsLength = messages.length;
