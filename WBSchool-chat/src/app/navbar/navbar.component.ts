@@ -16,7 +16,6 @@ import { selectElNotifications } from '../store/selectors/notifications.selector
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  path: string = window.location.pathname.substring(1);
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -49,9 +48,5 @@ export class NavbarComponent {
       return '../../assets/image-not-found.jpg';
     }
     return atob(imgStr);
-  }
-
-  ngDoCheck() {
-    this.path = window.location.pathname.substring(1);
   }
 }

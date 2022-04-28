@@ -1,9 +1,9 @@
-<header class="header" *ngIf="chatInfo$ | async as chatInfo">
+<header class="header" *ngIf="chatInfo">
     <section class="header__info" (click)="modalClick()">
         <div class="header__avatar">
             <img [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
                 <span *ngIf="chatInfo.users.length === 2 "></span>
-        </div>        
+        </div>
             <div class="header__name" *ngIf="user$ |async as user">
                 <p class="name" *ngIf="chatInfo.users.length > 2">{{chatInfo.name}}</p>
                 <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>

@@ -15,5 +15,6 @@ export class DialogComponent {
     select(selectChatGroup)
   );
 
-  constructor(private store$: Store<IGroupsState>) {}
+  constructor(private store$: Store<IGroupsState>) {
+  }
 }
