@@ -94,6 +94,6 @@ export class HeaderComponent implements OnInit {
   }
 
   modalClick() {
-    if (this.chatInfo) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
+    if (this.chatInfo && this.chatInfo.users.length < 3) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
   }
 }
