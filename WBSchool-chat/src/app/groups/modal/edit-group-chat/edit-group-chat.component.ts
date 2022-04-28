@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-edit-group-chat',
   templateUrl: './edit-group-chat.component.html',
-  styleUrls: ['./edit-group-chat.component.scss'],
+  styleUrls: ['./../../groups.component.scss'],
 })
 export class EditGroupChatComponent implements OnInit {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;

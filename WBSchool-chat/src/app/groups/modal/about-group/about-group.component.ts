@@ -17,7 +17,7 @@ import { Actions, ofType } from '@ngrx/effects';
 @Component({
   selector: 'app-about-group',
   templateUrl: './about-group.component.html',
-  styleUrls: ['./about-group.component.scss'],
+  styleUrls: ['./../../groups.component.scss'],
 })
 export class AboutGroupComponent implements OnInit {
   public usersIsLoaded = false;
