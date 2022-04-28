@@ -9,7 +9,7 @@ import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from '../../../store/actions/auth.actions';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { INotification, IPostNotification } from 'src/app/store/reducers/notifications.reducers';
+import { INotification } from 'src/app/store/reducers/notifications.reducers';
 import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
 import { SocketService } from 'src/app/socket/socket.service';
 
@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
   submitted!: boolean;
   errorMessage: string = '';
   notificationAuth: INotification = {
-    text: 'Был выполнен вход в аккаунт.'
-  }
+    text: 'Был выполнен вход в аккаунт.',
+  };
 
   constructor(
     private auth: AuthService,
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     private store$: Store<IAuthState>,
     private storage: StorageMap,
     private socketService: SocketService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.minLength(4),
         Validators.pattern(
-          '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
+          '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
         ),
       ]),
       password: new FormControl(null, [
@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-
     this.submitted = true;
 
     const user: User = {
@@ -61,27 +60,31 @@ export class LoginComponent implements OnInit {
 
     let newUser: IUserData;
 
-    this.auth.login(user)
-    .pipe(
-      catchError((error) => {
-        this.auth.logout();
-        this.errorMessage = error.error.message;
-        return throwError(() => error);
-      })
-    )
-    .subscribe(
-      (resp: INewUser) => {
-        this.submitted = false;
-        this.router.navigate(['home']);
-        newUser = resp.newUser;
-        this.storage.set('user', newUser).subscribe(() => {});
-        this.store$.dispatch(initAuth({newUser}));
-        this.socketService.createNotification(this.notificationAuth)
-        this.store$.dispatch(addAuthNotification({notification: this.notificationAuth}))
-        this.store$.dispatch(loadNotifications());
-      },
-      () => {
-        this.submitted = false;
+    this.auth
+      .login(user)
+      .pipe(
+        catchError((error) => {
+          this.auth.logout();
+          this.errorMessage = error.error.message;
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        next: (resp: INewUser) => {
+          this.submitted = false;
+          this.router.navigate(['home']);
+          newUser = resp.newUser;
+          this.storage.set('user', newUser).subscribe(() => {});
+          this.store$.dispatch(initAuth({ newUser }));
+          this.socketService.createNotification(this.notificationAuth);
+          this.store$.dispatch(
+            addAuthNotification({ notification: this.notificationAuth })
+          );
+          this.store$.dispatch(loadNotifications());
+        },
+        error: () => {
+          this.submitted = false;
+        },
       });
   }
 }

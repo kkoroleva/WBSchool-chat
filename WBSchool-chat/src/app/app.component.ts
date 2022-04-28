@@ -19,29 +19,30 @@ export class AppComponent implements OnInit {
     private store$: Store<IAuthState | INotificationsState>,
     private storage: StorageMap,
     private socketService: SocketService,
-    private http: HttpClient){}
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.storage.get('user').subscribe((newUser: any) => {
-      this.store$.dispatch(initAuth({newUser}))
-    })
-    this.initIoConnection();
-    this.store$.dispatch(loadNotifications())
+      this.store$.dispatch(initAuth({ newUser }));
+    });
+    if (localStorage.getItem('token')) {
+      this.initIoConnection();
+    }
+    this.store$.dispatch(loadNotifications());
   }
 
   private initIoConnection(): void {
     this.socketService.initSocket();
 
-    this.socketService.onEvent(ConnectEvent.CONNECT)
-      .subscribe(() => {
-        console.log('connected');
-      })
+    this.socketService.onEvent(ConnectEvent.CONNECT).subscribe(() => {
+      console.log('connected');
+    });
   }
 
   ngOnDestroy(): void {
-    this.socketService.onEvent(ConnectEvent.DISCONNECT)
-      .subscribe(() => {
-        console.log('disconnected');
-      })
+    this.socketService.onEvent(ConnectEvent.DISCONNECT).subscribe(() => {
+      console.log('disconnected');
+    });
   }
 }

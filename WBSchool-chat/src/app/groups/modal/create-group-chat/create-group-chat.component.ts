@@ -22,10 +22,15 @@ import {
   createChatGroup,
   pushToGroups,
 } from './../../../store/actions/groups.actions';
-import { selectChatGroupError } from './../../../store/selectors/groups.selectors';
+import {
+  selectChatGroupError,
+  selectGroups,
+} from './../../../store/selectors/groups.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';
+import { SocketService } from 'src/app/socket/socket.service';
+import { INotification } from 'src/app/store/reducers/notifications.reducers';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -56,7 +61,8 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
   constructor(
     private dialogRef: MatDialogRef<CreateGroupChatComponent>,
     private store$: Store<IGroupsState>,
-    private actions$: Actions
+    private actions$: Actions,
+    private socketService: SocketService
   ) {}
 
   ngOnInit(): void {
@@ -115,6 +121,21 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
 
     if (this.form.valid) {
       this.store$.dispatch(createChatGroup({ group }));
+      const newNotification: INotification = {
+        text: `Вы были добавлены в группу ${group.name}`,
+      };
+      const groups$ = this.store$.pipe(select(selectGroups));
+      groups$.subscribe((groups) => {
+        const currentGroup = groups.find(
+          (currentGroup) => currentGroup.name === group.name
+        );
+        if (currentGroup?._id) {
+          this.socketService.createGroupNotification(
+            newNotification,
+            currentGroup._id
+          );
+        }
+      });
 
       this.dialogRef.afterClosed().subscribe(() => {
         this.store$.dispatch(chatGroupError({ error: '' }));

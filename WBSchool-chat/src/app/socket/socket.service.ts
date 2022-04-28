@@ -1,8 +1,4 @@
-import { Store } from '@ngrx/store';
-import {
-  INotification,
-  INotificationsState,
-} from './../store/reducers/notifications.reducers';
+import { INotification } from './../store/reducers/notifications.reducers';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as socketIo from 'socket.io-client';
@@ -14,9 +10,7 @@ import { ConnectEvent } from './event';
 })
 export class SocketService {
   private socket: any;
-  constructor(
-    @Inject('API_URL') readonly apiUrl: string,
-  ) {}
+  constructor(@Inject('API_URL') readonly apiUrl: string) {}
 
   public initSocket(): void {
     if (localStorage.getItem('token')) {
@@ -29,6 +23,13 @@ export class SocketService {
 
   public createNotification(notification: INotification): void {
     this.socket.emit('notifications:create', { notification });
+  }
+
+  public createGroupNotification(
+    notification: INotification,
+    chatId: string
+  ): void {
+    this.socket.emit('notifications:addNotification', { notification, chatId });
   }
 
   public deleteNotification(notificationId: string) {
@@ -115,9 +116,9 @@ export class SocketService {
     });
   }
 
-  public offMessages(){
-    this.socket.off('messages:create')
-    this.socket.off('messages:update')
-    this.socket.off('messages:delete')
+  public offMessages() {
+    this.socket.off('messages:create');
+    this.socket.off('messages:update');
+    this.socket.off('messages:delete');
   }
 }
