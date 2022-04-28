@@ -1,3 +1,4 @@
+import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -5,13 +6,17 @@ import { CreateGroupChatComponent } from './modal/create-group-chat/create-group
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectGroups } from '../store/selectors/groups.selectors';
-import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
+import {
+  selectGroups,
+  selectLastMessages,
+} from '../store/selectors/groups.selectors';
+import {
+  changeChatGroup,
+  loadGroups,
+  setLastMessage,
+} from '../store/actions/groups.actions';
 import { IGroup } from './group';
-import { SocketService } from '../socket/socket.service';
-import { selectDialog } from '../store/selectors/dialog.selector';
 import { IMessage } from '../dialog/dialog';
-import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-groups',
@@ -20,53 +25,20 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 })
 export class GroupsComponent implements OnInit {
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
+  public lastMessages$: Observable<IMessage[]> = this.store$.pipe(
+    select(selectLastMessages)
+  );
   public lastMessages!: IMessage[];
 
   constructor(
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
     private router: Router,
-    private socketService: SocketService,
-    private storage: StorageMap
+    private actions$: Actions
   ) {}
 
   ngOnInit(): void {
     this.getGroupChats();
-
-    this.storage.get('lastMessages').subscribe((lastMessages: any) => {
-      if (lastMessages) {
-        this.lastMessages = JSON.parse(lastMessages);
-      } else {
-        this.lastMessages = [];
-      }
-    });
-
-    this.setLastSendedMessage();
-    this.setLastEditedMessage();
-  }
-
-  setLastSendedMessage(): void {
-    this.socketService.onMessage().subscribe((msg) => {
-      this.setLastMessage(msg);
-    });
-  }
-
-  setLastEditedMessage(): void {
-    this.socketService.onUpdateMessage().subscribe((msg) => {
-      this.setLastMessage(msg);
-    });
-  }
-
-  setLastMessage(msg: IMessage): void {
-    this.lastMessages = this.lastMessages.filter(
-      (lastMessage) => lastMessage.chatId !== msg.chatId
-    );
-
-    this.lastMessages.push(msg);
-
-    this.storage
-      .set('lastMessages', JSON.stringify(this.lastMessages))
-      .subscribe();
   }
 
   getGroupChats(): void {

@@ -1,3 +1,4 @@
+import { IMessage } from './../../dialog/dialog';
 import { IUser } from '../../groups/user';
 import { createAction, props } from '@ngrx/store';
 import { IPrivate } from 'src/app/friends/private';
@@ -89,6 +90,11 @@ export const updateChatFriends = createAction(
 export const pushToFriends = createAction(
   '[FRIENDS] pushToFriends',
   props<{ friend: IPrivate }>()
+);
+
+export const setLastMessage = createAction(
+  '[GROUPS] setLastMessage',
+  props<{ message: IMessage }>()
 );
 
 

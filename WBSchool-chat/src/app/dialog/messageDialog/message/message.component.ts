@@ -1,3 +1,4 @@
+import { setLastMessage } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import {
   Component,
@@ -81,6 +82,7 @@ export class MessageComponent implements OnInit {
   private initIoConnection(): void {
     this.socketService.onMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(pushToMessages({ message }));
+      this.store$.dispatch(setLastMessage({ message }));
     });
     this.socketService
       .onDeleteMessage()
@@ -90,6 +92,7 @@ export class MessageComponent implements OnInit {
       });
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(editMessage({ message }));
+      this.store$.dispatch(setLastMessage({ message }));
     });
   }
 

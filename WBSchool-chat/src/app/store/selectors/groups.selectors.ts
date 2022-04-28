@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { IMessage } from 'src/app/dialog/dialog';
 import { IPrivate } from 'src/app/friends/private';
 import { IGroup } from 'src/app/groups/group';
 import { IUser } from 'src/app/groups/user';
@@ -36,4 +37,10 @@ export const selectFriends = createSelector(
   selectGroupsFeature,
   (state: IGroupsState): IPrivate[] => state.friends
 );
+
+export const selectLastMessages = createSelector(
+  selectGroupsFeature,
+  (state: IGroupsState): IMessage[] => state.lastMessages
+);
+
 

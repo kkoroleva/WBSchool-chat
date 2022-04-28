@@ -7,6 +7,7 @@ import {
   pushToFriends,
   setGroup,
   setGroupUsers,
+  setLastMessage,
   updateChatFriends,
 } from './../actions/groups.actions';
 import { createReducer, on } from '@ngrx/store';
@@ -17,6 +18,8 @@ import {
 } from '../actions/groups.actions';
 import { IPrivate } from 'src/app/friends/private';
 import { IUser } from 'src/app/groups/user';
+import { IMessage } from 'src/app/dialog/dialog';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 export const groupsNode = 'Groups';
 
@@ -27,6 +30,7 @@ export interface IGroupsState {
   friends: IPrivate[];
   chatGroup: string;
   error: string;
+  lastMessages: IMessage[]
 }
 
 export interface IGroup {
@@ -49,6 +53,7 @@ const initialState: IGroupsState = {
   friends: [],
   chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
   error: '',
+  lastMessages: []
 };
 
 export const groupsReducer = createReducer(
@@ -86,6 +91,10 @@ export const groupsReducer = createReducer(
   on(deleteFromGroups, (state, action) => ({
     ...state,
     groups: state.groups.filter((group) => group._id !== action.id),
+  })),
+  on(setLastMessage, (state, action) => ({
+    ...state,
+    lastMessages: [...state.lastMessages.filter(lastMessage => lastMessage.chatId !== action.message.chatId), action.message]
   })),
   // Chats
   on(loadFriends, (state) => ({
