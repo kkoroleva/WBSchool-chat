@@ -16,7 +16,6 @@ import { selectElNotifications } from '../store/selectors/notifications.selector
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  path: string = window.location.pathname.substring(1);
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -26,9 +25,7 @@ export class NavbarComponent {
   public notificationsList$: Observable<INotification[]> = this.store$.pipe(
     select(selectElNotifications)
   );
-  
-  
-  
+
   public userState$: Observable<IUserData> = this.store$.pipe(
     select(selectUser)
   );
@@ -53,7 +50,4 @@ export class NavbarComponent {
     return atob(imgStr);
   }
 
-  ngDoCheck() {
-    this.path = window.location.pathname.substring(1);
-  }
 }

@@ -40,7 +40,7 @@ export interface IGroup {
   formatImage?: string;
 }
 
-const chatIDFromLocalStorage = localStorage.getItem('chatID');
+const chatIDFromLocalStorage = '';
 
 const initialState: IGroupsState = {
   groups: [],
