@@ -71,6 +71,7 @@ import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-grou
 import { PrivateComponent } from './friends/private.component';
 import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 import { RouterModule } from '@angular/router';
+import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -80,7 +81,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 
 const API_URL_PROVIDER: Provider = {
   provide: 'API_URL',
-  useValue: 'https://wbschool-chat.ru',
+  useValue: 'http://localhost:3001',
 };
 
 @NgModule({
@@ -115,6 +116,7 @@ const API_URL_PROVIDER: Provider = {
     DragAndDropDirective,
     EditGroupChatComponent,
     OutFromGroupComponent,
+    AboutGroupComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -166,7 +168,7 @@ const API_URL_PROVIDER: Provider = {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     RouterModule,
   ],

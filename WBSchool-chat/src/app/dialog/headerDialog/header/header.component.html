@@ -24,6 +24,12 @@
             <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2  && chatInfo.owner === user._id"  mat-menu-item>
                 <span>Редактировать чат</span>
             </button>
+            <button (click)="aboutChat(chatInfo)" mat-menu-item>
+                <span>О чате</span>
+            </button>
+            <button (click)="leaveFromChat(chatInfo, user)" mat-menu-item>
+                <span>Выйти из чата</span>
+            </button>
         </mat-menu>
     </section>
 </header>

@@ -1,0 +1,26 @@
+<div class="modal">
+    <h2 class="modal__title" mat-dialog-title>About group chat</h2>
+    <mat-dialog-content *ngIf="group$ | async as group">
+        <div class="modal__info">
+            <img class="modal__current-avatar" [src]="group.avatar || '/assets/not-found.png'" alt="Group chat avatar">
+            <h3 class="modal__name">{{group.name}}</h3>
+        </div>
+        <div class="modal__about">
+            <p>{{group.about}}</p>
+        </div>
+        <ng-container *ngIf="groupUsers$ | async as groupUsers">
+            <ng-container *ngIf="usersIsLoaded">
+                <div class="modal__contact" *ngFor="let user of groupUsers" (click)="checkUser(user)">
+                    <img class="modal__avatar" [src]="user.formatImage! + user.avatar! || '/assets/not-found.png'"
+                        alt="User avatar">
+                    <span class="modal__username">{{user.username}}</span>
+                    <mat-icon *ngIf="user._id === group.owner" color="primary">star</mat-icon>
+                </div>
+            </ng-container>
+        </ng-container>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button class="modal__btn" mat-button mat-dialog-close>Ok</button>
+    </mat-dialog-actions>
+</div>
