@@ -17,7 +17,6 @@ export class HomePageComponent implements OnInit {
   onResized(event: ResizedEvent) {
     if (window.innerWidth >= 766) {
       this.stateMain.groups = true
-      this.stateMain.unreadMess = true
       this.stateMain.tetATet = true
       this.stateMain.threads = true
     }
@@ -26,12 +25,10 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     if(window.innerWidth < 766) {
       this.stateMain.groups = true
-      this.stateMain.unreadMess = false
       this.stateMain.tetATet = false
       this.stateMain.threads = false
     } else {
       this.stateMain.groups = true
-      this.stateMain.unreadMess = true
       this.stateMain.tetATet = true
       this.stateMain.threads = true
     }

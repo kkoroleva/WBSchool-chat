@@ -46,7 +46,7 @@ export class MessageComponent implements OnInit {
 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap((resp) => {
+    tap(() => {
       setTimeout(() => {
         this.changeScroll();
       }, 300);
@@ -67,7 +67,7 @@ export class MessageComponent implements OnInit {
           this.store$.dispatch(pushToMessages({ message }))
         }
       });
-    this.socketService.onDeleteMessage()
+    this.socketService.onDeleteMessage(this.chatID)
       .subscribe((messageId: string) => {
         this.store$.dispatch(deleteMessage({ id: messageId }))
       })
@@ -127,8 +127,11 @@ export class MessageComponent implements OnInit {
   }
 
   deleteMessage(id: string): void {
-    console.log(id, this.chatID);
-    this.store$.dispatch(removeMessage({ id, chatId: this.chatID }));
+    this.socketService.deleteMessage(this.chatID, id);
+  };
+
+  deleteChat() {
+    console.log('удалить чат')
   }
 
   editMessage(text: string, id: string, chatId: string): void {
@@ -149,17 +152,17 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.editMessage(this.message.value, this.editMessageID, this.chatID);
+        this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
-        };
-        this.store$.dispatch(sendMessage({ message, id: this.chatID }));
+        }
+        this.socketService.send(this.chatID, message);
       } else {
-        let message: IMessage = { text: this.message.value };
-        this.store$.dispatch(sendMessage({ message, id: this.chatID }));
+        let message: IMessage = { text: this.message.value }
+        this.socketService.send(this.chatID, message);
       }
       this.imageOrFile = '';
       this.formatImage = '';

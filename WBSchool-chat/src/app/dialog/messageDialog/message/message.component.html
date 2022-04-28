@@ -30,7 +30,7 @@
                 <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" #input>
                 <label for="fileElem" class="btn-add">Выберите файл</label>
                 <div class="btn-wrapper">
-                    <button type="button" class="btn-green" (click)="[addImage(input), toggle = !toggle]">V</button>
+                    <button type="button" class="btn-green" [disabled]="input.value.length === 0" (click)="[addImage(input), toggle = !toggle]">V</button>
                     <button type="button" class="btn-red" (click)="[toggle = !toggle, imageOrFile = '']">X</button>
                 </div>
 
