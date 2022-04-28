@@ -19,7 +19,6 @@ import { IAllMessages } from '../store/reducers/dialog.reducer';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
 import { SocketService } from '../socket/socket.service';
 import { IMessage } from '../dialog/dialog';
-import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-private',
@@ -52,7 +51,7 @@ export class PrivateComponent implements OnInit {
     this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {
       chatsLength = messages.length;
     })
-    this.store$.pipe(select(selectFriends)).subscribe((chats: IPrivate[]) => {
+    this.friendsState$.subscribe((chats: IPrivate[]) => {
       if (chatsLength === 0) {
         chats.forEach((chat: IPrivate) => {  
           this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
@@ -92,7 +91,10 @@ export class PrivateComponent implements OnInit {
   }
 
   deleteChat(_id: string) {
-    this.store$.dispatch(deleteChatFriend({ chatId: _id }));
-    this.store$.dispatch(loadFriends());
+    let result = confirm('Вы точно хотите удалить чат?')
+    if (!!result) {
+      this.store$.dispatch(deleteChatFriend({ chatId: _id }));
+      this.store$.dispatch(loadFriends());
+    }
   }
 }
