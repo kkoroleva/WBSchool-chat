@@ -49,5 +49,4 @@ export class NavbarComponent {
     }
     return atob(imgStr);
   }
-
 }

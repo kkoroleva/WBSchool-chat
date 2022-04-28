@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
   public chatInfo$: Observable<IChatInfo> = this.store$.pipe(
     select(selectChatInfo)
   );
+  public user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
   constructor(
     private store$: Store<IChatInfo>,
@@ -44,13 +45,15 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private modalWindow: MatDialog
   ) {}
-  public user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
+      console.log(id);
       this.store$.dispatch(getInfoChat({ chatId: id }));
     });
-    this.chatInfo$.subscribe((data) => (this.chatInfo = data));
+    this.chatInfo$.subscribe((data) => {
+      this.chatInfo = data;
+    });
   }
 
   getModalWindow(chatInfo: IChatInfo): void {
