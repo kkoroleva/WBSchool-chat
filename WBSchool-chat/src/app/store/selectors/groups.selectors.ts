@@ -1,10 +1,10 @@
 import { groupsMessagesNode } from './../reducers/groups.reducers';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IMessage } from 'src/app/dialog/dialog';
-import { IPrivate } from 'src/app/friends/private';
-import { IGroup } from 'src/app/groups/group';
-import { IUser } from 'src/app/groups/user';
-import { dialogsNode, IAllChatsMessages, IAllMessages } from '../reducers/dialog.reducer';
+import { IMessage } from './../../dialog/dialog';
+import { IPrivate } from './../../friends/private';
+import { IGroup } from './../../groups/group';
+import { IUser } from './../../groups/user';
+import { IAllChatsMessages, IAllMessages } from '../reducers/dialog.reducer';
 import { groupsNode, IGroupsState } from '../reducers/groups.reducers';
 
 export const selectGroupsFeature =

@@ -1,8 +1,8 @@
 import { IMessage } from './../../dialog/dialog';
 import { IUser } from '../../groups/user';
 import { createAction, props } from '@ngrx/store';
-import { IPrivate } from 'src/app/friends/private';
-import { IGroup } from 'src/app/groups/group';
+import { IPrivate } from './../../friends/private';
+import { IGroup } from './../../groups/group';
 
 export const loadGroups = createAction('[GROUPS] loadGroups');
 export const changeLoadGroups = createAction(

@@ -1,15 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { catchError, Observable, Subscription, throwError } from 'rxjs';
-import { IUserData } from 'src/app/auth/interfaces';
-import { ProfileSettingsService } from 'src/app/profile-page/services/profile-settings.service';
-import { initContacts } from 'src/app/store/actions/contacts.actions';
-import { IContacts } from 'src/app/store/reducers/contacts.reducers';
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
+import { IUserData } from './../../auth/interfaces';
+import { ProfileSettingsService } from './../../profile-page/services/profile-settings.service';
+import { initContacts } from './../../store/actions/contacts.actions';
+import { IContacts } from './../../store/reducers/contacts.reducers';
+import { IGroupsState } from './../../store/reducers/groups.reducers';
+import { selectContacts } from './../../store/selectors/contacts.selectors';
 import { ModalProfileComponent } from '../modal-profile.component';
 
 @Injectable({

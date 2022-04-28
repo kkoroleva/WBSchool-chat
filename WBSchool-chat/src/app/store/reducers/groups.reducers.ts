@@ -17,9 +17,9 @@ import {
   changeLoadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
-import { IPrivate } from 'src/app/friends/private';
-import { IUser } from 'src/app/groups/user';
-import { IMessage } from 'src/app/dialog/dialog';
+import { IPrivate } from './../../friends/private';
+import { IUser } from './../../groups/user';
+import { IMessage } from './../../dialog/dialog';
 
 export const groupsNode = 'Groups';
 

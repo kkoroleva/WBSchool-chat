@@ -29,8 +29,6 @@ import {
   setGroupUsers,
   deleteGroup,
   deleteFromGroups,
-  getLastMessages,
-  setLastMessage,
   getAllGroupsMessages,
   allGroupsMessages,
 } from '../actions/groups.actions';
@@ -45,21 +43,17 @@ import {
 } from 'rxjs';
 
 import {
-  addAuthNotification,
   changeLoadNotifications,
-  clearNotifications,
   loadNotifications,
-  pushToNotification,
-  removeNotification,
 } from '../actions/notifications.actions';
 
-import {IMessage} from 'src/app/dialog/dialog';
+import {IMessage} from './../../dialog/dialog';
 import {INotification} from '../reducers/notifications.reducers';
-import {IPrivate} from 'src/app/friends/private';
-import {DialogService} from 'src/app/dialog/dialog.service';
+import {IPrivate} from './../../friends/private';
+import {DialogService} from './../../dialog/dialog.service';
 import {Router} from '@angular/router';
 import {IContacts} from '../reducers/contacts.reducers';
-import {IGroup} from 'src/app/groups/group';
+import {IGroup} from './../../groups/group';
 import {initContacts, pushContacts} from '../actions/contacts.actions';
 import {IChatInfo} from '../reducers/dialog.reducer';
 
