@@ -6,7 +6,8 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { SocketService } from './socket/socket.service';
 import { ConnectEvent } from './socket/event';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { INotificationsState } from './store/reducers/notifications.reducers';
+import { loadNotifications } from './store/actions/notifications.actions';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ import { tap } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   constructor(
-    private store$: Store<IAuthState>,
+    private store$: Store<IAuthState | INotificationsState>,
     private storage: StorageMap,
     private socketService: SocketService,
     private http: HttpClient){}
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
       this.store$.dispatch(initAuth({newUser}))
     })
     this.initIoConnection();
+    this.store$.dispatch(loadNotifications())
   }
 
   private initIoConnection(): void {

@@ -12,6 +12,7 @@ $max-width: 1440px;
   display: grid;
   grid-template-columns: minmax($min-width, $mobile-width);
   gap: 25px;
+  grid-template-rows: 59px 1fr ;
 
   @media (min-width: $mobile-width) {
     max-width: $mobile-width;
@@ -22,11 +23,13 @@ $max-width: 1440px;
     padding: 20px 0;
     max-width: $max-width;
     grid-template-columns: minmax(300px, 500px) minmax(300px, 500px);
+    grid-template-rows: 59px 1fr 1fr;
   }
 
   @media (min-width: $desktop-width) {
     padding: 30px 0;
     grid-template-columns: minmax(300px, 450px) minmax(300px, 450px) minmax(300px, 450px);
+
   }
 }
 
@@ -48,28 +51,13 @@ $max-width: 1440px;
 .home-page__groups {
   border-radius: 20px;
   grid-row: 2/3;
-  grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
     grid-row: 3/4;
-    grid-column: 2/3;
   }
 
   @media (min-width: $desktop-width) {
-    grid-row: 2/3;
-    grid-column: 1/2;
-  }
-}
-
-.home-page__recents {
-  max-height: 490px;
-  overflow: hidden;
-  border-radius: 20px;
-  grid-row: 2/3;
-  grid-column: 1/2;
-
-  @media (min-width: $tablet-width) {
-    grid-row: 3/4;
+    grid-row: 2/4;
     grid-column: 1/2;
   }
 }
@@ -96,7 +84,7 @@ $max-width: 1440px;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
-    grid-row: 2/3;
+    grid-row: 2/4;
     grid-column: 2/3;
     align-self: stretch;
   }

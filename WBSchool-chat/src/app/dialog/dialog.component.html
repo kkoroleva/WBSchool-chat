@@ -1,7 +1,12 @@
 <ng-container>
   <div class="container">
-    <app-header></app-header>
-    <hr>
-    <app-message></app-message>
+    <ng-container *ngIf="chatGroup$ | async">
+      <app-header></app-header>
+      <hr>
+      <app-message></app-message>
+    </ng-container>
+
+    <p class="err">Choose a chat and start chatting</p>
+
   </div>
 </ng-container>

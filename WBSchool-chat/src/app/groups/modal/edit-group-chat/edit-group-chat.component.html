@@ -1,0 +1,82 @@
+<div class="modal">
+    <h2 class="modal__title" mat-dialog-title>Edit group chat</h2>
+    <mat-dialog-content *ngIf="group$ | async as group">
+
+        <form [formGroup]="form" class="modal__form">
+            <mat-form-field appearance="fill" class="modal__field">
+                <mat-label>Group chat name</mat-label>
+                <input class="modal__input" matInput placeholder="Chat" formControlName="name">
+                <mat-error *ngIf="form.get('name')?.getError('required')">
+                    Enter group chat name</mat-error>
+                <mat-error
+                    *ngIf="form.get('name')?.getError('minlength') || form.get('name')?.getError('maxlength') || form.get('name')?.hasError('manySpaces')">
+                    Name must be between 4 and 40 characters</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="modal__field">
+                <mat-label>About group chat</mat-label>
+                <textarea class="modal__textarea" matInput placeholder="Chat for programming"
+                    formControlName="about"></textarea>
+                <mat-error
+                    *ngIf="form.get('about')?.getError('minlength') || form.get('about')?.getError('maxlength') || form.get('about')?.hasError('manySpaces')">
+                    About chat must be between 4 and 100 characters</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="modal__field" appearance="fill">
+                <mat-label>Add users</mat-label>
+                <mat-chip-list #contacts>
+                    <ng-container *ngIf="contactsIsLoaded">
+                        <mat-chip *ngFor="let contact of form.get('contacts')?.value"
+                            (removed)="removeContact(contact)">
+                            <div class="modal__contact">
+                                <img class="modal__avatar" [src]="contact.formatImage + contact.avatar"
+                                    alt="User avatar">
+                                <span class="modal__username">{{contact.username}}</span>
+                            </div>
+                            <button matChipRemove>
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </ng-container>
+                    <input class="modal__input" placeholder="Add user to group chat" #contactsInput
+                        [formControl]="contactsControl" [matAutocomplete]="auto" [matChipInputFor]="contacts">
+                </mat-chip-list>
+                <mat-error
+                    *ngIf="form.get('contacts')?.getError('required') || form.get('contacts')?.getError('minlength')">
+                    You must add at least two users</mat-error>
+                <mat-autocomplete class="modal__autocomplete" #auto="matAutocomplete"
+                    (optionSelected)="selectContact($event)">
+                    <mat-option *ngFor="let contact of contacts$ | async" [value]="contact">
+                        <div class="modal__contact">
+                            <img class="modal__avatar" [src]="contact.formatImage! + contact.avatar" alt="User avatar">
+                            <span class="modal__username">{{contact.username}}</span>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+
+        <div class="modal__avatars">
+            <span class="modal__avatars-heading">Current group avatar</span>
+            <img *ngIf="!imageInBase64" class="modal__current-avatar" [src]="group.avatar || '/assets/not-found.png'"
+                alt="Group avatar">
+            <img *ngIf="imageInBase64" class="modal__new-avatar" [src]="formatImage + imageInBase64" alt="Group avatar">
+        </div>
+
+        <div *ngIf="!imageInBase64" class="modal__upload" appDragAndDrop>
+            <p class="modal__drag-text">Drag your image</p>
+            <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
+        </div>
+        <button *ngIf="imageInBase64" class="modal__btn modal__btn--warn" mat-button (click)="deleteImage()">
+            <mat-icon>delete</mat-icon>
+            Delete image
+        </button>
+        <p class="modal__image-name" *ngIf="imageName">{{imageName}}</p>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
+        <button class="modal__btn modal__btn--warn" mat-button (click)="deleteGroupChat()">Delete group</button>
+        <button class="modal__btn" mat-button (click)="editGroupChat()" [disabled]="form.invalid">Edit</button>
+    </mat-dialog-actions>
+</div>

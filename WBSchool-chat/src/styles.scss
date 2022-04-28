@@ -163,10 +163,6 @@ mat-label,
     border-radius: 20px;
   }
 
-  .mat-dialog-content {
-    height: 42vh;
-  }
-
   .modal__field {
     .mat-form-field-flex {
       background-color: #f1f1f1;
@@ -183,7 +179,11 @@ mat-label,
     .mat-select-value {
       color: #000;
     }
+  }
+}
 
+.modal__select.mat-select-panel {
+  background-color: #fff;
 
     .mat-chip.mat-standard-chip {
       background-color: #fff;
@@ -192,21 +192,44 @@ mat-label,
     .mat-chip.mat-standard-chip .mat-chip-remove {
       color: #000;
     }
-  }
+}
 
-  .modal__field.mat-focused .mat-form-field-ripple {
-    background-color: #1A66FF;
-  }
+.modal__field.mat-focused .mat-form-field-ripple {
+  background-color: #1A66FF;
+}
 
-  .modal__field.mat-form-field-invalid .mat-form-field-ripple {
-    background-color: #f44336;
-  }
+.modal__field.mat-form-field-invalid .mat-form-field-ripple {
+  background-color: #f44336;
+}
 
-  .modal__autocomplete.mat-autocomplete-panel {
+.modal__autocomplete.mat-autocomplete-panel {
+  background-color: #fff;
+
+  .mat-option:hover {
+    background: #e9e8e8;
+  }
+}
+
+.edit-group-chat-modal {
+  .mat-dialog-container {
     background-color: #fff;
+    color: #000;
+    border-radius: 20px;
+  }
+}
 
-    .mat-option:hover {
-      background: #e9e8e8;
-    }
+.about-group-chat-modal {
+  .mat-dialog-container {
+    background-color: #fff;
+    color: #000;
+    border-radius: 20px;
+  }
+}
+
+.create-private-chat-modal {
+  .mat-dialog-container {
+    background-color: #fff;
+    color: #000;
+    border-radius: 20px;
   }
 }

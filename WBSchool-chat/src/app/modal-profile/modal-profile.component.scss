@@ -1,8 +1,33 @@
 .profile {
 	background: #FFFFFF;
 	border-radius: 20px;
-	min-width: 320px;
-	width: 100%;
+	width: 400px;
+	transition: 0.5s;
+	position: relative;
+	height: 100%;
+
+	.profile__close {
+		position: absolute;
+		color: white;
+		z-index: 10;
+		right: 10px;
+		top: 10px;
+		text-align: center;
+		border-radius: 14px;
+		align-self: right;
+		background: red;
+		width: 28px;
+		height: 28px;
+		line-height: 30px;
+		font-size: 30px;
+		cursor: pointer;
+		transition: 0.3s;
+
+		&:hover {
+			background: rgb(100, 0, 0);
+			transform: scale(1.1)
+		}
+	}
 
 	.profile__title {
 		padding: 26px 0 0 39px;
@@ -13,33 +38,30 @@
 	}
 
 	.profile__user-info {
-		margin: 49px 0 0 38px;
+		margin: 0;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 
 		.profile__user-info_img {
-			height: 100px;
-			width: 100px;
-			border: 3px solid #FFFFFF;
-			border-radius: 50px;
-			box-sizing: border-box;
-			filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.5));
+			height: 150px;
+			width: 100%;
+			cursor: pointer;
 
 			img {
-				border-radius: 50px;
 				width: 100%;
 				height: 100%;
+				object-fit: cover;
+				mask-image: linear-gradient(180deg, #000 60%, transparent);
 			}
 		}
 
 		.profile__user-info_name {
-			margin: auto auto auto 31px;
+			margin: auto 10px auto 31px;
 			display: flex;
 			flex-direction: column;
-			width: 70%;
+			width: calc(100% - 41px);
 			max-width: calc(100vw - 188px);
-			margin-right: 10px;
-			mask-image: linear-gradient(90deg, #000 60%, transparent);
+			transition: 0.5s;
 
 			.profile__user-info_name_username {
 				font-style: normal;
@@ -48,7 +70,85 @@
 				line-height: 38px;
 				text-overflow: clip;
 				overflow: hidden;
-				white-space: nowrap;
+				text-overflow: ellipsis " [..]";
+				word-break: break-all;
+			}
+		}
+	}
+
+	.profile__contact-btns {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly;
+		transition: 0.5s;
+
+		.profile__contact-btns_chat {
+			width: 45%;
+
+			button {
+				width: 100%;
+				height: 40px;
+				border: none;
+				background: blue;
+				color: white;
+				transition: 0.4s;
+				cursor: pointer;
+
+				&:hover {
+					background: rgb(0, 0, 147);
+				}
+
+				&:active {
+					background: rgb(61, 61, 144);
+				}
+			}
+
+		}
+
+		
+
+		.profile__contact-btns_add {
+			width: 45%;
+
+			button {
+				width: 100%;
+				height: 40px;
+				border: none;
+				background: rgb(21, 255, 0);
+				color: white;
+				transition: 0.4s;
+				cursor: pointer;
+
+				&:hover {
+					background: rgb(13, 150, 0);
+				}
+
+				&:active {
+					background: rgb(56, 130, 49);
+				}
+			}
+		}
+
+		.profile__contact-btns_delete {
+			width: 45%;
+
+			button {
+				width: 100%;
+				height: 40px;
+				border: none;
+				background: red;
+				color: white;
+				transition: 0.4s;
+				cursor: pointer;
+
+				&:hover {
+					background: rgb(115, 0, 0);
+				}
+
+				&:active {
+					background: rgb(144, 56, 56);
+				}
 			}
 		}
 	}
@@ -60,9 +160,10 @@
 	}
 
 	.profile__menu {
-		margin: 60px 20px 25px 55px;
+		margin: 60px 20px 25px 30px;
 		display: flex;
 		flex-direction: column;
+		transition: 0.5s;
 
 		.profile__menu_item {
 			display: flex;
@@ -80,7 +181,7 @@
 
 			mat-icon {
 				font-size: 30px;
-				margin-right: 39px;
+				margin-right: 20px;
 			}
 
 			.profile__menu_item_title {
@@ -108,7 +209,6 @@
 					}
 				}
 			}
-
 		}
 
 		@media (max-width: 460px) {
@@ -133,4 +233,28 @@
 		margin: 0 auto 38px;
 		text-align: center;
 	}
+
+	@media (max-width: 450px) {
+		width: 300px;
+	}
+
+	@media (max-width: 350px) {
+		width: 250px;
+	}
+
+	// .displayZeroClass {
+	// 	display: none!important;
+	// }
 }
+
+.full_img {
+	height: 100%!important;
+	transition: 0.5s;
+	
+	img {
+		height: 110%!important;
+		object-fit: cover!important;
+		mask-image: none!important;
+	}
+}
+

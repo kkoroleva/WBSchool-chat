@@ -4,7 +4,6 @@
 
   &__title {
     font-style: normal;
-    font-weight: 600;
     font-size: 20px;
     line-height: 30px;
   }
@@ -33,6 +32,7 @@
   }
 
   &__err {
+    font-family: "Open Sans", sans-serif;
     color: #f44336;
   }
 
@@ -45,20 +45,29 @@
     }
   }
 
-  &__input-file {
-    display: none;
-  }
-
   &__upload {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: max-content;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 55px;
+    border: 3px dashed #000;
     cursor: pointer;
-    background-color: #1A66FF;
-    color: #fff;
-    border-radius: 4px;
-    padding: 6px;
+    
+    .modal__input-file {
+      cursor: pointer;
+      position: absolute;
+      z-index: 10;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .modal__drag-text {
+      font-family: "Open Sans", sans-serif;
+      font-weight: bold;
+    }
   }
 
   &__image-name {
