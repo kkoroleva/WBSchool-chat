@@ -91,8 +91,8 @@ export class MessageComponent implements OnInit {
     this.socketService.offMessages();
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
-      this.chatID = id;
-      this.store$.dispatch(initDialogs({ id }));
+        this.chatID = id;
+        this.store$.dispatch(initDialogs({ id }));
     });
     this.initIoConnection();
   }
