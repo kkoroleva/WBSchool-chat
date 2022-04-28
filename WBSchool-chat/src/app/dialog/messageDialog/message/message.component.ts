@@ -14,6 +14,7 @@ import { catchError, concatMap, Observable, tap, throwError } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import {
+  allChatsMessages,
   deleteMessage,
   editMessage,
   initDialogs,
@@ -147,10 +148,6 @@ export class MessageComponent implements OnInit {
 
   deleteMessage(id: string): void {
     this.socketService.deleteMessage(this.chatID, id);
-  }
-
-  deleteChat() {
-    console.log('удалить чат');
   }
 
   editMessage(text: string, id: string, chatId: string): void {

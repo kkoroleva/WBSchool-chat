@@ -17,7 +17,6 @@ $main-blue: #1A66FF;
 .threads {
   width: 100%;
   padding: 20px;
-
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -49,8 +48,8 @@ $main-blue: #1A66FF;
   padding: 0;
   margin: 0;
   overflow-y: scroll;
-  max-height: 400px;
-
+  max-height: 100%;
+  
   @media (min-width: $desktop-width) {
     max-height: 100%;
     overflow-y: hidden;
@@ -69,7 +68,6 @@ $main-blue: #1A66FF;
     flex-wrap: wrap;
     justify-content: space-between;
     flex: 1;
-
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -128,7 +126,7 @@ $main-blue: #1A66FF;
   position: absolute;
   width: 15px;
   height: 15px;
-  bottom: 0;
+  bottom: 17px;
   left: 35px;
   background: #00FF75;
   border-radius: 50%;
