@@ -46,12 +46,12 @@ export class SocketService {
   public createGroupNotification(
     notification: INotification,
     chatId: string,
-    userId: string
+    usersId: string[]
   ): void {
     this.socket.emit('notifications:addNotification', {
       notification,
       chatId,
-      userId,
+      usersId,
     });
   }
 

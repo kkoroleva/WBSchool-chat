@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { selectGroups } from '../store/selectors/groups.selectors';
 import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
 import { IGroup } from './group';
+import { SocketService } from '../socket/socket.service';
 
 @Component({
   selector: 'app-groups',
@@ -20,10 +21,13 @@ export class GroupsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
-    private router: Router
+    private router: Router,
+    private socketService: SocketService
   ) {}
 
   ngOnInit(): void {
+    this.socketService.offNotifications();
+    this.socketService.initIoConnectionNotification();
     this.getGroupChats();
   }
 

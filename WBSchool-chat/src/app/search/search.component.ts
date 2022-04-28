@@ -14,7 +14,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socketService.offNotifications();
-    this.socketService.initIoConnectionNotification();
+    // this.socketService.offNotifications();
+    // this.socketService.initIoConnectionNotification();
   }
 }

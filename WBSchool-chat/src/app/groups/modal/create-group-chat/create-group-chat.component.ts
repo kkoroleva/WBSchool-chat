@@ -133,13 +133,11 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
           (currentGroup) => currentGroup.name === group.name
         );
         if (currentGroup?._id) {
-          currentGroup.users?.forEach((userId: string) => {
-            this.socketService.createGroupNotification(
-              newNotification,
-              currentGroup._id!,
-              userId
-            );
-          });
+          this.socketService.createGroupNotification(
+            newNotification,
+            currentGroup._id,
+            currentGroup.users!
+          );
         }
       });
       this.dialogRef.afterClosed().subscribe(() => {
