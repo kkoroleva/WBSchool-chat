@@ -26,9 +26,7 @@ export class NavbarComponent {
   public notificationsList$: Observable<INotification[]> = this.store$.pipe(
     select(selectElNotifications)
   );
-  
-  
-  
+
   public userState$: Observable<IUserData> = this.store$.pipe(
     select(selectUser)
   );

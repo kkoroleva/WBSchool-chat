@@ -75,12 +75,16 @@
 
 						<mat-form-field appearance="fill">
 							<mat-label>{{selectedItem.title}}</mat-label>
+<<<<<<< HEAD
 							<input matInput color='warn' 
 								   type="text" id={{item.id}} 
 								   value={{item.description}} 
 								   formControlName={{item.type}}
 								   #input>
 							<mat-error *ngIf=userDataForm.controls[item.type].invalid>{{item.type}} error</mat-error>
+=======
+							<input matInput color='warn' type="text" id={{item.id}} value={{item.description}} #input>
+>>>>>>> 1da403a61fbc86908df78f9f89c44b6512131644
 						</mat-form-field>
 
 						<div class="form-field__btn-wrapper">
