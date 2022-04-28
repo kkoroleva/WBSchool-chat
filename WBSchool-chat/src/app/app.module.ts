@@ -70,6 +70,7 @@ import { DragAndDropDirective } from './groups/drag-and-drop.directive';
 import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
 import { PrivateComponent } from './friends/private.component';
 import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
+import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -79,7 +80,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 
 const API_URL_PROVIDER: Provider = {
   provide: 'API_URL',
-  useValue: 'http://localhost:3001',
+  useValue: 'https://wbschool-chat.ru',
 };
 
 @NgModule({
@@ -114,6 +115,7 @@ const API_URL_PROVIDER: Provider = {
     DragAndDropDirective,
     EditGroupChatComponent,
     OutFromGroupComponent,
+    AboutGroupComponent,
   ],
   imports: [
     BrowserModule,

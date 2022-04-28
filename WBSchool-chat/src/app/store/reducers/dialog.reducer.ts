@@ -6,7 +6,6 @@ export const dialogNode = 'Dialog';
 export interface IDialogState {
     messages: IMessage[],
     chatInfo: IChatInfo
-
 }
 
 export interface IChatInfo {
@@ -17,8 +16,8 @@ export interface IChatInfo {
     isNotifications: boolean,
     isRead: boolean,
     isActive: boolean,
-    owner: string, 
-    __v: number, 
+    owner: string,
+    __v: number,
     chatGroup: string,
     avatar : string,
     users: string[],
@@ -30,12 +29,12 @@ const initialState: IDialogState = {
     chatInfo: {
         _id: "",
         name: "",
-        formatImage: "", 
-        about: "", 
-        isNotifications: false, 
-        isRead: false, 
-        isActive: false, 
-        owner: "", 
+        formatImage: "",
+        about: "",
+        isNotifications: false,
+        isRead: false,
+        isActive: false,
+        owner: "",
         __v: 0,
         chatGroup: "",
         avatar: "",
@@ -46,10 +45,10 @@ const initialState: IDialogState = {
 
 export const dialogReducer = createReducer(
     initialState,
-    on(initDialogs, (state) => ({
-        ...state,
-        messages: state.messages
-    })),
+    // on(initDialogs, (state) => ({
+    //     ...state,
+    //     messages: state.messages
+    // })),
     on(loadDialogs, (state, action) => ({
         ...state,
         messages: action.messages
@@ -73,5 +72,5 @@ export const dialogReducer = createReducer(
     on(newGetInfoChat, (state, action) => ({
         ...state,
         chatInfo: action.chatInfo
-    })), 
+    })),
 )

@@ -1,0 +1,78 @@
+.modal {
+  width: 600px;
+  max-width: 100%;
+  
+  &__current-avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50px;
+    margin-right: 10px;
+  }
+
+  &__title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  &__err {
+    font-family: "Open Sans", sans-serif;
+    color: #f44336;
+  }
+  
+  &__btn {
+    color: #fff;
+    background-color: #1A66FF;
+  
+    &--warn {
+      background-color: #f44336;
+    }
+  }
+  
+  &__image-name {
+    margin-top: 5px;
+    word-break: break-all;
+  }
+  
+  &__option {
+    color: #000;
+  }
+  
+  &__avatar {
+    width: 25px;
+    height: 25px;
+  }
+  
+  &__contact {
+    font-family: "Open Sans", sans-serif;
+    display: flex;
+    align-items: center;
+    color: #000;
+    margin-top: 10px;
+  }
+  
+  &__username {
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &__name {
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+  }
+
+  &__info {
+    display: flex;
+  }
+
+  &__about {
+    font-family: "Open Sans", sans-serif;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  }
+}
+  

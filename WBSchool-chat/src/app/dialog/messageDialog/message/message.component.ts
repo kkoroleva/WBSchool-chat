@@ -91,8 +91,8 @@ export class MessageComponent implements OnInit {
     this.socketService.offMessages();
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
-      this.chatID = id;
-      this.store$.dispatch(initDialogs({ id }));
+        this.chatID = id;
+        this.store$.dispatch(initDialogs({ id }));
     });
     this.initIoConnection();
   }
@@ -162,10 +162,8 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.socketService.updateMessage(this.chatID, {
-          text: this.message.value,
-          _id: this.editMessageID,
-        });
+        this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
+        this.isEditMessage = false;
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
           text: this.message.value,
