@@ -1,4 +1,3 @@
-import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,11 +9,7 @@ import {
   selectGroups,
   selectLastMessages,
 } from '../store/selectors/groups.selectors';
-import {
-  changeChatGroup,
-  loadGroups,
-  setLastMessage,
-} from '../store/actions/groups.actions';
+import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
 import { IGroup } from './group';
 import { IMessage } from '../dialog/dialog';
 
@@ -28,13 +23,11 @@ export class GroupsComponent implements OnInit {
   public lastMessages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectLastMessages)
   );
-  public lastMessages!: IMessage[];
 
   constructor(
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
     private router: Router,
-    private actions$: Actions
   ) {}
 
   ngOnInit(): void {
