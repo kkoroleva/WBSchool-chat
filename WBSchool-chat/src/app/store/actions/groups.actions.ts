@@ -77,6 +77,11 @@ export const createChatFriend = createAction(
   props<{ username: string; ownerUsername: string }>()
 );
 
+export const outChatFriend = createAction(
+  '[FRIENDS] outChatFriend',
+  props<{ chatId: string, _id: string }>()
+);
+
 export const deleteChatFriend = createAction(
   '[FRIENDS] deleteChatFriend',
   props<{ chatId: string }>()

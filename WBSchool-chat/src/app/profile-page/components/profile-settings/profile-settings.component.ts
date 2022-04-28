@@ -241,7 +241,10 @@ export class ProfileSettingsComponent implements OnInit {
     let me: string | undefined;
     this.store$.pipe(select(selectUser))
     .subscribe((user: IUserData) => me = user.username);
-    if (userName === clone?.username) {
+    if (userName.length === 0) {
+      this.notFound = 'Поле ввода пустое, введите username пользователя.'
+    }
+    else if (userName === clone?.username) {
       this.notFound = 'Этот пользователь уже есть в списке контактов.'
     }
     else if (userName === me) {

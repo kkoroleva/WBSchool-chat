@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
 import {
   changeChatGroup,
+  outChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../auth/interfaces';
@@ -94,5 +95,12 @@ export class HeaderComponent implements OnInit {
 
   modalClick() {
     if (this.chatInfo) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
+  }
+
+  outChat(chatId: string, id: string) {
+    this.store$.dispatch(outChatFriend({ chatId: chatId, _id: id }));
+    setTimeout(() => {
+      this.router.navigateByUrl('/home');
+    }, 0);
   }
 }

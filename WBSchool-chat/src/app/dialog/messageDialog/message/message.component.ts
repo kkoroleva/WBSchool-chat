@@ -63,7 +63,7 @@ export class MessageComponent implements OnInit {
 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap((resp) => {
+    tap(() => {
       setTimeout(() => {
         this.changeScroll();
       }, 300);
