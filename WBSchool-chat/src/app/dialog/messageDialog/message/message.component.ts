@@ -1,4 +1,4 @@
-import { DialogService } from '../../dialog.service';
+import { DialogService } from './dialog.service';
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';

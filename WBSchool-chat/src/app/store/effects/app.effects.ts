@@ -55,7 +55,7 @@ import {
 import {IMessage} from 'src/app/dialog/dialog';
 import {INotification} from '../reducers/notifications.reducers';
 import {IPrivate} from 'src/app/friends/private';
-import {DialogService} from 'src/app/dialog/dialog.service';
+import {DialogService} from 'src/app/dialog/messageDialog/message/dialog.service';
 import {Router} from '@angular/router';
 import {IContacts} from '../reducers/contacts.reducers';
 import {IGroup} from 'src/app/groups/group';

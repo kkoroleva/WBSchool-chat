@@ -52,7 +52,7 @@
     margin-bottom: 15px;
     margin-left: auto;
     padding: 13px 20px;
-    
+
     span {
       margin-top: 7px;
       text-align: right;
@@ -65,7 +65,7 @@
       margin-bottom: 5px;
     }
   }
-      
+
 // =========================div class="user"
 
   &__user {
@@ -98,7 +98,7 @@
     padding: 13px 20px;
     overflow-wrap :break-word;
     color: white;
-    
+
     p{
       margin: 0%;
       font-style: normal;
@@ -118,7 +118,7 @@
     width: 100%;
 
     @media (max-width:495px) {
-      margin-bottom: none;
+      margin-bottom: 0;
     }
   }
 
@@ -130,7 +130,7 @@
     align-items: center;
     position: static;
     @media  screen and(max-width:495px) {
-      margin-bottom: none;
+      margin-bottom: 0;
       margin-top: 30px;
     }
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IMessage, User } from './dialog';
+import { IMessage, User } from '../../dialog';
 @Injectable({
   providedIn: 'root',
 })
