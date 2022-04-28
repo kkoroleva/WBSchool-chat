@@ -15,40 +15,24 @@ export class NavMobileComponent {
 
   openGroup(): void {
     this.stateMain.groups = true
-    this.stateMain.unreadMess = false
     this.stateMain.tetATet = false
     this.stateMain.threads = false
 
     this.stateMessages.groups = true
-    this.stateMessages.unreadMess = false
-    this.stateMessages.messanger = false
-  }
-
-  openUnreadMess(): void {
-    this.stateMain.groups = false
-    this.stateMain.unreadMess = true
-    this.stateMain.tetATet = false
-    this.stateMain.threads = false
-
-    this.stateMessages.groups = false
-    this.stateMessages.unreadMess = true
     this.stateMessages.messanger = false
   }
 
   openTetATet(): void {
     this.stateMain.groups = false
-    this.stateMain.unreadMess = false
     this.stateMain.tetATet = true
     this.stateMain.threads = false
 
     this.stateMessages.groups = false
-    this.stateMessages.unreadMess = false
     this.stateMessages.messanger = true
   }
 
   openThreads(): void {
     this.stateMain.groups = false
-    this.stateMain.unreadMess = false
     this.stateMain.tetATet = false
     this.stateMain.threads = true
   }

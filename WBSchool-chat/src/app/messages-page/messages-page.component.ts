@@ -15,19 +15,16 @@ export class MessagesPageComponent implements OnInit {
   onResized(event: ResizedEvent) {
     if (window.innerWidth >= 766) {
       this.stateMessages.groups = true;
-      this.stateMessages.unreadMess = true;
       this.stateMessages.messanger = true;
     }
   }
 
   ngOnInit(): void {
     if (window.innerWidth < 766) {
-      this.stateMessages.groups = false;
-      this.stateMessages.unreadMess = true;
+      this.stateMessages.groups = true;
       this.stateMessages.messanger = false;
     } else {
       this.stateMessages.groups = true;
-      this.stateMessages.unreadMess = true;
       this.stateMessages.messanger = true;
     }
 

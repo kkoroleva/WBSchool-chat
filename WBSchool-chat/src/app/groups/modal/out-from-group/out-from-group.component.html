@@ -1,0 +1,47 @@
+<div class="modal">
+    <h2 class="modal__title" mat-dialog-title>Add new owner</h2>
+    <mat-dialog-content>
+
+        <p class="modal__err">To leave the group, select a new owner</p>
+
+        <form [formGroup]="form" class="modal__form">
+            <mat-form-field class="modal__field" appearance="fill">
+                <mat-label>Add new owner</mat-label>
+                <mat-chip-list #owners>
+                    <ng-container *ngIf="usersIsLoaded">
+                        <mat-chip *ngFor="let contact of form.get('owners')?.value" (removed)="removeOwner(contact)">
+                            <div class="modal__contact">
+                                <img class="modal__avatar" [src]="contact.formatImage + contact.avatar"
+                                    alt="User avatar">
+                                <span class="modal__username">{{contact.username}}</span>
+                            </div>
+                            <button matChipRemove>
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </ng-container>
+                    <input class="modal__input" placeholder="Add new owner" #ownersInput [formControl]="ownersControl"
+                        [matAutocomplete]="auto" [matChipInputFor]="owners">
+                </mat-chip-list>
+                <mat-error *ngIf="form.get('owners')?.getError('required')">
+                    You must add new owner</mat-error>
+                <mat-autocomplete class="modal__autocomplete" #auto="matAutocomplete"
+                    (optionSelected)="selectOwner($event)">
+                    <mat-option *ngFor="let user of groupUsers$ | async" [value]="user">
+                        <div class="modal__contact">
+                            <img class="modal__avatar" [src]="user.formatImage! + user.avatar" alt="User avatar">
+                            <span class="modal__username">{{user.username}}</span>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
+        <button class="modal__btn" mat-button (click)="outFromGroupChat()" [disabled]="form.invalid">Out from
+            group</button>
+    </mat-dialog-actions>
+</div>

@@ -5,18 +5,24 @@ import {
 } from './../../../store/actions/contacts.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { map, Observable, startWith, Subscriber } from 'rxjs';
 import { IGroup } from '../../group';
 import { select, Store } from '@ngrx/store';
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { IGroupsState } from './../../../store/reducers/groups.reducers';
 import {
   chatGroupError,
   createChatGroup,
   pushToGroups,
-} from 'src/app/store/actions/groups.actions';
-import { selectChatGroupError } from 'src/app/store/selectors/groups.selectors';
+} from './../../../store/actions/groups.actions';
+import { selectChatGroupError } from './../../../store/selectors/groups.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';
@@ -26,16 +32,19 @@ import { IUser } from '../../user';
   templateUrl: './create-group-chat.component.html',
   styleUrls: ['./create-group-chat.component.scss'],
 })
-export class CreateGroupChatComponent implements OnInit {
+export class CreateGroupChatComponent implements OnInit, DoCheck {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('contacts') contactsMatChipList!: MatChipList;
 
   public form!: FormGroup;
   public imageName = '';
   public imageInBase64 = '';
+  public formatImage = '';
   private inputFile!: HTMLInputElement;
   public contactsControl = new FormControl();
   public contactsList: IUser[] = [];
+  public contactsIsLoaded = false;
+  public myContacts!: IUser[];
   public errMessage$: Observable<string> = this.store$.pipe(
     select(selectChatGroupError)
   );
@@ -74,11 +83,23 @@ export class CreateGroupChatComponent implements OnInit {
     this.getContacts();
   }
 
+  ngDoCheck(): void {
+    if (this.contactsMatChipList) {
+      if (this.form.get('contacts')?.value.length < 2) {
+        this.contactsMatChipList.errorState = true;
+      } else {
+        this.contactsMatChipList.errorState = false;
+      }
+    }
+  }
+
   getContacts(): void {
     this.store$.dispatch(initContacts());
 
     this.actions$.pipe(ofType(pushContacts)).subscribe(({ contacts }) => {
       this.contactsList = contacts.contacts;
+      this.myContacts = contacts.contacts;
+      this.contactsIsLoaded = true;
 
       this.contacts$ = this.contactsControl.valueChanges.pipe(
         startWith(''),
@@ -123,8 +144,9 @@ export class CreateGroupChatComponent implements OnInit {
       group.about = about;
     }
 
-    if (this.imageInBase64) {
+    if (this.imageInBase64 && this.formatImage) {
       group.avatar = this.imageInBase64;
+      group.formatImage = this.formatImage;
     }
 
     return group;
@@ -151,7 +173,12 @@ export class CreateGroupChatComponent implements OnInit {
       this.readFile(sub, image)
     );
 
-    observable.subscribe((image) => (this.imageInBase64 = image.split(',')[1]));
+    observable.subscribe((image) => {
+      const splitImage = image.split(',');
+
+      this.formatImage = splitImage[0] + ',';
+      this.imageInBase64 = splitImage[1];
+    });
   }
 
   readFile(sub: Subscriber<string | null | ArrayBuffer>, image: File) {
@@ -187,13 +214,8 @@ export class CreateGroupChatComponent implements OnInit {
       username: event.option.value.username,
       _id: event.option.value._id,
       avatar: event.option.value.avatar,
+      formatImage: event.option.value.formatImage,
     };
-
-    if (contactsValue.length + 1 < 2) {
-      this.contactsMatChipList.errorState = true;
-    } else {
-      this.contactsMatChipList.errorState = false;
-    }
 
     contacts.patchValue([...contactsValue, contact]);
 

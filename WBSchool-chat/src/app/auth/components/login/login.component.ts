@@ -1,13 +1,17 @@
+import { loadNotifications } from './../../../store/actions/notifications.actions';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { INewUser, IUserData, User } from '../../interfaces';
-import { IAuthState } from 'src/app/store/reducers/auth.reducers';
+import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
-import { initAuth } from 'src/app/store/actions/auth.actions';
+import { initAuth } from '../../../store/actions/auth.actions';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { INotification, IPostNotification } from 'src/app/store/reducers/notifications.reducers';
+import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
+import { SocketService } from 'src/app/socket/socket.service';
 
 @Component({
   selector: 'app-login',
@@ -18,12 +22,16 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted!: boolean;
   errorMessage: string = '';
+  notificationAuth: INotification = {
+    text: 'Был выполнен вход в аккаунт.'
+  }
 
   constructor(
-    private auth: AuthService, 
+    private auth: AuthService,
     private router: Router,
     private store$: Store<IAuthState>,
-    private storage: StorageMap
+    private storage: StorageMap,
+    private socketService: SocketService
     ) {}
 
   ngOnInit(): void {
@@ -68,6 +76,9 @@ export class LoginComponent implements OnInit {
         newUser = resp.newUser;
         this.storage.set('user', newUser).subscribe(() => {});
         this.store$.dispatch(initAuth({newUser}));
+        this.socketService.createNotification(this.notificationAuth)
+        this.store$.dispatch(addAuthNotification({notification: this.notificationAuth}))
+        this.store$.dispatch(loadNotifications());
       },
       () => {
         this.submitted = false;

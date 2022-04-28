@@ -1,19 +1,21 @@
 export interface ISettingsList {
     id: number,
+    type: string,
     icon: string,
     title: string,
-    description: string | undefined
+    description?: string
 }
   
 export interface IServerResponse {
-    username: string;
-    status?: string | undefined;
+    about: string;
     avatar: string;
     email: string;
-    about: string;
+    formatImage: string; 
     userRights: string;
+    username: string;
     __v: number;
     _id: string;
+    status?: string | undefined;
     wallpaper?: string; 
 } 
 

@@ -6,14 +6,12 @@ import { Injectable } from '@angular/core';
 export class ChangeComponentService {
   stateComponentMain = {
     groups: true,
-    unreadMess: true,
     tetATet: true,
     threads: true
   };
 
   stateComponentMessages = {
     groups: true,
-    unreadMess: true,
     messanger: true
   };
 

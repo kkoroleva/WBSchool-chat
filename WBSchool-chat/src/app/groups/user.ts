@@ -3,4 +3,6 @@ export interface IUser {
   username: string;
   about?: string;
   avatar?: string;
+  formatImage?: string;
+  owner?: string;
 }
