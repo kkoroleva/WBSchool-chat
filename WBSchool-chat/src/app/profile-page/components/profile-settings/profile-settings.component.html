@@ -62,7 +62,7 @@
 				<div class="profile-settings__menu_item_name">
 					<mat-icon>{{ item.icon }}</mat-icon>
 					<div class="profile-settings__menu_item_title"
-						 (click)="[onSelect(item), toggle = !toggle]"
+						 (click)="onSelect(item)"
 						 [class.selected]="item === selectedItem"
 						 [ngClass]="{'title_changed': compare(item.description!, item.type)}"
 					>

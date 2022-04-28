@@ -30,12 +30,11 @@
 		}
 
 		.profile-settings__user-info_name {
-			margin: auto auto auto 31px;
+			margin: auto 10px auto 31px;
 			display: flex;
 			flex-direction: column;
 			width: 70%;
 			max-width: calc(100vw - 188px);
-			margin-right: 10px;
 			mask-image: linear-gradient(90deg, #000 60%, transparent);
 			cursor: pointer;
 
@@ -103,16 +102,16 @@
 						width: 200px;
 						background: rgb(241, 241, 241);
 						border-radius: 10px;
-						transition: 0.5s;
+						border-top-left-radius: 30px;
+						border-bottom-left-radius: 30px;
 						overflow: hidden;
 						white-space: normal;
 						transition: 0.1s;
-						border-top-left-radius: 30px;
-						border-bottom-left-radius: 30px;
 
 						&:hover {
 							background: rgb(117, 117, 117);
 							color: white;
+
 							p {
 								font-weight: 600;
 							}

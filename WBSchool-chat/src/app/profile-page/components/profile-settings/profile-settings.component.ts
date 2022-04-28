@@ -157,6 +157,7 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   onSelect(item: ISettingsList): void { 
+    this.toggle = !this.toggle;
     this.selectedItem = item;
   }
 
