@@ -1,4 +1,5 @@
 import {
+  allGroupsMessages,
   changeLoadFriends,
   chatGroupError,
   deleteFromGroups,
@@ -19,9 +20,10 @@ import {
 import { IPrivate } from 'src/app/friends/private';
 import { IUser } from 'src/app/groups/user';
 import { IMessage } from 'src/app/dialog/dialog';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 export const groupsNode = 'Groups';
+
+export const groupsMessagesNode = 'Groups messages';
 
 export interface IGroupsState {
   groups: IGroup[];
@@ -55,6 +57,19 @@ const initialState: IGroupsState = {
   error: '',
   lastMessages: []
 };
+
+export interface IAllMessages {
+  chatId: string,
+  lastMessage: string
+}
+
+export interface IAllChatsMessages {
+  chatsMessages: IAllMessages[]
+}
+
+const initialState2: IAllChatsMessages = {
+  chatsMessages: []
+}
 
 export const groupsReducer = createReducer(
   initialState,
@@ -116,3 +131,11 @@ export const groupsReducer = createReducer(
     ),
   })),
 );
+
+export const allGroupsMessagesReducer = createReducer(
+  initialState2,
+  on(allGroupsMessages, (state, action) => ({
+      ...state,
+      chatsMessages: [...state.chatsMessages.filter((chat) => chat.chatId !== action.chatId), {chatId: action.chatId, lastMessage: action.lastMessage}] 
+  }))
+)

@@ -1,8 +1,10 @@
+import { groupsMessagesNode } from './../reducers/groups.reducers';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IMessage } from 'src/app/dialog/dialog';
 import { IPrivate } from 'src/app/friends/private';
 import { IGroup } from 'src/app/groups/group';
 import { IUser } from 'src/app/groups/user';
+import { dialogsNode, IAllChatsMessages, IAllMessages } from '../reducers/dialog.reducer';
 import { groupsNode, IGroupsState } from '../reducers/groups.reducers';
 
 export const selectGroupsFeature =
@@ -41,6 +43,13 @@ export const selectFriends = createSelector(
 export const selectLastMessages = createSelector(
   selectGroupsFeature,
   (state: IGroupsState): IMessage[] => state.lastMessages
+);
+
+export const selectAllGroupsMessagesFeature = createFeatureSelector<IAllChatsMessages>(groupsMessagesNode)
+
+export const selectAllGroupsMessages = createSelector(
+  selectAllGroupsMessagesFeature,
+  (state: IAllChatsMessages): IAllMessages[] => state.chatsMessages
 );
 
 

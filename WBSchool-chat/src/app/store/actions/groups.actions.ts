@@ -102,4 +102,13 @@ export const setLastMessage = createAction(
   props<{ message: IMessage }>()
 );
 
+export const getLastMessages = createAction(
+  '[GROUPS] getLastMessages',
+  props<{ chatId: string }>()
+);
 
+export const getAllGroupsMessages = createAction('[GROUPS] getAllGroupsMessages',
+  props<{chatId: string}>());
+
+export const allGroupsMessages = createAction('[GROUPS] allGroupsMessages',
+  props<{chatId: string, lastMessage : string}>());

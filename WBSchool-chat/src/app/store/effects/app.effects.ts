@@ -29,6 +29,10 @@ import {
   setGroupUsers,
   deleteGroup,
   deleteFromGroups,
+  getLastMessages,
+  setLastMessage,
+  getAllGroupsMessages,
+  allGroupsMessages,
 } from '../actions/groups.actions';
 import {
   catchError,
@@ -290,6 +294,19 @@ export class AppEffects {
           .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
           .pipe(
             map((messages) => allChatsMessages({chatId: chatId, lastMessage: !!messages[messages.length - 1] ? messages[messages.length - 1].text : '' })
+            ))
+      )
+    );
+  });
+
+  loadAllGroupsMessages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getAllGroupsMessages),
+      mergeMap(({chatId}) =>
+        this.http
+          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .pipe(
+            map((messages) => allGroupsMessages({chatId: chatId, lastMessage: !!messages[messages.length - 1] ? messages[messages.length - 1].text : '' })
             ))
       )
     );

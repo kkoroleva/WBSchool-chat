@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { authNode, authReducer, IAuthState } from './auth.reducers';
 import { contactsNode, IContacts, contactsReducer } from './contacts.reducers';
 import { allChatsMessagesReducer, dialogNode, dialogReducer, dialogsNode, IAllChatsMessages, IDialogState } from './dialog.reducer';
-import { groupsNode, groupsReducer, IGroupsState } from './groups.reducers';
+import { allGroupsMessagesReducer, groupsMessagesNode, groupsNode, groupsReducer, IGroupsState } from './groups.reducers';
 import {
   INotificationsState,
   notificationNode,
@@ -17,6 +17,7 @@ export interface State {
   [dialogNode]: IDialogState;
   [contactsNode]: IContacts;
   [dialogsNode]: IAllChatsMessages;
+  [groupsMessagesNode]: IAllChatsMessages;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -26,6 +27,7 @@ export const reducers: ActionReducerMap<State> = {
   [dialogNode]: dialogReducer,
   [contactsNode]: contactsReducer,
   [dialogsNode]: allChatsMessagesReducer,
+  [groupsMessagesNode]: allGroupsMessagesReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

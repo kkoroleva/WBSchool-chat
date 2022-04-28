@@ -19,7 +19,7 @@
                     <p class="groups__last-message">
                         <ng-container *ngFor="let message of lastMessages$ | async">
                             <span *ngIf="message.chatId === group._id"
-                                class="groups__last-message-text">{{message.text}}</span>
+                                class="groups__last-message-text">{{message.lastMessage}}</span>
                         </ng-container>
                     </p>
                 </div>

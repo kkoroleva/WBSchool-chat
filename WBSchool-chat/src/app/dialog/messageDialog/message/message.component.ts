@@ -1,4 +1,4 @@
-import { setLastMessage } from './../../../store/actions/groups.actions';
+import { allGroupsMessages, setLastMessage } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import {
   Component,
@@ -83,7 +83,8 @@ export class MessageComponent implements OnInit {
   private initIoConnection(): void {
     this.socketService.onMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(pushToMessages({ message }));
-      this.store$.dispatch(setLastMessage({ message }));
+      this.store$.dispatch(allGroupsMessages({chatId: message.chatId!, lastMessage: message.text}));
+      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
     this.socketService
       .onDeleteMessage()
@@ -93,7 +94,8 @@ export class MessageComponent implements OnInit {
       });
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(editMessage({ message }));
-      this.store$.dispatch(setLastMessage({ message }));
+      this.store$.dispatch(allGroupsMessages({chatId: message.chatId!, lastMessage: message.text}));
+      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
   }
 
