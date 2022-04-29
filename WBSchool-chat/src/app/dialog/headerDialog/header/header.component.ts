@@ -96,12 +96,4 @@ export class HeaderComponent implements OnInit {
   modalClick() {
     if (this.chatInfo) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
   }
-
-  outChat(chatId: string, id: string) {
-    this.store$.dispatch(outChatFriend({ chatId: chatId, _id: id }));
-    setTimeout(() => {
-      this.router.navigateByUrl('/home');
-    }, 0);
-  }
-
 }
