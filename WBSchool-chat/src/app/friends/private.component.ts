@@ -66,7 +66,7 @@ export class PrivateComponent implements OnInit {
         this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
     this.socketService.onDeleteMessage().subscribe((messageId: string) => {
-        console.log(messageId)
+      // this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
     });
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));

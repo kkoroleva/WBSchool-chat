@@ -8,7 +8,7 @@
                 <div>
                     <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend"
                         class="message__img">
-                    <img *ngIf="itemFormat(item.text)" [src]="item.text" alt="img-send" class="message__img">
+                    <img *ngIf="itemFormat(item.text)" [src]="sliceLinkImage(item.text)" alt="img-send" class="message__img">
                     <p class="message__text">{{item.text}}</p>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     </label>
 
                     <div class="btn-wrapper">
-                        <button type="button" class="btn-green" (click)="greenBtnClick(input)">V</button>
+                        <button type="button" class="btn-green" [disabled]="input.value.length === 0" (click)="greenBtnClick(input)">V</button>
                         <button type="button" class="btn-red" (click)="redBtnClick()">X</button>
                     </div>
             </div>

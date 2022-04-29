@@ -180,6 +180,37 @@ export class MessageComponent implements OnInit {
     );
   }
 
+  sliceLinkImage(item: string) {
+    let empty = item.slice(0, item.indexOf(' '));
+    if (item.includes('.png')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".png") + 4)
+    } else if (item.includes('.jpg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".jpg") + 4)
+    } else if(item.includes('.jpeg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".jpeg") + 5)
+    } else if (item.includes('.svg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".svg") + 4)
+    } 
+    else if (item.includes('.gif')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".gif") + 4)
+    } else return
+  }
+
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user)
   }
