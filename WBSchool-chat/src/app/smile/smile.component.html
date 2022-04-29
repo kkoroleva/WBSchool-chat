@@ -1,5 +1,9 @@
-<ul class="smile-list" >
-  <li class="smile-item" *ngFor="let smileItem of smilesList; index as i">
-    <img (click)="onClick($event)" [src]="smileItem" alt="i" width="100" height="100">
-  </li>
-</ul>
+<mat-tab-group (click)="$event.stopPropagation()">
+  <mat-tab *ngFor="let pack of allSmiles; index as i" [label]="pack.packName" >
+    <ul class="smile-list">
+      <li class="smile-item" *ngFor="let smileItem of pack.smiles; index as i">
+        <img (click)="onClick($event)" [src]="smileItem" alt="`smile_no_${i}`" width="80" height="80">
+      </li>
+    </ul>
+  </mat-tab>
+</mat-tab-group>

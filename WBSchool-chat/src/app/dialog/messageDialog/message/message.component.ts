@@ -32,6 +32,7 @@ import { IUserData } from '../../../auth/interfaces';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { SocketService } from '../../../socket/socket.service';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-message',
@@ -288,4 +289,5 @@ export class MessageComponent implements OnInit {
     this.imageOrFile = '';
     this.imgInput = false;
   }
+
 }

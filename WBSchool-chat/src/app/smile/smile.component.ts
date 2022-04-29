@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SocketService } from '../socket/socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
+import { ISmile } from './smile.interface';
 
-const smiles = `https://i.ibb.co/JvXrJJV/CD195156-7-F41-4042-86-E9-46-A8-D1-F3-C634.png
+const elves = `https://i.ibb.co/JvXrJJV/CD195156-7-F41-4042-86-E9-46-A8-D1-F3-C634.png
 https://i.ibb.co/D7xKDcT/15464569-0958-4571-BAB2-FBF89556-EFE7.png
 https://i.ibb.co/NN4VWvV/21970-C66-9-B51-44-BB-8-C9-F-19-FA66-C11978.png
 https://i.ibb.co/vDBvKGN/E39841-FB-5-A16-44-AF-A695-2446-DE9866-FD.png
@@ -51,7 +53,69 @@ https://i.ibb.co/PmXJJr1/224535-C2-77-D6-4-EDB-9-CF8-E178-FEF76-B5-C.png
 https://i.ibb.co/mhwGZQ1/BC77232-A-4-DCE-4-D19-867-C-DA06-DA6-F21-F1.png
 https://i.ibb.co/GFvFZnV/1-A753995-D8-EB-4-BE0-B772-50-C99197-BA9-F.png
 https://i.ibb.co/4jWQMpc/780-E4-CBF-B29-E-4804-BCAE-23-C245649-E0-F.png
-https://i.ibb.co/6r5qRnJ/BD835-DBD-8-FC3-4-E49-92-AA-BF326-F38-F9-D2.png`
+https://i.ibb.co/6r5qRnJ/BD835-DBD-8-FC3-4-E49-92-AA-BF326-F38-F9-D2.png`;
+
+const valentin = `https://i.ibb.co/FVKvzhT/valentin1-2.png
+https://i.ibb.co/2WYkjhT/valentin1-1.png
+https://i.ibb.co/RcwXn8g/valentin1-3.png
+https://i.ibb.co/xgmpVWc/valentin1-4.png
+https://i.ibb.co/Qbhwndz/valentin1-5.png
+https://i.ibb.co/PMM5M2F/valentin1-6.png
+https://i.ibb.co/1rrVMyG/valentin1-7.png
+https://i.ibb.co/hLZwQG8/valentin1-8.png
+https://i.ibb.co/bLgkB0T/valentin1-9.png
+https://i.ibb.co/X46XJSd/valentin1-10.png
+https://i.ibb.co/0mkGrpT/valentin1-11.png
+https://i.ibb.co/Gs9C4Xj/valentin1-12.png
+https://i.ibb.co/Mg70yp7/valentin1-13.png
+https://i.ibb.co/pWCBpbP/valentin1-14.png
+https://i.ibb.co/qWtMSYy/valentin1-15.png
+https://i.ibb.co/XC77dwj/valentin1-16.png
+https://i.ibb.co/7zczHLp/valentin1-17.png
+https://i.ibb.co/34ShSTN/valentin1-18.png
+https://i.ibb.co/xhjXsjT/valentin1-19.png
+https://i.ibb.co/KLNF6dv/valentin1-20.png
+https://i.ibb.co/2qJX3rh/valentin1-21.png
+https://i.ibb.co/kQJrLkN/valentin1-22.png
+https://i.ibb.co/NYwnPJn/valentin1-23.png
+https://i.ibb.co/ZMTb84P/valentin1-24.png
+https://i.ibb.co/HY6rdCL/valentin1-25.png
+https://i.ibb.co/Tr57NM9/valentin1-26.png
+https://i.ibb.co/NWnS2qL/valentin1-27.png
+https://i.ibb.co/D8tCb5j/valentin1-28.png
+https://i.ibb.co/6XvSS6P/valentin1-29.png
+https://i.ibb.co/YXJN0Mb/valentin1-30.png
+https://i.ibb.co/YPRvCdx/valentin1-31.png
+https://i.ibb.co/MG2kHDL/valentin1-32.png
+https://i.ibb.co/pj2Dbp0/valentin1-33.png
+https://i.ibb.co/fdnb42t/valentin1-34.png
+https://i.ibb.co/CvJxzsm/valentin1-35.png
+https://i.ibb.co/tcSxLW6/valentin1-36.png
+https://i.ibb.co/LC0D0cP/valentin1-37.png
+https://i.ibb.co/xhyDjmD/valentin1-38.png
+https://i.ibb.co/fX7fRrk/valentin1-39.png
+https://i.ibb.co/rM0fCyR/valentin1-40.png
+https://i.ibb.co/0Q2BJ4X/valentin1-41.png
+https://i.ibb.co/wggyrn7/valentin1-42.png
+https://i.ibb.co/zSgVR8J/valentin1-43.png
+https://i.ibb.co/rfpGmfp/valentin1-44.png
+https://i.ibb.co/999p1Jc/valentin1-45.png
+https://i.ibb.co/XYrfvqw/valentin1-46.png
+https://i.ibb.co/QrCTw3B/valentin1-47.png
+https://i.ibb.co/fGRLJ3m/valentin1-48.png`
+
+const mockSmiles: ISmile[] = [
+  {
+    packName: 'elves',
+    packAvatar: 'https://i.ibb.co/6r5qRnJ/BD835-DBD-8-FC3-4-E49-92-AA-BF326-F38-F9-D2.png',
+    smiles: elves.split('\n'),
+  },
+  {
+    packName: 'valentin',
+    packAvatar: 'https://i.ibb.co/FVKvzhT/valentin1-2.png',
+    smiles: valentin.split('\n'),
+  }
+];
 
 @Component({
   selector: 'app-smile',
@@ -60,7 +124,8 @@ https://i.ibb.co/6r5qRnJ/BD835-DBD-8-FC3-4-E49-92-AA-BF326-F38-F9-D2.png`
 })
 export class SmileComponent implements OnInit {
 
-  smilesList: string[] = smiles.split('\n');
+  allSmiles: ISmile[] = mockSmiles;
+  smilesList: string[] = elves.split('\n');
 
   chatID = '';
   smileSRC = '';
@@ -77,6 +142,7 @@ export class SmileComponent implements OnInit {
 
   onClick(e: Event) {
     this.smileSRC = (e.target as HTMLImageElement).src;
-    this.socketService.send(this.chatID, {text: this.smileSRC});
+    this.socketService.send(this.chatID, { text: this.smileSRC });
+
   }
 }

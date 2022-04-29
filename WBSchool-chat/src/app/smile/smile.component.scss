@@ -1,9 +1,13 @@
 .smile-list {
   display: flex;
   flex-wrap: wrap;
-
+  gap: 5px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
-.smile-item {
-  
+.mat-menu-panel {
+  min-width: 320px;
 }
