@@ -1,4 +1,3 @@
-
 $main-text-color: #000000;
 $box-shadow: rgba(0, 0, 0, 0.25);
 $background-color: #FFFFFF;
@@ -38,11 +37,15 @@ $thumbnail-size: 52px;
   }
 
   &__list {
-    max-height: 302px;
+    max-height: 545px;
     width: 100%;
     padding: 0;
     margin: 0;
     overflow-y: auto;
+
+    @media (max-width: 1024px) {
+      max-height: 345px;
+    }
   }
 
   &__item {
@@ -104,10 +107,167 @@ $thumbnail-size: 52px;
     font-size: 14px;
     line-height: 30px;
     color: $last-message-color;
+    word-break: break-all;
   }
 
   &__last-message-text {
     display: block;
     max-width: 80%;
+  }
+}
+
+.modal {
+  width: 600px;
+  max-width: 100%;
+  
+  &__current-group-avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50px;
+    margin-right: 10px;
+  }
+
+  &__title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  &__err {
+    font-family: "Open Sans", sans-serif;
+    color: #f44336;
+  }
+  
+  &__btn {
+    color: #fff;
+    background-color: #1A66FF;
+  
+    &--warn {
+      background-color: #f44336;
+    }
+  }
+  
+  &__image-name {
+    font-family: "Open Sans", sans-serif;
+    margin-top: 5px;
+    word-break: break-all;
+  }
+  
+  &__option {
+    color: #000;
+  }
+  
+  &__avatar {
+    width: 25px;
+    height: 25px;
+  }
+  
+  &__contact {
+    font-family: "Open Sans", sans-serif;
+    display: flex;
+    align-items: center;
+    color: #000;
+  }
+
+  &__group-user {
+    font-family: "Open Sans", sans-serif;
+    display: flex;
+    align-items: center;
+    color: #000;
+    margin-top: 10px;
+  }
+  
+  &__username {
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &__name {
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+  }
+
+  &__info {
+    display: flex;
+  }
+
+  &__about {
+    font-family: "Open Sans", sans-serif;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  &__form {
+    width: 100%;
+  }
+
+  &__field {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    &::placeholder {
+      color: rgb(185, 181, 181);
+    }
+  }
+
+  &__textarea {
+    min-height: 50px;
+
+    &::placeholder {
+      color: rgb(185, 181, 181);
+    }
+  }
+
+  &__upload {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 55px;
+    border: 3px dashed #000;
+    cursor: pointer;
+    
+    .modal__input-file {
+      cursor: pointer;
+      position: absolute;
+      z-index: 10;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .modal__drag-text {
+      font-family: "Open Sans", sans-serif;
+      font-weight: bold;
+    }
+  }
+
+  &__avatars {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 21px;
+  }
+
+  &__avatars-heading {
+    font-family: "Open Sans", sans-serif;
+    margin-bottom: 5px;
+  }
+  
+  &__current-avatar {
+    width: 200px;
+    height: 200px;
+  }
+
+  &__new-avatar {
+    width: 200px;
+    height: 200px;
   }
 }

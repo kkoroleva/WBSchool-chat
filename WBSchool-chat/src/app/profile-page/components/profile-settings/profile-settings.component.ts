@@ -106,8 +106,7 @@ export class ProfileSettingsComponent implements OnInit {
         private store$: Store,
         private imageCompress: NgxImageCompressService,
         public modalProfileServ: ModalProfileService
-    ) {
-    }
+    ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -290,25 +289,30 @@ export class ProfileSettingsComponent implements OnInit {
         const clone: IUserData | undefined = this.contacts.find((user) => user.username === userName);
         let me: string | undefined;
         this.store$.pipe(select(selectUser))
-            .subscribe((user: IUserData) => me = user.username);
-        if (userName === clone?.username) {
+        .subscribe((user: IUserData) => me = user.username);
+        if (userName.length === 0) {
+            this.notFound = 'Поле ввода пустое, введите username пользователя.'
+        }
+        else if (userName === clone?.username) {
             this.notFound = 'Этот пользователь уже есть в списке контактов.'
-        } else if (userName === me) {
+        }
+        else if (userName === me) {
             this.notFound = 'Вы не можете внести самого себя в список контактов.'
-        } else {
+        }
+        else {
             this.profileServ.getUsers(userName)
-                .pipe(
-                    concatMap(
-                        (user: IUserData) => this.profileServ.addFriend(user._id)
-                    ),
-                    catchError((error: HttpErrorResponse) => {
-                        this.notFound = 'Данного пользователя не существует.';
-                        return throwError(() => error);
-                    })
-                )
-                .subscribe(() => {
-                    this.store$.dispatch(initContacts());
-                });
+            .pipe(
+             concatMap(
+             (user: IUserData) => this.profileServ.addFriend(user._id)
+              ),
+              catchError((error: HttpErrorResponse) => {
+                 this.notFound = 'Данного пользователя не существует.';
+                   return throwError(() => error);
+                 })
+            )
+            .subscribe(() => {
+                this.store$.dispatch(initContacts());
+            });
         }
         this.form.reset();
     }

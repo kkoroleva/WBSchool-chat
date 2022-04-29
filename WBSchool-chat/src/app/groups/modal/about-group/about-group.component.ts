@@ -7,18 +7,18 @@ import {
 } from './../../../store/selectors/groups.selectors';
 import { IGroup } from '../../group';
 import { IUser } from '../../user';
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
+import { IGroupsState } from './../../../store/reducers/groups.reducers';
 import {
   getGroupUsers,
   setGroupUsers,
-} from 'src/app/store/actions/groups.actions';
+} from './../../../store/actions/groups.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
 
 @Component({
   selector: 'app-about-group',
   templateUrl: './about-group.component.html',
-  styleUrls: ['./about-group.component.scss'],
+  styleUrls: ['./../../groups.component.scss'],
 })
 export class AboutGroupComponent implements OnInit {
   public usersIsLoaded = false;
