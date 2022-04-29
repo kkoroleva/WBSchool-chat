@@ -27,10 +27,10 @@ import {
   pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
-import { IMessage } from '../../dialog';
+import { IDeleteMessage, IMessage } from '../../dialog';
 import { IUserData } from '../../../auth/interfaces';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
-import { Actions, ofType } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { SocketService } from '../../../socket/socket.service';
 
 @Component({
@@ -65,8 +65,6 @@ export class MessageComponent implements OnInit {
     select(selectLastGroupsMessages)
   );
 
-  private lastGroupsMessages: IGroupsMessages[] = [];
-
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
     tap(() => {
@@ -82,7 +80,6 @@ export class MessageComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private socketService: SocketService,
     private modalServ: ModalProfileService,
-    private actions$: Actions
   ) {}
 
   private initIoConnection(): void {
@@ -101,30 +98,12 @@ export class MessageComponent implements OnInit {
       this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
 
-    this.socketService.onDeleteMessage().subscribe((messageId: string) => {
-      this.store$.dispatch(deleteMessage({ id: messageId }));
+    this.socketService.onDeleteMessage().subscribe((message: IDeleteMessage) => {
+      this.store$.dispatch(deleteMessage({ id: message.messageId }));
+      this.store$.dispatch(deleteLastGroupMessage({ id: message.messageId }));
+      this.store$.dispatch(getAllGroupsMessages({ chatId: message.chatId }));
     });
-    this.actions$
-      .pipe(
-        ofType(deleteMessage),
-        tap(() =>
-          this.lastGroupsMessages$.subscribe(
-            (messages) => (this.lastGroupsMessages = messages)
-          )
-        )
-      )
-      .subscribe(({ id }) => {
-        this.lastGroupsMessages.forEach((message) => {
-          if (message.messageId === id) {
-            this.store$.dispatch(
-              getAllGroupsMessages({ chatId: message.chatId })
-            );
-          }
-        });
-
-        this.store$.dispatch(deleteLastGroupMessage({ id }));
-      });
-
+  
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(editMessage({ message }));
       this.store$.dispatch(

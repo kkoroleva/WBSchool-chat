@@ -20,3 +20,8 @@ export interface User {
     formatImage:string;
 }
 
+export interface IDeleteMessage {
+    messageId: string;
+    chatId: string;
+}
+

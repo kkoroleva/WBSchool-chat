@@ -18,7 +18,7 @@ import { allChatsMessages, getAllChatsMessages } from '../store/actions/dialog.a
 import { IAllMessages } from '../store/reducers/dialog.reducer';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
 import { SocketService } from '../socket/socket.service';
-import { IMessage } from '../dialog/dialog';
+import { IDeleteMessage, IMessage } from '../dialog/dialog';
 
 @Component({
   selector: 'app-private',
@@ -65,7 +65,7 @@ export class PrivateComponent implements OnInit {
     this.socketService.onMessage().subscribe((message: IMessage) => {
         this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
-    this.socketService.onDeleteMessage().subscribe((messageId: string) => {
+    this.socketService.onDeleteMessage().subscribe((message: IDeleteMessage) => {
       // this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
     });
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {

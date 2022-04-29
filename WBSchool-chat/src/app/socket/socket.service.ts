@@ -6,7 +6,7 @@ import {
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as socketIo from 'socket.io-client';
-import { IMessage } from '../dialog/dialog';
+import { IDeleteMessage, IMessage } from '../dialog/dialog';
 import { ConnectEvent } from './event';
 
 @Injectable({
@@ -89,11 +89,11 @@ export class SocketService {
     });
   }
 
-  public onDeleteMessage(): Observable<string> {
-    return new Observable<string>((observer) => {
-      this.socket.on(`messages:delete`, (messageId: string) => {
-        console.log('Deleted message id', messageId);
-        observer.next(messageId);
+  public onDeleteMessage(): Observable<IDeleteMessage> {
+    return new Observable<IDeleteMessage>((observer) => {
+      this.socket.on(`messages:delete`, (message: IDeleteMessage) => {
+        console.log('Deleted message id', message);
+        observer.next(message);
       });
     });
   }
