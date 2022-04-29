@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { INewUser, IUserData } from 'src/app/auth/interfaces';
+import { IUserData } from './../../auth/interfaces';
 import { initAuth } from '../actions/auth.actions';
 
 export const authNode = 'Auth';

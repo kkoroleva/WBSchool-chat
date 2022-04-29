@@ -5,9 +5,17 @@ import { CreateGroupChatComponent } from './modal/create-group-chat/create-group
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectGroups } from '../store/selectors/groups.selectors';
-import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
+import {
+  selectLastGroupsMessages,
+  selectGroups,
+} from '../store/selectors/groups.selectors';
+import {
+  changeChatGroup,
+  getAllGroupsMessages,
+  loadGroups,
+} from '../store/actions/groups.actions';
 import { IGroup } from './group';
+import { IGroupsMessages } from '../store/reducers/groups.reducers';
 
 @Component({
   selector: 'app-groups',
@@ -16,6 +24,9 @@ import { IGroup } from './group';
 })
 export class GroupsComponent implements OnInit {
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
+  public lastMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
+    select(selectLastGroupsMessages)
+  );
 
   constructor(
     public dialog: MatDialog,
@@ -25,6 +36,23 @@ export class GroupsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGroupChats();
+    this.getLastMessages();
+  }
+
+  getLastMessages() {
+    let chatsLength = 0;
+
+    this.store$.pipe(select(selectLastGroupsMessages)).subscribe((messages) => {
+      chatsLength = messages.length;
+    });
+
+    this.groups$.subscribe((groups) => {
+      if (!chatsLength) {
+        groups.forEach((group) => {
+          this.store$.dispatch(getAllGroupsMessages({ chatId: group._id! }));
+        });
+      }
+    });
   }
 
   getGroupChats(): void {

@@ -9,20 +9,22 @@
   <p class="friends__is-no-friends" *ngIf="(friendsState$ | async)?.length === 0">Sorry. No private chats detected.
     Please, create one.</p>
   <ul class="friends__list">
-    <li class="friends__item" *ngFor="let friend of friendsState$ | async; index as i;">
-      <a (click)="goToChat(friend._id!)" class="friends__chat-link">
-        <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
-          <img class="friends__thumbnail" [src]="friend.avatar || '/assets/not-found.png'" alt="Your best friend face"
-            width="52" height="52">
-        </div>
-        <div class="friends__item-text" *ngIf="user$ | async as user">
-          <b class="friends__name" *ngIf="friend.usernames[0] === user.username">{{friend.usernames[1]}}</b>
-          <b class="friends__name" *ngIf="friend.usernames[1] === user.username">{{friend.usernames[0]}}</b>
-          <p class="friends__last-active">{{friend.lastActive? 'friend.lastActive' : 'Unknown'}}</p>
-          <p class="friends__last-message">{{friend.lastMessage? 'friend.lastActive' : 'Here will be last message'}}</p>
-        </div>
-      </a>
-      <button (click)="deleteChat(friend._id!)">Delete</button>
-    </li>
+      <li class="friends__item" *ngFor="let friend of friendsState$ | async; index as i;">
+        <a (click)="goToChat(friend._id!)" class="friends__chat-link">
+          <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
+            <img class="friends__thumbnail" [src]="friend.avatar || '/assets/not-found.png'" alt="Your best friend face"
+              width="52" height="52">
+          </div>
+          <div class="friends__item-text" *ngIf="user$ | async as user">
+            <b class="friends__name" *ngIf="friend.usernames[0] === user.username">{{friend.usernames[1]}}</b>
+            <b class="friends__name" *ngIf="friend.usernames[1] === user.username">{{friend.usernames[0]}}</b>
+            <p class="friends__last-active">{{friend.lastActive? 'friend.lastActive' : 'Unknown'}}</p>
+            <ng-container *ngFor="let lastMessage of allLastMessages$ | async;">
+              <p *ngIf="friend._id === lastMessage.chatId" class="friends__last-message">{{lastMessage.lastMessage.length === 0 ? "Not messages" : lastMessage.lastMessage}}</p>
+            </ng-container>
+          </div>
+        </a>
+        <button class="friends__btn__deleteChat" (click)="deleteChat(friend._id!)">Х</button>
+      </li>
   </ul>
 </div>

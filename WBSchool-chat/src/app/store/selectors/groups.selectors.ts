@@ -1,7 +1,8 @@
+import { IGroupsMessages } from './../reducers/groups.reducers';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IPrivate } from 'src/app/friends/private';
-import { IGroup } from 'src/app/groups/group';
-import { IUser } from 'src/app/groups/user';
+import { IPrivate } from './../../friends/private';
+import { IGroup } from './../../groups/group';
+import { IUser } from './../../groups/user';
 import { groupsNode, IGroupsState } from '../reducers/groups.reducers';
 
 export const selectGroupsFeature =
@@ -37,3 +38,7 @@ export const selectFriends = createSelector(
   (state: IGroupsState): IPrivate[] => state.friends
 );
 
+export const selectLastGroupsMessages = createSelector(
+  selectGroupsFeature,
+  (state: IGroupsState): IGroupsMessages[] => state.lastMessages
+);

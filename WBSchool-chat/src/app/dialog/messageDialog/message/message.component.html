@@ -8,8 +8,8 @@
                 <div>
                     <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend"
                         class="message__img">
-                    <img *ngIf="itemFormat(item.text)" [src]="item.text" alt="img-send" class="message__img">
-                    <p class="message__text" *ngIf="!itemFormat(item.text)">{{item.text}}</p>
+                    <img *ngIf="itemFormat(item.text)" [src]="sliceLinkImage(item.text)" alt="img-send" class="message__img">
+                    <p class="message__text">{{item.text}}</p>
                 </div>
             </div>
             <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>
@@ -25,26 +25,27 @@
     </ul>
     <hr>
     <form class="message__send">
-        <div>
+        <ng-container *ngIf="!isEditMessage">
             <div class="form_save_image" *ngIf="toggle">
-                <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input>
-                <label for="fileElem" class="btn-add" [ngClass]="{'btn-add__active': imgInput == true}">
-                    {{ !imgInput ? "Выберите файл" : "Файл выбран" }}
-                </label>
+                    <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input>
+                    <label for="fileElem" class="btn-add" [ngClass]="{'btn-add__active': imgInput == true}">
+                        {{ !imgInput ? "Выберите файл" : "Файл выбран" }}
+                    </label>
 
-                <div class="btn-wrapper">
-                    <button type="button" class="btn-green" (click)="greenBtnClick(input)">V</button>
-                    <button type="button" class="btn-red" (click)="redBtnClick()">X</button>
-                </div>
+                    <div class="btn-wrapper">
+                        <button type="button" class="btn-green" [disabled]="input.value.length === 0" (click)="greenBtnClick(input)">V</button>
+                        <button type="button" class="btn-red" (click)="redBtnClick()">X</button>
+                    </div>
             </div>
-        </div>
+        </ng-container>
         <div class="wrapper__send">
             <div (click)="toggle = !toggle">
                 <mat-icon class="btn" width="14px" height="13px"> attach_file</mat-icon>
             </div>
-            <input type="text" [formControl]="message" (keydown.enter)="sendMessage()">
+            <input type="text" [formControl]="message" (keydown.enter)="sendMessage()"
+             #input [ngClass]="{'input__link': itemFormat(input.value)}">
             <mat-icon width="15px" height="15px">tag_faces</mat-icon>
-            <mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon>
+            <!-- <mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon> -->
         </div>
         <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>
     </form>
