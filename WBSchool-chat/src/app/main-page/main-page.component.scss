@@ -25,6 +25,56 @@ $max-width: 1440px;
 
 .main__footer {
   text-align: center;
+  .footer__btn{
+    display: flex;
+    justify-content: center;
+
+    button{
+      background: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+    }
+    button:hover{
+    animation: 1200ms ease 0s normal none 1 running shake;
+    }
+    @keyframes shake {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      10% {
+        transform: rotateZ(-30deg);
+      }
+      20% {
+        transform: rotateZ(15deg);
+      }
+      30% {
+          transform: rotateZ(-10deg);
+      }
+      40% {
+        transform: rotateZ(7.5deg);
+      }
+      50% {
+          transform: rotateZ(-6deg);
+      }
+      60% {
+          transform: rotateZ(5deg);
+      }
+      70% {
+          transform: rotateZ(-4.28571deg);
+      }
+      80% {
+          transform: rotateZ(3.75deg);
+        }
+        90% {
+          transform: rotateZ(-3.33333deg);
+        }
+        100% {
+          transform: rotateZ(0deg);
+        }
+      }
+  }
 }
 
 .copyright {

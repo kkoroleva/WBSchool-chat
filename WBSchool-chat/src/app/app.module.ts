@@ -71,6 +71,7 @@ import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-grou
 import { PrivateComponent } from './friends/private.component';
 import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -116,6 +117,7 @@ const API_URL_PROVIDER: Provider = {
     EditGroupChatComponent,
     OutFromGroupComponent,
     AboutGroupComponent,
+    FeedbackComponent,
   ],
   imports: [
     BrowserModule,

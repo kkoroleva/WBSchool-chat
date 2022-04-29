@@ -1,0 +1,134 @@
+.form__container{
+    position: relative;
+    font-family: 'Open Sans', sans-serif;
+    width: 450px;
+    height: auto;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    box-sizing: border-box;
+    z-index: 10000;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    label{
+        color: rgba(77, 77, 77, 0.75);
+        margin-bottom: 5px;
+    }
+    @media (min-width:320px) and (max-width:495px) {
+        display: flex;
+        flex-direction: column;
+        width: 280px;
+        height: auto;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+    
+    .form__wrapper{
+        display: flex;
+        margin: auto;
+        margin-bottom: 20px;
+        label{
+            display: flex;
+            align-items: center;
+        }
+        .name{
+            display: flex;
+            flex-direction: column;
+            margin-right: 25px;
+            input{
+                padding: 10px;
+                cursor: pointer;
+                border: none;
+                border-bottom: 2px solid rgba(77, 77, 77, 0.75) ;
+                outline: none;
+            }
+        @media (min-width:320px) and (max-width:495px) {
+            margin-bottom: 10px;
+        }
+
+        }
+        .email{
+            display: flex;
+            flex-direction: column;
+            label{
+                display: flex;
+                align-items: center;
+            }
+            input{
+                padding: 10px;
+                cursor: pointer;
+                border: none;
+                border-bottom: 2px solid rgba(77, 77, 77, 0.75) ;
+                outline: none;
+            }
+        }
+        @media (min-width:320px) and (max-width:495px) {
+          display: flex;
+          flex-direction: column;
+        }
+    }
+    .comment{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        textarea{
+            width: 100%;
+            border: 2px solid rgba(77, 77, 77, 0.75) ;
+
+        }
+    }
+    .send-img{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: dashed rgba(77, 77, 77, 0.75);
+        margin-bottom: 15px;
+
+        label{
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+        }
+    }
+    .send-feedback{
+        display: flex;
+        padding: 5px 20px;
+        align-items: center;
+        background: #1A66FF;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15px;
+        color: white;
+        border: none;
+        border-radius: 0px 20px 20px 0px;
+        small{
+            font-weight: 700;
+            margin-right: 20px;
+        }
+        @media (min-width:320px) and (max-width:495px) {
+            small{
+                width: 150px;
+                margin-right: 40px;
+            }
+        }
+
+    }
+    .close{
+        position: absolute;
+        right: -4px;
+        top: -7px;
+        background: white;
+        color:rgba(77, 77, 77, 0.75) ;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        border: none;
+    }
+    .close:hover{
+        background: #1A66FF;
+        cursor: pointer;
+        color: white;
+    }
+}
