@@ -56,6 +56,7 @@ export class MessageComponent implements OnInit {
   contacts: IUserData[] = [];
   userData: IUserData | undefined;
   imgInput = false;
+  lastGroupsMessages: IGroupsMessages[] = [];
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
@@ -79,7 +80,7 @@ export class MessageComponent implements OnInit {
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
     private socketService: SocketService,
-    private modalServ: ModalProfileService,
+    private modalServ: ModalProfileService
   ) {}
 
   private initIoConnection(): void {
@@ -95,26 +96,50 @@ export class MessageComponent implements OnInit {
       this.store$.dispatch(
         allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
       );
-      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
+      this.store$.dispatch(
+        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
+      );
     });
 
-    this.socketService.onDeleteMessage().subscribe((message: IDeleteMessage) => {
-      this.store$.dispatch(deleteMessage({ id: message.messageId }));
-      this.store$.dispatch(deleteLastGroupMessage({ id: message.messageId }));
-      this.store$.dispatch(getAllGroupsMessages({ chatId: message.chatId }));
-    });
-  
-    this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(editMessage({ message }));
-      this.store$.dispatch(
-        allGroupsMessages({
-          chatId: message.chatId!,
-          lastMessage: message.text,
-          messageId: message._id!,
-        })
-      );
-      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
-    });
+    this.socketService
+      .onDeleteMessage()
+      .subscribe((message: IDeleteMessage) => {
+        this.store$.dispatch(deleteMessage({ id: message.messageId }));
+        this.store$.dispatch(deleteLastGroupMessage({ id: message.messageId }));
+        this.store$.dispatch(getAllGroupsMessages({ chatId: message.chatId }));
+      });
+
+    this.socketService
+      .onUpdateMessage()
+      .pipe(
+        tap(() =>
+          this.lastGroupsMessages$.subscribe(
+            (lastMessages) => (this.lastGroupsMessages = lastMessages)
+          )
+        )
+      )
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(editMessage({ message }));
+
+        this.lastGroupsMessages.forEach((lastMessage) => {
+          if (lastMessage.messageId === message._id) {
+            this.store$.dispatch(
+              allGroupsMessages({
+                chatId: message.chatId!,
+                lastMessage: message.text,
+                messageId: message._id!,
+              })
+            );
+          }
+        });
+
+        this.store$.dispatch(
+          allChatsMessages({
+            chatId: message.chatId!,
+            lastMessage: message.text,
+          })
+        );
+      });
   }
 
   ngOnInit(): void {
@@ -122,7 +147,7 @@ export class MessageComponent implements OnInit {
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
       this.chatID = id;
-      
+
       if (id) {
         this.store$.dispatch(initDialogs({ id }));
       }
@@ -185,7 +210,10 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(): void {
-    if (this.message.value.trim() || (this.message.value.trim() && this.imageOrFile.length > 0)) {
+    if (
+      this.message.value.trim() ||
+      (this.message.value.trim() && this.imageOrFile.length > 0)
+    ) {
       this.changeScroll();
       if (this.isEditMessage) {
         this.socketService.updateMessage(this.chatID, {
@@ -225,31 +253,25 @@ export class MessageComponent implements OnInit {
     let empty = item.slice(0, item.indexOf(' '));
     if (item.includes('.png')) {
       if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".png") + 4)
+        return empty;
+      } else return item.slice(0, item.indexOf('.png') + 4);
     } else if (item.includes('.jpg')) {
       if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".jpg") + 4)
-    } else if(item.includes('.jpeg')) {
+        return empty;
+      } else return item.slice(0, item.indexOf('.jpg') + 4);
+    } else if (item.includes('.jpeg')) {
       if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".jpeg") + 5)
+        return empty;
+      } else return item.slice(0, item.indexOf('.jpeg') + 5);
     } else if (item.includes('.svg')) {
       if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".svg") + 4)
-    } 
-    else if (item.includes('.gif')) {
+        return empty;
+      } else return item.slice(0, item.indexOf('.svg') + 4);
+    } else if (item.includes('.gif')) {
       if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".gif") + 4)
-    } else return
+        return empty;
+      } else return item.slice(0, item.indexOf('.gif') + 4);
+    } else return;
   }
 
   openProfile(user: string | undefined) {

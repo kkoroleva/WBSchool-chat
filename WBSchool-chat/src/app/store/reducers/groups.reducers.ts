@@ -19,11 +19,8 @@ import {
 } from '../actions/groups.actions';
 import { IPrivate } from './../../friends/private';
 import { IUser } from './../../groups/user';
-import { IMessage } from './../../dialog/dialog';
 
 export const groupsNode = 'Groups';
-
-export const groupsMessagesNode = 'Groups messages';
 
 export interface IGroupsState {
   groups: IGroup[];
