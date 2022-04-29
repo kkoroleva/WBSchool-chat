@@ -6,19 +6,16 @@ import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
-  selectAllGroupsMessages,
+  selectLastGroupsMessages,
   selectGroups,
 } from '../store/selectors/groups.selectors';
 import {
-  allGroupsMessages,
   changeChatGroup,
   getAllGroupsMessages,
   loadGroups,
 } from '../store/actions/groups.actions';
 import { IGroup } from './group';
-import { IAllMessages } from '../store/reducers/dialog.reducer';
-import { SocketService } from '../socket/socket.service';
-import { IMessage } from '../dialog/dialog';
+import { IGroupsMessages } from '../store/reducers/groups.reducers';
 
 @Component({
   selector: 'app-groups',
@@ -27,23 +24,25 @@ import { IMessage } from '../dialog/dialog';
 })
 export class GroupsComponent implements OnInit {
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
-  public lastMessages$: Observable<IAllMessages[]> = this.store$.pipe(
-    select(selectAllGroupsMessages)
+  public lastMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
+    select(selectLastGroupsMessages)
   );
 
   constructor(
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
-    private router: Router,
-    private socketService: SocketService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.getGroupChats();
+    this.getLastMessages();
+  }
 
+  getLastMessages() {
     let chatsLength = 0;
 
-    this.store$.pipe(select(selectAllGroupsMessages)).subscribe((messages) => {
+    this.store$.pipe(select(selectLastGroupsMessages)).subscribe((messages) => {
       chatsLength = messages.length;
     });
 
@@ -53,30 +52,6 @@ export class GroupsComponent implements OnInit {
           this.store$.dispatch(getAllGroupsMessages({ chatId: group._id! }));
         });
       }
-    });
-
-    this.getLastMessages();
-  }
-
-  getLastMessages() {
-    this.socketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(
-        allGroupsMessages({
-          chatId: message.chatId!,
-          lastMessage: message.text,
-        })
-      );
-    });
-    this.socketService.onDeleteMessage().subscribe((messageId: string) => {
-      console.log(messageId);
-    });
-    this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(
-        allGroupsMessages({
-          chatId: message.chatId!,
-          lastMessage: message.text,
-        })
-      );
     });
   }
 

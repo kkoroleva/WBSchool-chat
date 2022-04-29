@@ -3,12 +3,12 @@ import {
   changeLoadFriends,
   chatGroupError,
   deleteFromGroups,
+  deleteLastGroupMessage,
   editToGroups,
   loadFriends,
   pushToFriends,
   setGroup,
   setGroupUsers,
-  setLastMessage,
   updateChatFriends,
 } from './../actions/groups.actions';
 import { createReducer, on } from '@ngrx/store';
@@ -32,7 +32,7 @@ export interface IGroupsState {
   friends: IPrivate[];
   chatGroup: string;
   error: string;
-  lastMessages: IMessage[]
+  lastMessages: IGroupsMessages[];
 }
 
 export interface IGroup {
@@ -55,20 +55,13 @@ const initialState: IGroupsState = {
   friends: [],
   chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
   error: '',
-  lastMessages: []
+  lastMessages: [],
 };
 
-export interface IAllMessages {
-  chatId: string,
-  lastMessage: string
-}
-
-export interface IAllChatsMessages {
-  chatsMessages: IAllMessages[]
-}
-
-const initialState2: IAllChatsMessages = {
-  chatsMessages: []
+export interface IGroupsMessages {
+  chatId: string;
+  lastMessage: string;
+  messageId: string;
 }
 
 export const groupsReducer = createReducer(
@@ -107,10 +100,6 @@ export const groupsReducer = createReducer(
     ...state,
     groups: state.groups.filter((group) => group._id !== action.id),
   })),
-  on(setLastMessage, (state, action) => ({
-    ...state,
-    lastMessages: [...state.lastMessages.filter(lastMessage => lastMessage.chatId !== action.message.chatId), action.message]
-  })),
   // Chats
   on(loadFriends, (state) => ({
     ...state,
@@ -130,12 +119,21 @@ export const groupsReducer = createReducer(
       (friendChat) => friendChat._id !== action.chatId
     ),
   })),
-);
-
-export const allGroupsMessagesReducer = createReducer(
-  initialState2,
   on(allGroupsMessages, (state, action) => ({
-      ...state,
-      chatsMessages: [...state.chatsMessages.filter((chat) => chat.chatId !== action.chatId), {chatId: action.chatId, lastMessage: action.lastMessage}] 
+    ...state,
+    lastMessages: [
+      ...state.lastMessages.filter((chat) => chat.chatId !== action.chatId),
+      {
+        chatId: action.chatId,
+        lastMessage: action.lastMessage,
+        messageId: action.messageId,
+      },
+    ],
+  })),
+  on(deleteLastGroupMessage, (state, action) => ({
+    ...state,
+    lastMessages: state.lastMessages.filter(
+      (chat) => chat.messageId !== action.id
+    ),
   }))
-)
+);

@@ -97,18 +97,11 @@ export const pushToFriends = createAction(
   props<{ friend: IPrivate }>()
 );
 
-export const setLastMessage = createAction(
-  '[GROUPS] setLastMessage',
-  props<{ message: IMessage }>()
-);
-
-export const getLastMessages = createAction(
-  '[GROUPS] getLastMessages',
-  props<{ chatId: string }>()
-);
-
 export const getAllGroupsMessages = createAction('[GROUPS] getAllGroupsMessages',
   props<{chatId: string}>());
 
 export const allGroupsMessages = createAction('[GROUPS] allGroupsMessages',
-  props<{chatId: string, lastMessage : string}>());
+  props<{chatId: string, lastMessage: string, messageId: string}>());
+
+export const deleteLastGroupMessage = createAction('[GROUPS] deleteLastGroupMessage',
+  props<{id: string}>());

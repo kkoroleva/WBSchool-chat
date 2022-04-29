@@ -300,7 +300,7 @@ export class AppEffects {
         this.http
           .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
           .pipe(
-            map((messages) => allGroupsMessages({chatId: chatId, lastMessage: !!messages[messages.length - 1] ? messages[messages.length - 1].text : '' })
+            map((messages) => allGroupsMessages({chatId: chatId, lastMessage: !!messages[messages.length - 1] ? messages[messages.length - 1].text : 'No messages yet', messageId:  !!messages[messages.length - 1] ? messages[messages.length - 1]._id! : ''})
             ))
       )
     );
