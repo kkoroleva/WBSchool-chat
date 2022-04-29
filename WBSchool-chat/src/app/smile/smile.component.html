@@ -1,0 +1,5 @@
+<ul class="smile-list" >
+  <li class="smile-item" *ngFor="let smileItem of smilesList; index as i">
+    <img (click)="onClick($event)" [src]="smileItem" alt="i" width="100" height="100">
+  </li>
+</ul>
