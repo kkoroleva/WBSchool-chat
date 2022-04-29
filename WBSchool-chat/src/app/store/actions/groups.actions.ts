@@ -1,7 +1,8 @@
+import { IMessage } from './../../dialog/dialog';
 import { IUser } from '../../groups/user';
 import { createAction, props } from '@ngrx/store';
-import { IPrivate } from 'src/app/friends/private';
-import { IGroup } from 'src/app/groups/group';
+import { IPrivate } from './../../friends/private';
+import { IGroup } from './../../groups/group';
 
 export const loadGroups = createAction('[GROUPS] loadGroups');
 export const changeLoadGroups = createAction(
@@ -96,4 +97,11 @@ export const pushToFriends = createAction(
   props<{ friend: IPrivate }>()
 );
 
+export const getAllGroupsMessages = createAction('[GROUPS] getAllGroupsMessages',
+  props<{chatId: string}>());
 
+export const allGroupsMessages = createAction('[GROUPS] allGroupsMessages',
+  props<{chatId: string, lastMessage: string, messageId: string}>());
+
+export const deleteLastGroupMessage = createAction('[GROUPS] deleteLastGroupMessage',
+  props<{id: string}>());

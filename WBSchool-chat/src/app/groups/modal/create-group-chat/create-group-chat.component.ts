@@ -30,7 +30,7 @@ import { IUser } from '../../user';
 @Component({
   selector: 'groups-create-group-chat',
   templateUrl: './create-group-chat.component.html',
-  styleUrls: ['./create-group-chat.component.scss'],
+  styleUrls: ['./../../groups.component.scss'],
 })
 export class CreateGroupChatComponent implements OnInit, DoCheck {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;

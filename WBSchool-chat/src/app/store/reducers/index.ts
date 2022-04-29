@@ -2,7 +2,14 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 import { authNode, authReducer, IAuthState } from './auth.reducers';
 import { contactsNode, IContacts, contactsReducer } from './contacts.reducers';
-import { allChatsMessagesReducer, dialogNode, dialogReducer, dialogsNode, IAllChatsMessages, IDialogState } from './dialog.reducer';
+import {
+  allChatsMessagesReducer,
+  dialogNode,
+  dialogReducer,
+  dialogsNode,
+  IAllChatsMessages,
+  IDialogState,
+} from './dialog.reducer';
 import { groupsNode, groupsReducer, IGroupsState } from './groups.reducers';
 import {
   INotificationsState,

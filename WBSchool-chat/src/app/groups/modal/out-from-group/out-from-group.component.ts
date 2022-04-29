@@ -16,7 +16,7 @@ import { IGroup } from '../../group';
 @Component({
   selector: 'app-out-from-group',
   templateUrl: './out-from-group.component.html',
-  styleUrls: ['./out-from-group.component.scss'],
+  styleUrls: ['./../../groups.component.scss'],
 })
 export class OutFromGroupComponent implements OnInit {
   @ViewChild('ownersInput') ownersInput!: ElementRef<HTMLInputElement>;
