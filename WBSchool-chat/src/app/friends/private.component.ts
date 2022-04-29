@@ -9,12 +9,23 @@ import {
   changeChatGroup,
   deleteChatFriend,
   loadFriends,
-  updateChatFriends,
 } from '../store/actions/groups.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { IUserData } from '../auth/interfaces';
+import {
+  allChatsMessages,
+  getAllChatsMessages,
+} from '../store/actions/dialog.action';
+import { IAllMessages } from '../store/reducers/dialog.reducer';
+import {
+  IDeleteMessage,
+  MessageSocketService,
+} from '../socket/message-socket.service';
+import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
+import { SocketService } from '../socket/socket.service';
+import { IMessage } from '../dialog/dialog';
 
 @Component({
   selector: 'app-private',
@@ -26,29 +37,62 @@ export class PrivateComponent implements OnInit {
     select(selectFriends)
   );
 
-  public user$: Observable<IUserData> = this.store$.pipe(
-    select(selectUser)
-  )
+  public user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
+
+  public allLastMessages$: Observable<IAllMessages[]> = this.store$.pipe(
+    select(selectAllChatsMessages)
+  );
 
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private store$: Store<IGroupsState>
+    private store$: Store<IGroupsState>,
+    private messageSocketService: MessageSocketService
   ) {}
 
   ngOnInit(): void {
     this.store$.dispatch(loadFriends());
-    // this.friendsState$.subscribe(resp => console.log(resp))
+    let chatsLength: number | undefined = 0;
+    this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {
+      chatsLength = messages.length;
+    });
+    this.friendsState$.subscribe((chats: IPrivate[]) => {
+      if (chatsLength === 0) {
+        chats.forEach((chat: IPrivate) => {
+          this.store$.dispatch(getAllChatsMessages({ chatId: chat._id! }));
+        });
+      }
+    });
+    this.getLastMessages();
   }
 
-  updateChats(_id: string): void {
-    this.store$.dispatch(updateChatFriends({ chatId: _id }));
+  getLastMessages() {
+    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(
+        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
+      );
+    });
+    this.messageSocketService
+      .onDeleteMessage()
+      .subscribe((message: IDeleteMessage) => {
+        // this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
+      });
+    this.messageSocketService
+      .onUpdateMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(
+          allChatsMessages({
+            chatId: message.chatId!,
+            lastMessage: message.text,
+          })
+        );
+      });
   }
 
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
-    localStorage.setItem('chatID', chatId)
-      this.router.navigateByUrl('/chat');
+    localStorage.setItem('chatID', chatId);
+    this.router.navigateByUrl('/chat');
   }
 
   getFriend(data: IPrivate): string {
@@ -63,7 +107,10 @@ export class PrivateComponent implements OnInit {
   }
 
   deleteChat(_id: string) {
-    this.store$.dispatch(deleteChatFriend({ chatId: _id }));
-    this.store$.dispatch(loadFriends());
+    let result = confirm('Вы точно хотите удалить чат?');
+    if (!!result) {
+      this.store$.dispatch(deleteChatFriend({ chatId: _id }));
+      this.store$.dispatch(loadFriends());
+    }
   }
 }

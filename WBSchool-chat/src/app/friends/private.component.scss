@@ -157,3 +157,15 @@ $main-blue: #1A66FF;
   line-height: 15px;
   color: $last-active-color;
 }
+
+.friends__btn__deleteChat {
+  border: none;
+  background: none;
+  color: grey;
+  font-size: 10px;
+}
+
+.friends__btn__deleteChat:hover {
+  color: red;
+  font-size: 18px;
+}

@@ -1,12 +1,25 @@
+import {
+  allGroupsMessages,
+  deleteLastGroupMessage,
+  getAllGroupsMessages,
+} from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
-import { IGroupsState } from '../../../store/reducers/groups.reducers';
-import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import {
+  IGroupsMessages,
+  IGroupsState,
+} from '../../../store/reducers/groups.reducers';
+import {
+  selectChatGroup,
+  selectLastGroupsMessages,
+} from '../../../store/selectors/groups.selectors';
+import { Validators } from '@angular/forms';
+import {
+  allChatsMessages,
   deleteMessage,
   editMessage,
   initDialogs,
@@ -21,6 +34,7 @@ import {
   IDeleteMessage,
   MessageSocketService,
 } from 'src/app/socket/message-socket.service';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-message',
@@ -33,7 +47,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
-  message: FormControl = new FormControl('');
+  message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
   myId = '';
@@ -50,9 +64,15 @@ export class MessageComponent implements OnInit {
     select(selectChatGroup)
   );
 
+  public lastGroupsMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
+    select(selectLastGroupsMessages)
+  );
+
+  private lastGroupsMessages: IGroupsMessages[] = [];
+
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap((resp) => {
+    tap(() => {
       setTimeout(() => {
         this.changeScroll();
       }, 300);
@@ -64,24 +84,71 @@ export class MessageComponent implements OnInit {
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
     private messageSocketService: MessageSocketService,
-    private modalServ: ModalProfileService
+    private modalServ: ModalProfileService,
+    private actions$: Actions
   ) {}
 
   private initIoConnection(): void {
     this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      if (this.chatID === message.chatId) {
-        this.store$.dispatch(pushToMessages({ message }));
-      }
+      this.store$.dispatch(pushToMessages({ message }));
+      this.store$.dispatch(
+        allGroupsMessages({
+          chatId: message.chatId!,
+          lastMessage: message.text,
+          messageId: message._id!,
+        })
+      );
+      this.store$.dispatch(
+        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
+      );
+      this.store$.dispatch(
+        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
+      );
     });
+
     this.messageSocketService
       .onDeleteMessage()
       .subscribe((message: IDeleteMessage) => {
         this.store$.dispatch(deleteMessage({ id: message.messageId }));
       });
+    this.actions$
+      .pipe(
+        ofType(deleteMessage),
+        tap(() =>
+          this.lastGroupsMessages$.subscribe(
+            (messages) => (this.lastGroupsMessages = messages)
+          )
+        )
+      )
+      .subscribe(({ id }) => {
+        this.lastGroupsMessages.forEach((message) => {
+          if (message.messageId === id) {
+            this.store$.dispatch(
+              getAllGroupsMessages({ chatId: message.chatId })
+            );
+          }
+        });
+
+        this.store$.dispatch(deleteLastGroupMessage({ id }));
+      });
+
     this.messageSocketService
       .onUpdateMessage()
       .subscribe((message: IMessage) => {
         this.store$.dispatch(editMessage({ message }));
+        this.store$.dispatch(
+          allGroupsMessages({
+            chatId: message.chatId!,
+            lastMessage: message.text,
+            messageId: message._id!,
+          })
+        );
+        this.store$.dispatch(
+          allChatsMessages({
+            chatId: message.chatId!,
+            lastMessage: message.text,
+          })
+        );
       });
   }
 
@@ -138,10 +205,6 @@ export class MessageComponent implements OnInit {
     this.messageSocketService.deleteMessage(this.chatID, id);
   }
 
-  deleteChat() {
-    console.log('удалить чат');
-  }
-
   editMessage(text: string, id: string, chatId: string): void {
     this.isEditMessage = false;
     this.store$.dispatch(newEditMessage({ text, id, chatId }));
@@ -191,6 +254,31 @@ export class MessageComponent implements OnInit {
       item.includes('.svg') ||
       item.includes('.gif')
     );
+  }
+
+  sliceLinkImage(item: string) {
+    let empty = item.slice(0, item.indexOf(' '));
+    if (item.includes('.png')) {
+      if (item.includes('album')) {
+        return empty;
+      } else return item.slice(0, item.indexOf('.png') + 4);
+    } else if (item.includes('.jpg')) {
+      if (item.includes('album')) {
+        return empty;
+      } else return item.slice(0, item.indexOf('.jpg') + 4);
+    } else if (item.includes('.jpeg')) {
+      if (item.includes('album')) {
+        return empty;
+      } else return item.slice(0, item.indexOf('.jpeg') + 5);
+    } else if (item.includes('.svg')) {
+      if (item.includes('album')) {
+        return empty;
+      } else return item.slice(0, item.indexOf('.svg') + 4);
+    } else if (item.includes('.gif')) {
+      if (item.includes('album')) {
+        return empty;
+      } else return item.slice(0, item.indexOf('.gif') + 4);
+    } else return;
   }
 
   openProfile(user: string | undefined) {

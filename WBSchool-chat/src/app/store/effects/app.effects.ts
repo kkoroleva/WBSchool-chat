@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  allChatsMessages,
+  getAllChatsMessages,
   getInfoChat,
   initDialogs,
   loadDialogs,
@@ -27,6 +29,8 @@ import {
   setGroupUsers,
   deleteGroup,
   deleteFromGroups,
+  getAllGroupsMessages,
+  allGroupsMessages,
 } from '../actions/groups.actions';
 import {
   catchError,
@@ -43,12 +47,12 @@ import {
   loadNotifications,
 } from '../actions/notifications.actions';
 
-import { IMessage } from 'src/app/dialog/dialog';
+import { IMessage } from './../../dialog/dialog';
 import { INotification } from '../reducers/notifications.reducers';
-import { IPrivate } from 'src/app/friends/private';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { IPrivate } from './../../friends/private';
+import { DialogService } from './../../dialog/dialog.service';
 import { IContacts } from '../reducers/contacts.reducers';
-import { IGroup } from 'src/app/groups/group';
+import { IGroup } from './../../groups/group';
 import { initContacts, pushContacts } from '../actions/contacts.actions';
 import { IChatInfo } from '../reducers/dialog.reducer';
 
@@ -218,6 +222,49 @@ export class AppEffects {
         this.http
           .get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
           .pipe(map((messages) => loadDialogs({ messages })))
+      )
+    );
+  });
+
+  loadAllChatsMessages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getAllChatsMessages),
+      mergeMap(({ chatId }) =>
+        this.http
+          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .pipe(
+            map((messages) =>
+              allChatsMessages({
+                chatId: chatId,
+                lastMessage: !!messages[messages.length - 1]
+                  ? messages[messages.length - 1].text
+                  : '',
+              })
+            )
+          )
+      )
+    );
+  });
+
+  loadAllGroupsMessages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getAllGroupsMessages),
+      mergeMap(({ chatId }) =>
+        this.http
+          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .pipe(
+            map((messages) =>
+              allGroupsMessages({
+                chatId: chatId,
+                lastMessage: !!messages[messages.length - 1]
+                  ? messages[messages.length - 1].text
+                  : 'No messages yet',
+                messageId: !!messages[messages.length - 1]
+                  ? messages[messages.length - 1]._id!
+                  : '',
+              })
+            )
+          )
       )
     );
   });

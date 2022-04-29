@@ -21,6 +21,10 @@ export class ProfileSettingsService {
     return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
   }
 
+  getContacts() {
+    return this.http.get<IUserData>(`${this.url}/contacts`)
+  }
+
   addFriend(userId: string) {
     return this.http.post<IContacts>(`${this.url}/contacts`, {id: userId})
   }

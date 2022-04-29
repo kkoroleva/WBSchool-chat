@@ -1,12 +1,50 @@
 <div class="searchbar main-grid-block">
-	<mat-icon class="searchbar__search-icon" (click)="blankClick()">search</mat-icon>
-		<input type="text" name="searchbar" placeholder="Search" autocomplete="false">
-
+	<mat-icon class="searchbar__search-icon">search</mat-icon>
+	<input type="text" 
+		   name="searchbar" 
+		   placeholder="Search" 
+		   [formControl]="searchQuery"
+		   [matAutocomplete]="auto"
+	>
+	<mat-autocomplete #auto="matAutocomplete">
+		<div class="searchbar__results-wrp" >
+			<div *ngIf="searchType == 'msg'; else grpChats">
+				<div *ngIf="(filteredPrvtChats | async)?.length! > 0 || searchQuery.value.length == 0; else notFound">
+					<mat-option *ngFor="let option of filteredPrvtChats | async | slice : 0 : 3" 
+							[value]="option.name" 
+							(click)="goToChat(option._id!)"
+					>
+						{{option.name}}
+					</mat-option>
+				</div>
+				<ng-template #notFound>
+					<mat-option class="searchbar__results-wrp_not-found" disabled="true">
+						У вас нет таких друзей
+					</mat-option>
+				</ng-template>
+			</div>
+			<ng-template #grpChats>
+				<div *ngIf="(filteredGroups | async)?.length! > 0 || searchQuery.value.length == 0; else notFound">
+					<mat-option *ngFor="let option of filteredGroups | async | slice : 0 : 3" 
+							[value]="option.name" 
+							(click)="goToChat(option._id!)"
+					>
+						{{option.name}}
+					</mat-option>
+				</div>
+				<ng-template #notFound>
+					<mat-option  class="searchbar__results-wrp_not-found" disabled="true">
+						У вас нет таких групп
+					</mat-option>
+				</ng-template>
+			</ng-template>
+		</div>
+	</mat-autocomplete>
 	<button mat-button [matMenuTriggerFor]="menu" class="searchbar__menu-wrapper">
 		<mat-icon class="searchbar__menu-wrapper_more-icon">more_vert</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu">
-		<button mat-menu-item (click)="blankClick()">Menu option 1</button>
-		<button mat-menu-item (click)="blankClick()">Menu option 2</button>
+		<button mat-menu-item (click)="pickMsg()" [ngStyle]="{'color': searchType == 'msg' ? 'orange' : 'black'}">Личные чаты</button>
+		<button mat-menu-item (click)="pickGroup()" [ngStyle]="{'color': searchType == 'grp' ? 'orange' : 'black'}">Групповые чаты</button>
 	</mat-menu>
 </div>

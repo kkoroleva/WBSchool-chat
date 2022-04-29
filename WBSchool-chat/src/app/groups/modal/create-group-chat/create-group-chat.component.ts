@@ -36,7 +36,7 @@ import { NotificationSocketService } from 'src/app/socket/notification-socket.se
 @Component({
   selector: 'groups-create-group-chat',
   templateUrl: './create-group-chat.component.html',
-  styleUrls: ['./create-group-chat.component.scss'],
+  styleUrls: ['./../../groups.component.scss'],
 })
 export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;

@@ -31,8 +31,9 @@ export class ModalProfileComponent implements OnInit {
     formatImage: this.data.formatImage
   }
   private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
-  friendStatus: IUserData | undefined = undefined;
+  friendStatus = false;
   hideData = false;
+  contacts: IUserData[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ModalProfileComponent>,
@@ -51,7 +52,8 @@ export class ModalProfileComponent implements OnInit {
   ngOnInit(): void {
     this.store$.dispatch(initContacts())
     this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-      this.friendStatus = contacts.contacts.find((user: IUserData) => user.username === this.userData.username);
+      this.friendStatus = !!contacts.contacts.find((user: IUserData) => user.username === this.userData.username);
+      this.contacts = contacts.contacts;
     })
   }
 
@@ -84,7 +86,6 @@ export class ModalProfileComponent implements OnInit {
     this.modalServ.deleteContact(_id)
     .subscribe(() => {
       this.store$.dispatch(initContacts());
-      this.dialogRef.close();
     })
   }
 
@@ -93,9 +94,10 @@ export class ModalProfileComponent implements OnInit {
   }
 
   addToFriends(userId: string) {
-    this.profileServ.addFriend(userId).subscribe(() => {
-      this.store$.dispatch(initContacts());
-      this.dialogRef.close();
-    })
+    if (!this.contacts.find((userCont) => userCont._id === userId)) {
+      this.profileServ.addFriend(userId).subscribe(() => {
+        this.store$.dispatch(initContacts());
+      }) 
+    }
   }
 }
