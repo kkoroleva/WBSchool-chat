@@ -5,7 +5,6 @@ import { IAuthState } from './store/reducers/auth.reducers';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { SocketService } from './socket/socket.service';
 import { ConnectEvent } from './socket/event';
-import { HttpClient } from '@angular/common/http';
 import { INotificationsState } from './store/reducers/notifications.reducers';
 import { loadNotifications } from './store/actions/notifications.actions';
 

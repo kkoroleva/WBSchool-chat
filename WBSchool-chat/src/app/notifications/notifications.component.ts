@@ -1,18 +1,10 @@
-import {
-  pushToNotification,
-  changeLoadNotifications,
-} from './../store/actions/notifications.actions';
-import { INotification } from './../store/reducers/notifications.reducers';
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { SocketService } from '../socket/socket.service';
-import {
-  loadNotifications,
-  removeNotification,
-} from '../store/actions/notifications.actions';
+import { loadNotifications } from '../store/actions/notifications.actions';
 import { INotificationsState } from '../store/reducers/notifications.reducers';
 import { selectNotifications } from '../store/selectors/notifications.selectors';
+import { NotificationSocketService } from '../socket/notification-socket.service';
 
 @Component({
   selector: 'app-notifications',
@@ -20,29 +12,26 @@ import { selectNotifications } from '../store/selectors/notifications.selectors'
   styleUrls: ['./notifications.component.scss'],
 })
 export class NotificationsComponent implements OnInit {
-  // notificationsList: INotificationsState = { notifications: [] };
-
   public notificationsList$: Observable<INotificationsState> = this.store$.pipe(
     select(selectNotifications)
   );
 
   constructor(
     private store$: Store<INotificationsState>,
-    private socketService: SocketService
+    private notificationSocketService: NotificationSocketService
   ) {}
 
   ngOnInit(): void {
-    // this.socketService.offNotifications();
     this.store$.dispatch(loadNotifications());
+    this.notificationSocketService.offNotifications();
+    this.notificationSocketService.initIoConnectionNotification();
   }
 
   removeNotification(id: string): void {
-    this.socketService.deleteNotification(id);
-    // this.store$.dispatch(removeNotification({ id }));
+    this.notificationSocketService.deleteNotification(id);
   }
 
   clearNotifications(): void {
-    this.socketService.clearNotifications();
-    // this.store$.dispatch(clearNotifications());
+    this.notificationSocketService.clearNotifications();
   }
 }

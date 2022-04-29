@@ -30,8 +30,8 @@ import {
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';
-import { SocketService } from 'src/app/socket/socket.service';
 import { INotification } from 'src/app/store/reducers/notifications.reducers';
+import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
 
 @Component({
   selector: 'groups-create-group-chat',
@@ -65,7 +65,7 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
     private dialogRef: MatDialogRef<CreateGroupChatComponent>,
     private store$: Store<IGroupsState>,
     private actions$: Actions,
-    private socketService: SocketService
+    private notificationSocketService: NotificationSocketService
   ) {}
 
   ngOnInit(): void {
@@ -133,7 +133,7 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
           (currentGroup) => currentGroup.name === group.name
         );
         if (currentGroup?._id) {
-          this.socketService.createGroupNotification(
+          this.notificationSocketService.createGroupNotification(
             newNotification,
             currentGroup._id,
             currentGroup.users!

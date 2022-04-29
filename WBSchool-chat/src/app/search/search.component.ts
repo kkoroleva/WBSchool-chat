@@ -1,20 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { SocketService } from '../socket/socket.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
-  constructor(private socketService: SocketService) {}
-
+export class SearchComponent {
   blankClick(): void {
     console.log('click');
-  }
-
-  ngOnInit() {
-    // this.socketService.offNotifications();
-    // this.socketService.initIoConnectionNotification();
   }
 }

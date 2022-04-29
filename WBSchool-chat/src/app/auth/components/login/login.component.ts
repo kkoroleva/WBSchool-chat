@@ -13,6 +13,7 @@ import { INotification } from 'src/app/store/reducers/notifications.reducers';
 import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
 import { SocketService } from 'src/app/socket/socket.service';
 import { ConnectEvent } from 'src/app/socket/event';
+import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   submitted!: boolean;
   errorMessage: string = '';
   notificationAuth: INotification = {
-    text: `Был выполнен вход в аккаунт. ${Date.now()}`,
+    text: `Был выполнен вход в аккаунт. ${new Date(new Date().getTime())}`,
   };
 
   constructor(
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private store$: Store<IAuthState>,
     private storage: StorageMap,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private notificationSocketService: NotificationSocketService
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +88,9 @@ export class LoginComponent implements OnInit {
           newUser = resp.newUser;
           this.storage.set('user', newUser).subscribe(() => {});
           this.store$.dispatch(initAuth({ newUser }));
-          this.socketService.createNotification(this.notificationAuth);
+          this.notificationSocketService.createNotification(
+            this.notificationAuth
+          );
           this.store$.dispatch(
             addAuthNotification({ notification: this.notificationAuth })
           );
