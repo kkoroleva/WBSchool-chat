@@ -20,11 +20,11 @@
             <b class="friends__name" *ngIf="friend.usernames[1] === user.username">{{friend.usernames[0]}}</b>
             <p class="friends__last-active">{{friend.lastActive? 'friend.lastActive' : 'Unknown'}}</p>
             <ng-container *ngFor="let lastMessage of allLastMessages$ | async;">
-            <p *ngIf="friend._id === lastMessage.chatId" class="friends__last-message">{{lastMessage.lastMessage.length === 0 ? "Not messages" : lastMessage.lastMessage}}</p>
+              <p *ngIf="friend._id === lastMessage.chatId" class="friends__last-message">{{lastMessage.lastMessage.length === 0 ? "Not messages" : lastMessage.lastMessage}}</p>
             </ng-container>
           </div>
         </a>
-        <button (click)="deleteChat(friend._id!)">Delete</button>
+        <button class="friends__btn__deleteChat" (click)="deleteChat(friend._id!)">Х</button>
       </li>
   </ul>
 </div>

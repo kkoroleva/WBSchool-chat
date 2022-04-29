@@ -20,20 +20,39 @@
         <p class="threads__main-text">{{thread.basicPost.text}}</p>
       </div>
       <div class="threads__comments-wrapper">
-        <ul class="threads__comments">
-          <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
-            <div class="threads__comment-header">
-              <p class="threads__comment-author">{{comment.authorName}}</p>
-              <p class="threads__comment-date">{{comment.post.date}}</p>
-            </div>
-            <p class="threads__comment-text">{{comment.post.text}}</p>
-          </li>
-        </ul>
-        <form action="" method="post">
-          <label class="threads__comment-form">Comment
-            <input type="text" name="" id="" placeholder="Comment...">
-          </label>
-        </form>
+          <ul class="threads__comments" #wrapper>
+            <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
+              <div class="threads__comment-header">
+                <p class="threads__comment-author">{{comment.authorName}}</p>
+                <p class="threads__comment-date">{{comment.post.date}}</p>
+              </div>
+              <p class="threads__comment-text">{{comment.post.text}}</p>
+            </li>
+          </ul>
+        <form class="message__send" action="" method="post">
+          <div>
+              <div class="form_save_image" *ngIf="toggle">
+                  <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input>
+                  <label for="fileElem" class="btn-add" [ngClass]="{'btn-add__active': imgInput == true}">
+                      {{ !imgInput ? "Выберите файл" : "Файл выбран" }}
+                  </label>
+  
+                  <div class="btn-wrapper">
+                      <button type="button" class="btn-green" (click)="greenBtnClick(input)">V</button>
+                      <button type="button" class="btn-red" (click)="redBtnClick()">X</button>
+                  </div>
+              </div>
+          </div>
+          <div class="wrapper__send">
+              <div (click)="toggle =!toggle">
+                  <mat-icon class="btn" width="14px" height="13px" > attach_file</mat-icon>
+              </div>
+              <input type="text" placeholder="Comment..." [formControl]="commentControl" (keydown.enter)="sendComments()" >
+              <mat-icon class="smile" width="15px" height="15px">tag_faces</mat-icon>
+              <!-- <mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon> -->
+              <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>
+          </div>
+         </form>
       </div>
     </li>
   </ul>

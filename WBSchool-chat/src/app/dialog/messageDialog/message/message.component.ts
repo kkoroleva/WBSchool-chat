@@ -17,6 +17,8 @@ import {
   selectChatGroup,
   selectLastGroupsMessages,
 } from '../../../store/selectors/groups.selectors';
+=======
+import { Validators } from '@angular/forms';
 import {
   allChatsMessages,
   deleteMessage,
@@ -43,7 +45,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
-  message: FormControl = new FormControl('');
+  message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
   myId = '';
@@ -97,6 +99,7 @@ export class MessageComponent implements OnInit {
       this.store$.dispatch(
         allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
       );
+      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
 
     this.socketService.onDeleteMessage().subscribe((messageId: string) => {
@@ -133,9 +136,7 @@ export class MessageComponent implements OnInit {
           messageId: message._id!,
         })
       );
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
+      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
   }
 
@@ -204,10 +205,7 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(): void {
-    if (
-      this.message.value.trim() ||
-      (this.message.value.trim() && this.imageOrFile.length > 0)
-    ) {
+    if (this.message.value.trim() || (this.message.value.trim() && this.imageOrFile.length > 0)) {
       this.changeScroll();
       if (this.isEditMessage) {
         this.socketService.updateMessage(this.chatID, {
@@ -241,6 +239,37 @@ export class MessageComponent implements OnInit {
       item.includes('.svg') ||
       item.includes('.gif')
     );
+  }
+
+  sliceLinkImage(item: string) {
+    let empty = item.slice(0, item.indexOf(' '));
+    if (item.includes('.png')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".png") + 4)
+    } else if (item.includes('.jpg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".jpg") + 4)
+    } else if(item.includes('.jpeg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".jpeg") + 5)
+    } else if (item.includes('.svg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".svg") + 4)
+    } 
+    else if (item.includes('.gif')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".gif") + 4)
+    } else return
   }
 
   openProfile(user: string | undefined) {
