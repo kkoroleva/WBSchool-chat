@@ -1,12 +1,30 @@
 import { createReducer, on } from '@ngrx/store';
 import { IMessage } from '../../dialog/dialog';
-import { deleteMessage, editMessage, initDialogs, loadDialogs, newGetInfoChat, pushToMessages } from '../actions/dialog.action';
+import { 
+    allChatsMessages, 
+    deleteMessage, 
+    editMessage, initDialogs, 
+    loadDialogs, 
+    newGetInfoChat,
+    pushToMessages, 
+} from '../actions/dialog.action';
 
 export const dialogNode = 'Dialog';
+
+export const dialogsNode = 'Dialogs';
+
 export interface IDialogState {
     messages: IMessage[],
     chatInfo: IChatInfo
+}
 
+export interface IAllMessages {
+    chatId: string,
+    lastMessage: string
+}
+
+export interface IAllChatsMessages {
+    chatsMessages: IAllMessages[]
 }
 
 export interface IChatInfo {
@@ -44,6 +62,10 @@ const initialState: IDialogState = {
     }
 }
 
+const initialState2: IAllChatsMessages = {
+    chatsMessages: []
+}
+
 export const dialogReducer = createReducer(
     initialState,
     on(initDialogs, (state) => ({
@@ -73,5 +95,13 @@ export const dialogReducer = createReducer(
     on(newGetInfoChat, (state, action) => ({
         ...state,
         chatInfo: action.chatInfo
-    })), 
+    }))
+)
+
+export const allChatsMessagesReducer = createReducer(
+    initialState2,
+    on(allChatsMessages, (state, action) => ({
+        ...state,
+        chatsMessages: [...state.chatsMessages.filter((chat) => chat.chatId !== action.chatId), {chatId: action.chatId, lastMessage: action.lastMessage}] 
+    }))
 )

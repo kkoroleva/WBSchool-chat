@@ -1,12 +1,13 @@
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import {  Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import {
+  allChatsMessages,
   deleteMessage,
   editMessage,
   initDialogs,
@@ -16,9 +17,7 @@ import {
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
 import { IUserData } from '../../../auth/interfaces';
-import { ProfileSettingsService } from '../../../profile-page/services/profile-settings.service';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
-
 import { SocketService } from '../../../socket/socket.service';
 
 @Component({
@@ -32,7 +31,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
-  message: FormControl = new FormControl('');
+  message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
   myId = '';
@@ -51,7 +50,7 @@ export class MessageComponent implements OnInit {
 
   public messages$: Observable<IMessage[]> = this.store$.pipe(
     select(selectDialog),
-    tap((resp) => {
+    tap(() => {
       setTimeout(() => {
         this.changeScroll();
       }, 300);
@@ -63,7 +62,6 @@ export class MessageComponent implements OnInit {
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
     private socketService: SocketService,
-    private profileServ: ProfileSettingsService,
     private modalServ: ModalProfileService
   ) { }
 
@@ -71,6 +69,7 @@ export class MessageComponent implements OnInit {
   private initIoConnection(): void {
     this.socketService.onMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(pushToMessages({ message }));
+      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
     this.socketService
       .onDeleteMessage()
@@ -79,6 +78,7 @@ export class MessageComponent implements OnInit {
       });
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(editMessage({ message }));
+      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
   }
 
@@ -135,10 +135,6 @@ export class MessageComponent implements OnInit {
     this.socketService.deleteMessage(this.chatID, id);
   }
 
-  deleteChat() {
-    console.log('удалить чат');
-  }
-
   editMessage(text: string, id: string, chatId: string): void {
     this.isEditMessage = false;
     this.store$.dispatch(newEditMessage({ text, id, chatId }));
@@ -151,10 +147,7 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(): void {
-    if (
-      this.message.value.trim() ||
-      (this.message.value.trim() && this.imageOrFile.length > 0)
-    ) {
+    if (this.message.value.trim() || (this.message.value.trim() && this.imageOrFile.length > 0)) {
       this.changeScroll();
       if (this.isEditMessage) {
         this.socketService.updateMessage(this.chatID, {text: this.message.value, _id: this.editMessageID});
@@ -185,6 +178,37 @@ export class MessageComponent implements OnInit {
       item.includes('.svg') ||
       item.includes('.gif')
     );
+  }
+
+  sliceLinkImage(item: string) {
+    let empty = item.slice(0, item.indexOf(' '));
+    if (item.includes('.png')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".png") + 4)
+    } else if (item.includes('.jpg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".jpg") + 4)
+    } else if(item.includes('.jpeg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".jpeg") + 5)
+    } else if (item.includes('.svg')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".svg") + 4)
+    } 
+    else if (item.includes('.gif')) {
+      if (item.includes('album')) {
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".gif") + 4)
+    } else return
   }
 
   openProfile(user: string | undefined) {

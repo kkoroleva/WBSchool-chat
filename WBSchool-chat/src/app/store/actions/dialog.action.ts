@@ -38,3 +38,8 @@ export const newGetInfoChat = createAction('[DIALOG] getInfoChat',
 export const changeChatInfo = createAction('[DIALOG] changeChatInfo',
   props<{chatInfo : IChatInfo}>());
 
+export const getAllChatsMessages = createAction('[DIALOG] getAlChatsMessages',
+  props<{chatId: string}>());
+
+export const allChatsMessages = createAction('[DIALOG] allChatsMessages',
+  props<{chatId: string, lastMessage : string}>());

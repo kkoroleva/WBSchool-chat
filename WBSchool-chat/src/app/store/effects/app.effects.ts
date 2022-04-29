@@ -3,15 +3,12 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {
-  deleteMessage,
-  emptyMessage,
+  allChatsMessages,
+  getAllChatsMessages,
   getInfoChat,
   initDialogs,
   loadDialogs,
-  newEditMessage,
   newGetInfoChat,
-  removeMessage,
-  sendMessage,
 } from '../actions/dialog.action';
 
 import {
@@ -278,7 +275,22 @@ export class AppEffects {
       mergeMap(({id}) =>
         this.http
           .get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
-          .pipe(map((messages) => loadDialogs({ messages })))
+          .pipe(
+            map((messages) => loadDialogs({ messages })
+            ))
+      )
+    );
+  });
+
+  loadAllChatsMessages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getAllChatsMessages),
+      mergeMap(({chatId}) =>
+        this.http
+          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .pipe(
+            map((messages) => allChatsMessages({chatId: chatId, lastMessage: !!messages[messages.length - 1] ? messages[messages.length - 1].text : '' })
+            ))
       )
     );
   });
