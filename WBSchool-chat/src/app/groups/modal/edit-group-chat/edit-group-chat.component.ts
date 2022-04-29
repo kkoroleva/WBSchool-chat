@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-edit-group-chat',
   templateUrl: './edit-group-chat.component.html',
-  styleUrls: ['./edit-group-chat.component.scss'],
+  styleUrls: ['./../../groups.component.scss'],
 })
 export class EditGroupChatComponent implements OnInit {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
@@ -116,9 +116,11 @@ export class EditGroupChatComponent implements OnInit {
       )
       .subscribe((contactsAndUsers) => {
         let cloneContacts = [...contactsAndUsers[0]];
-        const cloneGroupUsers = [...contactsAndUsers[1]];
+        let cloneGroupUsers = [...contactsAndUsers[1]];
 
-        this.form.get('contacts')?.patchValue(contactsAndUsers[1]);
+        cloneGroupUsers = cloneGroupUsers.filter(groupUser => groupUser._id !== this.user._id)
+
+        this.form.get('contacts')?.patchValue(cloneGroupUsers);
 
         cloneGroupUsers.forEach((user) => {
           cloneContacts = cloneContacts.filter(

@@ -14,9 +14,7 @@ import { ConnectEvent } from './event';
 })
 export class SocketService {
   private socket: any;
-  constructor(
-    @Inject('API_URL') readonly apiUrl: string,
-  ) {}
+  constructor(@Inject('API_URL') readonly apiUrl: string) {}
 
   public initSocket(): void {
     if (localStorage.getItem('token')) {
@@ -115,9 +113,9 @@ export class SocketService {
     });
   }
 
-  public offMessages(){
-    this.socket.off('messages:create')
-    this.socket.off('messages:update')
-    this.socket.off('messages:delete')
+  public offMessages() {
+    this.socket.off('messages:create');
+    this.socket.off('messages:update');
+    this.socket.off('messages:delete');
   }
 }

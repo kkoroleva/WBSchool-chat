@@ -16,10 +16,10 @@ import {
   pushToFriends,
 } from '../../store/actions/groups.actions';
 
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
-import { selectUser } from 'src/app/store/selectors/auth.selectors';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
-import { selectFriends } from 'src/app/store/selectors/groups.selectors';
+import { IGroupsState } from './../../store/reducers/groups.reducers';
+import { selectUser } from './../../store/selectors/auth.selectors';
+import { selectContacts } from './../../store/selectors/contacts.selectors';
+import { selectFriends } from './../../store/selectors/groups.selectors';
 import { IPrivate } from '../private';
 
 @Component({

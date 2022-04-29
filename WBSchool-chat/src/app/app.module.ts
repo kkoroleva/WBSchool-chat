@@ -64,7 +64,6 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
 import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
-import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DragAndDropDirective } from './groups/drag-and-drop.directive';
 import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
@@ -112,7 +111,6 @@ const API_URL_PROVIDER: Provider = {
     NavMobileComponent,
     CreatePrivateChatComponent,
     ModalProfileComponent,
-    DecodeImagePipe,
     DragAndDropDirective,
     EditGroupChatComponent,
     OutFromGroupComponent,

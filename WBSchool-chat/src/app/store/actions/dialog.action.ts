@@ -32,9 +32,14 @@ export const emptyMessage = createAction('[DIALOG] emptyMessage')
 export const getInfoChat = createAction('[DIALOG] getInfoChat', 
   props<{chatId: string }>());
 
-export const newGetInfoChat = createAction('[DIALOG] getInfoChat',
+export const newGetInfoChat = createAction('[DIALOG] newGetInfoChat',
   props<{chatInfo: IChatInfo}>());
 
 export const changeChatInfo = createAction('[DIALOG] changeChatInfo',
   props<{chatInfo : IChatInfo}>());
 
+export const getAllChatsMessages = createAction('[DIALOG] getAlChatsMessages',
+  props<{chatId: string}>());
+
+export const allChatsMessages = createAction('[DIALOG] allChatsMessages',
+  props<{chatId: string, lastMessage : string}>());

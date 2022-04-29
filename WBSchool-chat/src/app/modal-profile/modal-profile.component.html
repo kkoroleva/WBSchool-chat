@@ -18,7 +18,7 @@
 				<mat-icon>chat</mat-icon>
 			</button>
 		</div>
-		<div *ngIf="friendStatus == undefined; else addFriend" 
+		<div *ngIf="!friendStatus; else addFriend" 
 			 class="profile__contact-btns_add" (click)="addToFriends(userData._id)">
 			<button>
 				<mat-icon>person_add</mat-icon>
