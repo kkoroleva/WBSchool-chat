@@ -79,7 +79,7 @@ export const createChatFriend = createAction(
 
 export const outChatFriend = createAction(
   '[FRIENDS] outChatFriend',
-  props<{ chatId: string, _id: string }>()
+  props<{ chatId: string; _id: string }>()
 );
 
 export const deleteChatFriend = createAction(
@@ -97,11 +97,22 @@ export const pushToFriends = createAction(
   props<{ friend: IPrivate }>()
 );
 
-export const getAllGroupsMessages = createAction('[GROUPS] getAllGroupsMessages',
-  props<{chatId: string}>());
+export const getAllGroupsMessages = createAction(
+  '[GROUPS] getAllGroupsMessages',
+  props<{ chatId: string }>()
+);
 
-export const allGroupsMessages = createAction('[GROUPS] allGroupsMessages',
-  props<{chatId: string, lastMessage: string, messageId: string}>());
+export const allGroupsMessages = createAction(
+  '[GROUPS] allGroupsMessages',
+  props<{ chatId: string; lastMessage: string; messageId: string }>()
+);
 
-export const deleteLastGroupMessage = createAction('[GROUPS] deleteLastGroupMessage',
-  props<{id: string}>());
+export const deleteLastGroupMessage = createAction(
+  '[GROUPS] deleteLastGroupMessage',
+  props<{ id: string }>()
+);
+
+export const exitFromGroup = createAction(
+  '[GROUPS] exitFromGroup',
+  props<{ id: string, owner?: string }>()
+);

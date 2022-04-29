@@ -5,13 +5,18 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { map, Observable, startWith } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Actions } from '@ngrx/effects';
+import { Actions, ofType } from '@ngrx/effects';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { IUser } from '../../user';
 import { selectGroupUsers } from './../../../store/selectors/groups.selectors';
-import { getGroupUsers } from './../../../store/actions/groups.actions';
+import {
+  exitFromGroup,
+  getGroupUsers,
+} from './../../../store/actions/groups.actions';
 import { IGroup } from '../../group';
+import { selectUser } from './../../../store/selectors/auth.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-out-from-group',
@@ -22,6 +27,7 @@ export class OutFromGroupComponent implements OnInit {
   @ViewChild('ownersInput') ownersInput!: ElementRef<HTMLInputElement>;
   @ViewChild('owners') ownersMatChipList!: MatChipList;
 
+  private user!: IUser;
   public form!: FormGroup;
   private chatId!: string;
   public ownersControl = new FormControl();
@@ -31,14 +37,18 @@ export class OutFromGroupComponent implements OnInit {
   );
   public usersList: IUser[] = [];
   public group$: Observable<IGroup> = this.store$.pipe(select(selectGroup));
+  public user$: Observable<IUser> = this.store$.pipe(select(selectUser));
 
   constructor(
     private dialogRef: MatDialogRef<OutFromGroupComponent>,
     private actions$: Actions,
-    private store$: Store<IGroupsState>
+    private store$: Store<IGroupsState>,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.user$.subscribe((user) => (this.user = user));
+
     this.group$.subscribe((group) => {
       this.chatId = group._id!;
     });
@@ -48,6 +58,10 @@ export class OutFromGroupComponent implements OnInit {
     });
 
     this.getGroupChatUsers();
+
+    this.actions$.pipe(ofType(exitFromGroup)).subscribe(() => {
+      this.dialogRef.close();
+    });
   }
 
   ngDoCheck(): void {
@@ -64,7 +78,7 @@ export class OutFromGroupComponent implements OnInit {
     this.store$.dispatch(getGroupUsers({ id: this.chatId }));
 
     this.groupUsers$.subscribe((users) => {
-      this.usersList = users;
+      this.usersList = users.filter((user) => user._id !== this.user._id);
       this.usersIsLoaded = true;
 
       this.groupUsers$ = this.ownersControl.valueChanges.pipe(
@@ -80,7 +94,10 @@ export class OutFromGroupComponent implements OnInit {
     const owners: IUser[] = this.form.get('owners')?.value;
 
     if (this.form.valid) {
-      console.log(owners.map((owner) => owner._id));
+      this.store$.dispatch(
+        exitFromGroup({ id: this.chatId, owner: owners[0]._id })
+      );
+      this.router.navigateByUrl('/home');
     }
   }
 
