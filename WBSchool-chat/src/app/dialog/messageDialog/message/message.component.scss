@@ -118,10 +118,11 @@
     width: 100%;
 
     @media (max-width:495px) {
-      margin-bottom: none;
+      margin-bottom: 0;
     }
   }
-
+  // ========send
+  
   &__send {
     display: flex;
     padding: 0;
@@ -130,7 +131,7 @@
     align-items: center;
     position: static;
     @media  screen and(max-width:495px) {
-      margin-bottom: none;
+      margin-bottom: 0;
       margin-top: 30px;
     }
 
@@ -206,10 +207,7 @@
       cursor: pointer;
       background-color: white;
       color: blue;
-      padding-top: 7px;
-      padding-bottom: 7px;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding: 7px 10px;
       text-transform: uppercase;
       width: 250px;
       text-decoration:none;
@@ -255,10 +253,7 @@
       text-align:center;
       display: block;
       margin-right: 10px;
-      background: white;
-      background-image: linear-gradient(to left,transparent,transparent 50%,#11b157 50%,#11b157);
-      background-position: 100% 0;
-      background-size: 200% 100%;
+      background: linear-gradient(to left,transparent,transparent 50%,#11b157 50%,#11b157) 100% 0/200% 100%;
       transition: all .25s ease-in;
       font: 400 18px tahoma;
       border: 1px solid #11b157;
@@ -290,10 +285,7 @@
       text-decoration:none;
       text-align:center;
       display: block;
-      background: white;
-      background-image: linear-gradient(to left,transparent,transparent 50%,#cb2042 50%,#cb2042);
-      background-position: 100% 0;
-      background-size: 200% 100%;
+      background: linear-gradient(to left,transparent,transparent 50%,#cb2042 50%,#cb2042) 100% 0/200% 100%;
       transition: all .25s ease-in;
       font: 400 18px tahoma;
       border: 1px solid #cb2042;
