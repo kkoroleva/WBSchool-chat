@@ -12,6 +12,7 @@ import { map, Observable, startWith, Subscriber, tap, zip } from 'rxjs';
 import { IGroupsState } from './../../../store/reducers/groups.reducers';
 import { IGroup } from '../../group';
 import {
+  changeChatGroup,
   deleteFromGroups,
   deleteGroup,
   editGroup,
@@ -118,7 +119,9 @@ export class EditGroupChatComponent implements OnInit {
         let cloneContacts = [...contactsAndUsers[0]];
         let cloneGroupUsers = [...contactsAndUsers[1]];
 
-        cloneGroupUsers = cloneGroupUsers.filter(groupUser => groupUser._id !== this.user._id)
+        cloneGroupUsers = cloneGroupUsers.filter(
+          (groupUser) => groupUser._id !== this.user._id
+        );
 
         this.form.get('contacts')?.patchValue(cloneGroupUsers);
 
@@ -141,7 +144,9 @@ export class EditGroupChatComponent implements OnInit {
 
   deleteGroupChat(): void {
     this.store$.dispatch(deleteGroup({ id: this.chatId }));
+    this.store$.dispatch(changeChatGroup({ chatGroup: '' }));
     this.router.navigateByUrl('/home');
+    localStorage.removeItem('chatID');
   }
 
   editGroupChat(): void {

@@ -11,6 +11,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { IUser } from '../../user';
 import { selectGroupUsers } from './../../../store/selectors/groups.selectors';
 import {
+  changeChatGroup,
   exitFromGroup,
   getGroupUsers,
 } from './../../../store/actions/groups.actions';
@@ -98,6 +99,8 @@ export class OutFromGroupComponent implements OnInit {
         exitFromGroup({ id: this.chatId, owner: owners[0]._id })
       );
       this.router.navigateByUrl('/home');
+      this.store$.dispatch(changeChatGroup({ chatGroup: '' }));
+      localStorage.removeItem('chatID');
     }
   }
 

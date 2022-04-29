@@ -122,7 +122,10 @@ export class MessageComponent implements OnInit {
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
       this.chatID = id;
-      this.store$.dispatch(initDialogs({ id }));
+      
+      if (id) {
+        this.store$.dispatch(initDialogs({ id }));
+      }
     });
     this.initIoConnection();
   }

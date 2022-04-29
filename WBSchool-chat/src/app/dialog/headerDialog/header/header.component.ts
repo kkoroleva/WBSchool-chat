@@ -11,7 +11,6 @@ import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/ed
 import {
   changeChatGroup,
   exitFromGroup,
-  outChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../auth/interfaces';
@@ -94,7 +93,9 @@ export class HeaderComponent implements OnInit {
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
       this.store$.dispatch(exitFromGroup({ id: this.chatId }));
+      this.store$.dispatch(changeChatGroup({ chatGroup: '' }));
       this.router.navigateByUrl('/home');
+      localStorage.removeItem('chatID');
     }
   }
 
