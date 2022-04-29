@@ -20,8 +20,8 @@ export class SearchComponent implements OnInit {
   options: string[] = ['One', 'Two', 'Three'];
   filteredPrvtChats!: Observable<IPrivate[]>;
   filteredGroups!: Observable<IGroup[]>;
-  chats: IPrivate[] = []
-  groups: IGroup[] = []
+  chats: IPrivate[] = [];
+  groups: IGroup[] = [];
 
   constructor(
     private router: Router,
@@ -31,7 +31,6 @@ export class SearchComponent implements OnInit {
   public friendsState$: Observable<IPrivate[]> = this.store$.pipe(
     select(selectFriends)
   );
-
   
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
 

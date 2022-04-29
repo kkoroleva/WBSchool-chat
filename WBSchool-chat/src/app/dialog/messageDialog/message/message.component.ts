@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild, OnDestroy} from '@angular/cor
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { catchError, concatMap, Observable, tap, throwError } from 'rxjs';
+import {  Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import {
@@ -15,14 +15,9 @@ import {
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
-import { IContacts } from '../../../store/reducers/contacts.reducers';
-import { selectContacts } from '../../../store/selectors/contacts.selectors';
 import { IUserData } from '../../../auth/interfaces';
-import { initContacts } from '../../../store/actions/contacts.actions';
 import { ProfileSettingsService } from '../../../profile-page/services/profile-settings.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
-import { Actions, ofType } from '@ngrx/effects';
 
 import { SocketService } from '../../../socket/socket.service';
 
