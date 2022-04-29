@@ -17,7 +17,6 @@ import {
   selectChatGroup,
   selectLastGroupsMessages,
 } from '../../../store/selectors/groups.selectors';
-=======
 import { Validators } from '@angular/forms';
 import {
   allChatsMessages,
@@ -105,7 +104,6 @@ export class MessageComponent implements OnInit {
     this.socketService.onDeleteMessage().subscribe((messageId: string) => {
       this.store$.dispatch(deleteMessage({ id: messageId }));
     });
-
     this.actions$
       .pipe(
         ofType(deleteMessage),

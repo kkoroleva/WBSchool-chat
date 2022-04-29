@@ -16,6 +16,7 @@ import { initContacts } from '../../../store/actions/contacts.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { initAuth } from 'src/app/store/actions/auth.actions';
 
 @Component({
     selector: 'app-profile-settings',
@@ -23,27 +24,34 @@ import { NgxImageCompressService } from 'ngx-image-compress';
     styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent implements OnInit {
-    profileData: IProfileData = {
-        username: '',
-        status: 'Не беспокоить',
-        avatar: '',
-        email: '',
-        about: '',
-        wallpaper: 'some text'
-    };
-    formData: IProfileData = {};
-    selectedItem!: ISettingsList;
-    toggle: boolean = false;
-    errorMsg: string | boolean = false;
-    imageOrFile: string = '';
-    formatImage: string = '';
-    imgInput: boolean = false;
-    lookContacts: boolean = false;
-    notFound: string = '';
-    form!: FormGroup;
-    contacts: IUserData[] = [];
-    sub$!: Subscription;
-    public imageInBase64 = '';
+  private url = 'https://wbschool-chat.ru/api/users';
+  profileData: IProfileData = {
+    username: '',
+    status: 'Не беспокоить',
+    avatar: '',
+    email: '',
+    about: '',
+    wallpaper: 'some text'
+  };
+  formData: IProfileData = {};
+  selectedItem!: ISettingsList;
+  toggle: boolean = false;
+  errorMsg: string | boolean = false;
+
+  imageOrFile: string = '';
+  formatImage: string = '';
+
+  imgInput: boolean = false;
+  lookContacts: boolean = false;
+  notFound: string = '';
+  form!: FormGroup;
+  contacts: IUserData[] = [];
+  sub$!: Subscription;
+  userDataForm!: FormGroup;
+
+  copied = '';
+
+  public imageInBase64 = '';
     settingsList: ISettingsList[] = [
         {
             "id": 1,
@@ -89,8 +97,6 @@ export class ProfileSettingsComponent implements OnInit {
         }
     ]
     public imageName = '';
-    // private url = 'https://wbschool-chat.ru/api/users';
-    // private inputFile!: HTMLInputElement;
 
     constructor(
         private profileServ: ProfileSettingsService,
@@ -102,61 +108,99 @@ export class ProfileSettingsComponent implements OnInit {
         public modalProfileServ: ModalProfileService
     ) {}
 
-    ngOnInit(): void {
-        this.form = new FormGroup({
-            contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])
-        })
-        this.getUsersData();
-        this.store$.dispatch(initContacts());
-        setTimeout(() => {
-            this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-                this.contacts = contacts.contacts;
-            })
-        }, 0);
-    }
+  ngOnInit(): void {
+    this.form = new FormGroup({
+      contactInput: new FormControl('', [Validators.required, Validators.minLength(1)])  
+    })
+    this.userDataForm = new FormGroup({
+      username: new FormControl('', [Validators.minLength(4)]),
+      about: new FormControl('', [Validators.minLength(4)]),
+      email: new FormControl('', [Validators.email])    
+    })
+    this.getUsersData();
+    this.store$.dispatch(initContacts());
+    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+      this.contacts = contacts.contacts;
+    })
+    // this.profileServ.getContacts().pipe(
+    //   catchError((error) => {
+    //     return throwError(() => error);
+    //   })
+    // ).subscribe((contacts: any) => {
+    //   this.contacts = contacts.contacts;
+    //   console.log(contacts.contacts[4].username)
+    //   this.store$.dispatch(initContacts());
+    //   this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
+    //         this.contacts = contacts.contacts;
+    //   })
+    // })
+  }
 
-    getUsersData(): void {
-        this.storage.get('user')
-            .subscribe((user: IServerResponse | any) => {
-                this.profileData = {
-                    username: user.username,
-                    about: user.about,
-                    avatar: user.formatImage + user.avatar,
-                    email: user.email
-                }
-                this.settingsList[0].description = user.username;
-                this.settingsList[3].description = user.about;
-                this.settingsList[4].description = user.email;
-            })
-    }
+  getUsersData(): void {
+    this.storage.get('user')
+    .subscribe((user: IServerResponse | any) => {
+      this.profileData = {
+        username: user.username,
+        about: user.about,
+        avatar: user.formatImage + user.avatar,
+        email: user.email
+      }
+      this.settingsList[0].description = user.username;
+      this.settingsList[3].description = user.about;
+      this.settingsList[4].description = user.email;
+      this.userDataForm.controls['username'].setValue(user.username);
+      this.userDataForm.controls['about'].setValue(user.about);
+      this.userDataForm.controls['email'].setValue(user.email)
+    })
+  }
 
-    onSelect(item: ISettingsList): void {
-        this.selectedItem = item;
-    }
+  onSelect(item: ISettingsList): void { 
+    this.toggle = !this.toggle;
+    this.selectedItem = item;
+  }
 
-    addToFormData(inputData: any): void {
-        if (inputData.id == 1) {
+  addToFormData(inputData: any): void {
+    if (inputData.id == 1) {
+      this.profileServ.getUsers(inputData.value).pipe(
+        catchError((error) => {
+          if (error.status = 404) {
             if (inputData.value.match(/^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .]?[a-zA-Z0-9а-яёА-ЯЁ]*$/) &&
-                inputData.value.length >= 4 &&
-                inputData.value.length <= 100) {
-                this.formData.username = inputData.value;
-                this.errorMsg = false
+            inputData.value.length >= 4 && 
+            inputData.value.length <= 100) {
+              this.formData.username = inputData.value;
+              this.errorMsg = false;
+              this.toggle = !this.toggle;
             } else this.errorMsg = 'Username error'
-        } else if (inputData.id == 3) {
-            this.formData.avatar = btoa(inputData.value)
-        } else if (inputData.id == 4) {
-            if (inputData.value.length >= 4 && inputData.value.length <= 100) {
-                this.formData.about = inputData.value;
-                this.errorMsg = false
-            } else this.errorMsg = 'Description error'
-        } else if (inputData.id == 5) {
-            if (inputData.value.length >= 4 && inputData.value.length <= 100 &&
-                inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-                this.formData.email = inputData.value;
-                this.errorMsg = false
-            } else this.errorMsg = 'Email error'
-        }
+          } 
+          return throwError(() => error);
+        })
+      ).subscribe(() => {
+        this.errorMsg = 'Username taken'
+      })
+      
+    } 
+    else if (inputData.id == 3) {
+      this.formData.avatar = btoa(inputData.value);
+      this.toggle = !this.toggle;
+    } 
+    else if (inputData.id == 4) {
+      if (inputData.value.length >= 4 && inputData.value.length <= 100) {
+        this.formData.about = inputData.value;
+        this.errorMsg = false;
+        this.toggle = !this.toggle;
+      } 
+      else this.errorMsg = 'Description error'
+    } 
+    else if (inputData.id == 5) {
+      if (inputData.value.length >= 4 && inputData.value.length <= 100 && 
+          inputData.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        this.formData.email = inputData.value;
+        this.errorMsg = false;
+        this.toggle = !this.toggle;
+      } 
+      else this.errorMsg = 'Email error'
     }
+  }
 
     deleteImage(): void {
         this.toggle = !this.toggle;
@@ -191,21 +235,35 @@ export class ProfileSettingsComponent implements OnInit {
         reader.readAsDataURL(file);
     }
 
-    submit(): void {
-        this.profileServ.editProfileSettings(this.formData)
-            .pipe(
-                catchError((error) => {
-                    return throwError(() => error);
-                })
-            )
-            .subscribe((user: IServerResponse) => {
-                this.storage.set('user', user).subscribe(() => {
-                });
-                this.getUsersData();
-            })
-        this.formData = {};
-        this.imgInput = false;
-    }
+  submit(): void {
+    this.profileServ.editProfileSettings(this.formData)
+    .pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    )
+    .subscribe((user: IServerResponse) => {
+      console.log(user)
+      const storeUser: { newUser: IUserData; } = {
+        newUser: {
+          email: user.email,
+          username: user.username,
+          userRights: user.userRights,
+          avatar: user.avatar,
+          about: user.about,
+          _id: user._id,
+          v: user.__v,
+          formatImage: user.formatImage
+        }
+      }
+      this.storage.set('user', user).subscribe(() => {});
+      this.getUsersData();
+      
+      this.store$.dispatch(initAuth(storeUser));
+    })
+    this.formData = {};
+    this.imgInput = false;
+  }
 
     openDialog(): void {
         const dialogRef = this.dialog.open(ModalHelpComponent, {
@@ -278,4 +336,10 @@ export class ProfileSettingsComponent implements OnInit {
         }
 
     }
+
+  copyToClipBoard(val: string, type: string) {
+    navigator.clipboard.writeText(val);
+    this.copied = type + ' copied!'
+    setTimeout(() => this.copied = '', 1000)
+  }
 }

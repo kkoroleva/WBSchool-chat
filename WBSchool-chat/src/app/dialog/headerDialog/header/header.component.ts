@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+
 import { IChatInfo } from '../../../store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
@@ -94,6 +95,6 @@ export class HeaderComponent implements OnInit {
   }
 
   modalClick() {
-    if (this.chatInfo) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
+    if (this.chatInfo && this.chatInfo.users.length < 3) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
   }
 }
