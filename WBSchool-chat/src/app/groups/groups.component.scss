@@ -107,6 +107,7 @@ $thumbnail-size: 52px;
     font-size: 14px;
     line-height: 30px;
     color: $last-message-color;
+    word-break: break-all;
   }
 
   &__last-message-text {
