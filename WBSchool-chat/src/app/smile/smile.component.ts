@@ -1,8 +1,7 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { SocketService } from '../socket/socket.service';
+import { MessageSocketService } from '../socket/message-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { ISmile } from './smile.interface';
 
@@ -102,28 +101,28 @@ https://i.ibb.co/rfpGmfp/valentin1-44.png
 https://i.ibb.co/999p1Jc/valentin1-45.png
 https://i.ibb.co/XYrfvqw/valentin1-46.png
 https://i.ibb.co/QrCTw3B/valentin1-47.png
-https://i.ibb.co/fGRLJ3m/valentin1-48.png`
+https://i.ibb.co/fGRLJ3m/valentin1-48.png`;
 
 const mockSmiles: ISmile[] = [
   {
     packName: 'elves',
-    packAvatar: 'https://i.ibb.co/6r5qRnJ/BD835-DBD-8-FC3-4-E49-92-AA-BF326-F38-F9-D2.png',
+    packAvatar:
+      'https://i.ibb.co/6r5qRnJ/BD835-DBD-8-FC3-4-E49-92-AA-BF326-F38-F9-D2.png',
     smiles: elves.split('\n'),
   },
   {
     packName: 'valentin',
     packAvatar: 'https://i.ibb.co/FVKvzhT/valentin1-2.png',
     smiles: valentin.split('\n'),
-  }
+  },
 ];
 
 @Component({
   selector: 'app-smile',
   templateUrl: './smile.component.html',
-  styleUrls: ['./smile.component.scss']
+  styleUrls: ['./smile.component.scss'],
 })
 export class SmileComponent implements OnInit {
-
   allSmiles: ISmile[] = mockSmiles;
   smilesList: string[] = elves.split('\n');
 
@@ -134,15 +133,15 @@ export class SmileComponent implements OnInit {
   );
   constructor(
     private store$: Store,
-    private socketService: SocketService) { }
+    private messageSocketService: MessageSocketService
+  ) {}
 
   ngOnInit(): void {
-    this.chatGroup$.subscribe((id) => this.chatID = id);
+    this.chatGroup$.subscribe((id) => (this.chatID = id));
   }
 
   onClick(e: Event) {
     this.smileSRC = (e.target as HTMLImageElement).src;
-    this.socketService.send(this.chatID, { text: this.smileSRC });
-
+    this.messageSocketService.send(this.chatID, { text: this.smileSRC });
   }
 }

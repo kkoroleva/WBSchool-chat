@@ -21,8 +21,8 @@ export class MessagesPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (window.innerWidth < 766) {
-      this.stateMessages.groups = true;
-      this.stateMessages.messanger = false;
+      this.stateMessages.groups = false;
+      this.stateMessages.messanger = true;
     } else {
       this.stateMessages.groups = true;
       this.stateMessages.messanger = true;

@@ -45,11 +45,10 @@ const mockThreads: IThread[] = [
     ],
   },
 ];
-
 @Component({
   selector: 'app-threads',
   templateUrl: './threads.component.html',
-  styleUrls: ['./threads.component.scss']
+  styleUrls: ['./threads.component.scss'],
 })
 export class ThreadsComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef;
@@ -60,8 +59,8 @@ export class ThreadsComponent implements OnInit {
   imageOrFile = '';
   formatImage = '';
   threadsList: IThread[];
-  username: string = "";
-  idUser: string = "";
+  username: string = '';
+  idUser: string = '';
 
   constructor(private imageCompress: NgxImageCompressService,
     private serviceDialog: DialogService) {
@@ -69,18 +68,17 @@ export class ThreadsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getMyInfo(),
-    tap((resp) => {
-      setTimeout(() => {
-        this.changeScroll();
-      }, 300);
-    })
+      tap((resp) => {
+        setTimeout(() => {
+          this.changeScroll();
+        }, 300);
+      });
   }
   getMyInfo() {
     this.serviceDialog.getMyInfo().subscribe((item) => {
       this.username = item.username;
-      this.idUser = item._id
-      console.log(item)
-    })
+      this.idUser = item._id;
+    });
   }
   addImage(input: any) {
     let imageOrFile = '';
@@ -108,21 +106,21 @@ export class ThreadsComponent implements OnInit {
   }
 
   onImgAdd() {
-    this.imgInput = true
+    this.imgInput = true;
   }
 
   greenBtnClick(input: any) {
     this.addImage(input);
-    this.toggle = !this.toggle
+    this.toggle = !this.toggle;
   }
 
   redBtnClick() {
     this.toggle = !this.toggle;
     this.imageOrFile = '';
-    this.imgInput = false
+    this.imgInput = false;
   }
   sendFileComments() {
-    this.toggle = true
+    this.toggle = true;
   }
   changeScroll(): void {
     if (this.wrapper) {
@@ -131,7 +129,10 @@ export class ThreadsComponent implements OnInit {
     }
   }
   sendComments() {
-    if (this.commentControl.value.trim() || (this.commentControl.value.trim() && this.imageOrFile.length > 0)) {
+    if (
+      this.commentControl.value.trim() ||
+      (this.commentControl.value.trim() && this.imageOrFile.length > 0)
+    ) {
       this.changeScroll();
       let comment: IComment = {
         authorID: this.idUser,
@@ -144,7 +145,7 @@ export class ThreadsComponent implements OnInit {
       }
       this.threadsList[0].comments.push(comment)
       this.commentControl.reset()
+
     }
   }
-
 }

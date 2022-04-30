@@ -4,9 +4,14 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { IUserData } from '../auth/interfaces';
 import { AuthService } from '../auth/services/auth.service';
+import { ConnectEvent } from '../socket/event';
+import { SocketService } from '../socket/socket.service';
 import { loadGroups } from '../store/actions/groups.actions';
 import { IGroupsState } from '../store/reducers/groups.reducers';
-import { INotification, INotificationsState } from '../store/reducers/notifications.reducers';
+import {
+  INotification,
+  INotificationsState,
+} from '../store/reducers/notifications.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { selectElNotifications } from '../store/selectors/notifications.selectors';
 
@@ -20,7 +25,8 @@ export class NavbarComponent {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private store$: Store<INotificationsState | IGroupsState>
+    private store$: Store<INotificationsState | IGroupsState>,
+    private socketService: SocketService
   ) {}
 
   public notificationsList$: Observable<INotification[]> = this.store$.pipe(
@@ -40,8 +46,9 @@ export class NavbarComponent {
   }
 
   logout(): void {
-    this.auth.logout()
-    this.router.navigateByUrl('/auth/login')
+    this.auth.logout();
+    this.socketService.disconnect();
+    this.router.navigateByUrl('/auth/login');
   }
 
   getImgFromBase64(imgStr: string): string {
