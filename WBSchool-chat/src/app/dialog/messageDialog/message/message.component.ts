@@ -56,8 +56,6 @@ export class MessageComponent implements OnInit {
   userData: IUserData | undefined;
   imgInput = false;
 
-  allMessages: Object[] = [];
-
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -73,7 +71,7 @@ export class MessageComponent implements OnInit {
     tap(() => {
       setTimeout(() => {
         this.changeScroll();
-      }, 0);
+      }, 300);
     })
   );
 
@@ -224,7 +222,7 @@ export class MessageComponent implements OnInit {
     );
   }
 
-  getTheLink(message: string) {
+  separateTheLink(message: string) {
     let str = message.trim();
     let strArr = str.split(' ');
     let pic = '';
@@ -234,13 +232,11 @@ export class MessageComponent implements OnInit {
         strArr.splice(strArr.indexOf(word), 1);
       }
     });
-
     return {picUrl: pic, mess: strArr.join(' ') };
   }
-
+/*
   sliceLinkImage(item: string) {
     let empty = item.slice(0, item.indexOf(' '));
-    console.log(empty);
     if (item.includes('.png')) {
       if (item.includes('album')) {
         return empty
@@ -268,7 +264,7 @@ export class MessageComponent implements OnInit {
       }
       else return item.slice(0, item.indexOf(".gif") + 4)
     } else return
-  }
+  } */
 
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);

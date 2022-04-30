@@ -5,11 +5,11 @@
       <span *ngIf="item.owner === myId">{{userName}}</span>
       <span *ngIf="item.owner !== myId" (click)="openProfile(item.username!)">{{(item.username)}}</span>
       <div [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
-        <div>
+        <div *ngIf="separateTheLink(item.text) as messObj">
           <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend"
             class="message__img">
-          <img *ngIf="itemFormat(item.text)" [src]="sliceLinkImage(item.text)" alt="img-send" class="message__img">
-          <p class="message__text">{{item.text}}</p>
+          <img *ngIf="itemFormat(item.text)" [src]="messObj.picUrl" alt="img-send" class="message__img">
+          <p class="message__text">{{messObj.mess}}</p>
         </div>
       </div>
       <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>
