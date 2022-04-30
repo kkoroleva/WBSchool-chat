@@ -22,6 +22,7 @@ import {
   allChatsMessages,
   deleteMessage,
   editMessage,
+  getAllChatsMessages,
   initDialogs,
   newEditMessage,
   pushToMessages,
@@ -35,6 +36,7 @@ import {
   MessageSocketService,
 } from 'src/app/socket/message-socket.service';
 import { Actions, ofType } from '@ngrx/effects';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-message',
@@ -110,6 +112,7 @@ export class MessageComponent implements OnInit {
       .onDeleteMessage()
       .subscribe((message: IDeleteMessage) => {
         this.store$.dispatch(deleteMessage({ id: message.messageId }));
+        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId }));
       });
     this.actions$
       .pipe(
@@ -131,7 +134,6 @@ export class MessageComponent implements OnInit {
 
         this.store$.dispatch(deleteLastGroupMessage({ id }));
       });
-
     this.messageSocketService
       .onUpdateMessage()
       .subscribe((message: IMessage) => {
@@ -143,12 +145,7 @@ export class MessageComponent implements OnInit {
             messageId: message._id!,
           })
         );
-        this.store$.dispatch(
-          allChatsMessages({
-            chatId: message.chatId!,
-            lastMessage: message.text,
-          })
-        );
+        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
       });
   }
 

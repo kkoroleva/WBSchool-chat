@@ -9,6 +9,7 @@ import {
   changeChatGroup,
   deleteChatFriend,
   loadFriends,
+  outFromChatFriend,
 } from '../store/actions/groups.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
@@ -24,7 +25,6 @@ import {
   MessageSocketService,
 } from '../socket/message-socket.service';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
-import { SocketService } from '../socket/socket.service';
 import { IMessage } from '../dialog/dialog';
 
 @Component({
@@ -75,17 +75,12 @@ export class PrivateComponent implements OnInit {
     this.messageSocketService
       .onDeleteMessage()
       .subscribe((message: IDeleteMessage) => {
-        // this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
+        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
       });
     this.messageSocketService
       .onUpdateMessage()
       .subscribe((message: IMessage) => {
-        this.store$.dispatch(
-          allChatsMessages({
-            chatId: message.chatId!,
-            lastMessage: message.text,
-          })
-        );
+        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
       });
   }
 
@@ -106,10 +101,10 @@ export class PrivateComponent implements OnInit {
     });
   }
 
-  deleteChat(_id: string) {
-    let result = confirm('Вы точно хотите удалить чат?');
+  outFromChat(_id: string, owner: string) {
+    let result = confirm('Вы точно хотите выйти из чата?');
     if (!!result) {
-      this.store$.dispatch(deleteChatFriend({ chatId: _id }));
+      this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: owner }));
       this.store$.dispatch(loadFriends());
     }
   }
