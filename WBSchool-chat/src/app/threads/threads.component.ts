@@ -6,6 +6,45 @@ import { DialogService } from '../dialog/dialog.service';
 import { MessageComponent } from '../dialog/messageDialog/message/message.component';
 import { IComment, IThread } from './thread';
 
+const mockThreads: IThread[] = [
+  {
+    ownerID: '12345678909876543',
+    ownerName: 'Kkoroleva',
+    ownerThumbnail: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
+    isActive: true,
+    basicPost: {
+      date: '12/04/2022 12:44PM',
+      img: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
+      text: 'Me, when I do not have to do layout with Material UI',
+    },
+    comments: [
+      {
+        authorID: '12345678909876543',
+        authorName: 'Everyone',
+        post: {
+          date: '14/04/2022 12:04PM',
+          text: 'Funny. Not funny'
+        }
+      },
+      {
+        authorID: '12345678909876543',
+        authorName: 'Everyone',
+        post: {
+          date: '14/04/2022 12:04PM',
+          text: 'Funny. Not funny'
+        }
+      },
+      {
+        authorID: '12345678909876543',
+        authorName: 'Everyone',
+        post: {
+          date: '14/04/2022 12:04PM',
+          text: 'Funny. Not funny'
+        }
+      },
+    ],
+  },
+];
 @Component({
   selector: 'app-threads',
   templateUrl: './threads.component.html',
@@ -23,52 +62,9 @@ export class ThreadsComponent implements OnInit {
   username: string = '';
   idUser: string = '';
 
-  mockThreads: IThread[] = [
-    {
-      ownerID: '12345678909876543',
-      ownerName: 'Kkoroleva',
-      ownerThumbnail:
-        'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
-      isActive: true,
-      basicPost: {
-        date: '12/04/2022 12:44PM',
-        img: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
-        text: 'Me, when I do not have to do layout with Material UI',
-      },
-      comments: [
-        {
-          authorID: '12345678909876543',
-          authorName: 'Everyone',
-          post: {
-            date: '14/04/2022 12:04PM',
-            text: 'Funny. Not funny',
-          },
-        },
-        {
-          authorID: '12345678909876543',
-          authorName: 'Everyone',
-          post: {
-            date: '14/04/2022 12:04PM',
-            text: 'Funny. Not funny',
-          },
-        },
-        {
-          authorID: '12345678909876543',
-          authorName: 'Everyone',
-          post: {
-            date: '14/04/2022 12:04PM',
-            text: 'Funny. Not funny',
-          },
-        },
-      ],
-    },
-  ];
-
-  constructor(
-    private imageCompress: NgxImageCompressService,
-    private serviceDialog: DialogService
-  ) {
-    this.threadsList = [];
+  constructor(private imageCompress: NgxImageCompressService,
+    private serviceDialog: DialogService) {
+    this.threadsList = mockThreads;
   }
   ngOnInit(): void {
     this.getMyInfo(),
@@ -144,11 +140,12 @@ export class ThreadsComponent implements OnInit {
         post: {
           date: '28/04/2022 17:04PM',
           img: undefined,
-          text: this.commentControl.value,
-        },
-      };
-      this.mockThreads[0].comments.push(comment);
-      this.commentControl.reset();
+          text: this.commentControl.value
+        }
+      }
+      this.threadsList[0].comments.push(comment)
+      this.commentControl.reset()
+
     }
   }
 }
