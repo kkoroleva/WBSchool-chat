@@ -14,12 +14,13 @@ import {
   changeChatGroup,
   createChatFriend,
   pushToFriends,
+  returnIntoChatFriend,
 } from '../../store/actions/groups.actions';
 
-import { IGroupsState } from 'src/app/store/reducers/groups.reducers';
-import { selectUser } from 'src/app/store/selectors/auth.selectors';
-import { selectContacts } from 'src/app/store/selectors/contacts.selectors';
-import { selectFriends } from 'src/app/store/selectors/groups.selectors';
+import { IGroupsState } from './../../store/reducers/groups.reducers';
+import { selectUser } from './../../store/selectors/auth.selectors';
+import { selectContacts } from './../../store/selectors/contacts.selectors';
+import { selectFriends } from './../../store/selectors/groups.selectors';
 import { IPrivate } from '../private';
 
 @Component({
@@ -79,7 +80,6 @@ export class CreatePrivateChatComponent implements OnInit {
 
   createPrivateChat(): void {
     const username: string = this.contactsControl.value.trim();
-    if (this.form.valid) {
       let clone: IPrivate | undefined;
       this.store$.pipe(select(selectFriends))
       .subscribe((chats: IPrivate[]) => {
@@ -87,17 +87,17 @@ export class CreatePrivateChatComponent implements OnInit {
       })
       if (!clone) {
         this.user$.subscribe({
-          next: (user) =>
-            this.store$.dispatch(
-              createChatFriend({ username, ownerUsername: user.username })
-            ),
-          complete: () => console.log('complete'),
+          next: user => this.store$.dispatch(
+              createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
+          ),
+            // this.store$.dispatch(
+            //   returnIntoChatFriend({ chatId: '626d11083c8b9a7cfa5706cf', users: [user._id, '626181d4337f4b908cbbaa71']})
+            // ),
         });
       } else {
         this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
         this.router.navigateByUrl('/chat');
       }
-    }
     this.dialogRef.close();
   }
 

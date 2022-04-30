@@ -1,7 +1,9 @@
 import {
+  allGroupsMessages,
   changeLoadFriends,
   chatGroupError,
   deleteFromGroups,
+  deleteLastGroupMessage,
   editToGroups,
   loadFriends,
   pushToFriends,
@@ -15,10 +17,13 @@ import {
   changeLoadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
-import { IPrivate } from 'src/app/friends/private';
-import { IUser } from 'src/app/groups/user';
+import { IPrivate } from './../../friends/private';
+import { IUser } from './../../groups/user';
+import { IMessage } from './../../dialog/dialog';
 
 export const groupsNode = 'Groups';
+
+export const groupsMessagesNode = 'Groups messages';
 
 export interface IGroupsState {
   groups: IGroup[];
@@ -27,6 +32,7 @@ export interface IGroupsState {
   friends: IPrivate[];
   chatGroup: string;
   error: string;
+  lastMessages: IGroupsMessages[];
 }
 
 export interface IGroup {
@@ -49,7 +55,14 @@ const initialState: IGroupsState = {
   friends: [],
   chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
   error: '',
+  lastMessages: [],
 };
+
+export interface IGroupsMessages {
+  chatId: string;
+  lastMessage: string;
+  messageId: string;
+}
 
 export const groupsReducer = createReducer(
   initialState,
@@ -106,4 +119,21 @@ export const groupsReducer = createReducer(
       (friendChat) => friendChat._id !== action.chatId
     ),
   })),
+  on(allGroupsMessages, (state, action) => ({
+    ...state,
+    lastMessages: [
+      ...state.lastMessages.filter((chat) => chat.chatId !== action.chatId),
+      {
+        chatId: action.chatId,
+        lastMessage: action.lastMessage,
+        messageId: action.messageId,
+      },
+    ],
+  })),
+  on(deleteLastGroupMessage, (state, action) => ({
+    ...state,
+    lastMessages: state.lastMessages.filter(
+      (chat) => chat.messageId !== action.id
+    ),
+  }))
 );

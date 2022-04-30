@@ -8,6 +8,12 @@ export interface IMessage {
     chatId?: string;
     username?: string;
     avatar?: string;
+    lastMessage?: string;
+}
+
+export interface IDeleteMessage {
+    messageId: string;
+    chatId: string;
 }
 
 export interface User {

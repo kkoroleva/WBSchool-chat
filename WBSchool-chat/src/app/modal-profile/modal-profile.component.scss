@@ -30,6 +30,7 @@
 	}
 
 	.profile__title {
+		font-family: "Raleway", sans-serif;
 		padding: 26px 0 0 39px;
 		font-style: normal;
 		font-weight: 600;
@@ -64,11 +65,11 @@
 			transition: 0.5s;
 
 			.profile__user-info_name_username {
+				font-family: "Raleway", sans-serif;
 				font-style: normal;
 				font-weight: 600;
 				font-size: 25px;
 				line-height: 38px;
-				text-overflow: clip;
 				overflow: hidden;
 				text-overflow: ellipsis " [..]";
 				word-break: break-all;
@@ -175,6 +176,7 @@
 			cursor: pointer;
 
 			.profile__menu_item_name {
+				font-family: "Raleway", sans-serif;
 				display: flex;
 				flex-direction: row;
 			}
@@ -241,10 +243,6 @@
 	@media (max-width: 350px) {
 		width: 250px;
 	}
-
-	// .displayZeroClass {
-	// 	display: none!important;
-	// }
 }
 
 .full_img {

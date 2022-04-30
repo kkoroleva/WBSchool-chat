@@ -6,7 +6,7 @@
       <app-message></app-message>
     </ng-container>
 
-    <p class="err">Choose a chat and start chatting</p>
+    <p *ngIf="!(chatGroup$ | async)" class="err">Choose a chat and start chatting</p>
 
   </div>
 </ng-container>

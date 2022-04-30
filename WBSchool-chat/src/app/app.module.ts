@@ -64,13 +64,13 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
 import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
 import { ModalProfileComponent } from './modal-profile/modal-profile.component';
-import { DecodeImagePipe } from './profile-page/decodeImage.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DragAndDropDirective } from './groups/drag-and-drop.directive';
 import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
 import { PrivateComponent } from './friends/private.component';
 import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
+import { SmileComponent } from './smile/smile.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -111,11 +111,11 @@ const API_URL_PROVIDER: Provider = {
     NavMobileComponent,
     CreatePrivateChatComponent,
     ModalProfileComponent,
-    DecodeImagePipe,
     DragAndDropDirective,
     EditGroupChatComponent,
     OutFromGroupComponent,
     AboutGroupComponent,
+    SmileComponent,
   ],
   imports: [
     BrowserModule,
