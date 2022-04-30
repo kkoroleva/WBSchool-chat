@@ -58,6 +58,8 @@ export class MessageComponent implements OnInit {
   userData: IUserData | undefined;
   imgInput = false;
 
+  allMessages: Object[] = [];
+
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
   );
@@ -73,7 +75,7 @@ export class MessageComponent implements OnInit {
     tap(() => {
       setTimeout(() => {
         this.changeScroll();
-      }, 300);
+      }, 0);
     })
   );
 
@@ -203,18 +205,20 @@ export class MessageComponent implements OnInit {
     this.message.setValue(text);
   }
 
+
+
   sendMessage(): void {
     if (this.message.value.trim() || (this.message.value.trim() && this.imageOrFile.length > 0)) {
       this.changeScroll();
       if (this.isEditMessage) {
         this.socketService.updateMessage(this.chatID, {
-          text: this.message.value,
+          text: this.message.value.trim(),
           _id: this.editMessageID,
         });
         this.isEditMessage = false;
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
-          text: this.message.value,
+          text: this.message.value.trim(),
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
         };
@@ -240,8 +244,23 @@ export class MessageComponent implements OnInit {
     );
   }
 
+  getTheLink(message: string) {
+    let str = message.trim();
+    let strArr = str.split(' ');
+    let pic = '';
+    strArr.forEach(word => {
+      if (this.itemFormat(word)) {
+        pic = word;
+        strArr.splice(strArr.indexOf(word), 1);
+      }
+    });
+
+    return {picUrl: pic, mess: strArr.join(' ') };
+  }
+
   sliceLinkImage(item: string) {
     let empty = item.slice(0, item.indexOf(' '));
+    console.log(empty);
     if (item.includes('.png')) {
       if (item.includes('album')) {
         return empty
