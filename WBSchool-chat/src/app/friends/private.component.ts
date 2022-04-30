@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IPrivate } from './private';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -14,10 +14,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { IUserData } from '../auth/interfaces';
-import { allChatsMessages, getAllChatsMessages } from '../store/actions/dialog.action';
+import {
+  allChatsMessages,
+  getAllChatsMessages,
+} from '../store/actions/dialog.action';
 import { IAllMessages } from '../store/reducers/dialog.reducer';
+import {
+  IDeleteMessage,
+  MessageSocketService,
+} from '../socket/message-socket.service';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
-import { SocketService } from '../socket/socket.service';
 import { IMessage } from '../dialog/dialog';
 
 @Component({
@@ -30,9 +36,7 @@ export class PrivateComponent implements OnInit {
     select(selectFriends)
   );
 
-  public user$: Observable<IUserData> = this.store$.pipe(
-    select(selectUser)
-  );
+  public user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
   public allLastMessages$: Observable<IAllMessages[]> = this.store$.pipe(
     select(selectAllChatsMessages)
@@ -42,7 +46,7 @@ export class PrivateComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private store$: Store<IGroupsState>,
-    private socketService: SocketService
+    private messageSocketService: MessageSocketService
   ) {}
 
   ngOnInit(): void {
@@ -50,34 +54,40 @@ export class PrivateComponent implements OnInit {
     let chatsLength: number | undefined = 0;
     this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {
       chatsLength = messages.length;
-    })
+    });
     this.friendsState$.subscribe((chats: IPrivate[]) => {
       // console.log(chats)
       if (chatsLength === 0) {
-        chats.forEach((chat: IPrivate) => {  
-          this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
-        })
+        chats.forEach((chat: IPrivate) => {
+          this.store$.dispatch(getAllChatsMessages({ chatId: chat._id! }));
+        });
       }
-    })
+    });
     this.getLastMessages();
   }
 
   getLastMessages() {
-    this.socketService.onMessage().subscribe((message: IMessage) => {
-        this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
+    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(
+        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
+      );
     });
-    this.socketService.onDeleteMessage().subscribe((message: any) => {
-      this.store$.dispatch(getAllChatsMessages({chatId: message.chatId!}));
-    });
-    this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(getAllChatsMessages({chatId: message.chatId!}));
-    })
+    this.messageSocketService
+      .onDeleteMessage()
+      .subscribe((message: IDeleteMessage) => {
+        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
+      });
+    this.messageSocketService
+      .onUpdateMessage()
+      .subscribe((message: IMessage) => {
+        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
+      });
   }
 
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
-    localStorage.setItem('chatID', chatId)
-      this.router.navigateByUrl('/chat');
+    localStorage.setItem('chatID', chatId);
+    this.router.navigateByUrl('/chat');
   }
 
   getFriend(data: IPrivate): string {
@@ -92,7 +102,7 @@ export class PrivateComponent implements OnInit {
   }
 
   outFromChat(_id: string, owner: string) {
-    let result = confirm('Вы точно хотите выйти из чата?')
+    let result = confirm('Вы точно хотите выйти из чата?');
     if (!!result) {
       this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: owner }));
       setTimeout(() => {

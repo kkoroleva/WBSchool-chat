@@ -1,12 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import { IMessage } from '../../dialog/dialog';
-import { 
-    allChatsMessages, 
-    deleteMessage, 
-    editMessage, initDialogs, 
-    loadDialogs, 
-    newGetInfoChat,
-    pushToMessages, 
+import {
+  allChatsMessages,
+  deleteMessage,
+  editMessage,
+  initDialogs,
+  loadDialogs,
+  newGetInfoChat,
+  pushToMessages,
 } from '../actions/dialog.action';
 
 export const dialogNode = 'Dialog';
@@ -14,17 +15,17 @@ export const dialogNode = 'Dialog';
 export const dialogsNode = 'Dialogs';
 
 export interface IDialogState {
-    messages: IMessage[],
-    chatInfo: IChatInfo
+  messages: IMessage[];
+  chatInfo: IChatInfo;
 }
 
 export interface IAllMessages {
-    chatId: string,
-    lastMessage: string
+  chatId: string;
+  lastMessage: string;
 }
 
 export interface IAllChatsMessages {
-    chatsMessages: IAllMessages[]
+  chatsMessages: IAllMessages[];
 }
 
 export interface IChatInfo {
@@ -65,45 +66,48 @@ const initialState: IDialogState = {
 }
 
 const initialState2: IAllChatsMessages = {
-    chatsMessages: []
-}
+  chatsMessages: [],
+};
 
 export const dialogReducer = createReducer(
-    initialState,
-    on(initDialogs, (state) => ({
-        ...state,
-        messages: state.messages
-    })),
-    on(loadDialogs, (state, action) => ({
-        ...state,
-        messages: action.messages
-    })),
-    on(pushToMessages, (state, action) => ({
-        ...state,
-        messages: [...state.messages, action.message]
-    })),
-    on(deleteMessage, (state, action) => ({
-        ...state,
-        messages: state.messages.filter((message) => {
-            return message._id !== action.id
-        })
-    })),
-    on(editMessage, (state, action) => ({
-        ...state,
-        messages: state.messages.map((message) => {
-            return action.message._id === message._id ? action.message : message
-        })
-    })),
-    on(newGetInfoChat, (state, action) => ({
-        ...state,
-        chatInfo: action.chatInfo
-    }))
-)
+  initialState,
+  // on(initDialogs, (state) => ({
+  //     ...state,
+  //     messages: state.messages
+  // })),
+  on(loadDialogs, (state, action) => ({
+    ...state,
+    messages: action.messages,
+  })),
+  on(pushToMessages, (state, action) => ({
+    ...state,
+    messages: [...state.messages, action.message],
+  })),
+  on(deleteMessage, (state, action) => ({
+    ...state,
+    messages: state.messages.filter((message) => {
+      return message._id !== action.id;
+    }),
+  })),
+  on(editMessage, (state, action) => ({
+    ...state,
+    messages: state.messages.map((message) => {
+      return action.message._id === message._id ? action.message : message;
+    }),
+  })),
+  on(newGetInfoChat, (state, action) => ({
+    ...state,
+    chatInfo: action.chatInfo,
+  }))
+);
 
 export const allChatsMessagesReducer = createReducer(
-    initialState2,
-    on(allChatsMessages, (state, action) => ({
-        ...state,
-        chatsMessages: [...state.chatsMessages.filter((chat) => chat.chatId !== action.chatId), {chatId: action.chatId, lastMessage: action.lastMessage}] 
-    }))
-)
+  initialState2,
+  on(allChatsMessages, (state, action) => ({
+    ...state,
+    chatsMessages: [
+      ...state.chatsMessages.filter((chat) => chat.chatId !== action.chatId),
+      { chatId: action.chatId, lastMessage: action.lastMessage },
+    ],
+  }))
+);

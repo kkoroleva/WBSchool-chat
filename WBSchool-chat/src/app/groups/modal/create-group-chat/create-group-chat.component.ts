@@ -9,11 +9,12 @@ import {
   Component,
   DoCheck,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { map, Observable, startWith, Subscriber } from 'rxjs';
+import { map, Observable, startWith, Subscriber, Subscription } from 'rxjs';
 import { IGroup } from '../../group';
 import { select, Store } from '@ngrx/store';
 import { IGroupsState } from './../../../store/reducers/groups.reducers';
@@ -22,17 +23,22 @@ import {
   createChatGroup,
   pushToGroups,
 } from './../../../store/actions/groups.actions';
-import { selectChatGroupError } from './../../../store/selectors/groups.selectors';
+import {
+  selectChatGroupError,
+  selectGroups,
+} from './../../../store/selectors/groups.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';
+import { INotification } from 'src/app/store/reducers/notifications.reducers';
+import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
 
 @Component({
   selector: 'groups-create-group-chat',
   templateUrl: './create-group-chat.component.html',
   styleUrls: ['./../../groups.component.scss'],
 })
-export class CreateGroupChatComponent implements OnInit, DoCheck {
+export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('contacts') contactsMatChipList!: MatChipList;
 
@@ -52,11 +58,14 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
     select(selectContacts),
     map((contacts) => contacts.contacts)
   );
+  private subscription!: Subscription;
+  private groups$ = this.store$.pipe(select(selectGroups));
 
   constructor(
     private dialogRef: MatDialogRef<CreateGroupChatComponent>,
     private store$: Store<IGroupsState>,
-    private actions$: Actions
+    private actions$: Actions,
+    private notificationSocketService: NotificationSocketService
   ) {}
 
   ngOnInit(): void {
@@ -115,7 +124,22 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
 
     if (this.form.valid) {
       this.store$.dispatch(createChatGroup({ group }));
+      const newNotification: INotification = {
+        text: `Вы были добавлены в группу ${group.name}`,
+      };
 
+      this.subscription = this.groups$.subscribe((groups) => {
+        const currentGroup = groups.find(
+          (currentGroup) => currentGroup.name === group.name
+        );
+        if (currentGroup?._id) {
+          this.notificationSocketService.createGroupNotification(
+            newNotification,
+            currentGroup._id,
+            currentGroup.users!
+          );
+        }
+      });
       this.dialogRef.afterClosed().subscribe(() => {
         this.store$.dispatch(chatGroupError({ error: '' }));
       });
@@ -234,5 +258,11 @@ export class CreateGroupChatComponent implements OnInit, DoCheck {
     return this.contactsList.filter((contact) =>
       contact.username.toLowerCase().includes(filterUsername)
     );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
