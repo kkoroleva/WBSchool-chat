@@ -31,11 +31,11 @@ import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../dialog';
 import { IUserData } from '../../../auth/interfaces';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
+import { Actions, ofType } from '@ngrx/effects';
 import {
   IDeleteMessage,
   MessageSocketService,
-} from 'src/app/socket/message-socket.service';
-import { Actions, ofType } from '@ngrx/effects';
+} from '../../../socket/message-socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
@@ -103,9 +103,6 @@ export class MessageComponent implements OnInit {
       this.store$.dispatch(
         allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
       );
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
     });
 
     this.messageSocketService
@@ -130,8 +127,7 @@ export class MessageComponent implements OnInit {
               getAllGroupsMessages({ chatId: message.chatId })
             );
           }
-        });
-
+        })
         this.store$.dispatch(deleteLastGroupMessage({ id }));
       });
     this.messageSocketService

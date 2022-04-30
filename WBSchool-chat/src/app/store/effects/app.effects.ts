@@ -194,11 +194,13 @@ export class AppEffects {
   returnIntoChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(returnIntoChatFriend),
-      mergeMap(({ chatId, users }) =>
-        this.http.patch<any>(`${this.urlApi}/chats/${chatId}`, { users }).pipe(
-          map((id) => updateChatFriends({ chatId: id })),
-          catchError((err) => of(chatGroupError({ error: err.error.message })))
-        )
+      mergeMap(({chatId, users}) =>
+        this.http
+          .patch<string>(`${this.urlApi}/chats/${chatId}`, {users})
+          .pipe(map((id) => updateChatFriends({chatId: id})),
+            catchError((err) =>
+              of(chatGroupError({error: err.error.message}))
+            ))
       )
     );
   });
@@ -219,8 +221,8 @@ export class AppEffects {
       ofType(outFromChatFriend),
       mergeMap(({ chatId, owner }) =>
         this.http
-          .patch<any>(`${this.urlApi}/chats/${chatId}/exit`, owner)
-          .pipe(map((id) => updateChatFriends({ chatId: id })))
+          .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, owner)
+          .pipe(map((id) => updateChatFriends({chatId: id})))
       )
     );
   });

@@ -11,11 +11,6 @@ export interface IMessage {
     lastMessage?: string;
 }
 
-export interface IDeleteMessage {
-    messageId: string;
-    chatId: string;
-}
-
 export interface User {
     _id: string;
     username: string;

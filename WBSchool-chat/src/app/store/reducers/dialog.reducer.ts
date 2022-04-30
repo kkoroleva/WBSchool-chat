@@ -29,39 +29,41 @@ export interface IAllChatsMessages {
 }
 
 export interface IChatInfo {
-  _id: string;
-  name: string;
-  formatImage: string;
-  about: string;
-  isNotifications: boolean;
-  isRead: boolean;
-  isActive: boolean;
-  owner: string;
-  __v: number;
-  chatGroup: string;
-  avatar: string;
-  users: string[];
-  usernames: string[];
+    _id: string,
+    name: string,
+    avatars: any[],
+    formatImage: string,
+    about: string,
+    isNotifications: boolean,
+    isRead: boolean,
+    isActive: boolean,
+    owner: string, 
+    __v: number, 
+    chatGroup: string,
+    avatar : string,
+    users: string[],
+    usernames: string[]
 }
 
 const initialState: IDialogState = {
-  messages: [],
-  chatInfo: {
-    _id: '',
-    name: '',
-    formatImage: '',
-    about: '',
-    isNotifications: false,
-    isRead: false,
-    isActive: false,
-    owner: '',
-    __v: 0,
-    chatGroup: '',
-    avatar: '',
-    users: [],
-    usernames: [],
-  },
-};
+    messages: [],
+    chatInfo: {
+        _id: "",
+        name: "",
+        avatars: [],
+        formatImage: "", 
+        about: "", 
+        isNotifications: false, 
+        isRead: false, 
+        isActive: false, 
+        owner: "", 
+        __v: 0,
+        chatGroup: "",
+        avatar: "",
+        users:[],
+        usernames: []
+    }
+}
 
 const initialState2: IAllChatsMessages = {
   chatsMessages: [],

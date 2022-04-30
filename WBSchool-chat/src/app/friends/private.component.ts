@@ -7,7 +7,6 @@ import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import {
   changeChatGroup,
-  deleteChatFriend,
   loadFriends,
   outFromChatFriend,
 } from '../store/actions/groups.actions';
@@ -57,6 +56,7 @@ export class PrivateComponent implements OnInit {
       chatsLength = messages.length;
     });
     this.friendsState$.subscribe((chats: IPrivate[]) => {
+      // console.log(chats)
       if (chatsLength === 0) {
         chats.forEach((chat: IPrivate) => {
           this.store$.dispatch(getAllChatsMessages({ chatId: chat._id! }));
@@ -105,7 +105,9 @@ export class PrivateComponent implements OnInit {
     let result = confirm('Вы точно хотите выйти из чата?');
     if (!!result) {
       this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: owner }));
-      this.store$.dispatch(loadFriends());
+      setTimeout(() => {
+        this.store$.dispatch(loadFriends());
+      }, 200)
     }
   }
 }
