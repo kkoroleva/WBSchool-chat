@@ -1,3 +1,4 @@
+import { ConnectEvent } from './../socket/event';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -17,6 +18,7 @@ import { selectElNotifications } from '../store/selectors/notifications.selector
 })
 export class NavbarComponent {
   path: string = window.location.pathname.substring(1);
+  socketService: any;
   constructor(
     private auth: AuthService,
     private router: Router,
