@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
 import {
   changeChatGroup,
+  outFromChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../auth/interfaces';
@@ -89,7 +90,10 @@ export class HeaderComponent implements OnInit {
 
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
-      this.router.navigateByUrl('/home');
+      this.store$.dispatch(outFromChatFriend({ chatId: chatInfo._id, owner: chatInfo.owner }));
+      setTimeout(() => {
+        this.router.navigateByUrl('/home');
+      }, 200)
     }
   }
 

@@ -30,6 +30,7 @@ export interface IAllChatsMessages {
 export interface IChatInfo {
     _id: string,
     name: string,
+    avatars: any[],
     formatImage: string,
     about: string,
     isNotifications: boolean,
@@ -48,6 +49,7 @@ const initialState: IDialogState = {
     chatInfo: {
         _id: "",
         name: "",
+        avatars: [],
         formatImage: "", 
         about: "", 
         isNotifications: false, 

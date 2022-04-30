@@ -26,11 +26,10 @@ import {
   pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
-import { IDeleteMessage, IMessage } from '../../dialog';
+import { IMessage } from '../../dialog';
 import { IUserData } from '../../../auth/interfaces';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { SocketService } from '../../../socket/socket.service';
-import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-message',

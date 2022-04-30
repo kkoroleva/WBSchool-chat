@@ -1,15 +1,20 @@
 <header class="header" *ngIf="chatInfo$ | async as chatInfo">
     <section class="header__info" (click)="modalClick()">
-        <div class="header__avatar">
-            <img [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
-                <span *ngIf="chatInfo.users.length === 2 "></span>
-        </div>        
-            <div class="header__name" *ngIf="user$ |async as user">
+        <ng-container *ngIf="user$ |async as user">
+            <div class="header__avatar" *ngIf="user$ |async as user">
+                <img *ngIf="chatInfo.avatars.length === 0" [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
+                <img *ngIf="chatInfo.avatars.length !== 0" 
+                [src]="chatInfo.usernames[0] === user.username ? chatInfo.avatars[0].ownerFormatImage + chatInfo.avatars[0].ownerAvatar : chatInfo.avatars[1].formatImage + chatInfo.avatars[1].avatar" 
+                alt="avatar" width="76px" height="75px" class="avatar_img">
+                    <span *ngIf="chatInfo.users.length === 2 "></span>
+            </div>        
+            <div class="header__name">
                 <p class="name" *ngIf="chatInfo.users.length > 2">{{chatInfo.name}}</p>
                 <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
                 <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
                 <span *ngIf="chatInfo.users.length === 2">Online</span>
             </div>
+        </ng-container>
     </section>
 
     <section class="header__icon" *ngIf="user$ |async as user">
