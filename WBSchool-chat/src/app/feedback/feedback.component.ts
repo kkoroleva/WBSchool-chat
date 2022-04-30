@@ -29,7 +29,9 @@ export class FeedbackComponent implements OnInit {
           '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
         ),
       ]), 
-      textUser: new FormControl(''),
+      textUser: new FormControl('', [
+        Validators.minLength(10),
+      ]),
     })
   }
   onImgAdd() {
@@ -41,7 +43,7 @@ export class FeedbackComponent implements OnInit {
   sendFeedBack(){
     console.log(this.test)
 
-    if (this.feedBackForm.value.trim() || (this.feedBackForm.value.trim() && this.imageOrFile.length > 0)) {
+    if (this.feedBackForm.value.emailUser.trim() || (this.feedBackForm.value.textUser.trim() && this.imageOrFile.length > 0)) {
      
       let feedBack: IFeedBackMessage = {
         user: this.feedBackForm.value.nameUser,

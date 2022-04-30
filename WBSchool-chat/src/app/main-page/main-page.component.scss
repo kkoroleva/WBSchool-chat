@@ -24,10 +24,20 @@ $max-width: 1440px;
 }
 
 .main__footer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: auto;
+  padding: 50px;
+  background: white;
   text-align: center;
+  hr{
+    border: 0.5px solid #aca7a7;
+    height: auto;
+  }
   .footer__btn{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 
     button{
       background: white;
@@ -35,6 +45,7 @@ $max-width: 1440px;
       height: 50px;
       border-radius: 50%;
       border: none;
+      margin-left: 5px;
     }
     button:hover{
     animation: 1200ms ease 0s normal none 1 running shake;
