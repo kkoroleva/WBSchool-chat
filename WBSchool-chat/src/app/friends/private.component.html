@@ -17,7 +17,7 @@
               width="52" height="52">
               <img *ngIf="friend.usernames[0] === user.username && friend.avatars.length !== 0" class="friends__thumbnail" [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar || '/assets/not-found.png'" alt="Your best friend face"
                 width="52" height="52">
-              <img *ngIf="friend.usernames[1] === user.username" class="friends__thumbnail" [src]="friend.avatars[1].formateImage + friend.avatars[1].avatar || '/assets/not-found.png'" alt="Your best friend face"
+              <img *ngIf="friend.usernames[1] === user.username && friend.avatars.length !== 0" class="friends__thumbnail" [src]="friend.avatars[1].formateImage + friend.avatars[1].avatar || '/assets/not-found.png'" alt="Your best friend face"
               width="52" height="52">
             </div>
             <div class="friends__item-text">

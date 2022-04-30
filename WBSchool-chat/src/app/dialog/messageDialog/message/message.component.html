@@ -5,12 +5,12 @@
       <span *ngIf="item.owner === myId">{{userName}}</span>
       <span *ngIf="item.owner !== myId" (click)="openProfile(item.username!)">{{(item.username)}}</span>
       <div [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
-        <div *ngIf="separateTheLink(item.text) as messObj">
-          <img *ngIf="!!item.imageOrFile" [src]="item.formatImage+item.imageOrFile" alt="youImgSend"
+        <ng-container *ngIf="separateTheLink(item.text) as messObj">
+          <img *ngIf="messObj.url || !!item.imageOrFile"
+            [src]="!!item.imageOrFile? item.formatImage+item.imageOrFile : messObj.url" alt="img-send"
             class="message__img">
-          <img *ngIf="itemFormat(item.text)" [src]="messObj.picUrl" alt="img-send" class="message__img">
-          <p class="message__text">{{messObj.mess}}</p>
-        </div>
+          <p class="message__text">{{messObj.text}}</p>
+        </ng-container>
       </div>
       <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>
       <mat-menu #block="matMenu">
@@ -47,7 +47,7 @@
         [ngClass]="{'input__link': itemFormat(input.value)}">
       <div class="smile__more" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu" yPosition="above">
-           <app-smile></app-smile>
+          <app-smile></app-smile>
         </mat-menu>
         <mat-icon>tag_faces</mat-icon>
       </div>

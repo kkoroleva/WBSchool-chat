@@ -232,7 +232,7 @@ export class MessageComponent implements OnInit {
         strArr.splice(strArr.indexOf(word), 1);
       }
     });
-    return {picUrl: pic, mess: strArr.join(' ') };
+    return {url: pic, text: strArr.join(' ') };
   }
 /*
   sliceLinkImage(item: string) {
