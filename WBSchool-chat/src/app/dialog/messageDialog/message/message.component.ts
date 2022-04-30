@@ -1,7 +1,5 @@
 import {
-  allGroupsMessages,
-  deleteLastGroupMessage,
-  getAllGroupsMessages,
+  allGroupsMessages
 } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -22,15 +20,15 @@ import {
   allChatsMessages,
   deleteMessage,
   editMessage,
+  getAllChatsMessages,
   initDialogs,
   newEditMessage,
   pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
-import { IMessage } from '../../dialog';
+import { IDeleteMessage, IMessage } from '../../dialog';
 import { IUserData } from '../../../auth/interfaces';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
-import { Actions, ofType } from '@ngrx/effects';
 import { SocketService } from '../../../socket/socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 
@@ -84,13 +82,14 @@ export class MessageComponent implements OnInit {
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
     private socketService: SocketService,
-    private modalServ: ModalProfileService,
-    private actions$: Actions
+    private modalServ: ModalProfileService
   ) {}
 
   private initIoConnection(): void {
     this.socketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(pushToMessages({ message }));
+      if (this.chatID === message.chatId) {
+        this.store$.dispatch(pushToMessages({ message }));
+      }
       this.store$.dispatch(
         allGroupsMessages({
           chatId: message.chatId!,
@@ -104,29 +103,10 @@ export class MessageComponent implements OnInit {
       this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
 
-    this.socketService.onDeleteMessage().subscribe((messageId: string) => {
-      this.store$.dispatch(deleteMessage({ id: messageId }));
+    this.socketService.onDeleteMessage().subscribe((message: any) => {
+      this.store$.dispatch(deleteMessage({ id: message.messageId }));
+      this.store$.dispatch(getAllChatsMessages({chatId: message.chatId}));
     });
-    this.actions$
-      .pipe(
-        ofType(deleteMessage),
-        tap(() =>
-          this.lastGroupsMessages$.subscribe(
-            (messages) => (this.lastGroupsMessages = messages)
-          )
-        )
-      )
-      .subscribe(({ id }) => {
-        this.lastGroupsMessages.forEach((message) => {
-          if (message.messageId === id) {
-            this.store$.dispatch(
-              getAllGroupsMessages({ chatId: message.chatId })
-            );
-          }
-        });
-
-        this.store$.dispatch(deleteLastGroupMessage({ id }));
-      });
 
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
       this.store$.dispatch(editMessage({ message }));
@@ -137,7 +117,7 @@ export class MessageComponent implements OnInit {
           messageId: message._id!,
         })
       );
-      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
+      this.store$.dispatch(getAllChatsMessages({chatId: message.chatId!}));
     });
   }
 

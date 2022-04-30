@@ -19,7 +19,7 @@
         </a>
         <mat-menu #blockMenu="matMenu">
             <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
-                <span>Очистить чат</span>
+                <span>Удалить чат</span>
             </button>
             <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2  && chatInfo.owner === user._id"  mat-menu-item>
                 <span>Редактировать чат</span>

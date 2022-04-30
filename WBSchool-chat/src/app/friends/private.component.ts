@@ -9,6 +9,7 @@ import {
   changeChatGroup,
   deleteChatFriend,
   loadFriends,
+  outFromChatFriend,
 } from '../store/actions/groups.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
@@ -18,7 +19,7 @@ import { allChatsMessages, getAllChatsMessages } from '../store/actions/dialog.a
 import { IAllMessages } from '../store/reducers/dialog.reducer';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
 import { SocketService } from '../socket/socket.service';
-import { IMessage } from '../dialog/dialog';
+import { IDeleteMessage, IMessage } from '../dialog/dialog';
 
 @Component({
   selector: 'app-private',
@@ -52,6 +53,7 @@ export class PrivateComponent implements OnInit {
       chatsLength = messages.length;
     })
     this.friendsState$.subscribe((chats: IPrivate[]) => {
+      console.log(chats)
       if (chatsLength === 0) {
         chats.forEach((chat: IPrivate) => {  
           this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
@@ -65,11 +67,11 @@ export class PrivateComponent implements OnInit {
     this.socketService.onMessage().subscribe((message: IMessage) => {
         this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
     });
-    this.socketService.onDeleteMessage().subscribe((messageId: string) => {
-      // this.store$.dispatch(getAllChatsMessages({chatId: chat._id!}));
+    this.socketService.onDeleteMessage().subscribe((message: any) => {
+      this.store$.dispatch(getAllChatsMessages({chatId: message.chatId!}));
     });
     this.socketService.onUpdateMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(allChatsMessages({chatId: message.chatId!, lastMessage: message.text}));
+      this.store$.dispatch(getAllChatsMessages({chatId: message.chatId!}));
     })
   }
 
@@ -90,10 +92,10 @@ export class PrivateComponent implements OnInit {
     });
   }
 
-  deleteChat(_id: string) {
-    let result = confirm('Вы точно хотите удалить чат?')
+  outFromChat(_id: string, owner: string) {
+    let result = confirm('Вы точно хотите выйти из чата?')
     if (!!result) {
-      this.store$.dispatch(deleteChatFriend({ chatId: _id }));
+      this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: owner }));
       this.store$.dispatch(loadFriends());
     }
   }

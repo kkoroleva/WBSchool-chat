@@ -31,6 +31,8 @@ import {
   deleteFromGroups,
   getAllGroupsMessages,
   allGroupsMessages,
+  outFromChatFriend,
+  returnIntoChatFriend,
 } from '../actions/groups.actions';
 import {
   catchError,
@@ -221,10 +223,10 @@ export class AppEffects {
   createChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createChatFriend),
-      mergeMap(({username, ownerUsername}) =>
+      mergeMap(({username, ownerUsername, ownerFormatImage, ownerAvatar}) =>
         this.http
           .post<IPrivate>(`${this.urlApi}/chats/private?username=${username}`, {
-            ownerUsername,
+            ownerUsername, ownerFormatImage, ownerAvatar
           })
           .pipe(
             tap(
@@ -239,12 +241,38 @@ export class AppEffects {
     );
   });
 
+  returnIntoChat$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(returnIntoChatFriend),
+      mergeMap(({chatId, users}) =>
+        this.http
+          .patch<any>(`${this.urlApi}/chats/${chatId}`, {users})
+          .pipe(map((id) => updateChatFriends({chatId: id})),
+            catchError((err) =>
+              of(chatGroupError({error: err.error.message}))
+            ))
+      )
+    );
+  });
+
+
   deleteChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deleteChatFriend),
       mergeMap(({chatId}) =>
         this.http
           .delete<string>(`${this.urlApi}/chats/${chatId}`)
+          .pipe(map((id) => updateChatFriends({chatId: id})))
+      )
+    );
+  });
+
+  outFromChat$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(outFromChatFriend),
+      mergeMap(({chatId, owner}) =>
+        this.http
+          .patch<any>(`${this.urlApi}/chats/${chatId}/exit`, owner)
           .pipe(map((id) => updateChatFriends({chatId: id})))
       )
     );
