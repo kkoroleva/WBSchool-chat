@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
 import {
   changeChatGroup,
-  outChatFriend,
+  outFromChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../auth/interfaces';
@@ -50,9 +50,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
-      this.store$.dispatch(getInfoChat({ chatId: id }));
+      const chatId = id;
+      this.store$.dispatch(getInfoChat({ chatId }));
     });
-    this.chatInfo$.subscribe((data) => (this.chatInfo = data));
+    this.chatInfo$.subscribe((data) => {
+      if (data) {
+        this.chatInfo = data;
+      }
+    });
   }
 
   getModalWindow(chatInfo: IChatInfo): void {
@@ -90,7 +95,10 @@ export class HeaderComponent implements OnInit {
 
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
-      this.router.navigateByUrl('/home');
+      this.store$.dispatch(outFromChatFriend({ chatId: chatInfo._id, owner: chatInfo.owner }));
+      setTimeout(() => {
+        this.router.navigateByUrl('/home');
+      }, 200)
     }
   }
 

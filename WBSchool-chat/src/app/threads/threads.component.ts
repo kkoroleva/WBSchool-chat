@@ -6,12 +6,49 @@ import { DialogService } from '../dialog/dialog.service';
 import { MessageComponent } from '../dialog/messageDialog/message/message.component';
 import { IComment, IThread } from './thread';
 
-
-
+const mockThreads: IThread[] = [
+  {
+    ownerID: '12345678909876543',
+    ownerName: 'Kkoroleva',
+    ownerThumbnail: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
+    isActive: true,
+    basicPost: {
+      date: '12/04/2022 12:44PM',
+      img: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
+      text: 'Me, when I do not have to do layout with Material UI',
+    },
+    comments: [
+      {
+        authorID: '12345678909876543',
+        authorName: 'Everyone',
+        post: {
+          date: '14/04/2022 12:04PM',
+          text: 'Funny. Not funny'
+        }
+      },
+      {
+        authorID: '12345678909876543',
+        authorName: 'Everyone',
+        post: {
+          date: '14/04/2022 12:04PM',
+          text: 'Funny. Not funny'
+        }
+      },
+      {
+        authorID: '12345678909876543',
+        authorName: 'Everyone',
+        post: {
+          date: '14/04/2022 12:04PM',
+          text: 'Funny. Not funny'
+        }
+      },
+    ],
+  },
+];
 @Component({
   selector: 'app-threads',
   templateUrl: './threads.component.html',
-  styleUrls: ['./threads.component.scss']
+  styleUrls: ['./threads.component.scss'],
 })
 export class ThreadsComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef;
@@ -22,69 +59,26 @@ export class ThreadsComponent implements OnInit {
   imageOrFile = '';
   formatImage = '';
   threadsList: IThread[];
-  username: string = "";
-  idUser: string = "";
-
-  mockThreads: IThread[] = [
-    {
-      ownerID: '12345678909876543',
-      ownerName: 'Kkoroleva',
-      ownerThumbnail: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
-      isActive: true,
-      basicPost: {
-        date: '12/04/2022 12:44PM',
-        img: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
-        text: 'Me, when I do not have to do layout with Material UI',
-      },
-      comments: [
-        {
-          authorID: '12345678909876543',
-          authorName: 'Everyone',
-          post: {
-            date: '14/04/2022 12:04PM',
-            text: 'Funny. Not funny'
-          }
-        },
-        {
-          authorID: '12345678909876543',
-          authorName: 'Everyone',
-          post: {
-            date: '14/04/2022 12:04PM',
-            text: 'Funny. Not funny'
-          }
-        },
-        {
-          authorID: '12345678909876543',
-          authorName: 'Everyone',
-          post: {
-            date: '14/04/2022 12:04PM',
-            text: 'Funny. Not funny'
-          }
-        },
-      ],
-    },
-  ];
-
-
+  username: string = '';
+  idUser: string = '';
 
   constructor(private imageCompress: NgxImageCompressService,
     private serviceDialog: DialogService) {
-    this.threadsList = [];
+    this.threadsList = mockThreads;
   }
   ngOnInit(): void {
     this.getMyInfo(),
-    tap((resp) => {
-      setTimeout(() => {
-        this.changeScroll();
-      }, 300);
-    })
+      tap((resp) => {
+        setTimeout(() => {
+          this.changeScroll();
+        }, 300);
+      });
   }
   getMyInfo() {
     this.serviceDialog.getMyInfo().subscribe((item) => {
       this.username = item.username;
-      this.idUser = item._id
-      console.log(item)
-    })
+      this.idUser = item._id;
+    });
   }
   addImage(input: any) {
     let imageOrFile = '';
@@ -112,21 +106,21 @@ export class ThreadsComponent implements OnInit {
   }
 
   onImgAdd() {
-    this.imgInput = true
+    this.imgInput = true;
   }
 
   greenBtnClick(input: any) {
     this.addImage(input);
-    this.toggle = !this.toggle
+    this.toggle = !this.toggle;
   }
 
   redBtnClick() {
     this.toggle = !this.toggle;
     this.imageOrFile = '';
-    this.imgInput = false
+    this.imgInput = false;
   }
   sendFileComments() {
-    this.toggle = true
+    this.toggle = true;
   }
   changeScroll(): void {
     if (this.wrapper) {
@@ -135,7 +129,10 @@ export class ThreadsComponent implements OnInit {
     }
   }
   sendComments() {
-    if (this.commentControl.value.trim() || (this.commentControl.value.trim() && this.imageOrFile.length > 0)) {
+    if (
+      this.commentControl.value.trim() ||
+      (this.commentControl.value.trim() && this.imageOrFile.length > 0)
+    ) {
       this.changeScroll();
       let comment: IComment = {
         authorID: this.idUser,
@@ -146,9 +143,9 @@ export class ThreadsComponent implements OnInit {
           text: this.commentControl.value
         }
       }
-      this.mockThreads[0].comments.push(comment)
+      this.threadsList[0].comments.push(comment)
       this.commentControl.reset()
+
     }
   }
-
 }

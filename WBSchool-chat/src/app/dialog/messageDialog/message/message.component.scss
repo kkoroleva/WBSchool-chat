@@ -52,7 +52,7 @@
     margin-bottom: 15px;
     margin-left: auto;
     padding: 13px 20px;
-    
+
     span {
       margin-top: 7px;
       text-align: right;
@@ -65,7 +65,7 @@
       margin-bottom: 5px;
     }
   }
-      
+
 // =========================div class="user"
 
   &__user {
@@ -98,7 +98,7 @@
     padding: 13px 20px;
     overflow-wrap :break-word;
     color: white;
-    
+
     p{
       margin: 0;
       font-style: normal;
@@ -123,7 +123,7 @@
     }
   }
   // ========send
-  
+
   &__send {
     display: flex;
     padding: 0;
@@ -332,4 +332,8 @@
 
 .input__link {
   color: #1A66FF;
+}
+
+.mat-menu-panel {
+  min-width: 320px;
 }

@@ -67,8 +67,9 @@ export class ModalProfileComponent implements OnInit {
     setTimeout(() => {
       if (!clone) {
         this.user$.subscribe({
-            next: (user) => this.store$.dispatch(createChatFriend({ username, ownerUsername: user.username })),
-            complete: () => console.log('complete')
+            next: user => this.store$.dispatch(
+              createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
+            )
         });
         setTimeout(() => {
           this.router.navigateByUrl('/home')
