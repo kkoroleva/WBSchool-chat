@@ -55,7 +55,10 @@ export class OutFromGroupComponent implements OnInit {
     });
 
     this.form = new FormGroup({
-      owners: new FormControl([], [Validators.required]),
+      owners: new FormControl(
+        [],
+        [Validators.required, Validators.maxLength(1)]
+      ),
     });
 
     this.getGroupChatUsers();
@@ -67,7 +70,7 @@ export class OutFromGroupComponent implements OnInit {
 
   ngDoCheck(): void {
     if (this.ownersMatChipList) {
-      if (this.form.get('owners')?.value.length < 1) {
+      if (this.form.get('owners')?.value.length !== 1) {
         this.ownersMatChipList.errorState = true;
       } else {
         this.ownersMatChipList.errorState = false;
