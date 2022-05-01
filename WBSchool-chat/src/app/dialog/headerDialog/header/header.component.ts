@@ -11,6 +11,7 @@ import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/ed
 import {
   changeChatGroup,
   exitFromGroup,
+  outFromChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../auth/interfaces';
@@ -51,10 +52,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((id) => {
-      this.chatId = id;
-      this.store$.dispatch(getInfoChat({ chatId: id }));
+      const chatId = id;
+      this.store$.dispatch(getInfoChat({ chatId }));
     });
-    this.chatInfo$.subscribe((data) => (this.chatInfo = data));
+    this.chatInfo$.subscribe((data) => {
+      if (data) {
+        this.chatInfo = data;
+      }
+    });
   }
 
   getModalWindow(chatInfo: IChatInfo): void {
@@ -96,10 +101,18 @@ export class HeaderComponent implements OnInit {
       this.store$.dispatch(changeChatGroup({ chatGroup: '' }));
       this.router.navigateByUrl('/home');
       localStorage.removeItem('chatID');
+
+      this.store$.dispatch(
+        outFromChatFriend({ chatId: chatInfo._id, owner: chatInfo.owner })
+      );
+      setTimeout(() => {
+        this.router.navigateByUrl('/home');
+      }, 200);
     }
   }
 
   modalClick() {
-    if (this.chatInfo && this.chatInfo.users.length < 3) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
+    if (this.chatInfo && this.chatInfo.users.length < 3)
+      this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
   }
 }

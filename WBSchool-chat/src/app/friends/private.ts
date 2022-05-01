@@ -3,6 +3,7 @@ export interface IPrivate {
   owner?: string;
   isActive?: boolean;
   isRead: boolean;
+  avatars: any[];
   avatar?: string;
   users: string[];
   lastActive?: string;

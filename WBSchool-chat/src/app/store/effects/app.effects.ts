@@ -32,6 +32,8 @@ import {
   getAllGroupsMessages,
   allGroupsMessages,
   exitFromGroup,
+  outFromChatFriend,
+  returnIntoChatFriend,
 } from '../actions/groups.actions';
 import {
   catchError,
@@ -47,14 +49,12 @@ import {
   changeLoadNotifications,
   loadNotifications,
 } from '../actions/notifications.actions';
-
 import { IMessage } from './../../dialog/dialog';
 import { INotification } from '../reducers/notifications.reducers';
 import { IPrivate } from './../../friends/private';
 import { DialogService } from './../../dialog/dialog.service';
-import { Router } from '@angular/router';
 import { IContacts } from '../reducers/contacts.reducers';
-import { IGroup } from './../../groups/group';
+import { IGroup, IOwner } from './../../groups/group';
 import { initContacts, pushContacts } from '../actions/contacts.actions';
 import { IChatInfo } from '../reducers/dialog.reducer';
 
@@ -67,7 +67,6 @@ export class AppEffects {
     private actions$: Actions,
     private http: HttpClient,
     public dialogService: DialogService,
-    private router: Router,
     @Inject('API_URL') public apiUrl: string
   ) {}
 
@@ -84,56 +83,6 @@ export class AppEffects {
       )
     )
   );
-
-  // removeNotification$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(removeNotification),
-  //     mergeMap(({id}) =>
-  //       this.http
-  //         .delete<string>(`${this.urlApi}/users/notifications/${id}`)
-  //         .pipe(
-  //           map((id) => removeNotification({id})),
-  //           catchError((err: HttpErrorResponse) => {
-  //             if (err.status === 400 || err.status === 404) {
-  //               map(() => removeNotification({id: '0'}));
-  //             }
-  //             return throwError(() => err);
-  //           })
-  //         )
-  //     )
-  //   );
-  // });
-
-  // clearNotification$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(clearNotifications),
-  //     mergeMap(() =>
-  //       this.http
-  //         .delete<INotification[]>(`${this.urlApi}/users/notifications/clear`)
-  //         .pipe(
-  //           map((notifications) => changeLoadNotifications({notifications}))
-  //         )
-  //     )
-  //   );
-  // });
-
-  // addAuthNotification$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(addAuthNotification),
-  //     mergeMap(({ notification }) =>
-  //       this.http
-  //         .post<INotification>(
-  //           `${this.urlApi}/users/notifications`,
-  //           notification
-  //         )
-  //         .pipe(
-  //           map((notification: INotification) =>
-  //             pushToNotification({ notification })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
 
   // Groups
   loadGroups$ = createEffect(() => {
@@ -206,7 +155,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(exitFromGroup),
       mergeMap(({ id, owner }) => {
-        const newOwner: any = {};
+        const newOwner: IOwner = {};
 
         if (owner) {
           newOwner.owner = owner;
@@ -239,10 +188,12 @@ export class AppEffects {
   createChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createChatFriend),
-      mergeMap(({ username, ownerUsername }) =>
+      mergeMap(({ username, ownerUsername, ownerFormatImage, ownerAvatar }) =>
         this.http
           .post<IPrivate>(`${this.urlApi}/chats/private?username=${username}`, {
             ownerUsername,
+            ownerFormatImage,
+            ownerAvatar,
           })
           .pipe(
             tap(
@@ -257,12 +208,39 @@ export class AppEffects {
     );
   });
 
+  returnIntoChat$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(returnIntoChatFriend),
+      mergeMap(({ chatId, users }) =>
+        this.http
+          .patch<string>(`${this.urlApi}/chats/${chatId}`, { users })
+          .pipe(
+            map((id) => updateChatFriends({ chatId: id })),
+            catchError((err) =>
+              of(chatGroupError({ error: err.error.message }))
+            )
+          )
+      )
+    );
+  });
+
   deleteChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deleteChatFriend),
       mergeMap(({ chatId }) =>
         this.http
           .delete<string>(`${this.urlApi}/chats/${chatId}`)
+          .pipe(map((id) => updateChatFriends({ chatId: id })))
+      )
+    );
+  });
+
+  outFromChat$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(outFromChatFriend),
+      mergeMap(({ chatId, owner }) =>
+        this.http
+          .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, owner)
           .pipe(map((id) => updateChatFriends({ chatId: id })))
       )
     );

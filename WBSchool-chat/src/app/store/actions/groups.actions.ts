@@ -74,17 +74,28 @@ export const changeLoadFriends = createAction(
 
 export const createChatFriend = createAction(
   '[FRIENDS] createChatFriend',
-  props<{ username: string; ownerUsername: string }>()
-);
-
-export const outChatFriend = createAction(
-  '[FRIENDS] outChatFriend',
-  props<{ chatId: string; _id: string }>()
+  // props<{ username: string; ownerUsername: string }>()
+  props<{
+    username: string;
+    ownerUsername: string;
+    ownerFormatImage: string;
+    ownerAvatar: string;
+  }>()
 );
 
 export const deleteChatFriend = createAction(
   '[FRIENDS] deleteChatFriend',
   props<{ chatId: string }>()
+);
+
+export const outFromChatFriend = createAction(
+  '[FRIENDS] outFromChatFriend',
+  props<{ chatId: string; owner: string }>()
+);
+
+export const returnIntoChatFriend = createAction(
+  '[FRIENDS] returnIntoChatFriend',
+  props<{ chatId: string; users: string[] }>()
 );
 
 export const updateChatFriends = createAction(
@@ -114,5 +125,5 @@ export const deleteLastGroupMessage = createAction(
 
 export const exitFromGroup = createAction(
   '[GROUPS] exitFromGroup',
-  props<{ id: string, owner?: string }>()
+  props<{ id: string; owner?: string }>()
 );

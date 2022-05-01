@@ -8,3 +8,7 @@ export interface IGroup {
   users?: string[];
   formatImage?: string;
 }
+
+export interface IOwner {
+  owner?: string;
+}
