@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-
 import { IChatInfo } from '../../../store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
@@ -10,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
 import {
   changeChatGroup,
-  exitFromGroup,
   outFromChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
@@ -32,7 +30,6 @@ import { ModalProfileService } from './../../../modal-profile/service/modal-prof
 })
 export class HeaderComponent implements OnInit {
   chatInfo: IChatInfo | undefined;
-  private chatId!: string;
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
@@ -97,9 +94,7 @@ export class HeaderComponent implements OnInit {
 
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
-      this.store$.dispatch(exitFromGroup({ id: this.chatId }));
       this.store$.dispatch(changeChatGroup({ chatGroup: '' }));
-      this.router.navigateByUrl('/home');
       localStorage.removeItem('chatID');
 
       this.store$.dispatch(
