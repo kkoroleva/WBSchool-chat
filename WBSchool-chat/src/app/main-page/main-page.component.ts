@@ -8,10 +8,10 @@ import { FeedbackComponent } from '../feedback/feedback.component';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
-
-    
-    constructor(public dialog: MatDialog,) { }
-
+  urlGitHub = "https://github.com/kkoroleva/WBSchool-chat"
+  
+  constructor(public dialog: MatDialog,) { }
+  
   ngOnInit(): void {
   }
   sendFeedBack():void {
@@ -19,7 +19,10 @@ export class MainPageComponent implements OnInit {
       panelClass: 'create-group-chat-modal',
       maxWidth: '100vw',
     });
-
+  }
+  gitHub(){
+    console.log("!")
+    window.open(this.urlGitHub)
   }
 
 }

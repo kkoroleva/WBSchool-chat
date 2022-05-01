@@ -8,10 +8,21 @@
     background: white;
     box-sizing: border-box;
     z-index: 10000;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    // box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     label{
         color: rgba(77, 77, 77, 0.75);
         margin-bottom: 5px;
+    }
+    h2{
+        color: #1A66FF;
+        font-family: 'Raleway', Arial, sans-serif;
+        text-align: left;
+        margin: 0;
+    }
+    p{
+        font-family: 'Raleway', Arial, sans-serif;
+        color: rgba(77, 77, 77, 0.75);
+        margin-bottom: 20px;
     }
     @media (min-width:320px) and (max-width:495px) {
         display: flex;
@@ -116,8 +127,7 @@
         position: absolute;
         right: -4px;
         top: -7px;
-        background: white;
-        color:rgba(77, 77, 77, 0.75) ;
+        color: white;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -125,10 +135,45 @@
         width: 35px;
         height: 35px;
         border: none;
+        background: #1A66FF;
     }
     .close:hover{
-        background: #1A66FF;
         cursor: pointer;
-        color: white;
+        animation: 1200ms ease 0s normal none 1 running shake;
     }
+    @keyframes shake {
+        0% {
+          transform: rotateZ(0deg);
+        }
+        10% {
+          transform: rotateZ(-30deg);
+        }
+        20% {
+          transform: rotateZ(15deg);
+        }
+        30% {
+            transform: rotateZ(-10deg);
+        }
+        40% {
+          transform: rotateZ(7.5deg);
+        }
+        50% {
+            transform: rotateZ(-6deg);
+        }
+        60% {
+            transform: rotateZ(5deg);
+        }
+        70% {
+            transform: rotateZ(-4.28571deg);
+        }
+        80% {
+            transform: rotateZ(3.75deg);
+          }
+          90% {
+            transform: rotateZ(-3.33333deg);
+          }
+          100% {
+            transform: rotateZ(0deg);
+          }
+        }
 }

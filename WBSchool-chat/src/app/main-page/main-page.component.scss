@@ -25,20 +25,33 @@ $max-width: 1440px;
 
 .main__footer {
   display: flex;
-  justify-content: space-around;
   width: 100%;
   height: auto;
   padding: 50px;
   background: white;
   text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  .footer__language{
+    display: flex;
+    align-items: center;
+    select{
+      border: none;
+    }
+  }
+
+
   hr{
     border: 0.5px solid #aca7a7;
     height: auto;
   }
   .footer__btn{
     display: flex;
-    justify-content: space-around;
-
+    align-items: center;
+    img{
+      width: 25x;
+      height: 25px;
+    }
     button{
       background: white;
       width: 50px;
@@ -46,9 +59,12 @@ $max-width: 1440px;
       border-radius: 50%;
       border: none;
       margin-left: 5px;
+      color: #765ffa;
     }
     button:hover{
     animation: 1200ms ease 0s normal none 1 running shake;
+    border: 4px double #1A66FF;
+    border-radius: 50%;
     }
     @keyframes shake {
       0% {
@@ -86,8 +102,48 @@ $max-width: 1440px;
         }
       }
   }
+  @media (min-width:320px) and (max-width:495px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    hr{
+      width: 100px;
+      border: 0.5px solid #aca7a7;
+    }
+    img{
+      width: 20px;
+      height: 20px;
+    }
+    button{
+      background: white;
+      width: 20x;
+      height: 20px;
+      border-radius: 50%;
+      border: none;
+      margin-left: 5px;
+      color: #765ffa;
+    }
+    button:hover{
+    animation: 1200ms ease 0s normal none 1 running shake;
+    border: 4px double #1A66FF;
+    border-radius: 50%;
+    }
+  }
+  @media (min-width:495px) and (max-width:680px) {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    align-items: center;
+    hr{
+      width: 150px;
+      border: 0.5px solid #aca7a7;
+    }
+  }
 }
 
 .copyright {
+  display: flex;
+  align-items: center;
   font-family: 'Raleway', Arial, sans-serif;
 }
