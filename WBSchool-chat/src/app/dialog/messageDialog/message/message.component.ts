@@ -151,8 +151,6 @@ export class MessageComponent implements OnInit {
             );
           }
         });
-
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
       });
   }
 
