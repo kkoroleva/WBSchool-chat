@@ -80,6 +80,7 @@ export class MessageComponent implements OnInit {
       }, 300);
     })
   );
+  socketService: any;
 
   constructor(
     private service: DialogService,
