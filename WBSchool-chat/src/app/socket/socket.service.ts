@@ -24,7 +24,7 @@ export class SocketService {
       });
     } else if (!localStorage.getItem('token')) {
       this.auth.logout();
-      this.socket.offAny();
+      // this.socket.offAny();
       this.router.navigateByUrl('/auth/login');
     }
   }

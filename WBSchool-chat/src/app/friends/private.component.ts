@@ -90,21 +90,22 @@ export class PrivateComponent implements OnInit {
     this.router.navigateByUrl('/chat');
   }
 
-  getFriend(data: IPrivate): string {
-    return data.users[0] === data.owner ? data.users[0] : data.users[1];
-  }
+  // getFriend(data: IPrivate): string {
+  //   return data.users[0] === data.owner ? data.users[0] : data.users[1];
+  // }
 
   createPrivateChat(): void {
     this.dialog.open(CreatePrivateChatComponent, {
       panelClass: 'create-private-chat-modal',
       maxWidth: '100vw',
     });
+    this.store$.dispatch(loadFriends());
   }
 
-  outFromChat(_id: string, owner: string) {
+  outFromChat(_id: string, owners: string[]) {
     let result = confirm('Вы точно хотите выйти из чата?');
     if (!!result) {
-      this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: owner }));
+      this.store$.dispatch(outFromChatFriend({ chatId: _id, owners: owners }));
       setTimeout(() => {
         this.store$.dispatch(loadFriends());
       }, 200)

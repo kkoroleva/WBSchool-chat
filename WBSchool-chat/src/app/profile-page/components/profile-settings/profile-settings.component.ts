@@ -24,7 +24,6 @@ import { initAuth } from 'src/app/store/actions/auth.actions';
     styleUrls: ['./profile-settings.component.scss']
 })
 export class ProfileSettingsComponent implements OnInit {
-  private url = 'https://wbschool-chat.ru/api/users';
   profileData: IProfileData = {
     username: '',
     status: 'Не беспокоить',
@@ -122,18 +121,6 @@ export class ProfileSettingsComponent implements OnInit {
     this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
       this.contacts = contacts.contacts;
     })
-    // this.profileServ.getContacts().pipe(
-    //   catchError((error) => {
-    //     return throwError(() => error);
-    //   })
-    // ).subscribe((contacts: any) => {
-    //   this.contacts = contacts.contacts;
-    //   console.log(contacts.contacts[4].username)
-    //   this.store$.dispatch(initContacts());
-    //   this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-    //         this.contacts = contacts.contacts;
-    //   })
-    // })
   }
 
   getUsersData(): void {
