@@ -1,8 +1,8 @@
 export interface IComment {
-  authorID: string;
-  authorName: string;
-  post: {
-    date: string;
+  authorID?: string;
+  authorName?: string;
+  post?: {
+    date?: string;
     img?: string;
     text?: string;
   }
@@ -12,7 +12,7 @@ export interface IThread {
   ownerID: string;
   ownerName: string;
   ownerThumbnail: string;
-  isActive: true;
+  isActive: boolean;
   basicPost: {
     date: string;
     img?: string;

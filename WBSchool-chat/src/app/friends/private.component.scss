@@ -30,6 +30,21 @@ $main-blue: #1A66FF;
     margin: 0;
   }
 
+  @media (max-width: 1024px) {
+    .friends__more-button {
+      display: block;
+    }
+
+    .friends__item {
+      padding: 0;
+    }
+
+    .friends__item-text {
+      display: flex;
+    }
+
+  }
+
 }
 
 .friends__header {
@@ -39,6 +54,9 @@ $main-blue: #1A66FF;
 .friends__more-button {
   color: $main-blue;
   cursor: pointer;
+  display: none;
+
+
 }
 
 .friends__more-button:hover {
@@ -67,13 +85,14 @@ $main-blue: #1A66FF;
 
   position: relative;
 
-  .friends__item-text {
-    display: flex;
+}
 
-    flex-wrap: wrap;
-    justify-content: space-between;
-    flex: 1;
-  }
+.friends__item-text {
+  display: none;
+
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: 1;
 }
 
 .friends__item::after {

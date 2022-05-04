@@ -7,8 +7,8 @@ export interface IMessage {
     formatImage?: string;
     chatId?: string;
     username?: string;
-    avatar?: string;
-    lastMessage?: string;
+    avatar?: string;  //???? Не приходят и не заполняются
+    lastMessage?: string; // ваще зачем?
 }
 
 export interface User {

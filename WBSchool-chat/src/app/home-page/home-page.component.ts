@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ChangeComponentService } from '../nav-mobile/change-component.service';
 
@@ -20,6 +20,15 @@ export class HomePageComponent implements OnInit {
       this.stateMain.tetATet = true
       this.stateMain.threads = true
     }
+  }
+
+
+  @ViewChild('homePage') homePage!: ElementRef;
+  onClosed(isClosed: boolean) {
+    let pageStyles = this.homePage.nativeElement.style;
+    pageStyles.gridTemplateColumns = 'minmax(300px, 500px)';
+
+    //this.threads.nativeElement.style.display = 'none';
   }
 
   ngOnInit(): void {

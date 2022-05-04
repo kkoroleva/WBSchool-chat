@@ -37,6 +37,7 @@ import {
   MessageSocketService,
 } from '../../../socket/message-socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ThreadsService } from 'src/app/threads/threads.service';
 
 @Component({
   selector: 'app-message',
@@ -88,7 +89,9 @@ export class MessageComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private messageSocketService: MessageSocketService,
     private modalServ: ModalProfileService,
-    private actions$: Actions
+    private actions$: Actions,
+
+    private threadsService: ThreadsService
   ) {}
 
   private initIoConnection(): void {
@@ -308,4 +311,9 @@ export class MessageComponent implements OnInit {
     this.imageOrFile = '';
     this.imgInput = false;
   }
+
+  openThread(message: IMessage) {
+    this.threadsService.createThread(message);
+  }
+
 }

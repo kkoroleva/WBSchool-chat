@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IPrivate } from './private';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -32,6 +32,9 @@ import { IMessage } from '../dialog/dialog';
   styleUrls: ['./private.component.scss'],
 })
 export class PrivateComponent implements OnInit {
+
+
+
   public friendsState$: Observable<IPrivate[]> = this.store$.pipe(
     select(selectFriends)
   );

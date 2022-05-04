@@ -8,7 +8,7 @@
     min-height: 719px;
 
     .comment{
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Raleway', 'Arial', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 12px;
@@ -29,6 +29,7 @@
     max-width: max-content;
     flex-direction: column;
     margin-bottom: 15px;
+    align-items: flex-start;
 
     span {
       margin-top: 7px;
@@ -43,6 +44,11 @@
     }
   }
 
+  &__message-info {
+    display: flex;
+    gap: 10px;
+  }
+
   &__wrapperBlue {
     cursor: pointer;
     position: relative;
@@ -52,6 +58,7 @@
     margin-bottom: 15px;
     margin-left: auto;
     padding: 13px 20px;
+    align-items: flex-end;
 
     span {
       margin-top: 7px;
@@ -73,6 +80,7 @@
     border-radius: 10px;
     display: inline-block;
     padding: 13px 20px;
+    max-width: max-content;
 
     p {
       max-width: 400px;
@@ -98,6 +106,7 @@
     padding: 13px 20px;
     overflow-wrap :break-word;
     color: white;
+    max-width: max-content;
 
     p{
       margin: 0;
@@ -172,6 +181,27 @@
       height: 44px;
       border-radius: 5px;
     }
+  }
+
+  &__thread-radio {
+    display: none;
+  }
+
+  &__thread-radio:checked {
+    display: block;
+
+  }
+
+  &__thread {
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: left;
+    font-family: "Raleway", "Arial", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: rgba(0, 0, 0, 0.5);
   }
 
   // =============form page

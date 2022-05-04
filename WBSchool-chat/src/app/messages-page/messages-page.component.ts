@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ChangeComponentService } from '../nav-mobile/change-component.service';
 
@@ -29,5 +29,15 @@ export class MessagesPageComponent implements OnInit {
     }
 
     this.changeState.hasThreadsInNavMobile = false;
+  }
+
+  @ViewChild('messagePage') messagePage!: ElementRef;
+  
+  onClosed(isClosed: boolean) {
+
+    let page = this.messagePage.nativeElement;
+    page.classList.remove('message-page__wrapper-with-threads');
+
+    //this.threads.nativeElement.style.display = 'none';
   }
 }
