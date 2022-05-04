@@ -1,0 +1,141 @@
+<div class="profile-settings">
+	<div class="profile-settings__title main-grid-block__header">
+	  <span>
+		Profile settings
+	  </span>
+	</div>
+	<div class="profile-settings__user-info">
+	  <div class="profile-settings__user-info_img">
+		<img  *ngIf="!!profileData.avatar"  [src]="profileData.avatar" alt="user pic" />
+	  </div>
+	  <div class="profile-settings__user-info_name">
+		  {{copied}}
+		<span class="profile-settings__user-info_name_username"
+			  (click)="copyToClipBoard(profileData.username!, 'Username')">
+		  	{{ profileData.username }}
+		</span>
+		<span class="profile-settings__user-info_name_status"
+			  (click)="copyToClipBoard(profileData.status!, 'Status')">
+		  	{{ profileData.status }}
+		</span>
+		<span class="profile-settings__user-info_name_status"
+			  (click)="copyToClipBoard(profileData.email!, 'Email')">
+			{{ profileData.email }}
+		</span>
+		<span class="profile-settings__user-info_name_status"
+			  (click)="copyToClipBoard(profileData.about!, 'About')">
+		  	{{ profileData.about }}
+		</span>
+	  </div>
+	</div>
+	<div class="profile-settings__line"></div>
+		<div class="profile-settings__menu">
+			<div class="profile-settings__menu_item">
+				<div class="profile-settings__menu_item_name contacts">
+					<div  class="profile-settings__menu_item_name_wrp">
+						<mat-icon>{{ "group" }}</mat-icon>
+						<div class="profile-settings__menu_item_title" (click)="lookContacts = !lookContacts">Contacts</div>
+					</div>
+					<div *ngIf="lookContacts">
+						<div *ngFor="let contact of contacts" class="contacts__list" (click)="watchProfile(contact)">
+							  <img  *ngIf="!!contact.avatar"  [src]="contact.formatImage+contact.avatar" alt="user pic" />
+							  <p>{{contact.username}}</p>
+						</div>
+						<div class="contacts__form">
+							<mat-form-field [formGroup]="form" (ngSubmit)="addFriend()"> <!-- " --> 
+								<!-- <div *ngIf="lookContacts" class="contacts__form_wrp"> -->	
+								<mat-label>Friend's name</mat-label>
+								<input matInput color='warn' *ngIf="lookContacts" type="text" formControlName="contactInput">
+								<!-- </div> -->
+							</mat-form-field>
+							<button *ngIf="lookContacts" mat-raised-button 
+									color="primary" type="submit" 
+									(click)="addFriend()"
+							>
+						<mat-icon>add</mat-icon></button>
+						</div>
+						<div *ngIf="notFound.length > 0" class="contacts__form_error">{{notFound}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile-settings__menu_item" *ngFor="let item of settingsList; let i = index" [ngClass]="{'profile-settings__menu_item_disabled': item.description == 'null'}">
+				<div class="profile-settings__menu_item_name">
+					<mat-icon>{{ item.icon }}</mat-icon>
+					<div class="profile-settings__menu_item_title"
+						 (click)="onSelect(item)"
+						 [class.selected]="item === selectedItem"
+						 [ngClass]="{'title_changed': compare(item.description!, item.type)}"
+					>
+						 {{ item.title }}
+					</div>
+				</div>
+				<div *ngIf="toggle && selectedItem.id == i + 1" class="profile-settings__menu_item_form-field">
+
+					<div *ngIf="item.id != 3; else photoInput" [formGroup]="userDataForm" class="profile-settings__menu_item_form-field_wrp">
+
+						<mat-form-field appearance="fill">
+							<mat-label>{{selectedItem.title}}</mat-label>
+							<input matInput color='warn' 
+								   type="text" id={{item.id}} 
+								   value={{item.description}} 
+								   formControlName={{item.type}}
+								   #input>
+							<mat-error *ngIf=userDataForm.controls[item.type].invalid>{{item.type}} error</mat-error>
+						</mat-form-field>
+
+						<div class="form-field__btn-wrapper">
+							<button mat-raised-button color="primary" (click)="addToFormData(input)" [disabled]="userDataForm.controls[item.type].invalid || userDataForm.controls[item.type].value == item.description">
+								<mat-icon>done</mat-icon>
+							</button>
+							<button mat-raised-button color="warn" (click)="toggle = !toggle">
+								<mat-icon>close</mat-icon>
+							</button>
+						</div>
+
+					</div>
+
+					<ng-template #photoInput>
+
+						<div class="form-field" appDragAndDrop>
+							<input type="file" id="fileElem" multiple accept="image/*" (change)="addImage(input)" #input>
+							<label for="fileElem" *ngIf="!imgInput">Выберите картинку</label>
+							<label for='fileElem' class='form-field__input_active'
+							*ngIf="imgInput">{{imageName}}</label>
+						</div>
+
+						<div class="form-field__btn-wrapper">
+							<button mat-raised-button color="warn" (click)="deleteImage()">
+								<mat-icon>delete</mat-icon>
+							</button>
+						</div>
+
+					</ng-template>
+
+				</div>
+			</div>
+			<div class="profile-settings__menu_item">
+				<div class="profile-settings__menu_item_name">
+					<mat-icon>{{ "help_outline" }}</mat-icon>
+					<div class="profile-settings__menu_item_title" (click)="openDialog()">Help</div>
+				</div>
+			</div>
+			<form (ngSubmit)="submit()" *ngIf="!errorMsg; else errorMessage">
+				<button mat-raised-button color="primary" type="submit" [disabled]="!lengthForm()">Save Changes</button>
+			</form>
+			<ng-template #errorMessage>
+				<div class="profile-settings__menu_error">
+					{{errorMsg}}
+				</div>
+			</ng-template>
+		</div>
+	<div class="profile-settings__line"></div>
+	<div class="profile-settings__menu">
+		<div class="profile-settings__menu_item" (click)="settServ.switchSettings()">
+			<div class="profile-settings__menu_item_name">
+				<mat-icon>{{ "account_circle" }}</mat-icon>
+				<div class="profile-settings__menu_item_title">Account settings</div>
+			</div>
+		</div>
+	</div>
+	<div class="profile-settings__footer">WB School Chat</div>
+  </div>

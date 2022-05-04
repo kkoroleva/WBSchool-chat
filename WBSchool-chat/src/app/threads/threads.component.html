@@ -1,38 +1,60 @@
-<div class="threads">
-  <h3 class="threads__header">Threads</h3>
-  <a href="" class="threads__more-button">
-    <mat-icon>more_vert</mat-icon>
-  </a>
-  <ul class="threads__list">
-    <li class="threads__item" *ngFor="let thread of threadsList; index as i;">
-      <div class="threads__owner" [ngClass]="{threads__online:thread.isActive}">
-        <img class="threads__thumbnail" src="{{thread.ownerThumbnail}}" alt="Your best thread face" width="52"
-          height="52">
-        <p class="threads__name">{{thread.ownerName}}
-          <span class="threads__online-status">{{thread.isActive? 'Online' : 'Offline'}}</span>
-        </p>
+<section class="threads">
+  <header class="threads__header-wrapper">
+    <h3 class="threads__header main-grid-block__header">Threads</h3>
+    <a href="" class="threads__more-button">
+      <mat-icon>more_vert</mat-icon>
+    </a>
+  </header>
+  <p class="threads__is-no-threads" *ngIf="threadsList.length === 0">Click on a message in chat to start a thread.</p>
+
+  <div class="threads__item" *ngFor="let thread of threadsList; index as i;">
+    <div class="threads__owner" [ngClass]="{threads__online:thread.isActive}">
+      <img class="threads__thumbnail" src="{{thread.ownerThumbnail}}" alt="Your best thread face" width="52"
+        height="52">
+      <p class="threads__name">{{thread.ownerName}}
+        <span class="threads__online-status">{{thread.isActive? 'Online' : 'Offline'}}</span>
+      </p>
+    </div>
+    <div class="threads__item-post">
+      <p class="threads__post-date">{{thread.basicPost.date}}</p>
+      <img class="threads__main-img" src="{{thread.basicPost.img}}" alt="Meme">
+      <p class="threads__main-text">{{thread.basicPost.text}}</p>
+    </div>
+    <div class="threads__comments-wrapper">
+      <ul class="threads__comments" #wrapper>
+        <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
+          <div class="threads__comment-header">
+            <p class="threads__comment-author">{{comment.authorName}}</p>
+            <p class="threads__comment-date">{{comment.date}}</p>
+          </div>
+          <p class="threads__comment-text">{{comment.text}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <form class="message__send" action="" method="post">
+    <div>
+      <div class="form_save_image" *ngIf="toggle">
+        <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input>
+        <label for="fileElem" class="btn-add" [ngClass]="{'btn-add__active': imgInput == true}">
+          {{ !imgInput ? "Выберите файл" : "Файл выбран" }}
+        </label>
+
+        <div class="btn-wrapper">
+          <button type="button" class="btn-green" (click)="greenBtnClick(input)">V</button>
+          <button type="button" class="btn-red" (click)="redBtnClick()">X</button>
+        </div>
       </div>
-      <div class="threads__item-post">
-        <p class="threads__post-date">{{thread.basicPost.date}}</p>
-        <img class="threads__main-img" src="{{thread.basicPost.img}}" alt="Meme">
-        <p class="threads__main-text">{{thread.basicPost.text}}</p>
+    </div>
+    <div class="wrapper__send">
+      <div (click)="toggle =!toggle">
+        <mat-icon class="btn" width="14px" height="13px"> attach_file</mat-icon>
       </div>
-      <div class="threads__comments-wrapper">
-        <ul class="threads__comments">
-          <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
-            <div class="threads__comment-header">
-              <p class="threads__comment-author">{{comment.authorName}}</p>
-              <p class="threads__comment-date">{{comment.post.date}}</p>
-            </div>
-            <p class="threads__comment-text">{{comment.post.text}}</p>
-          </li>
-        </ul>
-        <form action="" method="post">
-          <label class="threads__comment-form">Comment
-            <input type="text" name="" id="" placeholder="Comment...">
-          </label>
-        </form>
-      </div>
-    </li>
-  </ul>
-</div>
+      <input type="text" placeholder="Comment..." [formControl]="commentControl" (keydown.enter)="sendComments()">
+      <mat-icon class="smile" width="15px" height="15px">tag_faces</mat-icon>
+      <!-- <mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon> -->
+      <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>
+    </div>
+  </form>
+</section>

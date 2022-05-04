@@ -5,25 +5,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AngularResizeEventModule } from 'angular-resize-event';
 
 /*Components */
 import { AppComponent } from './app.component';
-import { UnreadsComponent } from './unread/unread.component';
-import { FriendsComponent } from './friends/friends.component';
 import { SearchComponent } from './search/search.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { AccountSettingsComponent } from './profile-page/components/account-settings/account-settings.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotificationsPageComponent } from './notifications-page/notifications-page.component';
 import { MessagesPageComponent } from './messages-page/messages-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { GroupsComponent } from './groups/groups.component';
-import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { ProfileSettingsComponent } from './profile-page/components/profile-settings/profile-settings.component';
 import { DialogComponent } from './dialog/dialog.component';
-import { DeleteModalComponent } from './account-settings/delete-modal/delete-modal.component';
-import { PasswordModalComponent } from './account-settings/password-modal/password-modal.component';
+import { DeleteModalComponent } from './profile-page/components/account-settings/delete-modal/delete-modal.component';
+import { PasswordModalComponent } from './profile-page/components/account-settings/password-modal/password-modal.component';
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 import { ThreadsComponent } from './threads/threads.component';
 
@@ -41,20 +40,37 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
 
 /*Modules*/
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
-import { ModalHelpComponent } from './profile-settings/modal-help/modal-help.component';
+import { ModalHelpComponent } from './profile-page/components/profile-settings/modal-help/modal-help.component';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 /*Store*/
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 import { AppEffects } from './store/effects/app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { HeaderComponent } from './dialog/headerDialog/header/header.component';
+import { MessageComponent } from './dialog/messageDialog/message/message.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
+import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
+import { ModalProfileComponent } from './modal-profile/modal-profile.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { DragAndDropDirective } from './groups/drag-and-drop.directive';
+import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
+import { PrivateComponent } from './friends/private.component';
+import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
+import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
+import { SmileComponent } from './smile/smile.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -62,11 +78,15 @@ const INTERCEPTOR_PROVIDER: Provider = {
   useClass: AuthInterceptor,
 };
 
+const API_URL_PROVIDER: Provider = {
+  provide: 'API_URL',
+  useValue: 'https://wbschool-chat.ru',
+};
+
 @NgModule({
   declarations: [
     AppComponent,
-    UnreadsComponent,
-    FriendsComponent,
+    PrivateComponent,
     GroupsComponent,
     SearchComponent,
     ProfileSettingsComponent,
@@ -85,6 +105,17 @@ const INTERCEPTOR_PROVIDER: Provider = {
     PasswordModalComponent,
     CreateGroupChatComponent,
     ThreadsComponent,
+    HeaderComponent,
+    MessageComponent,
+    NotFoundPageComponent,
+    NavMobileComponent,
+    CreatePrivateChatComponent,
+    ModalProfileComponent,
+    DragAndDropDirective,
+    EditGroupChatComponent,
+    OutFromGroupComponent,
+    AboutGroupComponent,
+    SmileComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +123,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     BrowserAnimationsModule,
     HttpClientModule,
     AuthModule,
+    StorageModule,
+    AngularResizeEventModule,
 
     //Material UI
     BrowserAnimationsModule,
@@ -108,6 +141,9 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatRippleModule,
     MatButtonToggleModule,
     MatDialogModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
 
     //Forms
     FormsModule,
@@ -127,9 +163,15 @@ const INTERCEPTOR_PROVIDER: Provider = {
     }),
     EffectsModule.forRoot([AppEffects]),
     StoreRouterConnectingModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 
-  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService],
+  providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

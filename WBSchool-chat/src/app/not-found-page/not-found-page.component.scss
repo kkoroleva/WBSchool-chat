@@ -1,0 +1,58 @@
+/*Break-points*/
+$min-width: 320px;
+$mobile-width: 495px;
+$tablet-width: 768px;
+$desktop-width: 1024px;
+$max-width: 1440px;
+
+$box-shadow: rgba(0, 0, 0, 0.25);
+$background-color: #FFFFFF;
+
+.not-found {
+  width: 100%;
+  min-height: 500px;
+  margin: 10px 0;
+  padding: 85% 10px 20px;
+  background-image: url(../../assets/404-error.png);
+  background-size: 100%;
+  background-position: 0px -25px;
+  background-repeat: no-repeat;
+  text-align: center;
+
+  @media (min-width: $tablet-width) {
+  }
+
+  @media (min-width: $desktop-width) {
+    padding: 10% 100px 30px;
+    background-size: 50%;
+    background-position: 90% -25px;
+    text-align: left;
+  }
+}
+
+.not-found__text-big {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 47px;
+}
+
+.not-found__text-semibig {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 38px;
+}
+
+.not-found__text-normal {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.not-found__link-back {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+}

@@ -1,14 +1,21 @@
-import { ActiveChatService } from './../active-chat.service';
 import { Router } from '@angular/router';
-import { GroupsService } from './groups.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
-import { IGroup, IGroupsState } from '../store/reducers/groups.reducers';
+import { IGroupsState } from '../store/reducers/groups.reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectGroups } from '../store/selectors/groups.selectors';
-import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
+import {
+  selectLastGroupsMessages,
+  selectGroups,
+} from '../store/selectors/groups.selectors';
+import {
+  changeChatGroup,
+  getAllGroupsMessages,
+  loadGroups,
+} from '../store/actions/groups.actions';
+import { IGroup } from './group';
+import { IGroupsMessages } from '../store/reducers/groups.reducers';
 
 @Component({
   selector: 'app-groups',
@@ -16,30 +23,52 @@ import { changeChatGroup, loadGroups } from '../store/actions/groups.actions';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-  public groupsState$: Observable<IGroup[]> = this.store$.pipe(
-    select(selectGroups)
+  public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
+  public lastMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
+    select(selectLastGroupsMessages)
   );
 
   constructor(
-    private groupsService: GroupsService,
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
-    private router: Router,
-    private activeChatService: ActiveChatService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.getGroupChats();
+    this.getLastMessages();
+  }
+
+  getLastMessages() {
+    let chatsLength = 0;
+
+    this.store$.pipe(select(selectLastGroupsMessages)).subscribe((messages) => {
+      chatsLength = messages.length;
+    });
+
+    this.groups$.subscribe((groups) => {
+      if (!chatsLength) {
+        groups.forEach((group) => {
+          this.store$.dispatch(getAllGroupsMessages({ chatId: group._id! }));
+        });
+      }
+    });
+  }
+
+  getGroupChats(): void {
     this.store$.dispatch(loadGroups());
   }
 
   createGroupChat(): void {
-    const dialogRef = this.dialog.open(CreateGroupChatComponent);
-
+    this.dialog.open(CreateGroupChatComponent, {
+      panelClass: 'create-group-chat-modal',
+      maxWidth: '100vw',
+    });
   }
 
-  openGroupChat(id: string): void {
-    this.store$.dispatch(changeChatGroup({chatGroup: id}));
-    localStorage.setItem('chatID', id);
+  openGroupChat(group: IGroup): void {
+    this.store$.dispatch(changeChatGroup({ chatGroup: group._id! }));
+    localStorage.setItem('chatID', group._id!);
 
     this.router.navigateByUrl('/chat');
   }

@@ -1,6 +1,6 @@
 <auth-nav></auth-nav>
 <form [formGroup]="registerForm" (ngSubmit)="submit()">
-  <h3>Registration</h3>
+  <h3 class="auth__header">Registration</h3>
   <p class="small"><small>Create a new account</small></p>
   <p>
     <mat-form-field appearance="fill">
@@ -14,8 +14,8 @@
       <mat-label>Enter your username</mat-label>
       <input matInput placeholder="Bill_Clinton" formControlName="username" autocomplete="off">
       <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.invalid">
-        <p *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['minlength']">Username is too short &nbsp;</p>
-        <p *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['pattern']">Enter only latin or cyrillic symbols and numbers</p>
+        <small *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['minlength']">Username is too short &nbsp;</small>
+        <small *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.errors!['pattern']">Enter only latin or cyrillic symbols and numbers</small>
       </mat-hint>
     </mat-form-field>
   </p>
@@ -34,5 +34,5 @@
       <mat-hint *ngIf="registerForm.get('repeatPassword')!.touched && registerForm.get('repeatPassword')!.value !== registerForm.get('password')!.value">Password is not match</mat-hint>
     </mat-form-field>
   </p>
-  <button mat-raised-button type="submit" [disabled]="registerForm.invalid || registerForm.get('repeatPassword')!.value != registerForm.get('password')!.value">Register</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid || registerForm.get('repeatPassword')!.value != registerForm.get('password')!.value">Register</button>
 </form>

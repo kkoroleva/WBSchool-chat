@@ -16,6 +16,7 @@ $max-width: 1440px;
   grid-template-rows: repeat(4, auto);
   gap: 30px;
 
+
   @media (min-width: $mobile-width) {
     max-width: $mobile-width;
     margin: 0 auto;
@@ -25,14 +26,16 @@ $max-width: 1440px;
     padding: 20px 0;
     max-width: 100%;
     margin: 0 auto;
-    grid-template-columns: minmax(300px, 320px) auto;
+    grid-template-columns: minmax(300px, 320px) minmax(300px, 640px);
     grid-template-rows: repeat(3, auto);
+
   }
 
   @media (min-width: $desktop-width) {
     padding: 30px 0;
     grid-template-columns: minmax(300px, 500px) minmax(600px, 900px);
-    grid-template-rows: repeat(2, auto);
+    grid-template-rows: 60px minmax(300px, 420px) minmax(300px, 420px);
+
   }
 }
 
@@ -53,19 +56,25 @@ $max-width: 1440px;
 
 .messages-page__groups {
   border-radius: 20px;
-  grid-row: 2/3;
-  grid-column: 1/2;
+  grid-row: 2/4;
+  // grid-column: 1/2;
 }
 
 .messages-page__recents {
   border-radius: 20px;
-  grid-row: 3/4;
+  grid-row: 2/3;
   grid-column: 1/2;
+
+  @media (min-width: $tablet-width) {
+    grid-row: 3/4;
+
+    grid-column: 1/2;
+  }
 }
 
 .messages-page__chat {
   border-radius: 20px;
-  grid-row: 4/5;
+  grid-row: 2/3;
   grid-column: 1/2;
 
   @media (min-width: $tablet-width) {
@@ -78,4 +87,17 @@ $max-width: 1440px;
     grid-row: 1/4;
     grid-column: 2/3;
   }
+}
+
+.messages-page__nav-mobile {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+
+  @media (min-width: $tablet-width) {
+    display: none;
+  }
+
 }
