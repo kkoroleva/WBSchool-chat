@@ -28,6 +28,8 @@ export class AuthInterceptor implements HttpInterceptor {
         `Bearer ${localStorage.getItem('token')}`
       ),
     });
+    console.log(req)
+    console.log(newReq)
     return next.handle(newReq).pipe(
       catchError((err: HttpErrorResponse) => {
         if (

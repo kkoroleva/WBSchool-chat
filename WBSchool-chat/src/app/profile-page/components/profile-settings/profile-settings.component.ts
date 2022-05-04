@@ -172,7 +172,7 @@ export class ProfileSettingsComponent implements OnInit {
               this.toggle = !this.toggle;
             } else this.errorMsg = 'Username error'
           } 
-          return throwError(() => error);
+          return '';
         })
       ).subscribe(() => {
         this.errorMsg = 'Username taken'

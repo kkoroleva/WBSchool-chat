@@ -70,6 +70,7 @@ import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-grou
 import { PrivateComponent } from './friends/private.component';
 import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
+import { RouterModule } from '@angular/router';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -116,7 +117,7 @@ const API_URL_PROVIDER: Provider = {
     AboutGroupComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -167,6 +168,7 @@ const API_URL_PROVIDER: Provider = {
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    RouterModule,
   ],
 
   providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
