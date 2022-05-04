@@ -80,7 +80,6 @@ export class MessageComponent implements OnInit {
       }, 300);
     })
   );
-  socketService: any;
 
   constructor(
     private service: DialogService,
@@ -219,7 +218,7 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.socketService.updateMessage(this.chatID, {
+        this.messageSocketService.updateMessage(this.chatID, {
           text: this.message.value.trim(),
           _id: this.editMessageID,
         });

@@ -45,6 +45,9 @@
             display: flex;
             flex-direction: column;
             margin-right: 25px;
+            .user{
+                color: #1A66FF;
+            }
             input{
                 padding: 10px;
                 cursor: pointer;
@@ -60,9 +63,13 @@
         .email{
             display: flex;
             flex-direction: column;
+
             label{
                 display: flex;
                 align-items: center;
+                .email{
+                    color: rgb(228, 173, 54);
+                }
             }
             input{
                 padding: 10px;
@@ -92,26 +99,48 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: dashed rgba(77, 77, 77, 0.75);
+        border: 1px dashed rgba(77, 77, 77, 0.75);
         margin-bottom: 15px;
+        position: relative;
+
 
         label{
             font-weight: bold;
             padding: 10px;
             text-align: center;
         }
+        input{
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
     }
     .send-feedback{
         display: flex;
         padding: 5px 20px;
         align-items: center;
-        background: #1A66FF;
-        filter: grayscale(100);
+        background: #3b3d41;
         font-family: 'Open Sans', sans-serif;
         font-size: 15px;
         color: white;
-        border: none;
-        border-radius: 0px 20px 20px 0px;
+        border-radius: 0px 20px 20px 0px / none;
+
+        &--active{
+            background: #1A66FF;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 15px;
+            color: white;
+            border-radius: 0px 20px 20px 0px / none;
+            display: flex;
+            padding: 5px 20px;
+            align-items: center;
+
+            small{
+                font-weight: 700;
+                margin-right: 20px;
+            }
+        }
         small{
             font-weight: 700;
             margin-right: 20px;
@@ -170,10 +199,10 @@
         80% {
             transform: rotateZ(3.75deg);
           }
-          90% {
+        90% {
             transform: rotateZ(-3.33333deg);
           }
-          100% {
+        100% {
             transform: rotateZ(0deg);
           }
         }

@@ -9,10 +9,12 @@ import { IFeedBackMessage } from './feedBack';
 })
 export class FeedbackComponent implements OnInit {
   imgInput = false;
-  feedBackForm!: FormGroup;
+  feedbackForm!: FormGroup;
   imageOrFile = '';
-  
-  test:IFeedBackMessage[] = [{
+  imageName = ' Нажмите чтобы добавить файлы к сообщению.';
+ 
+
+  arrFeedBack:IFeedBackMessage[] = [{
     user:"pasha", 
     email:"pasha@gmail.com", 
     text:"helllo world 2022 wbschool"
@@ -22,7 +24,7 @@ export class FeedbackComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.feedBackForm = new FormGroup({
+    this.feedbackForm = new FormGroup({
       nameUser: new FormControl(''),
       emailUser: new FormControl('',[
         Validators.pattern(
@@ -34,24 +36,26 @@ export class FeedbackComponent implements OnInit {
       ]),
     })
   }
-  onImgAdd() {
+  onImgAdd(event: Event) {
+    console.log(event)
     this.imgInput = true
   }
-  closeWindow(){
  
-  }
-  sendFeedBack(){
-    console.log(this.test)
 
-    if (this.feedBackForm.value.emailUser.trim() || (this.feedBackForm.value.textUser.trim() && this.imageOrFile.length > 0)) {
+  sendFeedBack(){
+    console.log(this.arrFeedBack)
+
+    if (this.feedbackForm.value.emailUser.trim() 
+      || (this.feedbackForm.value.textUser.trim() 
+      && this.imageOrFile.length > 0)) {
      
       let feedBack: IFeedBackMessage = {
-        user: this.feedBackForm.value.nameUser,
-        email: this.feedBackForm.value.emailUser,
-        text: this.feedBackForm.value.textUser,
+        user: this.feedbackForm.value.nameUser,
+        email: this.feedbackForm.value.emailUser,
+        text: this.feedbackForm.value.textUser,
       }
-      this.test.push(feedBack)
-      this.feedBackForm.reset()
+      this.arrFeedBack.push(feedBack)
+      this.feedbackForm.reset()
     }
   }
 }

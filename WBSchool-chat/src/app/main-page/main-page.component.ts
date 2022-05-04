@@ -21,7 +21,6 @@ export class MainPageComponent implements OnInit {
     });
   }
   gitHub(){
-    console.log("!")
     window.open(this.urlGitHub)
   }
 
