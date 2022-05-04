@@ -1,14 +1,14 @@
 export interface IComment {
-  authorID: string;
-  authorName: string;
-  post: {
-    date: string;
-    img?: string;
-    text?: string;
-  }
+  authorID?: string;
+  authorName?: string;
+  date?: string;
+  imageOrFile?: string;
+  formatImage?: string;
+  text: string;
 }
 
 export interface IThread {
+  _id: string;
   ownerID: string;
   ownerName: string;
   ownerThumbnail: string;
@@ -17,6 +17,6 @@ export interface IThread {
     date: string;
     img?: string;
     text?: string;
-  }
+  };
   comments: IComment[];
 }

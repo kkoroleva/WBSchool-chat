@@ -15,9 +15,10 @@
             <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
               <img *ngIf="friend.avatars.length === 0" class="friends__thumbnail" [src]="friend.avatar || '/assets/not-found.png'" alt="Your best friend face"
               width="52" height="52">
-              <img *ngIf="friend.avatars.length !== 0" class="friends__thumbnail"
-                [src]="friend.usernames[0] === user.username ? friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar : friend.avatars[1].formatImage + friend.avatars[1].avatar" 
-                alt="avatar" width="52px" height="52px" alt="Your best friend face">
+              <img *ngIf="friend.usernames[0] === user.username && friend.avatars.length !== 0" class="friends__thumbnail" [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar || '/assets/not-found.png'" alt="Your best friend face"
+                width="52" height="52">
+              <img *ngIf="friend.usernames[1] === user.username && friend.avatars.length !== 0" class="friends__thumbnail" [src]="friend.avatars[1].formateImage + friend.avatars[1].avatar || '/assets/not-found.png'" alt="Your best friend face"
+              width="52" height="52">
             </div>
             <div class="friends__item-text">
               <b class="friends__name">{{friend.usernames[0] === user.username ? friend.usernames[1] : friend.usernames[0]}}</b>
