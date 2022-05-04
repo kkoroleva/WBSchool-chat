@@ -25,9 +25,9 @@
         <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
           <div class="threads__comment-header">
             <p class="threads__comment-author">{{comment.authorName}}</p>
-            <p class="threads__comment-date">{{comment.post.date}}</p>
+            <p class="threads__comment-date">{{comment.date}}</p>
           </div>
-          <p class="threads__comment-text">{{comment.post.text}}</p>
+          <p class="threads__comment-text">{{comment.text}}</p>
         </li>
       </ul>
     </div>

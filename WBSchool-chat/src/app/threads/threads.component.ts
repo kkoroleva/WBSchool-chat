@@ -1,16 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { DialogService } from '../dialog/dialog.service';
-import { MessageComponent } from '../dialog/messageDialog/message/message.component';
+import { ThreadSocketService } from '../socket/thread-socket.service';
+import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { IComment, IThread } from './thread';
 
 const mockThreads: IThread[] = [
   {
+    _id: '123456',
     ownerID: '12345678909876543',
     ownerName: 'Kkoroleva',
-    ownerThumbnail: 'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
+    ownerThumbnail:
+      'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
     isActive: true,
     basicPost: {
       date: '12/04/2022 12:44PM',
@@ -21,26 +25,20 @@ const mockThreads: IThread[] = [
       {
         authorID: '12345678909876543',
         authorName: 'Everyone',
-        post: {
-          date: '14/04/2022 12:04PM',
-          text: 'Funny. Not funny'
-        }
+        date: '14/04/2022 12:04PM',
+        text: 'Funny. Not funny',
       },
       {
         authorID: '12345678909876543',
         authorName: 'Everyone',
-        post: {
-          date: '14/04/2022 12:04PM',
-          text: 'Funny. Not funny'
-        }
+        date: '14/04/2022 12:04PM',
+        text: 'Funny. Not funny',
       },
       {
         authorID: '12345678909876543',
         authorName: 'Everyone',
-        post: {
-          date: '14/04/2022 12:04PM',
-          text: 'Funny. Not funny'
-        }
+        date: '14/04/2022 12:04PM',
+        text: 'Funny. Not funny',
       },
     ],
   },
@@ -61,9 +59,18 @@ export class ThreadsComponent implements OnInit {
   threadsList: IThread[];
   username: string = '';
   idUser: string = '';
+  threadId = '';
 
-  constructor(private imageCompress: NgxImageCompressService,
-    private serviceDialog: DialogService) {
+  private chatGroup$: Observable<string> = this.store$.pipe(
+    select(selectChatGroup)
+  );
+
+  constructor(
+    private imageCompress: NgxImageCompressService,
+    private serviceDialog: DialogService,
+    private threadSocketService: ThreadSocketService,
+    private store$: Store
+  ) {
     this.threadsList = mockThreads;
   }
   ngOnInit(): void {
@@ -137,15 +144,15 @@ export class ThreadsComponent implements OnInit {
       let comment: IComment = {
         authorID: this.idUser,
         authorName: this.username,
-        post: {
-          date: '28/04/2022 17:04PM',
-          img: undefined,
-          text: this.commentControl.value
-        }
-      }
-      this.threadsList[0].comments.push(comment)
-      this.commentControl.reset()
-
+        date: '28/04/2022 17:04PM',
+        text: this.commentControl.value,
+      };
+      this.chatGroup$.subscribe((chatId) => {
+        this.threadSocketService.sendComment(chatId, this.threadId, comment);
+      });
+      this.threadsList[0].comments.push(comment);
+      // this.threadSocketService.onSendComment
+      this.commentControl.reset();
     }
   }
 }
