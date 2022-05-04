@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  addAuthNotification,
   changeLoadNotifications,
+  clearNotifications,
   pushToNotification,
   removeNotification,
 } from '../actions/notifications.actions';
@@ -30,6 +30,10 @@ export const notificationsReducer = createReducer(
   on(changeLoadNotifications, (state, action) => ({
     ...state,
     notifications: action.notifications,
+  })),
+  on(clearNotifications, (state) => ({
+    ...state,
+    notifications: [],
   })),
   on(removeNotification, (state, action) => ({
     ...state,
