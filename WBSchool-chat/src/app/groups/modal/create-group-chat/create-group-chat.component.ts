@@ -30,8 +30,8 @@ import {
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../user';
-import { INotification } from 'src/app/store/reducers/notifications.reducers';
-import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
+import { INotification } from './../../../store/reducers/notifications.reducers';
+import { NotificationSocketService } from './../../../socket/notification-socket.service';
 
 @Component({
   selector: 'groups-create-group-chat',

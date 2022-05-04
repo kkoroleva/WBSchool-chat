@@ -9,11 +9,11 @@ import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from '../../../store/actions/auth.actions';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { INotification } from 'src/app/store/reducers/notifications.reducers';
-import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
-import { SocketService } from 'src/app/socket/socket.service';
-import { ConnectEvent } from 'src/app/socket/event';
-import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
+import { INotification } from './../../../store/reducers/notifications.reducers';
+import { addAuthNotification } from './../../../store/actions/notifications.actions';
+import { SocketService } from './../../../socket/socket.service';
+import { ConnectEvent } from './../../../socket/event';
+import { NotificationSocketService } from './../../../socket/notification-socket.service';
 
 @Component({
   selector: 'app-login',
