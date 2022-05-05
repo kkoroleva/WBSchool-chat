@@ -219,9 +219,9 @@ export class AppEffects {
   outFromChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(outFromChatFriend),
-      mergeMap(({ chatId, owner }) =>
+      mergeMap(({ chatId, owners }) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, owner)
+          .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, {owner: owners})
           .pipe(map((id) => updateChatFriends({chatId: id})))
       )
     );

@@ -21,6 +21,10 @@ export class ProfileSettingsService {
     return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
   }
 
+  getOwners(userId: string) {
+    return this.http.post(`${this.apiUrl}/api/chats/owners`, {userId})
+  }
+
   getContacts() {
     return this.http.get<IUserData>(`${this.url}/contacts`)
   }

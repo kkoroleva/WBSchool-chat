@@ -37,12 +37,13 @@ export interface IChatInfo {
     isNotifications: boolean,
     isRead: boolean,
     isActive: boolean,
-    owner: string, 
+    owners: string[], 
     __v: number, 
     chatGroup: string,
     avatar : string,
     users: string[],
-    usernames: string[]
+    usernames: string[],
+    isPrivate: boolean,
 }
 
 const initialState: IDialogState = {
@@ -56,12 +57,13 @@ const initialState: IDialogState = {
         isNotifications: false, 
         isRead: false, 
         isActive: false, 
-        owner: "", 
+        owners: [], 
         __v: 0,
         chatGroup: "",
         avatar: "",
         users:[],
-        usernames: []
+        usernames: [],
+        isPrivate: false
     }
 }
 

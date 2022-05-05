@@ -87,15 +87,14 @@ export class HeaderComponent implements OnInit {
   }
 
   leaveFromChat(chatInfo: IChatInfo, user: IUserData): void {
-    if (user._id === chatInfo.owner) {
+    if (chatInfo.isPrivate === false) {
       this.modalWindow.open(OutFromGroupComponent, {
         panelClass: 'out-group-chat-modal',
         maxWidth: '100vw',
       });
-
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
-      this.store$.dispatch(outFromChatFriend({ chatId: chatInfo._id, owner: chatInfo.owner }));
+      this.store$.dispatch(outFromChatFriend({ chatId: chatInfo._id, owners: chatInfo.owners }));
       setTimeout(() => {
         this.router.navigateByUrl('/home');
       }, 200)

@@ -2,12 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { defer, finalize, Observable } from 'rxjs';
+import { concatMap, Observable } from 'rxjs';
 import { IUserData } from '../auth/interfaces';
 import { ProfileSettingsService } from '../profile-page/services/profile-settings.service';
 import { IPrivate } from '../friends/private';
 import { initContacts } from '../store/actions/contacts.actions';
-import { changeChatGroup, createChatFriend, loadFriends } from '../store/actions/groups.actions';
+import { changeChatGroup, createChatFriend, returnIntoChatFriend } from '../store/actions/groups.actions';
 import { IContacts } from '../store/reducers/contacts.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { selectContacts } from '../store/selectors/contacts.selectors';
@@ -58,29 +58,40 @@ export class ModalProfileComponent implements OnInit {
   }
 
   goToChat(_id: string) {
-    const username = this.userData.username.trim();
-    let clone: IPrivate | undefined;
-    this.store$.pipe(select(selectFriends))
+    const username: string = this.userData.username.trim();
+      let clone: IPrivate | undefined;
+      this.store$.pipe(select(selectFriends))
       .subscribe((chats: IPrivate[]) => {
         clone = chats.find((chat: IPrivate) => chat.usernames[0] === username || chat.usernames[1] === username);
       })
-    setTimeout(() => {
       if (!clone) {
-        this.user$.subscribe({
-            next: user => this.store$.dispatch(
-              createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
-            )
+        this.profileServ.getUsers(username).pipe(
+          concatMap((user: IUserData) => this.profileServ.getOwners(user._id)),
+        )
+        .subscribe((res: any) => {
+          if (res[0]) {
+            this.user$.subscribe({
+              next: () => this.store$.dispatch(
+                returnIntoChatFriend({ chatId: res[0]._id, users: res[0].owner})
+              ),
+            });
+          }
+          else {
+            this.user$.subscribe({
+              next: user => this.store$.dispatch(
+                  createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
+              )
+            });
+          }
+          setTimeout(() => {
+            this.router.navigateByUrl('/home')
+          }, 0);
         });
-        setTimeout(() => {
-          this.router.navigateByUrl('/home')
-        }, 0);
+      } else {
+        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+        this.router.navigateByUrl('/chat');
       }
-      else {
-          this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
-          this.router.navigateByUrl('/chat');
-      }
-      this.dialogRef.close();
-    }, 1);
+    this.dialogRef.close();
   }
 
   deleteContact(_id: string) {

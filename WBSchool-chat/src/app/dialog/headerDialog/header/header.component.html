@@ -26,7 +26,7 @@
             <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
                 <span>Удалить чат</span>
             </button>
-            <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2  && chatInfo.owner === user._id"  mat-menu-item>
+            <button (click)="getModalWindow(chatInfo)" *ngIf="!chatInfo.isPrivate"  mat-menu-item>
                 <span>Редактировать чат</span>
             </button>
             <button (click)="aboutChat(chatInfo)" mat-menu-item>

@@ -85,7 +85,7 @@ export const deleteChatFriend = createAction(
 
 export const outFromChatFriend = createAction(
   '[FRIENDS] outFromChatFriend',
-  props<{ chatId: string, owner: string }>()
+  props<{ chatId: string, owners: string[] }>()
 );
 
 export const returnIntoChatFriend = createAction(

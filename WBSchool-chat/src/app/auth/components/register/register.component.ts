@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+@[a-zA-Z]+.[a-zA-Z]+$')]),
+      email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@[a-zA-Z]+.[a-zA-Z]+$')]),
       username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern('^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$')]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(100)]),
       repeatPassword: new FormControl(null, [Validators.required]),
