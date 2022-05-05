@@ -1,11 +1,15 @@
+import { editComment } from './../store/actions/threads.action';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { createComment, deleteComment } from '../store/actions/threads.action';
 import { IComment } from '../threads/thread';
 import { SocketService } from './socket.service';
 
-export interface INewComment extends IComment {
+export interface INewComment {
   chatId: string;
   threadId: string;
+  comment: IComment
 }
 
 export interface IDeleteComment {
@@ -19,7 +23,7 @@ export interface IDeleteComment {
   providedIn: 'root',
 })
 export class ThreadSocketService {
-  constructor(private socketService: SocketService) {}
+  constructor(private socketService: SocketService, private store$: Store) {}
 
   public sendComment(
     chatId: string,
@@ -44,6 +48,21 @@ export class ThreadSocketService {
       threadId,
       authorId,
       date,
+    });
+  }
+
+  public initConnectThreads() {
+    this.onSendComment().subscribe((comment : INewComment) => {
+      console.log("oncreate comment", comment)
+      this.store$.dispatch(createComment({ comment: comment.comment }));
+    });
+    this.onDeleteComment().subscribe((comment: IDeleteComment) => {
+      console.log("ondelete comment", comment)
+      this.store$.dispatch(deleteComment({ comment }));
+    });
+    this.onUpdateComment().subscribe((comment: INewComment) => {
+      console.log("onedit comment")
+      this.store$.dispatch(editComment({ comment: comment.comment }));
     });
   }
 

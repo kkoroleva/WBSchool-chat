@@ -92,26 +92,6 @@ export class MessageComponent implements OnInit {
   ) {}
 
   private initIoConnection(): void {
-    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(pushToMessages({ message }));
-      this.store$.dispatch(
-        allGroupsMessages({
-          chatId: message.chatId!,
-          lastMessage: message.text,
-          messageId: message._id!,
-        })
-      );
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
-    });
-
-    this.messageSocketService
-      .onDeleteMessage()
-      .subscribe((message: IDeleteMessage) => {
-        this.store$.dispatch(deleteMessage({ id: message.messageId }));
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId }));
-      });
     this.actions$
       .pipe(
         ofType(deleteMessage),
@@ -131,23 +111,10 @@ export class MessageComponent implements OnInit {
         });
         this.store$.dispatch(deleteLastGroupMessage({ id }));
       });
-    this.messageSocketService
-      .onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(editMessage({ message }));
-        this.store$.dispatch(
-          allGroupsMessages({
-            chatId: message.chatId!,
-            lastMessage: message.text,
-            messageId: message._id!,
-          })
-        );
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
-      });
   }
 
   ngOnInit(): void {
-    this.messageSocketService.offMessages();
+    // this.messageSocketService.offMessages();
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
       this.chatID = id;

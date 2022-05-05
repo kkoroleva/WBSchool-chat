@@ -7,25 +7,25 @@
   </header>
   <p class="threads__is-no-threads" *ngIf="threadsList.length === 0">Click on a message in chat to start a thread.</p>
 
-  <div class="threads__item" *ngFor="let thread of threadsList; index as i;">
-    <div class="threads__owner" [ngClass]="{threads__online:thread.isActive}">
-      <img class="threads__thumbnail" src="{{thread.ownerThumbnail}}" alt="Your best thread face" width="52"
+  <div class="threads__item" >
+    <div class="threads__owner" [ngClass]="{threads__online: isActive}">
+      <img class="threads__thumbnail" src="{{formatImage + avatar}}" alt="Your best thread face" width="52"
         height="52">
-      <p class="threads__name">{{thread.ownerName}}
-        <span class="threads__online-status">{{thread.isActive? 'Online' : 'Offline'}}</span>
+      <p class="threads__name">{{username}}
+        <span class="threads__online-status">{{isActive? 'Online' : 'Offline'}}</span>
       </p>
     </div>
     <div class="threads__item-post">
-      <p class="threads__post-date">{{thread.basicPost.date}}</p>
-      <img class="threads__main-img" src="{{thread.basicPost.img}}" alt="Meme">
-      <p class="threads__main-text">{{thread.basicPost.text}}</p>
+      <p class="threads__post-date">{{basicPost.date}}</p>
+      <img class="threads__main-img" src="{{basicPost.imageOrFile}}" alt="Meme">
+      <p class="threads__main-text">{{basicPost.text}}</p>
     </div>
     <div class="threads__comments-wrapper">
       <ul class="threads__comments" #wrapper>
-        <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
+        <li class="threads__comment" *ngFor="let comment of (thread$|async)?.comments">
           <div class="threads__comment-header">
             <p class="threads__comment-author">{{comment.authorName}}</p>
-            <p class="threads__comment-date">{{comment.date}}</p>
+            <p class="threads__comment-date">{{comment.date | date:'dd/MM/yyyy HH:mm'}}</p>
           </div>
           <p class="threads__comment-text">{{comment.text}}</p>
         </li>
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <form class="message__send" action="" method="post">
+  <form class="message__send" >
     <div>
       <div class="form_save_image" *ngIf="toggle">
         <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input>
@@ -54,7 +54,8 @@
       <input type="text" placeholder="Comment..." [formControl]="commentControl" (keydown.enter)="sendComments()">
       <mat-icon class="smile" width="15px" height="15px">tag_faces</mat-icon>
       <!-- <mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon> -->
-      <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>
+      <!-- <mat-icon class="voice" width="45px" height="45px">mic</mat-icon> -->
+      <mat-icon class="smile" >send</mat-icon>
     </div>
   </form>
 </section>
