@@ -96,7 +96,7 @@ export class CreatePrivateChatComponent implements OnInit {
           if (res[0]) {
             this.user$.subscribe({
               next: () => this.store$.dispatch(
-                returnIntoChatFriend({ chatId: res[0]._id, users: res[0].owner})
+                returnIntoChatFriend({ chatId: res[0]._id, users: res[0].owners})
               ),
             });
           }
@@ -109,9 +109,12 @@ export class CreatePrivateChatComponent implements OnInit {
           }
         });
       } else {
-        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id!, isPrivate: true }));
         this.router.navigateByUrl('/chat');
       }
+      setTimeout(() => {
+        this.store$.dispatch(loadFriends());
+      }, 200)
     this.dialogRef.close();
   }
 

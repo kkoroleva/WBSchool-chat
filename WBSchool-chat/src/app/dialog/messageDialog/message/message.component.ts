@@ -62,7 +62,7 @@ export class MessageComponent implements OnInit {
   userData: IUserData | undefined;
   imgInput = false;
 
-  private chatGroup$: Observable<string> = this.store$.pipe(
+  private chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -148,9 +148,9 @@ export class MessageComponent implements OnInit {
   ngOnInit(): void {
     this.messageSocketService.offMessages();
     this.getMyInfo();
-    this.chatGroup$.subscribe((id) => {
-      this.chatID = id;
-      this.store$.dispatch(initDialogs({ id }));
+    this.chatGroup$.subscribe((chatGroup) => {
+      this.chatID = chatGroup.chatGroup;
+      this.store$.dispatch(initDialogs({ id: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate }));
     });
     this.initIoConnection();
   }

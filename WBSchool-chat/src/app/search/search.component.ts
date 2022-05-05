@@ -82,7 +82,7 @@ export class SearchComponent implements OnInit {
   }
 
   goToChat(chatId: string) {
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
+    this.store$.dispatch(changeChatGroup({ chatGroup: chatId, isPrivate: false }));
     localStorage.setItem('chatID', chatId);
     this.router.navigateByUrl('/chat');
   }

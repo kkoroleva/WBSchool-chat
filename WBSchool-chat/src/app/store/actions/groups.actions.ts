@@ -12,7 +12,7 @@ export const changeLoadGroups = createAction(
 
 export const changeChatGroup = createAction(
   '[GROUPS] changeChatGroup',
-  props<{ chatGroup: string }>()
+  props<{ chatGroup: string, isPrivate: boolean }>()
 );
 
 export const createChatGroup = createAction(
@@ -85,7 +85,7 @@ export const deleteChatFriend = createAction(
 
 export const outFromChatFriend = createAction(
   '[FRIENDS] outFromChatFriend',
-  props<{ chatId: string, owners: string[] }>()
+  props<{ chatId: string, owner: string }>()
 );
 
 export const returnIntoChatFriend = createAction(

@@ -20,7 +20,7 @@ export const selectGroup = createSelector(
 
 export const selectChatGroup = createSelector(
   selectGroupsFeature,
-  (state: IGroupsState): string => state.chatGroup
+  (state: IGroupsState): any => state.chatGroup
 );
 
 export const selectChatGroupError = createSelector(

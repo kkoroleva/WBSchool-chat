@@ -85,7 +85,7 @@ export class PrivateComponent implements OnInit {
   }
 
   goToChat(chatId: string): void {
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
+    this.store$.dispatch(changeChatGroup({ chatGroup: chatId, isPrivate: true }));
     localStorage.setItem('chatID', chatId);
     this.router.navigateByUrl('/chat');
   }
@@ -99,13 +99,12 @@ export class PrivateComponent implements OnInit {
       panelClass: 'create-private-chat-modal',
       maxWidth: '100vw',
     });
-    this.store$.dispatch(loadFriends());
   }
 
-  outFromChat(_id: string, owners: string[]) {
+  outFromChat(_id: string, userId: string) {
     let result = confirm('Вы точно хотите выйти из чата?');
     if (!!result) {
-      this.store$.dispatch(outFromChatFriend({ chatId: _id, owners: owners }));
+      this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: userId }));
       setTimeout(() => {
         this.store$.dispatch(loadFriends());
       }, 200)

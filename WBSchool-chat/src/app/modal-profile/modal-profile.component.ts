@@ -72,7 +72,7 @@ export class ModalProfileComponent implements OnInit {
           if (res[0]) {
             this.user$.subscribe({
               next: () => this.store$.dispatch(
-                returnIntoChatFriend({ chatId: res[0]._id, users: res[0].owner})
+                returnIntoChatFriend({ chatId: res[0]._id, users: res[0].owners})
               ),
             });
           }
@@ -88,7 +88,7 @@ export class ModalProfileComponent implements OnInit {
           }, 0);
         });
       } else {
-        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id!, isPrivate: true }));
         this.router.navigateByUrl('/chat');
       }
     this.dialogRef.close();

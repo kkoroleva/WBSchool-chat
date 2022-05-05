@@ -32,7 +32,7 @@ import { ModalProfileService } from './../../../modal-profile/service/modal-prof
 export class HeaderComponent implements OnInit {
   chatInfo: IChatInfo | undefined;
 
-  private chatGroup$: Observable<string> = this.store$.pipe(
+  private chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -49,9 +49,8 @@ export class HeaderComponent implements OnInit {
   public user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
   ngOnInit(): void {
-    this.chatGroup$.subscribe((id) => {
-      const chatId = id;
-      this.store$.dispatch(getInfoChat({ chatId }));
+    this.chatGroup$.subscribe((chatGroup) => {
+      this.store$.dispatch(getInfoChat({ chatId: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate }));
     });
     this.chatInfo$.subscribe((data) => {
       if (data) {
@@ -66,7 +65,7 @@ export class HeaderComponent implements OnInit {
       maxWidth: '100vw',
     });
     this.store$.dispatch(setGroup({ group: chatInfo }));
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id }));
+    this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id, isPrivate: false }));
   }
 
   deleteChat(_id: string) {
@@ -87,14 +86,14 @@ export class HeaderComponent implements OnInit {
   }
 
   leaveFromChat(chatInfo: IChatInfo, user: IUserData): void {
-    if (chatInfo.isPrivate === false) {
+    if (chatInfo.owners[2] === user._id) {
       this.modalWindow.open(OutFromGroupComponent, {
         panelClass: 'out-group-chat-modal',
         maxWidth: '100vw',
       });
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
-      this.store$.dispatch(outFromChatFriend({ chatId: chatInfo._id, owners: chatInfo.owners }));
+      this.store$.dispatch(outFromChatFriend({ chatId: chatInfo._id, owner: user._id }));
       setTimeout(() => {
         this.router.navigateByUrl('/home');
       }, 200)

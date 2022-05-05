@@ -42,8 +42,7 @@ export interface IChatInfo {
     chatGroup: string,
     avatar : string,
     users: string[],
-    usernames: string[],
-    isPrivate: boolean,
+    usernames: string[]
 }
 
 const initialState: IDialogState = {
@@ -63,7 +62,6 @@ const initialState: IDialogState = {
         avatar: "",
         users:[],
         usernames: [],
-        isPrivate: false
     }
 }
 

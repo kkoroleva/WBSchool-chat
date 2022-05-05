@@ -19,7 +19,6 @@ import {
 } from '../actions/groups.actions';
 import { IPrivate } from './../../friends/private';
 import { IUser } from './../../groups/user';
-import { IMessage } from './../../dialog/dialog';
 
 export const groupsNode = 'Groups';
 
@@ -30,7 +29,10 @@ export interface IGroupsState {
   group: IGroup;
   groupUsers: IUser[];
   friends: IPrivate[];
-  chatGroup: string;
+  chatGroup: {
+    chatGroup: string,
+    isPrivate: boolean,
+  },
   error: string;
   lastMessages: IGroupsMessages[];
 }
@@ -53,7 +55,10 @@ const initialState: IGroupsState = {
   group: { name: '' },
   groupUsers: [],
   friends: [],
-  chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
+  chatGroup: {
+    chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
+    isPrivate: false,
+  },
   error: '',
   lastMessages: [],
 };
@@ -68,7 +73,7 @@ export const groupsReducer = createReducer(
   initialState,
   on(changeChatGroup, (state, action) => ({
     ...state,
-    chatGroup: action.chatGroup,
+    chatGroup: {chatGroup: action.chatGroup, isPrivate: action.isPrivate}
   })),
   on(changeLoadGroups, (state, action) => ({
     ...state,

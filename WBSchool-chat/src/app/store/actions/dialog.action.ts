@@ -5,7 +5,7 @@ import { IChatInfo } from '../reducers/dialog.reducer';
 
 export const initDialogs = createAction(
   '[DIALOG] initDialogs',
-  props<{ id: string }>()
+  props<{ id: string, isPrivate: boolean }>()
 );
 
 export const loadDialogs = createAction(
@@ -47,7 +47,7 @@ export const emptyMessage = createAction('[DIALOG] emptyMessage');
 
 export const getInfoChat = createAction(
   '[DIALOG] getInfoChat',
-  props<{ chatId: string }>()
+  props<{ chatId: string, isPrivate: boolean }>()
 );
 
 export const newGetInfoChat = createAction(

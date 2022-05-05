@@ -105,7 +105,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(createChatGroup),
       mergeMap(({ group }) =>
-        this.http.post<IGroup>(`${this.urlApi}/chats`, group).pipe(
+        this.http.post<IGroup>(`${this.urlApi}/chats/groups`, group).pipe(
           tap((group) => (group.avatar = group.formatImage! + group.avatar)),
           map((group) => pushToGroups({ group })),
           catchError((err) => of(chatGroupError({ error: err.error.message })))
@@ -118,7 +118,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(editGroup),
       mergeMap(({ id, editGroup }) =>
-        this.http.patch<IGroup>(`${this.urlApi}/chats/${id}`, editGroup).pipe(
+        this.http.patch<IGroup>(`${this.urlApi}/chats/groups/${id}`, editGroup).pipe(
           tap((group) => (group.avatar = group.formatImage! + group.avatar)),
           switchMap((group) => [
             newGetInfoChat({ chatInfo: group as IChatInfo }),
@@ -134,7 +134,7 @@ export class AppEffects {
       ofType(deleteGroup),
       mergeMap(({ id }) =>
         this.http
-          .delete(`${this.urlApi}/chats/${id}`)
+          .delete(`${this.urlApi}/chats/groups/${id}`)
           .pipe(map(() => deleteFromGroups({ id })))
       )
     );
@@ -145,7 +145,7 @@ export class AppEffects {
       ofType(getGroupUsers),
       mergeMap(({ id }) =>
         this.http
-          .get<IUser[]>(`${this.urlApi}/chats/${id}/users`)
+          .get<IUser[]>(`${this.urlApi}/chats/groups/${id}/users`)
           .pipe(map((users) => setGroupUsers({ users })))
       )
     );
@@ -156,7 +156,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(loadFriends),
       mergeMap(() =>
-        this.http.get<IPrivate[]>(`${this.urlApi}/chats/friends`).pipe(
+        this.http.get<IPrivate[]>(`${this.urlApi}/chats/privates`).pipe(
           tap((friends) =>
             friends.forEach((friend) => {
               friend.avatar = friend.formatImage! + friend.avatar;
@@ -173,7 +173,7 @@ export class AppEffects {
       ofType(createChatFriend),
       mergeMap(({ username, ownerUsername, ownerFormatImage, ownerAvatar }) =>
         this.http
-          .post<IPrivate>(`${this.urlApi}/chats/private?username=${username}`, {
+          .post<IPrivate>(`${this.urlApi}/chats/privates/private?username=${username}`, {
             ownerUsername,
             ownerFormatImage,
             ownerAvatar,
@@ -196,7 +196,7 @@ export class AppEffects {
       ofType(returnIntoChatFriend),
       mergeMap(({chatId, users}) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/${chatId}`, {users})
+          .patch<string>(`${this.urlApi}/chats/privates/${chatId}`, {users})
           .pipe(map((id) => updateChatFriends({chatId: id})),
             catchError((err) =>
               of(chatGroupError({error: err.error.message}))
@@ -205,23 +205,23 @@ export class AppEffects {
     );
   });
 
-  deleteChat$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(deleteChatFriend),
-      mergeMap(({ chatId }) =>
-        this.http
-          .delete<string>(`${this.urlApi}/chats/${chatId}`)
-          .pipe(map((id) => updateChatFriends({ chatId: id })))
-      )
-    );
-  });
+  // deleteChat$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(deleteChatFriend),
+  //     mergeMap(({ chatId }) =>
+  //       this.http
+  //         .delete<string>(`${this.urlApi}/chats/${chatId}`)
+  //         .pipe(map((id) => updateChatFriends({ chatId: id })))
+  //     )
+  //   );
+  // });
 
   outFromChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(outFromChatFriend),
-      mergeMap(({ chatId, owners }) =>
+      mergeMap(({ chatId, owner }) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, {owner: owners})
+          .patch<string>(`${this.urlApi}/chats/privates/${chatId}/exit`, {owner: owner})
           .pipe(map((id) => updateChatFriends({chatId: id})))
       )
     );
@@ -247,10 +247,14 @@ export class AppEffects {
   loadDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(initDialogs),
-      mergeMap(({ id }) =>
+      mergeMap(({ id, isPrivate }) => isPrivate === true ? 
         this.http
-          .get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
-          .pipe(map((messages) => loadDialogs({ messages })))
+          .get<IMessage[]>(`${this.urlApi}/chats/privates/${id}/messages`)
+          .pipe(map((messages) => loadDialogs({ messages }))) 
+          : 
+        this.http
+          .get<IMessage[]>(`${this.urlApi}/chats/groups/${id}/messages`)
+          .pipe(map((messages) => loadDialogs({ messages }))) 
       )
     );
   });
@@ -260,7 +264,7 @@ export class AppEffects {
       ofType(getAllChatsMessages),
       mergeMap(({ chatId }) =>
         this.http
-          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .get<IMessage[]>(`${this.urlApi}/chats/privates/${chatId}/messages`)
           .pipe(
             map((messages) =>
               allChatsMessages({
@@ -280,7 +284,7 @@ export class AppEffects {
       ofType(getAllGroupsMessages),
       mergeMap(({ chatId }) =>
         this.http
-          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .get<IMessage[]>(`${this.urlApi}/chats/groups/${chatId}/messages`)
           .pipe(
             map((messages) =>
               allGroupsMessages({
@@ -298,11 +302,19 @@ export class AppEffects {
     );
   });
 
-  getInfoChats$ = createEffect(() => {
+  getInfoPrivateChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getInfoChat),
-      mergeMap(({ chatId }) =>
-        this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}`).pipe(
+      mergeMap(({ chatId, isPrivate }) => isPrivate === true ?
+        this.http.get<IChatInfo>(`${this.urlApi}/chats/privates/${chatId}`).pipe(
+          tap(
+            (chatInfo) =>
+              (chatInfo.avatar = chatInfo.formatImage! + chatInfo.avatar)
+          ),
+          map((chatInfo) => newGetInfoChat({ chatInfo }))
+        )
+        :
+        this.http.get<IChatInfo>(`${this.urlApi}/chats/groups/${chatId}`).pipe(
           tap(
             (chatInfo) =>
               (chatInfo.avatar = chatInfo.formatImage! + chatInfo.avatar)
