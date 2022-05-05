@@ -1,14 +1,16 @@
-<section (resized)="onResized($event)" class="home-page__wrapper" #homePage>
+<section (resized)="onResized($event)" class="home-page__wrapper">
   <h2 class="visually-hidden">Home: groups, friends, threads</h2>
   <!--TO DO: Блоки компонентов временно будут обозначены div.
     При вставке заменить своим тегом, оставив класс-->
-  <app-search class="home-page__search" #help></app-search>
-  <app-groups *ngIf="changeState.stateComponentMain.groups" class="home-page__groups main-grid-block">Groups
+  <p class="" #help></p>
+  <app-search class="home-page__search"></app-search>
+  <app-groups *ngIf="changeState.stateComponentMain.groups" class="home-page__groups main-grid-block"
+    [isThreads]="isThreads" (isThreads1)="method($event)">Groups
   </app-groups>
-  <app-private  *ngIf="changeState.stateComponentMain.tetATet" class="home-page__friends main-grid-block">Friends
+  <app-private *ngIf="changeState.stateComponentMain.tetATet" class="home-page__friends main-grid-block">Friends
   </app-private>
-  <app-threads (onClosed)="onClosed($event)" *ngIf="changeState.stateComponentMain.threads"
-    class="home-page__threads main-grid-block">Threads</app-threads>
+  <app-threads *ngIf="changeState.stateComponentMain.threads" class="home-page__threads main-grid-block">Threads
+  </app-threads>
   <!-- <app-feedback></app-feedback> -->
   <app-nav-mobile class="home-page__nav-mobile"></app-nav-mobile>
 </section>

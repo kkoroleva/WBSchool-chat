@@ -17,6 +17,7 @@ $main-blue: #1A66FF;
 
 .friends {
   width: 100%;
+  max-height: 100%;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -30,20 +31,6 @@ $main-blue: #1A66FF;
     margin: 0;
   }
 
-  @media (max-width: 1024px) {
-    .friends__more-button {
-      display: block;
-    }
-
-    .friends__item {
-      padding: 0;
-    }
-
-    .friends__item-text {
-      display: flex;
-    }
-
-  }
 
 }
 
@@ -54,9 +41,6 @@ $main-blue: #1A66FF;
 .friends__more-button {
   color: $main-blue;
   cursor: pointer;
-  display: none;
-
-
 }
 
 .friends__more-button:hover {
@@ -68,12 +52,9 @@ $main-blue: #1A66FF;
   padding: 0;
   margin: 0;
   overflow-y: scroll;
-  max-height: 400px;
-
-  @media (min-width: $desktop-width) {
-    max-height: 100%;
-    overflow-y: hidden;
-  }
+  max-height: calc(420px*0.7);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .friends__item {
@@ -88,8 +69,6 @@ $main-blue: #1A66FF;
 }
 
 .friends__item-text {
-  display: none;
-
   flex-wrap: wrap;
   justify-content: space-between;
   flex: 1;
@@ -187,4 +166,53 @@ $main-blue: #1A66FF;
 .friends__btn__deleteChat:hover {
   color: red;
   font-size: 18px;
+}
+
+
+.friends--with-threads {
+  .friends__header {
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+  .friends__more-button,
+  .friends__last-active,
+  .friends__btn__deleteChat,
+  .friends__last-message {
+    display: none;
+  }
+
+
+  .friends__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+
+  }
+
+  .friends__item {
+    padding: 10px 0;
+  }
+
+  .friends__chat-link {
+    justify-content: center;
+  }
+
+  .friends__thumbnail {
+    width: 80px;
+    height: 80px;
+  }
+
+  .friends__name {
+    display: block;
+    text-align: center;
+    max-width: 100px;
+    overflow-x: hidden;
+  }
+
+  .friends__is-no-friends {
+    padding-top: 20px;
+    text-align: center;
+  }
 }

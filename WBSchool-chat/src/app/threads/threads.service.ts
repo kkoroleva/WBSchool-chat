@@ -6,6 +6,7 @@ import { IThread } from './thread';
   providedIn: 'root'
 })
 export class ThreadsService {
+  isThreads: boolean = false;
 
   basicPost: IMessage = {
     text: '',
@@ -14,6 +15,8 @@ export class ThreadsService {
 
   createThread(message: IMessage) {
     this.basicPost = message;
-    console.log(this.basicPost.avatar);
+    console.log(this.basicPost);
   }
+
+
 }

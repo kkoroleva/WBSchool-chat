@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
 import { IGroupsState } from '../store/reducers/groups.reducers';
@@ -21,8 +21,13 @@ import { IGroupsMessages } from '../store/reducers/groups.reducers';
   selector: 'app-groups',
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsComponent implements OnInit {
+  @Input() isThreads!: boolean;
+  @Output() isThreads1 = new EventEmitter<boolean>(); 
+
+
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
   public lastMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
     select(selectLastGroupsMessages)
@@ -35,6 +40,8 @@ export class GroupsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isThreads1.emit(false);
+    console.log(this.isThreads)
     this.getGroupChats();
     this.getLastMessages();
   }

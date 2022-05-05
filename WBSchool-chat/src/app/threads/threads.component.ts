@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { tap } from 'rxjs';
@@ -51,6 +51,7 @@ const mockThread: IThread =
   selector: 'app-threads',
   templateUrl: './threads.component.html',
   styleUrls: ['./threads.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThreadsComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef;
@@ -197,5 +198,6 @@ export class ThreadsComponent implements OnInit {
   @Output() onClosed = new EventEmitter<boolean>();
   closeThreadComponent(): void {
     this.onClosed.emit(this.isOpen);
+    this.threadsService.isThreads = false;
   }
 }

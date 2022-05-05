@@ -21,7 +21,7 @@
       <p class="threads__main-text">{{basicPostObj.text? basicPostObj.text : 'No text here (temporary message)'}}</p>
     </div>
     <div class="threads__comments-wrapper">
-      <p class="threads__comment-text" *ngIf="thread.comments.length !== 0">No comments was found</p>
+      <p class="threads__comment-text" *ngIf="thread.comments.length === 0">No comments was found. Write one yourself</p>
       <ul class="threads__comments" #wrapper>
         <li class="threads__comment" *ngFor="let comment of thread.comments; index as i;">
           <div class="threads__comment-header">

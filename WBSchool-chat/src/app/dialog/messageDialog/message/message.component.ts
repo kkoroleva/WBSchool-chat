@@ -314,6 +314,7 @@ export class MessageComponent implements OnInit {
 
   openThread(message: IMessage) {
     this.threadsService.createThread(message);
+    this.threadsService.isThreads = true;
   }
 
 }

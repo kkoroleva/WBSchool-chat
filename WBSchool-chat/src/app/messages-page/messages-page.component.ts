@@ -1,14 +1,20 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ChangeComponentService } from '../nav-mobile/change-component.service';
+import { ThreadsService } from '../threads/threads.service';
 
 @Component({
   selector: 'app-messages-page',
   templateUrl: './messages-page.component.html',
   styleUrls: ['./messages-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessagesPageComponent implements OnInit {
-  constructor(public changeState: ChangeComponentService) {}
+  isThreads: boolean;
+
+  constructor(public changeState: ChangeComponentService, private threadService: ThreadsService) {
+    this.isThreads = threadService.isThreads;
+  }
 
   stateMessages = this.changeState.stateComponentMessages;
 
@@ -32,12 +38,9 @@ export class MessagesPageComponent implements OnInit {
   }
 
   @ViewChild('messagePage') messagePage!: ElementRef;
-  
-  onClosed(isClosed: boolean) {
 
+  onClosed(isClosed: boolean) {
     let page = this.messagePage.nativeElement;
     page.classList.remove('message-page__wrapper-with-threads');
-
-    //this.threads.nativeElement.style.display = 'none';
   }
 }
