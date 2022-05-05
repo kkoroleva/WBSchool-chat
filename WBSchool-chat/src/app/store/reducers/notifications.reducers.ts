@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { INotification } from '../../../interfaces/notifications-interface';
 import {
   changeLoadNotifications,
   clearNotifications,
@@ -10,15 +11,6 @@ export const notificationNode = 'Notifications';
 
 export interface INotificationsState {
   notifications: INotification[];
-}
-export interface INotification {
-  _id?: string;
-  expiresIn?: string;
-  text: string;
-}
-
-export interface IPostNotification {
-  text: string;
 }
 
 const initialState: INotificationsState = {

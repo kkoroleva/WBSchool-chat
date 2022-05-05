@@ -1,8 +1,8 @@
 import { IGroupsMessages } from './../reducers/groups.reducers';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IPrivate } from './../../friends/private';
-import { IGroup } from './../../groups/group';
-import { IUser } from './../../groups/user';
+import { IPrivate } from '../../../interfaces/private-interface';
+import { IGroup } from '../../../interfaces/group-interface';
+import { IUser } from '../../../interfaces/user.groups-interface';
 import { groupsNode, IGroupsState } from '../reducers/groups.reducers';
 
 export const selectGroupsFeature =

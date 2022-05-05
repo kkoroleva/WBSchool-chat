@@ -28,8 +28,8 @@ import {
   pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
-import { IMessage } from '../../dialog';
-import { IUserData } from '../../../auth/interfaces';
+import { IMessage } from '../../../../interfaces/dialog-interface';
+import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
 import {

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { concatMap, map, Observable, startWith } from 'rxjs';
-import { IUserData } from '../../auth/interfaces';
+import { IUserData } from '../../../interfaces/auth-interface';
 import {
   initContacts,
   pushContacts,
@@ -22,7 +22,7 @@ import { IGroupsState } from './../../store/reducers/groups.reducers';
 import { selectUser } from './../../store/selectors/auth.selectors';
 import { selectContacts } from './../../store/selectors/contacts.selectors';
 import { selectFriends } from './../../store/selectors/groups.selectors';
-import { IPrivate } from '../private';
+import { IPrivate } from '../../../interfaces/private-interface';
 import { ProfileSettingsService } from 'src/app/profile-page/services/profile-settings.service';
 
 @Component({

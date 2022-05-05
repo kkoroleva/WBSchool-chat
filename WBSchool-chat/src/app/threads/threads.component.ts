@@ -3,8 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { tap } from 'rxjs';
 import { DialogService } from '../dialog/dialog.service';
-import { MessageComponent } from '../dialog/messageDialog/message/message.component';
-import { IComment, IThread } from './thread';
+import { IComment, IThread } from '../../interfaces/thread-interface';
 
 const mockThreads: IThread[] = [
   {

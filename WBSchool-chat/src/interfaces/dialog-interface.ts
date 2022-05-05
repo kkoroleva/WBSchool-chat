@@ -20,3 +20,20 @@ export interface User {
     formatImage:string;
 }
 
+export interface IChatInfo {
+    _id: string;
+    name: string;
+    avatars: any[];
+    formatImage: string;
+    about: string;
+    isNotifications: boolean;
+    isRead: boolean;
+    isActive: boolean;
+    owners: string[];
+    __v: number;
+    chatGroup: string;
+    avatar: string;
+    users: string[];
+    usernames: string[];
+    isPrivate: boolean;
+  }

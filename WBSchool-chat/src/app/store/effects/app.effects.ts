@@ -1,4 +1,4 @@
-import { IUser } from './../../groups/user';
+import { IUser } from '../../../interfaces/user.groups-interface';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -49,14 +49,13 @@ import {
   loadNotifications,
 } from '../actions/notifications.actions';
 
-import { IMessage } from './../../dialog/dialog';
-import { INotification } from '../reducers/notifications.reducers';
-import { IPrivate } from './../../friends/private';
+import { IChatInfo, IMessage } from '../../../interfaces/dialog-interface';
+import { IPrivate } from '../../../interfaces/private-interface';
 import { DialogService } from './../../dialog/dialog.service';
-import { IContacts } from '../reducers/contacts.reducers';
-import { IGroup } from './../../groups/group';
+import { IContactsState } from '../reducers/contacts.reducers';
+import { IGroup } from '../../../interfaces/group-interface';
 import { initContacts, pushContacts } from '../actions/contacts.actions';
-import { IChatInfo } from '../reducers/dialog.reducer';
+import { INotification } from '../../../interfaces/notifications-interface';
 
 @Injectable()
 export class AppEffects {
@@ -194,13 +193,15 @@ export class AppEffects {
   returnIntoChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(returnIntoChatFriend),
-      mergeMap(({chatId, users}) =>
+      mergeMap(({ chatId, users }) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/${chatId}`, {users})
-          .pipe(map((id) => updateChatFriends({chatId: id})),
+          .patch<string>(`${this.urlApi}/chats/${chatId}`, { users })
+          .pipe(
+            map((id) => updateChatFriends({ chatId: id })),
             catchError((err) =>
-              of(chatGroupError({error: err.error.message}))
-            ))
+              of(chatGroupError({ error: err.error.message }))
+            )
+          )
       )
     );
   });
@@ -221,8 +222,10 @@ export class AppEffects {
       ofType(outFromChatFriend),
       mergeMap(({ chatId, owners }) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, {owner: owners})
-          .pipe(map((id) => updateChatFriends({chatId: id})))
+          .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, {
+            owner: owners,
+          })
+          .pipe(map((id) => updateChatFriends({ chatId: id })))
       )
     );
   });
@@ -232,7 +235,7 @@ export class AppEffects {
     return this.actions$.pipe(
       ofType(initContacts),
       mergeMap(() =>
-        this.http.get<IContacts>(`${this.urlApi}/users/contacts`).pipe(
+        this.http.get<IContactsState>(`${this.urlApi}/users/contacts`).pipe(
           map((contacts) => pushContacts({ contacts: contacts })),
           catchError((error: HttpErrorResponse, contacts: any) => {
             contacts = [];

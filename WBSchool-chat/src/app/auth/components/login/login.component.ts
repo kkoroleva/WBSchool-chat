@@ -4,16 +4,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { INewUser, IUserData, User } from '../../interfaces';
+import { INewUser, IUserData, User } from '../../../../interfaces/auth-interface';
 import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from '../../../store/actions/auth.actions';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { INotification } from 'src/app/store/reducers/notifications.reducers';
 import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
 import { SocketService } from 'src/app/socket/socket.service';
 import { ConnectEvent } from 'src/app/socket/event';
 import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
+import { INotification } from '../../../../interfaces/notifications-interface';
 
 @Component({
   selector: 'app-login',

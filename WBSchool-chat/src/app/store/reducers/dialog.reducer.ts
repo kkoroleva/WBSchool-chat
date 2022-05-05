@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { IMessage } from '../../dialog/dialog';
+import { IAllMessages } from '../../../interfaces/lastMessages-interface';
+import { IChatInfo, IMessage } from '../../../interfaces/dialog-interface';
 import {
   allChatsMessages,
   deleteMessage,
   editMessage,
-  initDialogs,
   loadDialogs,
   newGetInfoChat,
   pushToMessages,
@@ -12,71 +12,44 @@ import {
 
 export const dialogNode = 'Dialog';
 
-export const dialogsNode = 'Dialogs';
+export const lastMessagesNode = 'LastMessages';
 
 export interface IDialogState {
   messages: IMessage[];
   chatInfo: IChatInfo;
 }
 
-export interface IAllMessages {
-  chatId: string;
-  lastMessage: string;
-}
+const initialState: IDialogState = {
+  messages: [],
+  chatInfo: {
+    _id: '',
+    name: '',
+    avatars: [],
+    formatImage: '',
+    about: '',
+    isNotifications: false,
+    isRead: false,
+    isActive: false,
+    owners: [],
+    __v: 0,
+    chatGroup: '',
+    avatar: '',
+    users: [],
+    usernames: [],
+    isPrivate: false,
+  },
+};
 
-export interface IAllChatsMessages {
+export interface ILastMessagesState {
   chatsMessages: IAllMessages[];
 }
 
-export interface IChatInfo {
-    _id: string,
-    name: string,
-    avatars: any[],
-    formatImage: string,
-    about: string,
-    isNotifications: boolean,
-    isRead: boolean,
-    isActive: boolean,
-    owners: string[], 
-    __v: number, 
-    chatGroup: string,
-    avatar : string,
-    users: string[],
-    usernames: string[],
-    isPrivate: boolean,
-}
-
-const initialState: IDialogState = {
-    messages: [],
-    chatInfo: {
-        _id: "",
-        name: "",
-        avatars: [],
-        formatImage: "", 
-        about: "", 
-        isNotifications: false, 
-        isRead: false, 
-        isActive: false, 
-        owners: [], 
-        __v: 0,
-        chatGroup: "",
-        avatar: "",
-        users:[],
-        usernames: [],
-        isPrivate: false
-    }
-}
-
-const initialState2: IAllChatsMessages = {
+const initialState2: ILastMessagesState = {
   chatsMessages: [],
 };
 
 export const dialogReducer = createReducer(
   initialState,
-  // on(initDialogs, (state) => ({
-  //     ...state,
-  //     messages: state.messages
-  // })),
   on(loadDialogs, (state, action) => ({
     ...state,
     messages: action.messages,
@@ -103,7 +76,7 @@ export const dialogReducer = createReducer(
   }))
 );
 
-export const allChatsMessagesReducer = createReducer(
+export const lastMessagesReducer = createReducer(
   initialState2,
   on(allChatsMessages, (state, action) => ({
     ...state,

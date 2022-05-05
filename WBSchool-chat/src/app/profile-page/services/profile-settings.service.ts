@@ -1,10 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { IUserData } from '../../auth/interfaces';
-import { IContacts } from '../../store/reducers/contacts.reducers';
-import { IProfileData, IServerResponse } from '../interfaces/profile-settings';
-
+import { IUserData } from '../../../interfaces/auth-interface';
+import { IContactsState } from '../../store/reducers/contacts.reducers';
+import {
+  IProfileData,
+  IServerResponse,
+} from '../../../interfaces/profile.settings.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,19 +20,23 @@ export class ProfileSettingsService {
   ) {}
 
   getUsers(userName: string) {
-    return this.http.get<IUserData>(`${this.url}/username?username=${userName}`)
+    return this.http.get<IUserData>(
+      `${this.url}/username?username=${userName}`
+    );
   }
 
   getOwners(userId: string) {
-    return this.http.post(`${this.apiUrl}/api/chats/owners`, {userId})
+    return this.http.post(`${this.apiUrl}/api/chats/owners`, { userId });
   }
 
   getContacts() {
-    return this.http.get<IUserData>(`${this.url}/contacts`)
+    return this.http.get<IUserData>(`${this.url}/contacts`);
   }
 
   addFriend(userId: string) {
-    return this.http.post<IContacts>(`${this.url}/contacts`, {id: userId})
+    return this.http.post<IContactsState>(`${this.url}/contacts`, {
+      id: userId,
+    });
   }
 
   editProfileSettings(formData: IProfileData): Observable<IServerResponse> {

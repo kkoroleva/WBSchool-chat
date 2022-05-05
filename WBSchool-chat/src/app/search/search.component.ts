@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith } from 'rxjs';
-import { IPrivate } from '../friends/private';
+import { IPrivate } from '../../interfaces/private-interface';
 import {
   changeChatGroup,
   loadFriends,

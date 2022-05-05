@@ -14,7 +14,7 @@ import {
   getAllGroupsMessages,
   loadGroups,
 } from '../store/actions/groups.actions';
-import { IGroup } from './group';
+import { IGroup } from '../../interfaces/group-interface';
 import { IGroupsMessages } from '../store/reducers/groups.reducers';
 
 @Component({

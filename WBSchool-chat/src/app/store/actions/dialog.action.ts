@@ -1,7 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { IMessage } from '../../dialog/dialog';
-import { IChatInfo } from '../reducers/dialog.reducer';
+import { IChatInfo, IMessage } from '../../../interfaces/dialog-interface';
 
 export const initDialogs = createAction(
   '[DIALOG] initDialogs',
