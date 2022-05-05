@@ -53,7 +53,7 @@ import { StorageModule } from '@ngx-pwa/local-storage';
 /*Store*/
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
-import { AppEffects } from './store/effects/app.effects';
+import { DialogEffects } from './store/effects/dialog.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
@@ -72,6 +72,10 @@ import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-gr
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { SmileComponent } from './smile/smile.component';
+import { NotificationEffects } from './store/effects/notification.effects';
+import { GroupEffects } from './store/effects/group.effects';
+import { ChatsEffects } from './store/effects/chats.effects';
+import { ContactsEffects } from './store/effects/contacts.effects';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -164,7 +168,13 @@ const API_URL_PROVIDER: Provider = {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([
+      DialogEffects,
+      NotificationEffects,
+      GroupEffects,
+      ChatsEffects,
+      ContactsEffects,
+    ]),
     StoreRouterConnectingModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
