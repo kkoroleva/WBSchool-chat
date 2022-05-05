@@ -8,3 +8,9 @@ export interface IGroup {
   users?: string[];
   formatImage?: string;
 }
+
+export interface IGroupsMessages {
+  chatId: string;
+  lastMessage: string;
+  messageId: string;
+}

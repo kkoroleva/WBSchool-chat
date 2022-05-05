@@ -19,6 +19,7 @@ import {
 } from '../actions/groups.actions';
 import { IPrivate } from '../../../interfaces/private-interface';
 import { IUser } from '../../../interfaces/user.groups-interface';
+import { IGroup, IGroupsMessages } from '../../../interfaces/group-interface';
 
 export const groupsNode = 'Groups';
 
@@ -34,17 +35,6 @@ export interface IGroupsState {
   lastMessages: IGroupsMessages[];
 }
 
-export interface IGroup {
-  _id?: string;
-  name: string;
-  about?: string;
-  owner?: string;
-  lastMessage?: string;
-  avatar?: string;
-  users?: string[];
-  formatImage?: string;
-}
-
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
 
 const initialState: IGroupsState = {
@@ -56,12 +46,6 @@ const initialState: IGroupsState = {
   error: '',
   lastMessages: [],
 };
-
-export interface IGroupsMessages {
-  chatId: string;
-  lastMessage: string;
-  messageId: string;
-}
 
 export const groupsReducer = createReducer(
   initialState,

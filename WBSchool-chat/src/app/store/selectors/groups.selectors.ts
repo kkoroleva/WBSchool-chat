@@ -1,7 +1,6 @@
-import { IGroupsMessages } from './../reducers/groups.reducers';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IPrivate } from '../../../interfaces/private-interface';
-import { IGroup } from '../../../interfaces/group-interface';
+import { IGroup, IGroupsMessages } from '../../../interfaces/group-interface';
 import { IUser } from '../../../interfaces/user.groups-interface';
 import { groupsNode, IGroupsState } from '../reducers/groups.reducers';
 

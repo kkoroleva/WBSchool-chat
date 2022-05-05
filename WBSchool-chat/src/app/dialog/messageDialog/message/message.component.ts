@@ -10,7 +10,6 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import {
-  IGroupsMessages,
   IGroupsState,
 } from '../../../store/reducers/groups.reducers';
 import {
@@ -36,7 +35,7 @@ import {
   IDeleteMessage,
   MessageSocketService,
 } from '../../../socket/message-socket.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { IGroupsMessages } from '../../../../interfaces/group-interface';
 
 @Component({
   selector: 'app-message',

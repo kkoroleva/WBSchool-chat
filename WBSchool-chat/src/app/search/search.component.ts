@@ -3,13 +3,14 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith } from 'rxjs';
+import { IGroup } from '../../interfaces/group-interface';
 import { IPrivate } from '../../interfaces/private-interface';
 import {
   changeChatGroup,
   loadFriends,
   loadGroups,
 } from '../store/actions/groups.actions';
-import { IGroup, IGroupsState } from '../store/reducers/groups.reducers';
+import { IGroupsState } from '../store/reducers/groups.reducers';
 import {
   selectFriends,
   selectGroups,
