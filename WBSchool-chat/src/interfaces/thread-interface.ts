@@ -1,22 +1,26 @@
 export interface IComment {
-  authorID: string;
-  authorName: string;
-  post: {
-    date: string;
-    img?: string;
-    text?: string;
-  }
+  authorID?: string;
+  authorName?: string;
+  date?: string;
+  imageOrFile?: string;
+  formatImage?: string;
+  text: string;
 }
 
 export interface IThread {
-  ownerID: string;
-  ownerName: string;
-  ownerThumbnail: string;
-  isActive: true;
+  _id: string;
+  owner: string;
+  ownerName?: string;
+  avatar?: string;
+  formatImage?: string;
+  isActive?: boolean;
   basicPost: {
     date: string;
-    img?: string;
+    imageOrFile?: string;
+    formatImage?: string;
     text?: string;
-  }
+  };
   comments: IComment[];
 }
+
+

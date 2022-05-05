@@ -227,6 +227,10 @@ $main-blue: #1A66FF;
     }
   }
 
+  .smile:last-child{
+    margin-left: 10px;
+  }
+
   @keyframes shake {
     0% {
       transform: rotateZ(0deg);
@@ -292,6 +296,10 @@ $main-blue: #1A66FF;
   .voice:hover {
     animation: 1200ms ease 0s normal none 1 running shake;
   }
+
+  // .smile{
+  //   margin: 0 5px;
+  // }
 
   .smile:hover {
     animation: 1200ms ease 0s normal none 1 running shake;

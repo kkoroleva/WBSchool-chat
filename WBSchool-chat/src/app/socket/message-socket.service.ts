@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { IMessage } from '../../interfaces/dialog-interface';
+import { IMessage } from '../dialog/dialog';
+import {
+  allChatsMessages,
+  deleteMessage,
+  editMessage,
+  getAllChatsMessages,
+  pushToMessages,
+} from '../store/actions/dialog.action';
+import { allGroupsMessages } from '../store/actions/groups.actions';
 import { SocketService } from './socket.service';
 
 export interface IDeleteMessage {
@@ -12,7 +21,7 @@ export interface IDeleteMessage {
   providedIn: 'root',
 })
 export class MessageSocketService {
-  constructor(private socketService: SocketService) {}
+  constructor(private socketService: SocketService, private store$: Store) {}
 
   public send(chatId: string, message: IMessage): void {
     this.socketService.socket.emit('messages:create', { chatId, message });
@@ -60,5 +69,38 @@ export class MessageSocketService {
     this.socketService.socket.off('messages:create');
     this.socketService.socket.off('messages:update');
     this.socketService.socket.off('messages:delete');
+  }
+
+  public initIoConnectionMessages() {
+    this.onMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(pushToMessages({ message }));
+      this.store$.dispatch(
+        allGroupsMessages({
+          chatId: message.chatId!,
+          lastMessage: message.text,
+          messageId: message._id!,
+        })
+      );
+      this.store$.dispatch(
+        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
+      );
+    });
+
+    this.onDeleteMessage().subscribe((message: IDeleteMessage) => {
+      this.store$.dispatch(deleteMessage({ id: message.messageId }));
+      this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId }));
+    });
+    
+    this.onUpdateMessage().subscribe((message: IMessage) => {
+      this.store$.dispatch(editMessage({ message }));
+      this.store$.dispatch(
+        allGroupsMessages({
+          chatId: message.chatId!,
+          lastMessage: message.text,
+          messageId: message._id!,
+        })
+      );
+      this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
+    });
   }
 }

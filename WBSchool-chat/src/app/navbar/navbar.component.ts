@@ -1,3 +1,4 @@
+import { ConnectEvent } from './../socket/event';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
