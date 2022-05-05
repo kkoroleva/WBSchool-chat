@@ -95,26 +95,6 @@ export class MessageComponent implements OnInit {
   ) {}
 
   private initIoConnection(): void {
-    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(pushToMessages({ message }));
-      this.store$.dispatch(
-        allGroupsMessages({
-          chatId: message.chatId!,
-          lastMessage: message.text,
-          messageId: message._id!,
-        })
-      );
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
-    });
-
-    this.messageSocketService
-      .onDeleteMessage()
-      .subscribe((message: IDeleteMessage) => {
-        this.store$.dispatch(deleteMessage({ id: message.messageId }));
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId }));
-      });
     this.actions$
       .pipe(
         ofType(deleteMessage),
@@ -131,26 +111,13 @@ export class MessageComponent implements OnInit {
               getAllGroupsMessages({ chatId: message.chatId })
             );
           }
-        })
+        });
         this.store$.dispatch(deleteLastGroupMessage({ id }));
-      });
-    this.messageSocketService
-      .onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(editMessage({ message }));
-        this.store$.dispatch(
-          allGroupsMessages({
-            chatId: message.chatId!,
-            lastMessage: message.text,
-            messageId: message._id!,
-          })
-        );
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
       });
   }
 
   ngOnInit(): void {
-    this.messageSocketService.offMessages();
+    // this.messageSocketService.offMessages();
     this.getMyInfo();
     this.chatGroup$.subscribe((id) => {
       this.chatID = id;
@@ -213,8 +180,6 @@ export class MessageComponent implements OnInit {
     this.message.setValue(text);
   }
 
-
-
   sendMessage(): void {
     if (
       this.message.value.trim() ||
@@ -222,7 +187,7 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.socketService.updateMessage(this.chatID, {
+        this.messageSocketService.updateMessage(this.chatID, {
           text: this.message.value.trim(),
           _id: this.editMessageID,
         });
@@ -259,15 +224,15 @@ export class MessageComponent implements OnInit {
     let str = message.trim();
     let strArr = str.split(' ');
     let pic = '';
-    strArr.forEach(word => {
+    strArr.forEach((word) => {
       if (this.itemFormat(word)) {
         pic = word;
         strArr.splice(strArr.indexOf(word), 1);
       }
     });
-    return {url: pic, text: strArr.join(' ') };
+    return { url: pic, text: strArr.join(' ') };
   }
-/*
+  /*
   sliceLinkImage(item: string) {
     let empty = item.slice(0, item.indexOf(' '));
     if (item.includes('.png')) {
