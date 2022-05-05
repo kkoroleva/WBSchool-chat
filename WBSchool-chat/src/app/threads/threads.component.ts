@@ -8,8 +8,10 @@ import { Observable, tap } from 'rxjs';
 import { DialogService } from '../dialog/dialog.service';
 import { ThreadSocketService } from '../socket/thread-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
+import { selectMessage } from '../store/selectors/thread.selector';
 import { IComment, IThread } from './thread';
 import { ThreadsService } from './threads.service';
+import { IMessage } from '../dialog/dialog';
 
 
 @Component({
@@ -28,12 +30,14 @@ export class ThreadsComponent implements OnInit, OnDestroy {
   commentControl = new FormControl('');
   imageOrFile = '';
   formatImage = '';
-  //thread: IThread;
   username: string = '';
   idUser: string = '';
+
   threadId = '6272a27e6ee72e385c2dd141';
-  chatId = '62726b2be1a28d1067ec647c';
-  messageId = '6272a27e6ee72e385c2dd13f';
+
+  chatId = '6273e0eb8673651fddee2330';
+  messageId = '6273e8378673651fddee27de';
+
   avatar = '';
   isActive = false;
   basicPost = {
@@ -46,6 +50,10 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     select(selectChatGroup)
   );
 
+  public basicPostThread$: Observable<IMessage> = this.store$.pipe(
+    select(selectMessage)
+  );
+
   public thread$: Observable<IThread> = this.store$.pipe(select(selectThread));
 
   constructor(
@@ -56,6 +64,7 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     private threadsService: ThreadsService
   ) {
 
+
   }
 
   ngOnInit(): void {
@@ -65,15 +74,23 @@ export class ThreadsComponent implements OnInit, OnDestroy {
           this.changeScroll();
         }, 300);
       });
-    this.store$.dispatch(
-      initThread({ chatId: this.chatId, messageId: this.messageId })
-    );
+
+    this.basicPostThread$.subscribe((bp) => {
+      if (bp.chatId) {
+        this.store$.dispatch(
+          initThread({ chatId: bp.chatId!, messageId: bp._id! })
+        );
+      }
+    });
+
+
     this.thread$.subscribe((thread) => {
       this.username = thread.ownerName!;
       this.avatar = thread.avatar!;
       this.isActive = thread.isActive!;
       this.formatImage = thread.formatImage!;
-      // this.threadId = thread._id;
+
+      this.threadId = thread._id;
     });
     this.threadSocketService.initConnectThreads();
   }
@@ -160,7 +177,9 @@ export class ThreadsComponent implements OnInit, OnDestroy {
   @Output() onClosed = new EventEmitter<boolean>();
   closeThreadComponent(): void {
     this.onClosed.emit(this.isOpen);
-    this.threadsService.isThreads = false;}
+    this.threadsService.isThreads = false;
+    localStorage.setItem('isThreads', '0');
+  }
 
   ngOnDestroy(): void {
     this.threadSocketService.offComments();
@@ -189,4 +208,6 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     });
     return { url: pic, text: strArr.join(' ') };
   }
+
+
 }

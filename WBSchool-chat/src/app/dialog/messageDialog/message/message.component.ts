@@ -38,6 +38,7 @@ import {
 } from '../../../socket/message-socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ThreadsService } from 'src/app/threads/threads.service';
+import { getMessage } from 'src/app/store/actions/threads.action';
 
 @Component({
   selector: 'app-message',
@@ -278,7 +279,12 @@ export class MessageComponent implements OnInit {
   }
 
   openThread(message: IMessage) {
+    this.store$.dispatch(getMessage({message}));
     this.threadsService.createThread(message);
+
+    console.log(localStorage.getItem('isThreads'));
+    localStorage.setItem('isThreads', '1');
+    console.log(localStorage.getItem('isThreads'));
     this.threadsService.isThreads = true;
   }
 

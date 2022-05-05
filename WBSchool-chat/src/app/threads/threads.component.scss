@@ -87,6 +87,9 @@ $main-blue: #1A66FF;
     }
 
     .threads__main-text {
+      color: black;
+      font-size: 20px;
+
       padding: 10px 5px;
       margin: 0;
       width: 100%;
@@ -227,7 +230,7 @@ $main-blue: #1A66FF;
     }
   }
 
-  .smile:last-child{
+  .smile:last-child {
     margin-left: 10px;
   }
 
@@ -417,8 +420,8 @@ $main-blue: #1A66FF;
       color: #11b157;
       padding: 7px 10px;
       width: 40px;
-      text-decoration:none;
-      text-align:center;
+      text-decoration: none;
+      text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -456,8 +459,8 @@ $main-blue: #1A66FF;
       padding: 7px 10px;
       text-transform: uppercase;
       width: 40px;
-      text-decoration:none;
-      text-align:center;
+      text-decoration: none;
+      text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
