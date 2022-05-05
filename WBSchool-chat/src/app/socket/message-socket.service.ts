@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { IMessage } from '../dialog/dialog';
+import { IMessage } from '../../interfaces/dialog-interface';
 import {
   allChatsMessages,
   deleteMessage,
