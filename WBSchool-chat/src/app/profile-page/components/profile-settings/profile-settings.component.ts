@@ -170,12 +170,12 @@ export class ProfileSettingsComponent implements OnInit {
               this.formData.username = inputData.value;
               this.errorMsg = false;
               this.toggle = !this.toggle;
-            } else this.errorMsg = 'Username error'
+            } else this.errorMsg = 'Username error';
           } 
           return '';
         })
       ).subscribe(() => {
-        this.errorMsg = 'Username taken'
+        this.errorMsg = 'Username taken';
       })
       
     } 

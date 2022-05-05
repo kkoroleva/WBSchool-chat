@@ -31,6 +31,7 @@ import { ModalProfileService } from './../../../modal-profile/service/modal-prof
 })
 export class HeaderComponent implements OnInit {
   chatInfo: IChatInfo | undefined;
+  myName = '';
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
@@ -53,6 +54,7 @@ export class HeaderComponent implements OnInit {
       this.store$.dispatch(getInfoChat({ chatId: id }));
     });
     this.chatInfo$.subscribe((data) => (this.chatInfo = data));
+    this.user$.subscribe(user => this.myName = user.username)
   }
 
   getModalWindow(chatInfo: IChatInfo): void {
@@ -95,6 +97,9 @@ export class HeaderComponent implements OnInit {
   }
 
   modalClick() {
-    if (this.chatInfo && this.chatInfo.users.length < 3) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
+    const searchName = this.myName == this.chatInfo?.usernames[0] ? 
+                       this.chatInfo?.usernames[1] : this.chatInfo?.usernames[0];
+
+    if (this.chatInfo && this.chatInfo.users.length < 3) this.modalServ.searchAndOpenDialog(searchName!);
   }
 }
