@@ -63,25 +63,6 @@ export class PrivateComponent implements OnInit {
         });
       }
     });
-    this.getLastMessages();
-  }
-
-  getLastMessages() {
-    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
-    });
-    this.messageSocketService
-      .onDeleteMessage()
-      .subscribe((message: IDeleteMessage) => {
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
-      });
-    this.messageSocketService
-      .onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
-      });
   }
 
   goToChat(chatId: string): void {

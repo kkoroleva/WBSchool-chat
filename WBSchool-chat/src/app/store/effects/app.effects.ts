@@ -1,3 +1,5 @@
+import { IThread } from 'src/app/threads/thread';
+import { initThread, loadThread } from './../actions/threads.action';
 import { IUser } from './../../groups/user';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
@@ -194,13 +196,15 @@ export class AppEffects {
   returnIntoChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(returnIntoChatFriend),
-      mergeMap(({chatId, users}) =>
+      mergeMap(({ chatId, users }) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/${chatId}`, {users})
-          .pipe(map((id) => updateChatFriends({chatId: id})),
+          .patch<string>(`${this.urlApi}/chats/${chatId}`, { users })
+          .pipe(
+            map((id) => updateChatFriends({ chatId: id })),
             catchError((err) =>
-              of(chatGroupError({error: err.error.message}))
-            ))
+              of(chatGroupError({ error: err.error.message }))
+            )
+          )
       )
     );
   });
@@ -222,7 +226,7 @@ export class AppEffects {
       mergeMap(({ chatId, owner }) =>
         this.http
           .patch<string>(`${this.urlApi}/chats/${chatId}/exit`, owner)
-          .pipe(map((id) => updateChatFriends({chatId: id})))
+          .pipe(map((id) => updateChatFriends({ chatId: id })))
       )
     );
   });
@@ -309,6 +313,17 @@ export class AppEffects {
           ),
           map((chatInfo) => newGetInfoChat({ chatInfo }))
         )
+      )
+    );
+  });
+
+  getThread$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(initThread),
+      mergeMap(({ chatId, messageId }) =>
+        this.http
+          .get<IThread>(`${this.urlApi}/chats/${chatId}/messages/${messageId}/thread`)
+          .pipe(map((thread) => loadThread({ thread })))
       )
     );
   });
