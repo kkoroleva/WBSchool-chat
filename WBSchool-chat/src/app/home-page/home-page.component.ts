@@ -25,10 +25,8 @@ export class HomePageComponent implements OnInit {
 
   @ViewChild('homePage') homePage!: ElementRef;
   onClosed(isClosed: boolean) {
-    let pageStyles = this.homePage.nativeElement.style;
-    pageStyles.gridTemplateColumns = 'minmax(300px, 500px)';
-
-    //this.threads.nativeElement.style.display = 'none';
+    let page = this.homePage.nativeElement;
+    page.classList.remove('home-page__wrapper-with-threads');
   }
 
   ngOnInit(): void {

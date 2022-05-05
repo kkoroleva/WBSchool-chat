@@ -54,8 +54,6 @@ $main-blue: #1A66FF;
 .friends__more-button {
   color: $main-blue;
   cursor: pointer;
-  display: none;
-
 
 }
 
@@ -88,8 +86,6 @@ $main-blue: #1A66FF;
 }
 
 .friends__item-text {
-  display: none;
-
   flex-wrap: wrap;
   justify-content: space-between;
   flex: 1;

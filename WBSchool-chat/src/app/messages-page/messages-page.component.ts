@@ -32,12 +32,10 @@ export class MessagesPageComponent implements OnInit {
   }
 
   @ViewChild('messagePage') messagePage!: ElementRef;
-  
+
   onClosed(isClosed: boolean) {
 
     let page = this.messagePage.nativeElement;
     page.classList.remove('message-page__wrapper-with-threads');
-
-    //this.threads.nativeElement.style.display = 'none';
   }
 }

@@ -51,7 +51,7 @@ $max-width: 1440px;
 
 .home-page__groups {
   border-radius: 20px;
-  grid-row: 3/3;
+  grid-row: 2/3;
 
   @media (min-width: $tablet-width) {
     grid-row: 3/4;
@@ -107,4 +107,20 @@ $max-width: 1440px;
     display: none;
   }
 
+}
+
+app-groups,
+app-private,
+app-threads {
+  @media (max-width: $tablet-width) {
+    display: none;
+  }
+}
+.nav-mobile__groups, .nav-mobile__privates, .nav-mobile__threads {
+  display: none;
+}
+.nav-mobile__groups:checked~app-groups,
+.nav-mobile__privates:checked~app-private,
+.nav-mobile__threads:checked~app-threads {
+  display: block;
 }
