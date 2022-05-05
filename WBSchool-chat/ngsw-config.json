@@ -12,9 +12,15 @@
           "/manifest.webmanifest",
           "/*.css",
           "/*.js",
+<<<<<<< HEAD
           "/*.scss",
           "/*.ts",
           "/*.json"
+=======
+          "/*.ts",
+          "/*.json",
+          "/*.scss"
+>>>>>>> cb6717401f6a981a7f1ad3120540ddb2e7bc38b3
         ]
       }
     },

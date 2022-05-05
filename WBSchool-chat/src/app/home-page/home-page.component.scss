@@ -12,7 +12,7 @@ $max-width: 1440px;
   display: grid;
   grid-template-columns: minmax($min-width, $mobile-width);
   gap: 25px;
-  grid-template-rows: 59px 1fr ;
+  grid-template-rows: 59px auto;
 
   @media (min-width: $mobile-width)and(max-width:$tablet-width) {
     max-width: $mobile-width;

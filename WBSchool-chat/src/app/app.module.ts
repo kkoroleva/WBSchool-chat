@@ -71,6 +71,8 @@ import { PrivateComponent } from './friends/private.component';
 import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
 import { RouterModule } from '@angular/router';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { SmileComponent } from './smile/smile.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -115,6 +117,8 @@ const API_URL_PROVIDER: Provider = {
     EditGroupChatComponent,
     OutFromGroupComponent,
     AboutGroupComponent,
+    FeedbackComponent,
+    SmileComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
