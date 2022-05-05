@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   submitted!: boolean;
   errorMessage: string = '';
   notificationAuth: INotification = {
-    text: `Был выполнен вход в аккаунт. ${new Date(new Date().getTime())}`,
+    text: `Был выполнен вход в аккаунт.Был выполнен вход в аккаунт.Был выполнен вход в аккаунт.Был выполнен вход в аккаунт.`
   };
 
   constructor(
