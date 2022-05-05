@@ -14,14 +14,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { IUserData } from '../auth/interfaces';
-import {
-  allChatsMessages,
-  getAllChatsMessages,
-} from '../store/actions/dialog.action';
+import { getAllChatsMessages } from '../store/actions/dialog.action';
 import { IAllMessages } from '../store/reducers/dialog.reducer';
-import { MessageSocketService } from '../socket/message-socket.service';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
-import { IDeleteMessage, IMessage } from '../dialog/dialog';
 
 @Component({
   selector: 'app-private',
@@ -42,8 +37,7 @@ export class PrivateComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private store$: Store<IGroupsState>,
-    private messageSocketService: MessageSocketService
+    private store$: Store<IGroupsState>
   ) {}
 
   ngOnInit(): void {
@@ -60,25 +54,6 @@ export class PrivateComponent implements OnInit {
         });
       }
     });
-    this.getLastMessages();
-  }
-
-  getLastMessages() {
-    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
-    });
-    this.messageSocketService
-      .onDeleteMessage()
-      .subscribe((message: IDeleteMessage) => {
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
-      });
-    this.messageSocketService
-      .onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
-      });
   }
 
   goToChat(chatId: string): void {
