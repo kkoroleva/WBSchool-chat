@@ -30,7 +30,7 @@ import {
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
 import { IUser } from '../../../../interfaces/user.groups-interface';
-import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
+import { NotificationSocketService } from '../../../../app/socket/notification-socket.service';
 import { INotification } from '../../../../interfaces/notifications-interface';
 
 @Component({

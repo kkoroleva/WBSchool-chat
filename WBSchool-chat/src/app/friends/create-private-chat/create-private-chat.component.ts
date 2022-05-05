@@ -23,7 +23,7 @@ import { selectUser } from './../../store/selectors/auth.selectors';
 import { selectContacts } from './../../store/selectors/contacts.selectors';
 import { selectFriends } from './../../store/selectors/groups.selectors';
 import { IPrivate } from '../../../interfaces/private-interface';
-import { ProfileSettingsService } from 'src/app/profile-page/services/profile-settings.service';
+import { ProfileSettingsService } from '../../../app/profile-page/services/profile-settings.service';
 
 @Component({
   selector: 'app-create-private-chat',

@@ -9,10 +9,10 @@ import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from '../../../store/actions/auth.actions';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { addAuthNotification } from 'src/app/store/actions/notifications.actions';
-import { SocketService } from 'src/app/socket/socket.service';
-import { ConnectEvent } from 'src/app/socket/event';
-import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
+import { addAuthNotification } from '../../../../app/store/actions/notifications.actions';
+import { SocketService } from '../../../../app/socket/socket.service';
+import { ConnectEvent } from '../../../../app/socket/event';
+import { NotificationSocketService } from '../../../../app/socket/notification-socket.service';
 import { INotification } from '../../../../interfaces/notifications-interface';
 
 @Component({

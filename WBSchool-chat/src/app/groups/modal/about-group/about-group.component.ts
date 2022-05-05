@@ -13,7 +13,7 @@ import {
   setGroupUsers,
 } from './../../../store/actions/groups.actions';
 import { Actions, ofType } from '@ngrx/effects';
-import { ModalProfileService } from 'src/app/modal-profile/service/modal-profile.service';
+import { ModalProfileService } from '../../../../app/modal-profile/service/modal-profile.service';
 
 @Component({
   selector: 'app-about-group',

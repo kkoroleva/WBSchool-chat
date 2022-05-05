@@ -20,7 +20,7 @@ import { initContacts } from '../../../store/actions/contacts.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { initAuth } from 'src/app/store/actions/auth.actions';
+import { initAuth } from '../../../../app/store/actions/auth.actions';
 
 @Component({
   selector: 'app-profile-settings',
