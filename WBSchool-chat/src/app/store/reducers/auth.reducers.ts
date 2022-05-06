@@ -1,31 +1,22 @@
 import { createReducer, on } from '@ngrx/store';
-import { INewUser } from 'src/app/auth/interfaces';
+import { IUserData } from '../../../interfaces/auth-interface';
 import { initAuth } from '../actions/auth.actions';
 
 export const authNode = 'Auth';
 
 export interface IAuthState {
-  newUser: INewUser;
-}
-export interface IAuth {
-    emailOrUser?: string
-    email?: string,
-    username?: string,
-    password: string,
+  newUser: IUserData;
 }
 
 const initialState: IAuthState = {
-    newUser: {
-        token: '',
-            newUser: {
-            email: '',
-            username: '',
-            userRights: '',
-            avatar: '',
-            about: '',
-            id: '',
-            v: 0
-        }
+  newUser: {
+      email: '',
+      username: '',
+      userRights: '',
+      avatar: '',
+      about: '',
+      _id: '',
+      v: 0
     }
 };
 

@@ -1,7 +1,8 @@
+import { IMessage } from '../../../interfaces/dialog-interface';
+import { IUser } from '../../../interfaces/user.groups-interface';
 import { createAction, props } from '@ngrx/store';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
-import { IGroup } from '../reducers/groups.reducers';
+import { IPrivate } from '../../../interfaces/private-interface';
+import { IGroup } from '../../../interfaces/group-interface';
 
 export const loadGroups = createAction('[GROUPS] loadGroups');
 export const changeLoadGroups = createAction(
@@ -11,7 +12,7 @@ export const changeLoadGroups = createAction(
 
 export const changeChatGroup = createAction(
   '[GROUPS] changeChatGroup',
-  props<{ chatGroup: string }>()
+  props<{ chatGroup: string, isPrivate: boolean }>()
 );
 
 export const createChatGroup = createAction(
@@ -29,30 +30,84 @@ export const chatGroupError = createAction(
   props<{ error: string }>()
 );
 
-//Friends
+export const setGroup = createAction(
+  '[GROUPS] setGroup',
+  props<{ group: IGroup }>()
+);
+
+export const editGroup = createAction(
+  '[GROUPS] editGroup',
+  props<{ id: string; editGroup: IGroup }>()
+);
+
+export const editToGroups = createAction(
+  '[GROUPS] editToGroups',
+  props<{ group: IGroup }>()
+);
+
+export const getGroupUsers = createAction(
+  '[GROUPS] getGroupUsers',
+  props<{ id: string }>()
+);
+
+export const setGroupUsers = createAction(
+  '[GROUPS] setGroupUsers',
+  props<{ users: IUser[] }>()
+);
+
+export const deleteGroup = createAction(
+  '[GROUPS] deleteGroup',
+  props<{ id: string }>()
+);
+
+export const deleteFromGroups = createAction(
+  '[GROUPS] deleteFromGroups',
+  props<{ id: string }>()
+);
+
+// Chats
 export const loadFriends = createAction('[FRIENDS] loadFriends');
 export const changeLoadFriends = createAction(
   '[FRIENDS] changeLoadFriends',
-  props<{ friends: IFriend[] }>()
+  props<{ friends: IPrivate[] }>()
 );
 
 export const createChatFriend = createAction(
   '[FRIENDS] createChatFriend',
-  props<{ friend: IFriend }>()
+  // props<{ username: string; ownerUsername: string }>()
+  props<{ username: string; ownerUsername: string, ownerFormatImage: string, ownerAvatar: string }>()
+);
+
+export const deleteChatFriend = createAction(
+  '[FRIENDS] deleteChatFriend',
+  props<{ chatId: string }>()
+);
+
+export const outFromChatFriend = createAction(
+  '[FRIENDS] outFromChatFriend',
+  props<{ chatId: string, owner: string }>()
+);
+
+export const returnIntoChatFriend = createAction(
+  '[FRIENDS] returnIntoChatFriend',
+  props<{ chatId: string, users: string[] }>()
+);
+
+export const updateChatFriends = createAction(
+  '[FRIENDS] updateChatFriends',
+  props<{ chatId: string }>()
 );
 
 export const pushToFriends = createAction(
   '[FRIENDS] pushToFriends',
-  props<{ friend: IFriend }>()
+  props<{ friend: IPrivate }>()
 );
 
-//Unreads
-export const loadUnreads = createAction('[UNREADS] loadUnreads');
-export const changeLoadUnreads = createAction(
-  '[UNREADS] changeLoadUnreads',
-  props<{ unreads: IUnread[] }>()
-);
+export const getAllGroupsMessages = createAction('[GROUPS] getAllGroupsMessages',
+  props<{chatId: string}>());
 
-export const clearUnreads = createAction(
-  '[UNREADS] clearUnreads'
-);
+export const allGroupsMessages = createAction('[GROUPS] allGroupsMessages',
+  props<{chatId: string, lastMessage: string, messageId: string}>());
+
+export const deleteLastGroupMessage = createAction('[GROUPS] deleteLastGroupMessage',
+  props<{id: string}>());

@@ -1,0 +1,171 @@
+/*Break-points*/
+$min-width: 320px;
+$mobile-width: 495px;
+$tablet-width: 768px;
+$desktop-width: 1024px;
+$max-width: 1440px;
+
+
+$main-text-color: #000000;
+$box-shadow: rgba(0, 0, 0, 0.25);
+$background-color: #FFFFFF;
+$last-message-color: rgba(77, 77, 77, 0.75);
+$last-active-color: rgba(0, 0, 0, 0.5);
+$divider: rgba(0, 0, 0, 0.25);
+$thumbnail-size: 52px;
+$main-blue: #1A66FF;
+
+.friends {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &__is-no-friends {
+    margin: 0;
+  }
+
+}
+
+.friends__header {
+  margin-bottom: 15px;
+}
+
+.friends__more-button {
+  color: $main-blue;
+  cursor: pointer;
+}
+
+.friends__more-button:hover {
+  opacity: 0.7;
+}
+
+.friends__list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  max-height: 400px;
+
+  @media (min-width: $desktop-width) {
+    max-height: 100%;
+    overflow-y: hidden;
+  }
+}
+
+.friends__item {
+  padding: 15px 10px 15px 0;
+  min-height: 72px;
+  max-height: fit-content;
+
+  display: flex;
+
+  position: relative;
+
+  .friends__item-text {
+    display: flex;
+
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex: 1;
+  }
+}
+
+.friends__item::after {
+  display: block;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  right: 7%;
+  width: 86%;
+  height: 2px;
+  background-color: $divider;
+}
+
+.friends__item:last-of-type::after {
+  display: none;
+}
+
+.friends__chat-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 1;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.friends__chat-link:hover {
+  opacity: 0.7;
+}
+
+.friends__thumbnail {
+  border-radius: 50%;
+  border: 2px solid $divider;
+}
+
+.friends__online {
+  position: relative;
+}
+
+.friends__online::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  bottom: 0;
+  right: 0;
+  background: #00FF75;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.friends__name {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: $main-text-color;
+}
+
+.friends__last-message {
+  margin: 0;
+  width: 100%;
+  overflow: hidden;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: $last-message-color;
+}
+
+.friends__last-active {
+  margin: 0;
+  max-width: 100px;
+  overflow: hidden;
+  text-align: right;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 15px;
+  color: $last-active-color;
+}
+
+.friends__btn__deleteChat {
+  border: none;
+  background: none;
+  color: grey;
+  font-size: 10px;
+}
+
+.friends__btn__deleteChat:hover {
+  color: red;
+  font-size: 18px;
+}

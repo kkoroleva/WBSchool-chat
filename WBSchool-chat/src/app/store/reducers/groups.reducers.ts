@@ -1,53 +1,64 @@
-import { changeLoadFriends, changeLoadUnreads, chatGroupError, clearUnreads, loadFriends, loadUnreads, pushToFriends } from './../actions/groups.actions';
+import {
+  allGroupsMessages,
+  changeLoadFriends,
+  chatGroupError,
+  deleteFromGroups,
+  deleteLastGroupMessage,
+  editToGroups,
+  loadFriends,
+  pushToFriends,
+  setGroup,
+  setGroupUsers,
+  updateChatFriends,
+} from './../actions/groups.actions';
 import { createReducer, on } from '@ngrx/store';
 import {
   changeChatGroup,
   changeLoadGroups,
-  loadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
-import { IFriend } from 'src/app/friends/friend';
-import { IUnread } from 'src/app/unread/unread';
+import { IPrivate } from '../../../interfaces/private-interface';
+import { IUser } from '../../../interfaces/user.groups-interface';
+import { IGroup, IGroupsMessages } from '../../../interfaces/group-interface';
 
 export const groupsNode = 'Groups';
 
+export const groupsMessagesNode = 'Groups messages';
+
 export interface IGroupsState {
   groups: IGroup[];
-  friends: IFriend[];
-  unreads: IUnread[];
-  chatGroup: string;
+  group: IGroup;
+  groupUsers: IUser[];
+  friends: IPrivate[];
+  chatGroup: {
+    chatGroup: string,
+    isPrivate: boolean,
+  },
   error: string;
-}
-
-export interface IGroup {
-  _id?: string;
-  name: string;
-  about?: string;
-  owner?: string;
-  lastMessage?: string;
-  avatar?: string;
-  users?: string[];
+  lastMessages: IGroupsMessages[];
 }
 
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
+const isPrivateFromLocalStorage = localStorage.getItem('isPrivate');
 
 const initialState: IGroupsState = {
   groups: [],
+  group: { name: '' },
+  groupUsers: [],
   friends: [],
-  unreads: [],
-  chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
+  chatGroup: {
+    chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
+    isPrivate: isPrivateFromLocalStorage ? JSON.parse(isPrivateFromLocalStorage) : false,
+  },
   error: '',
+  lastMessages: [],
 };
 
 export const groupsReducer = createReducer(
   initialState,
-  on(loadGroups, (state) => ({
-    ...state,
-    groups: state.groups,
-  })),
   on(changeChatGroup, (state, action) => ({
     ...state,
-    chatGroup: action.chatGroup,
+    chatGroup: {chatGroup: action.chatGroup, isPrivate: action.isPrivate}
   })),
   on(changeLoadGroups, (state, action) => ({
     ...state,
@@ -61,7 +72,25 @@ export const groupsReducer = createReducer(
     ...state,
     error: action.error,
   })),
-  //friends
+  on(setGroup, (state, action) => ({
+    ...state,
+    group: action.group,
+  })),
+  on(editToGroups, (state, action) => ({
+    ...state,
+    groups: state.groups.map((group) =>
+      group._id === action.group._id ? action.group : group
+    ),
+  })),
+  on(setGroupUsers, (state, action) => ({
+    ...state,
+    groupUsers: action.users,
+  })),
+  on(deleteFromGroups, (state, action) => ({
+    ...state,
+    groups: state.groups.filter((group) => group._id !== action.id),
+  })),
+  // Chats
   on(loadFriends, (state) => ({
     ...state,
     friends: state.friends,
@@ -74,13 +103,27 @@ export const groupsReducer = createReducer(
     ...state,
     friends: [action.friend, ...state.friends],
   })),
-  //unreads
-  on(loadUnreads, (state) => ({
+  on(updateChatFriends, (state, action) => ({
     ...state,
-    unreads: state.unreads,
+    friends: state.friends.filter(
+      (friendChat) => friendChat._id !== action.chatId
+    ),
   })),
-  on(changeLoadUnreads, (state, action) => ({
+  on(allGroupsMessages, (state, action) => ({
     ...state,
-    unreads: action.unreads,
+    lastMessages: [
+      ...state.lastMessages.filter((chat) => chat.chatId !== action.chatId),
+      {
+        chatId: action.chatId,
+        lastMessage: action.lastMessage,
+        messageId: action.messageId,
+      },
+    ],
   })),
+  on(deleteLastGroupMessage, (state, action) => ({
+    ...state,
+    lastMessages: state.lastMessages.filter(
+      (chat) => chat.messageId !== action.id
+    ),
+  }))
 );

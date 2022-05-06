@@ -1,21 +1,26 @@
 <div class="groups">
-    <h3 class="groups__header">Groups</h3>
+    <h3 class="groups__header main-grid-block__header">Groups</h3>
     <a class="groups__more-button" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu">
             <button (click)="createGroupChat()" mat-menu-item>Create chat</button>
         </mat-menu>
         <mat-icon>more_vert</mat-icon>
     </a>
+    <p class="groups__is-no-groups" *ngIf="(groups$ | async)?.length === 0">Sorry. No group chats detected. Please,
+        create one.</p>
+
     <ul class="groups__list">
         <li class="groups__item" *ngFor="let group of groups$ | async">
-            <a (click)="openGroupChat(group._id!)" class="groups__chat-link">
-                <img class="groups__thumbnail"
-                    [src]="group.avatar ? 'data:image/png;base64,' + group.avatar : '/assets/not-found.png'"
-                    alt="Group chat image" width="70" height="70">
+            <a (click)="openGroupChat(group)" class="groups__chat-link">
+                <img class="groups__thumbnail" [src]="group.avatar || '/assets/not-found.png'" alt="Group chat image"
+                    width="70" height="70">
                 <div class="groups__item-text">
                     <b class="groups__name">{{group.name}}</b>
                     <p class="groups__last-message">
-                        <span class="groups__last-message-text">{{group.lastMessage}}</span>
+                        <ng-container *ngFor="let message of lastMessages$ | async">
+                            <span *ngIf="message.chatId === group._id"
+                                class="groups__last-message-text">{{message.lastMessage}}</span>
+                        </ng-container>
                     </p>
                 </div>
             </a>

@@ -1,7 +1,12 @@
 <div class="modal">
-    <h1 class="modal__title" mat-dialog-title>Create new group chat</h1>
+    <h2 class="modal__title" mat-dialog-title>Create new group chat</h2>
     <mat-dialog-content>
-        <form [formGroup]="form" class="modal__form">
+
+        <div *ngIf="contactsIsLoaded && !myContacts.length">
+            <p class="modal__err">You cannot create a chat because your contact list is empty :(</p>
+        </div>
+
+        <form *ngIf="contactsIsLoaded && myContacts.length" [formGroup]="form" class="modal__form">
             <p class="modal__err" *ngIf="errMessage$ | async as err">{{err}}</p>
 
             <mat-form-field appearance="fill" class="modal__field">
@@ -23,19 +28,40 @@
                     About chat must be between 4 and 100 characters</mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="modal__field">
+            <mat-form-field class="modal__field" appearance="fill">
                 <mat-label>Add users</mat-label>
-                <input class="modal__input" matInput placeholder="Users ID" formControlName="users">
-                <mat-error *ngIf="form.get('users')?.getError('required') || form.get('users')?.getError('minlength')">
+                <mat-chip-list #contacts>
+                    <mat-chip *ngFor="let contact of form.get('contacts')?.value" (removed)="removeContact(contact)">
+                        <div class="modal__contact">
+                            <img class="modal__avatar" [src]="contact.formatImage + contact.avatar" alt="User avatar">
+                            <span class="modal__username">{{contact.username}}</span>
+                        </div>
+                        <button matChipRemove>
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip>
+                    <input class="modal__input" placeholder="Add user to group chat" #contactsInput
+                        [formControl]="contactsControl" [matAutocomplete]="auto" [matChipInputFor]="contacts">
+                </mat-chip-list>
+                <mat-error
+                    *ngIf="form.get('contacts')?.getError('required') || form.get('contacts')?.getError('minlength')">
                     You must add at least two users</mat-error>
+                <mat-autocomplete class="modal__autocomplete" #auto="matAutocomplete"
+                    (optionSelected)="selectContact($event)">
+                    <mat-option *ngFor="let contact of contacts$ | async" [value]="contact">
+                        <div class="modal__contact">
+                            <img class="modal__avatar" [src]="contact.formatImage! + contact.avatar" alt="User avatar">
+                            <span class="modal__username">{{contact.username}}</span>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </form>
 
-        <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
-        <label *ngIf="!imageInBase64" class="modal__upload" for="file">
-            <mat-icon>file_upload</mat-icon>
-            Upload image for your chat group
-        </label>
+        <div *ngIf="contactsIsLoaded && myContacts.length &&!imageInBase64" class="modal__upload" appDragAndDrop>
+            <p class="modal__drag-text">Drag your image</p>
+            <input class="modal__input-file" id="file" type="file" (change)="uploadImage($event)">
+        </div>
         <button *ngIf="imageInBase64" class="modal__btn modal__btn--warn" mat-button (click)="deleteImage()">
             <mat-icon>delete</mat-icon>
             Delete image
@@ -45,6 +71,7 @@
 
     <mat-dialog-actions align="end">
         <button class="modal__btn modal__btn--warn" mat-button mat-dialog-close>Cancel</button>
-        <button class="modal__btn" mat-button (click)="createGroupChat()" [disabled]="form.invalid">Create</button>
+        <button *ngIf="contactsIsLoaded && myContacts.length" class="modal__btn" mat-button (click)="createGroupChat()"
+            [disabled]="form.invalid">Create</button>
     </mat-dialog-actions>
 </div>

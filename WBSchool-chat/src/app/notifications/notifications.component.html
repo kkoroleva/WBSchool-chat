@@ -1,36 +1,25 @@
 <div class="container">
 
-  <div 
-  *ngIf="!notificationsList.notifications.length" 
-  class="notifications__null"
-  >
-  You don't have notifications
+  <div *ngIf="!(notificationsList$ | async)?.notifications?.length" class="notifications__null">
+    You don't have notifications
   </div>
 
-  <div 
-  *ngIf="notificationsList.notifications.length" 
-  class="notification__container__icon-clear">
-    <button mat-icon-button
-      class="notification__icon-clear"
-      color="Icon"
-      (click)="clearNotifications()"
-      >
+  <div *ngIf="(notificationsList$ | async)?.notifications?.length" class="notification__container__icon-clear">
+    <button mat-icon-button class="notification__icon-clear" color="Icon" (click)="clearNotifications()">
       <mat-icon>delete</mat-icon>
     </button>
   </div>
 
-  <div
-  class="notification" 
-  *ngFor="let notification of notificationsList.notifications, let i = index">
+  <div class="notification" *ngFor="let notification of (notificationsList$ | async)?.notifications, let i = index">
     <mat-icon class="notification__icon-bell">notifications</mat-icon>
-    <span class="notification__text">{{ notification.text }}</span>
-    <button mat-icon-button
-      class="notification__container__icon-x"
-      color="Icon"
-      (click)="removeNotification(notification._id)"
-      >
+    <div class="notification__info">
+      <span class="notification__text">{{ notification.text }}</span>
+      <span class="notification__date">{{ notification.expiresIn | date:'dd/MM/yyyy HH:mm:ss' }}</span>
+    </div>
+    <button mat-icon-button class="notification__container__icon-x" color="Icon"
+      (click)="removeNotification(notification._id!)">
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  
+
 </div>

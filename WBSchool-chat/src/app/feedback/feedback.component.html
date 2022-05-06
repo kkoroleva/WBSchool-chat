@@ -1,0 +1,27 @@
+<form class="form__container" [formGroup]="feedBackForm">
+    <h2>Feedback</h2>
+    <p>you can leave your comments here</p>
+    <button class="close" mat-dialog-close (click)="closeWindow()"><mat-icon>close</mat-icon></button>
+    <div class="form__wrapper">
+        <div class="name">
+            <label for=""><small>Имя</small><mat-icon>account_circle</mat-icon></label>
+            <input type="text" formControlName="nameUser">
+        </div>
+        <div class="email">
+            <label><small>Email-адрес</small><mat-icon>alternate_email</mat-icon></label>
+            <input type="email" formControlName="emailUser" required>
+        </div>
+    </div>
+    <div class="comment">
+        <label>Сообщение (не менее 10 символа)</label>
+        <textarea name="" id=""  cols="30" rows="10" formControlName="textUser" required></textarea>
+    </div>
+    <div class="send-img">
+        <label for="">Нажмите чтобы добавить файлы к сообщению.</label>
+        <!-- <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd()" #input> -->
+    </div>
+    <button (click)="sendFeedBack()" class="send-feedback" [disabled]="feedBackForm.valid">
+        <small> Отправить</small>
+        <mat-icon>send</mat-icon>
+    </button>
+</form>

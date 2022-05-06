@@ -1,26 +1,27 @@
 <auth-nav></auth-nav>
+<h3 class="auth__header">Authorization</h3>
 <form [formGroup]="loginForm" (ngSubmit)="submit()">
-    <h3>Authorization</h3>
-    <p class="small"><small>If you haven't an account, you can register new account</small></p>
-    <p>
-        <mat-form-field appearance="fill">
-          <mat-label>Enter your username or email</mat-label>
-          <input matInput placeholder="Bill_Clinton" formControlName="username">
-          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-          <mat-hint *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.invalid">
-            <p *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.errors!['minlength']">Username is too short &nbsp;</p>
-            <p *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.errors!['pattern']">Enter only latin or cyrillic symbols and numbers</p>
-          </mat-hint>
-        </mat-form-field>
-      </p>
-      <p class="form-error" *ngIf="errorMessage">{{errorMessage}}</p>
-      <p>
-        <mat-form-field appearance="fill">
-          <mat-label>Enter your password</mat-label>
-          <input type="password" matInput placeholder="password" formControlName="password">
-          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-          <mat-hint *ngIf="loginForm.get('password')!.touched && loginForm.get('password')!.invalid">Password is too short</mat-hint>
-        </mat-form-field>
-      </p>
-      <button mat-raised-button type="submit" [disabled]="loginForm.invalid || submitted">Login</button>
- </form>
+  <p class="small"><small>If you haven't an account, you can register new account</small></p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your username or email</mat-label>
+      <input matInput placeholder="Bill_Clinton" formControlName="username">
+      <mat-hint *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.invalid">
+        <small *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.errors!['minlength']">Username is too
+          short &nbsp;</small>
+        <small *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.errors!['pattern']">Enter only latin
+          or cyrillic symbols and numbers</small>
+      </mat-hint>
+    </mat-form-field>
+  </p>
+  <p class="form-error" *ngIf="errorMessage">{{errorMessage}}</p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your password</mat-label>
+      <input type="password" matInput placeholder="password" formControlName="password">
+      <mat-hint *ngIf="loginForm.get('password')!.touched && loginForm.get('password')!.invalid">Password is too short
+      </mat-hint>
+    </mat-form-field>
+  </p>
+  <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || submitted">Login</button>
+</form>
