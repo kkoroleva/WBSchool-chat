@@ -4,8 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { map, Observable, startWith } from 'rxjs';
-import { IUserData } from '../../auth/interfaces';
+import { concatMap, map, Observable, startWith } from 'rxjs';
+import { IUserData } from '../../../interfaces/auth-interface';
 import {
   initContacts,
   pushContacts,
@@ -13,6 +13,7 @@ import {
 import {
   changeChatGroup,
   createChatFriend,
+  loadFriends,
   pushToFriends,
   returnIntoChatFriend,
 } from '../../store/actions/groups.actions';
@@ -21,7 +22,8 @@ import { IGroupsState } from './../../store/reducers/groups.reducers';
 import { selectUser } from './../../store/selectors/auth.selectors';
 import { selectContacts } from './../../store/selectors/contacts.selectors';
 import { selectFriends } from './../../store/selectors/groups.selectors';
-import { IPrivate } from '../private';
+import { IPrivate } from '../../../interfaces/private-interface';
+import { ProfileSettingsService } from '../../../app/profile-page/services/profile-settings.service';
 
 @Component({
   selector: 'app-create-private-chat',
@@ -44,7 +46,8 @@ export class CreatePrivateChatComponent implements OnInit {
     private dialogRef: MatDialogRef<CreatePrivateChatComponent>,
     private store$: Store<IGroupsState>,
     private actions$: Actions,
-    private router: Router
+    private router: Router,
+    private profileServ: ProfileSettingsService
   ) {
     this.form = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -86,18 +89,32 @@ export class CreatePrivateChatComponent implements OnInit {
         clone = chats.find((chat: IPrivate) => chat.usernames[0] === username || chat.usernames[1] === username);
       })
       if (!clone) {
-        this.user$.subscribe({
-          next: user => this.store$.dispatch(
-              createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
-          ),
-            // this.store$.dispatch(
-            //   returnIntoChatFriend({ chatId: '626d11083c8b9a7cfa5706cf', users: [user._id, '626181d4337f4b908cbbaa71']})
-            // ),
+        this.profileServ.getUsers(username).pipe(
+          concatMap((user: IUserData) => this.profileServ.getOwners(user._id)),
+        )
+        .subscribe((res: any) => {
+          if (res) {
+            this.user$.subscribe({
+              next: () => this.store$.dispatch(
+                returnIntoChatFriend({ chatId: res._id, users: res.owners})
+              ),
+            });
+          }
+          else {
+            this.user$.subscribe({
+              next: user => this.store$.dispatch(
+                  createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
+              )
+            });
+          }
         });
       } else {
-        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
+        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id!, isPrivate: true }));
         this.router.navigateByUrl('/chat');
       }
+      setTimeout(() => {
+        this.store$.dispatch(loadFriends());
+      }, 200)
     this.dialogRef.close();
   }
 

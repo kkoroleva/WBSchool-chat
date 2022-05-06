@@ -23,8 +23,6 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store$.dispatch(loadNotifications());
-    this.notificationSocketService.offNotifications();
-    this.notificationSocketService.initIoConnectionNotification();
   }
 
   removeNotification(id: string): void {

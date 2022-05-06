@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
 import { FeedbackComponent } from '../feedback/feedback.component';
 
@@ -53,5 +54,5 @@ export class MainPageComponent implements OnInit {
   gitHub() {
     window.open(this.urlGitHub)
   }
-
+ 
 }

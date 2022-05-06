@@ -52,6 +52,7 @@ $max-width: 1440px;
       width: 25x;
       height: 25px;
       fill: #1A66FF;
+
     }
     button{
       background: white;
@@ -61,6 +62,7 @@ $max-width: 1440px;
       border: none;
       margin-left: 5px;
       color: #1A66FF;
+
     }
     button:hover{
     animation: 1200ms ease 0s normal none 1 running shake;
@@ -99,6 +101,7 @@ $max-width: 1440px;
           transform: rotateZ(-3.33333deg);
         }
       100% {
+
           transform: rotateZ(0deg);
         }
       }
@@ -117,6 +120,7 @@ $max-width: 1440px;
       width: 20px;
       height: 20px;
       fill: #1A66FF;
+
     }
     button{
       background: white;
@@ -126,6 +130,7 @@ $max-width: 1440px;
       border: none;
       margin-left: 5px;
       color: #1A66FF;
+
     }
     button:hover{
     animation: 1200ms ease 0s normal none 1 running shake;
