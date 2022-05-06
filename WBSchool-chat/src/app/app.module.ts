@@ -78,6 +78,7 @@ import { DialogEffects } from './store/effects/dialog.effects';
 import { GroupEffects } from './store/effects/group.effects';
 import { NotificationEffects } from './store/effects/notification.effects';
 import { ThreadsEffects } from './store/effects/threads.effects';
+import { ModalWindowImgComponent } from './dialog/messageDialog/modal-window-img/modal-window-img.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -125,6 +126,7 @@ const API_URL_PROVIDER: Provider = {
     AboutGroupComponent,
     FeedbackComponent,
     SmileComponent,
+    ModalWindowImgComponent
   ],
   imports: [
     BrowserModule,
