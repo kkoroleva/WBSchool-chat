@@ -311,9 +311,7 @@ export class ProfileSettingsComponent implements OnInit {
     } else if (userName === me) {
       this.notFound = 'Вы не можете внести самого себя в список контактов.';
     } else {
-      this.profileServ
-        .getUsers(userName)
-        .pipe(
+      this.profileServ.getUsers(userName).pipe(
           concatMap((user: IUserData) => this.profileServ.addFriend(user._id)),
           catchError((error: HttpErrorResponse) => {
             this.notFound = 'Данного пользователя не существует.';
