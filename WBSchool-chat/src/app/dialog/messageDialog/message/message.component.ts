@@ -25,9 +25,7 @@ import { IMessage } from '../../../../interfaces/dialog-interface';
 import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
-import {
-  MessageSocketService,
-} from '../../../socket/message-socket.service';
+import { MessageSocketService } from '../../../socket/message-socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ModalWindowImgComponent } from '../modal-window-img/modal-window-img.component';
 import { IGroupsMessages } from '../../../../interfaces/group-interface';
@@ -41,7 +39,6 @@ export class MessageComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef;
 
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
-
 
   editMessageID = '';
   isEditMessage = false;
@@ -86,8 +83,8 @@ export class MessageComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private messageSocketService: MessageSocketService,
     private modalServ: ModalProfileService,
-    private actions$: Actions,
-  ) { }
+    private actions$: Actions
+  ) {}
 
   private initIoConnection(): void {
     this.actions$
@@ -244,12 +241,12 @@ export class MessageComponent implements OnInit {
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);
   }
-  openModalWindowImg(data: string): void {
-    console.log("i am working")
+  openModalWindowImg($event: Event, data: string): void {
+    $event.stopPropagation();
     this.dialog.open(ModalWindowImgComponent, {
       data: data,
-      panelClass: "img-in-modal"
-    })
+      panelClass: 'img-in-modal',
+    });
   }
 
   onImgAdd() {
