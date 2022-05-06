@@ -14,8 +14,7 @@ import {
   getAllGroupsMessages,
   loadGroups,
 } from '../store/actions/groups.actions';
-import { IGroup } from './group';
-import { IGroupsMessages } from '../store/reducers/groups.reducers';
+import { IGroup, IGroupsMessages } from '../../interfaces/group-interface';
 
 @Component({
   selector: 'app-groups',
@@ -67,9 +66,9 @@ export class GroupsComponent implements OnInit {
   }
 
   openGroupChat(group: IGroup): void {
-    this.store$.dispatch(changeChatGroup({ chatGroup: group._id! }));
+    this.store$.dispatch(changeChatGroup({ chatGroup: group._id!, isPrivate: false }));
     localStorage.setItem('chatID', group._id!);
-
+    localStorage.setItem('isPrivate', 'false');
     this.router.navigateByUrl('/chat');
   }
 }

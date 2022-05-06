@@ -53,7 +53,6 @@ import { StorageModule } from '@ngx-pwa/local-storage';
 /*Store*/
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
-import { AppEffects } from './store/effects/app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
@@ -72,6 +71,12 @@ import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-gr
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { SmileComponent } from './smile/smile.component';
+import { ChatsEffects } from './store/effects/chats.effects';
+import { ContactsEffects } from './store/effects/contacts.effects';
+import { DialogEffects } from './store/effects/dialog.effects';
+import { GroupEffects } from './store/effects/group.effects';
+import { NotificationEffects } from './store/effects/notification.effects';
+import { ThreadsEffects } from './store/effects/threads.effects';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -82,6 +87,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 const API_URL_PROVIDER: Provider = {
   provide: 'API_URL',
   useValue: 'https://wbschool-chat.ru',
+  // useValue: 'http://localhost:3001'
 };
 
 @NgModule({
@@ -163,7 +169,14 @@ const API_URL_PROVIDER: Provider = {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([
+      ChatsEffects,
+      ContactsEffects,
+      DialogEffects,
+      GroupEffects,
+      NotificationEffects,
+      ThreadsEffects,
+    ]),
     StoreRouterConnectingModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
@@ -176,4 +189,5 @@ const API_URL_PROVIDER: Provider = {
   providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {}

@@ -8,7 +8,7 @@ import { Observable, tap } from 'rxjs';
 import { DialogService } from '../dialog/dialog.service';
 import { ThreadSocketService } from '../socket/thread-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
-import { IComment, IThread } from './thread';
+import { IThread } from '../../interfaces/thread-interface';
 
 const mockThreads: IThread[] = [
   {

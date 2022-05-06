@@ -9,7 +9,7 @@
 
   <div class="threads__item" >
     <div class="threads__owner" [ngClass]="{threads__online: isActive}">
-      <img class="threads__thumbnail" src="{{formatImage + avatar}}" alt="Your best thread face" width="52"
+      <img class="threads__thumbnail" src="{{avatar}}" alt="Your best thread face" width="52"
         height="52">
       <p class="threads__name">{{username}}
         <span class="threads__online-status">{{isActive? 'Online' : 'Offline'}}</span>

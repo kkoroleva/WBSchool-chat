@@ -3,13 +3,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
-import { IUserData } from '../auth/interfaces';
+import { INotification } from '../../interfaces/notifications-interface';
+import { IUserData } from '../../interfaces/auth-interface';
 import { AuthService } from '../auth/services/auth.service';
 import { SocketService } from '../socket/socket.service';
 import { loadGroups } from '../store/actions/groups.actions';
 import { IGroupsState } from '../store/reducers/groups.reducers';
 import {
-  INotification,
   INotificationsState,
 } from '../store/reducers/notifications.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';

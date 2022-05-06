@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { INotification, IPostNotification } from '../reducers/notifications.reducers';
+import { INotification } from '../../../interfaces/notifications-interface';
 
 export const loadNotifications = createAction(
   '[NOTIFICATIONS] loadNotifications'
@@ -20,7 +20,7 @@ export const clearNotifications = createAction(
 
 export const addAuthNotification = createAction(
   '[NOTIFICATIONS] addAuthNotification',
-  props<{ notification: IPostNotification }>()
+  props<{ notification: INotification }>()
 )
 
 export const pushToNotification = createAction(

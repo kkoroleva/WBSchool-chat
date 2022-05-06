@@ -8,10 +8,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Actions } from '@ngrx/effects';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { IUser } from '../../user';
+import { IUser } from '../../../../interfaces/user.groups-interface';
 import { selectGroupUsers } from './../../../store/selectors/groups.selectors';
 import { getGroupUsers } from './../../../store/actions/groups.actions';
-import { IGroup } from '../../group';
+import { IGroup } from '../../../../interfaces/group-interface';
 
 @Component({
   selector: 'app-out-from-group',

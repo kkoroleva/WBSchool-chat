@@ -1,5 +1,5 @@
 import { selectUser } from './../../../store/selectors/auth.selectors';
-import { IUser } from './../../user';
+import { IUser } from '../../../../interfaces/user.groups-interface';
 import { Actions, ofType } from '@ngrx/effects';
 import {
   selectGroup,
@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith, Subscriber, tap, zip } from 'rxjs';
 import { IGroupsState } from './../../../store/reducers/groups.reducers';
-import { IGroup } from '../../group';
+import { IGroup } from '../../../../interfaces/group-interface';
 import {
   deleteFromGroups,
   deleteGroup,

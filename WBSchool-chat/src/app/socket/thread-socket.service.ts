@@ -1,9 +1,8 @@
-import { editComment } from './../store/actions/threads.action';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { createComment, deleteComment } from '../store/actions/threads.action';
-import { IComment } from '../threads/thread';
+import { IComment } from '../../interfaces/thread-interface';
+import { createComment, deleteComment, editComment } from '../store/actions/threads.action';
 import { SocketService } from './socket.service';
 
 export interface INewComment {

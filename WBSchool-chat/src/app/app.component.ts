@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.initIoConnection();
     this.storage.get('user').subscribe((newUser: any) => {
       this.store$.dispatch(initAuth({ newUser }));
     });
