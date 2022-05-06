@@ -28,10 +28,17 @@ export interface IAllChatsMessages {
   chatsMessages: IAllMessages[];
 }
 
+export interface IAvatars {
+  ownerFormatImage?: string,
+  ownerAvatar?: string,
+  formatImage?: boolean,
+  avatar?: string,
+}
+
 export interface IChatInfo {
     _id: string,
     name: string,
-    avatars: any[],
+    avatars?: IAvatars[],
     formatImage: string,
     about: string,
     isNotifications: boolean,
@@ -50,7 +57,6 @@ const initialState: IDialogState = {
     chatInfo: {
         _id: "",
         name: "",
-        avatars: [],
         formatImage: "", 
         about: "", 
         isNotifications: false, 

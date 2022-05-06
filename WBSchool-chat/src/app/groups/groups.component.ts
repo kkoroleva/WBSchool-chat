@@ -69,7 +69,7 @@ export class GroupsComponent implements OnInit {
   openGroupChat(group: IGroup): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: group._id!, isPrivate: false }));
     localStorage.setItem('chatID', group._id!);
-
+    localStorage.setItem('isPrivate', 'false');
     this.router.navigateByUrl('/chat');
   }
 }

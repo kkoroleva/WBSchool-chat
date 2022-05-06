@@ -32,7 +32,7 @@ import { ModalProfileService } from './../../../modal-profile/service/modal-prof
 export class HeaderComponent implements OnInit {
   chatInfo: IChatInfo | undefined;
 
-  private chatGroup$: Observable<any> = this.store$.pipe(
+  public chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -53,9 +53,9 @@ export class HeaderComponent implements OnInit {
       this.store$.dispatch(getInfoChat({ chatId: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate }));
     });
     this.chatInfo$.subscribe((data) => {
-      if (data) {
-        this.chatInfo = data;
-      }
+        if (data) {
+          this.chatInfo = data;
+        }
     });
   }
 
@@ -65,7 +65,9 @@ export class HeaderComponent implements OnInit {
       maxWidth: '100vw',
     });
     this.store$.dispatch(setGroup({ group: chatInfo }));
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id, isPrivate: false }));
+    this.chatGroup$.subscribe((chatGroup) => {
+      this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id, isPrivate: chatGroup.isPrivate }));
+    })
   }
 
   deleteChat(_id: string) {
@@ -81,7 +83,7 @@ export class HeaderComponent implements OnInit {
       panelClass: 'about-group-chat-modal',
       maxWidth: '100vw',
     });
-
+console.log(chatInfo)
     this.store$.dispatch(setGroup({ group: chatInfo }));
   }
 

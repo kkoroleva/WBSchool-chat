@@ -56,7 +56,6 @@ export class PrivateComponent implements OnInit {
       chatsLength = messages.length;
     });
     this.friendsState$.subscribe((chats: IPrivate[]) => {
-      // console.log(chats)
       if (chatsLength === 0) {
         chats.forEach((chat: IPrivate) => {
           this.store$.dispatch(getAllChatsMessages({ chatId: chat._id! }));
@@ -87,6 +86,7 @@ export class PrivateComponent implements OnInit {
   goToChat(chatId: string): void {
     this.store$.dispatch(changeChatGroup({ chatGroup: chatId, isPrivate: true }));
     localStorage.setItem('chatID', chatId);
+    localStorage.setItem('isPrivate', 'true');
     this.router.navigateByUrl('/chat');
   }
 

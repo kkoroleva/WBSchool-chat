@@ -101,6 +101,7 @@ export class CreatePrivateChatComponent implements OnInit {
             });
           }
           else {
+            console.log(res)
             this.user$.subscribe({
               next: user => this.store$.dispatch(
                   createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })

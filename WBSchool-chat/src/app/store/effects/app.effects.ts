@@ -269,9 +269,7 @@ export class AppEffects {
             map((messages) =>
               allChatsMessages({
                 chatId: chatId,
-                lastMessage: !!messages[messages.length - 1]
-                  ? messages[messages.length - 1].text
-                  : '',
+                lastMessage: messages[messages.length - 1] ?.text || '',
               })
             )
           )
@@ -302,10 +300,10 @@ export class AppEffects {
     );
   });
 
-  getInfoPrivateChats$ = createEffect(() => {
+  getInfoChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getInfoChat),
-      mergeMap(({ chatId, isPrivate }) => isPrivate === true ?
+      mergeMap(({ chatId, isPrivate }) => isPrivate ?
         this.http.get<IChatInfo>(`${this.urlApi}/chats/privates/${chatId}`).pipe(
           tap(
             (chatInfo) =>

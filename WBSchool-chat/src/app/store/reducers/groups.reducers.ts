@@ -41,7 +41,7 @@ export interface IGroup {
   _id?: string;
   name: string;
   about?: string;
-  owner?: string;
+  owners?: string[];
   lastMessage?: string;
   avatar?: string;
   users?: string[];
@@ -49,6 +49,7 @@ export interface IGroup {
 }
 
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
+const isPrivateFromLocalStorage = localStorage.getItem('isPrivate');
 
 const initialState: IGroupsState = {
   groups: [],
@@ -57,7 +58,7 @@ const initialState: IGroupsState = {
   friends: [],
   chatGroup: {
     chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
-    isPrivate: false,
+    isPrivate: isPrivateFromLocalStorage ? JSON.parse(isPrivateFromLocalStorage) : false,
   },
   error: '',
   lastMessages: [],

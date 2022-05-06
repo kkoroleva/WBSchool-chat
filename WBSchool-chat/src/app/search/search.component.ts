@@ -11,6 +11,7 @@ import {
 } from '../store/actions/groups.actions';
 import { IGroup, IGroupsState } from '../store/reducers/groups.reducers';
 import {
+  selectChatGroup,
   selectFriends,
   selectGroups,
 } from '../store/selectors/groups.selectors';
@@ -81,8 +82,8 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  goToChat(chatId: string) {
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatId, isPrivate: false }));
+  goToChat(chatId: string, isPrivate: boolean) {
+    this.store$.dispatch(changeChatGroup({ chatGroup: chatId, isPrivate: isPrivate }));
     localStorage.setItem('chatID', chatId);
     this.router.navigateByUrl('/chat');
   }
