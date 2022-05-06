@@ -6,6 +6,21 @@
     <router-outlet></router-outlet>
   </main>
   <footer class="main__footer">
-    <p class="copyright">WB First Grade Gang, 2022</p>
+    <div class="footer__language">
+      <mat-icon>language</mat-icon>
+      <select>
+        <option value="">ENG</option>
+        <option value="">RUS</option>
+      </select>
+    </div>
+    <hr>
+    <p class="copyright"><mat-icon>copyright</mat-icon>WB First Grade Gang, 2022</p>
+    <hr>
+    <div class="footer__btn">
+      <button><mat-icon>share</mat-icon></button>
+      <button><mat-icon>settings</mat-icon></button>
+      <button (click)="sendFeedBack()"><mat-icon>headset_mic</mat-icon></button>
+      <button (click)="gitHub()"><img src="../../assets/github.svg"></button>
+    </div>
   </footer>
 </div>

@@ -11,12 +11,11 @@
   background: #FFFFFF;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Raleway', 'Arial', sans-serif;
 
   @media(max-width:495px) {
-    padding-left: 10px;
-    padding-right: 10px;
-    max-height: 100vh;
+    padding: 20px 10px;
+    max-height: 90vh;
   }
 
   hr {
@@ -27,7 +26,7 @@
 
   .err {
     color: #f44336;
-    text-align: center; 
+    text-align: center;
   }
 }
 

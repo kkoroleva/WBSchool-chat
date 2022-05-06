@@ -25,13 +25,13 @@
                 <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
                     <span>Удалить чат</span>
                 </button>
-                <button (click)="getModalWindow(chatInfo)" *ngIf="!chatGroup.isPrivate && (chatInfo.owners[0] === user._id || chatInfo.owners[1] === user._id)"  mat-menu-item>
+                <button (click)="getModalWindow(chatInfo)" *ngIf="!chatGroup.isPrivate && chatInfo.owners[0]"  mat-menu-item>
                     <span>Редактировать чат</span>
                 </button>
                 <button (click)="aboutChat(chatInfo)" mat-menu-item>
                     <span>О чате</span>
                 </button>
-                <button (click)="leaveFromChat(chatInfo, user)" mat-menu-item>
+                <button (click)="leaveFromChat(chatInfo, user, chatGroup.isPrivate)" mat-menu-item>
                     <span>Выйти из чата</span>
                 </button>
             </mat-menu>

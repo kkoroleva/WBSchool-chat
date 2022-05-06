@@ -58,6 +58,14 @@ $max-width: 1440px;
   border-radius: 20px;
   grid-row: 2/4;
   // grid-column: 1/2;
+  @media (min-width:$min-width) and (max-width:$tablet-width) {
+    grid-row: 3/4;
+    grid-column: 1/2;
+    
+  }
+  @media (min-width: $tablet-width) {
+    grid-row: 2/4;
+  }
 }
 
 .messages-page__recents {

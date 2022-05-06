@@ -48,7 +48,7 @@
                     (optionSelected)="selectContact($event)">
                     <mat-option *ngFor="let contact of contacts$ | async" [value]="contact">
                         <div class="modal__contact">
-                            <img class="modal__avatar" [src]="contact.formatImage! + contact.avatar" alt="User avatar">
+                            <img class="modal__avatar" *ngIf="contact.formatImage" [src]="contact.formatImage! + contact.avatar" alt="User avatar">
                             <span class="modal__username">{{contact.username}}</span>
                         </div>
                     </mat-option>

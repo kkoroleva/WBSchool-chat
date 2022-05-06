@@ -10,7 +10,6 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import {
-  IGroupsMessages,
   IGroupsState,
 } from '../../../store/reducers/groups.reducers';
 import {
@@ -28,15 +27,15 @@ import {
   pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
-import { IMessage } from '../../dialog';
-import { IUserData } from '../../../auth/interfaces';
+import { IMessage } from '../../../../interfaces/dialog-interface';
+import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
 import {
   IDeleteMessage,
   MessageSocketService,
 } from '../../../socket/message-socket.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { IGroupsMessages } from '../../../../interfaces/group-interface';
 
 @Component({
   selector: 'app-message',
@@ -80,6 +79,7 @@ export class MessageComponent implements OnInit {
       }, 300);
     })
   );
+  socketService: any;
 
   constructor(
     private service: DialogService,
@@ -91,26 +91,6 @@ export class MessageComponent implements OnInit {
   ) {}
 
   private initIoConnection(): void {
-    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(pushToMessages({ message }));
-      this.store$.dispatch(
-        allGroupsMessages({
-          chatId: message.chatId!,
-          lastMessage: message.text,
-          messageId: message._id!,
-        })
-      );
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
-    });
-
-    this.messageSocketService
-      .onDeleteMessage()
-      .subscribe((message: IDeleteMessage) => {
-        this.store$.dispatch(deleteMessage({ id: message.messageId }));
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId }));
-      });
     this.actions$
       .pipe(
         ofType(deleteMessage),
@@ -127,26 +107,13 @@ export class MessageComponent implements OnInit {
               getAllGroupsMessages({ chatId: message.chatId })
             );
           }
-        })
+        });
         this.store$.dispatch(deleteLastGroupMessage({ id }));
-      });
-    this.messageSocketService
-      .onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(editMessage({ message }));
-        this.store$.dispatch(
-          allGroupsMessages({
-            chatId: message.chatId!,
-            lastMessage: message.text,
-            messageId: message._id!,
-          })
-        );
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
       });
   }
 
   ngOnInit(): void {
-    this.messageSocketService.offMessages();
+    // this.messageSocketService.offMessages();
     this.getMyInfo();
     this.chatGroup$.subscribe((chatGroup) => {
       this.chatID = chatGroup.chatGroup;
@@ -217,13 +184,13 @@ export class MessageComponent implements OnInit {
       this.changeScroll();
       if (this.isEditMessage) {
         this.messageSocketService.updateMessage(this.chatID, {
-          text: this.message.value,
+          text: this.message.value.trim(),
           _id: this.editMessageID,
         });
         this.isEditMessage = false;
       } else if (this.imageOrFile.length > 0) {
         const message: IMessage = {
-          text: this.message.value,
+          text: this.message.value.trim(),
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
         };
@@ -249,6 +216,19 @@ export class MessageComponent implements OnInit {
     );
   }
 
+  separateTheLink(message: string) {
+    let str = message.trim();
+    let strArr = str.split(' ');
+    let pic = '';
+    strArr.forEach((word) => {
+      if (this.itemFormat(word)) {
+        pic = word;
+        strArr.splice(strArr.indexOf(word), 1);
+      }
+    });
+    return { url: pic, text: strArr.join(' ') };
+  }
+  /*
   sliceLinkImage(item: string) {
     let empty = item.slice(0, item.indexOf(' '));
     if (item.includes('.png')) {
@@ -269,11 +249,11 @@ export class MessageComponent implements OnInit {
       } else return item.slice(0, item.indexOf('.svg') + 4);
     } else if (item.includes('.gif')) {
       if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.gif') + 4);
-    } else return;
-  }
-
+        return empty
+      }
+      else return item.slice(0, item.indexOf(".gif") + 4)
+    } else return
+  } */
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);
   }

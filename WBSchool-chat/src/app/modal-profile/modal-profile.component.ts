@@ -3,12 +3,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { concatMap, Observable } from 'rxjs';
-import { IUserData } from '../auth/interfaces';
+import { IUserData } from '../../interfaces/auth-interface';
 import { ProfileSettingsService } from '../profile-page/services/profile-settings.service';
-import { IPrivate } from '../friends/private';
+import { IPrivate } from '../../interfaces/private-interface';
 import { initContacts } from '../store/actions/contacts.actions';
-import { changeChatGroup, createChatFriend, returnIntoChatFriend } from '../store/actions/groups.actions';
-import { IContacts } from '../store/reducers/contacts.reducers';
+import {
+  changeChatGroup,
+  createChatFriend,
+  returnIntoChatFriend,
+} from '../store/actions/groups.actions';
+import { IContactsState } from '../store/reducers/contacts.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { selectContacts } from '../store/selectors/contacts.selectors';
 import { selectFriends } from '../store/selectors/groups.selectors';
@@ -17,7 +21,7 @@ import { ModalProfileService } from './service/modal-profile.service';
 @Component({
   selector: 'app-modal-profile',
   templateUrl: './modal-profile.component.html',
-  styleUrls: ['./modal-profile.component.scss']
+  styleUrls: ['./modal-profile.component.scss'],
 })
 export class ModalProfileComponent implements OnInit {
   userData: IUserData = {
@@ -28,8 +32,8 @@ export class ModalProfileComponent implements OnInit {
     about: this.data.about,
     _id: this.data._id,
     v: this.data.v,
-    formatImage: this.data.formatImage
-  }
+    formatImage: this.data.formatImage,
+  };
   private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
   friendStatus = false;
   hideData = false;
@@ -42,7 +46,7 @@ export class ModalProfileComponent implements OnInit {
     private store$: Store,
     private router: Router,
     @Inject('API_URL') public apiUrl: string,
-    private profileServ: ProfileSettingsService,
+    private profileServ: ProfileSettingsService
   ) {}
 
   onNoClick(): void {
@@ -50,23 +54,31 @@ export class ModalProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store$.dispatch(initContacts())
-    this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-      this.friendStatus = !!contacts.contacts.find((user: IUserData) => user.username === this.userData.username);
-      this.contacts = contacts.contacts;
-    })
+    this.store$.dispatch(initContacts());
+    this.store$
+      .pipe(select(selectContacts))
+      .subscribe((contacts: IContactsState) => {
+        this.friendStatus = !!contacts.contacts.find(
+          (user: IUserData) => user.username === this.userData.username
+        );
+        this.contacts = contacts.contacts;
+      });
   }
 
   goToChat(_id: string) {
     const username: string = this.userData.username.trim();
-      let clone: IPrivate | undefined;
-      this.store$.pipe(select(selectFriends))
-      .subscribe((chats: IPrivate[]) => {
-        clone = chats.find((chat: IPrivate) => chat.usernames[0] === username || chat.usernames[1] === username);
-      })
-      if (!clone) {
-        this.profileServ.getUsers(username).pipe(
-          concatMap((user: IUserData) => this.profileServ.getOwners(user._id)),
+    let clone: IPrivate | undefined;
+    this.store$.pipe(select(selectFriends)).subscribe((chats: IPrivate[]) => {
+      clone = chats.find(
+        (chat: IPrivate) =>
+          chat.usernames[0] === username || chat.usernames[1] === username
+      );
+    });
+    if (!clone) {
+      this.profileServ
+        .getUsers(username)
+        .pipe(
+          concatMap((user: IUserData) => this.profileServ.getOwners(user._id))
         )
         .subscribe((res: any) => {
           if (res[0]) {
@@ -75,16 +87,21 @@ export class ModalProfileComponent implements OnInit {
                 returnIntoChatFriend({ chatId: res[0]._id, users: res[0].owners})
               ),
             });
-          }
-          else {
+          } else {
             this.user$.subscribe({
-              next: user => this.store$.dispatch(
-                  createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
-              )
+              next: (user) =>
+                this.store$.dispatch(
+                  createChatFriend({
+                    username,
+                    ownerUsername: user.username,
+                    ownerFormatImage: user.formatImage!,
+                    ownerAvatar: user.avatar!,
+                  })
+                ),
             });
           }
           setTimeout(() => {
-            this.router.navigateByUrl('/home')
+            this.router.navigateByUrl('/home');
           }, 0);
         });
       } else {
@@ -95,21 +112,20 @@ export class ModalProfileComponent implements OnInit {
   }
 
   deleteContact(_id: string) {
-    this.modalServ.deleteContact(_id)
-    .subscribe(() => {
+    this.modalServ.deleteContact(_id).subscribe(() => {
       this.store$.dispatch(initContacts());
-    })
+    });
   }
 
   openImg() {
-    this.hideData = !this.hideData
+    this.hideData = !this.hideData;
   }
 
   addToFriends(userId: string) {
     if (!this.contacts.find((userCont) => userCont._id === userId)) {
       this.profileServ.addFriend(userId).subscribe(() => {
         this.store$.dispatch(initContacts());
-      }) 
+      });
     }
   }
 }

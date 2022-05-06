@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IPrivate } from './private';
+import { IPrivate } from '../../interfaces/private-interface';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { selectFriends } from '../store/selectors/groups.selectors';
@@ -13,18 +13,18 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 import { selectUser } from '../store/selectors/auth.selectors';
-import { IUserData } from '../auth/interfaces';
+import { IUserData } from '../../interfaces/auth-interface';
 import {
   allChatsMessages,
   getAllChatsMessages,
 } from '../store/actions/dialog.action';
-import { IAllMessages } from '../store/reducers/dialog.reducer';
 import {
   IDeleteMessage,
   MessageSocketService,
 } from '../socket/message-socket.service';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
-import { IMessage } from '../dialog/dialog';
+import { IMessage } from '../../interfaces/dialog-interface';
+import { IAllMessages } from '../../interfaces/lastMessages-interface';
 
 @Component({
   selector: 'app-private',
@@ -62,25 +62,6 @@ export class PrivateComponent implements OnInit {
         });
       }
     });
-    this.getLastMessages();
-  }
-
-  getLastMessages() {
-    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
-    });
-    this.messageSocketService
-      .onDeleteMessage()
-      .subscribe((message: IDeleteMessage) => {
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
-      });
-    this.messageSocketService
-      .onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
-      });
   }
 
   goToChat(chatId: string): void {

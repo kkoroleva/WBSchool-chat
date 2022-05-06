@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { MessageSocketService } from '../socket/message-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
-import { ISmile } from './smile.interface';
+import { ISmile } from '../../interfaces/smile-interface';
 
 const elves = `https://i.ibb.co/JvXrJJV/CD195156-7-F41-4042-86-E9-46-A8-D1-F3-C634.png
 https://i.ibb.co/D7xKDcT/15464569-0958-4571-BAB2-FBF89556-EFE7.png

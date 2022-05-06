@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-
-import { IChatInfo } from '../../../store/reducers/dialog.reducer';
 import { Observable } from 'rxjs';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
 import { getInfoChat } from '../../../store/actions/dialog.action';
@@ -13,7 +11,7 @@ import {
   outFromChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
-import { IUserData } from '../../../auth/interfaces';
+import { IUserData } from '../../../../interfaces/auth-interface';
 import { selectUser } from '../../../store/selectors/auth.selectors';
 import {
   deleteChatFriend,
@@ -23,6 +21,7 @@ import { Router } from '@angular/router';
 import { AboutGroupComponent } from './../../../groups/modal/about-group/about-group.component';
 import { OutFromGroupComponent } from './../../../groups/modal/out-from-group/out-from-group.component';
 import { ModalProfileService } from './../../../modal-profile/service/modal-profile.service';
+import { IChatInfo } from '../../../../interfaces/dialog-interface';
 
 @Component({
   selector: 'app-header',
@@ -65,9 +64,6 @@ export class HeaderComponent implements OnInit {
       maxWidth: '100vw',
     });
     this.store$.dispatch(setGroup({ group: chatInfo }));
-    this.chatGroup$.subscribe((chatGroup) => {
-      this.store$.dispatch(changeChatGroup({ chatGroup: chatInfo._id, isPrivate: chatGroup.isPrivate }));
-    })
   }
 
   deleteChat(_id: string) {
@@ -83,12 +79,11 @@ export class HeaderComponent implements OnInit {
       panelClass: 'about-group-chat-modal',
       maxWidth: '100vw',
     });
-console.log(chatInfo)
     this.store$.dispatch(setGroup({ group: chatInfo }));
   }
 
-  leaveFromChat(chatInfo: IChatInfo, user: IUserData): void {
-    if (chatInfo.owners[2] === user._id) {
+  leaveFromChat(chatInfo: IChatInfo, user: IUserData, isPrivate: boolean): void {
+    if (chatInfo.owners[0] === user._id && !isPrivate) {
       this.modalWindow.open(OutFromGroupComponent, {
         panelClass: 'out-group-chat-modal',
         maxWidth: '100vw',

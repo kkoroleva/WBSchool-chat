@@ -3,13 +3,14 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith } from 'rxjs';
-import { IPrivate } from '../friends/private';
+import { IGroup } from '../../interfaces/group-interface';
+import { IPrivate } from '../../interfaces/private-interface';
 import {
   changeChatGroup,
   loadFriends,
   loadGroups,
 } from '../store/actions/groups.actions';
-import { IGroup, IGroupsState } from '../store/reducers/groups.reducers';
+import { IGroupsState } from '../store/reducers/groups.reducers';
 import {
   selectChatGroup,
   selectFriends,
@@ -70,8 +71,7 @@ export class SearchComponent implements OnInit {
 
   private _filterChats(value: string): IPrivate[] {
     const filterValue = value.toLowerCase();
-    return this.chats.filter((chat: IPrivate) =>
-      chat.name!.toLowerCase().includes(filterValue)
+    return this.chats.filter((chat: IPrivate) => chat.usernames[0].toLowerCase().includes(filterValue)
     );
   }
 
