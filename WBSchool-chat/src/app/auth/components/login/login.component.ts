@@ -14,6 +14,8 @@ import { SocketService } from '../../../../app/socket/socket.service';
 import { ConnectEvent } from '../../../../app/socket/event';
 import { NotificationSocketService } from '../../../../app/socket/notification-socket.service';
 import { INotification } from '../../../../interfaces/notifications-interface';
+import { ThreadSocketService } from '../../../../app/socket/thread-socket.service';
+import { MessageSocketService } from '../../../../app/socket/message-socket.service';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +36,9 @@ export class LoginComponent implements OnInit {
     private store$: Store<IAuthState>,
     private storage: StorageMap,
     private socketService: SocketService,
-    private notificationSocketService: NotificationSocketService
+    private notificationSocketService: NotificationSocketService,
+    private threadSocketService: ThreadSocketService,
+    private messageSocketService: MessageSocketService
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +62,9 @@ export class LoginComponent implements OnInit {
 
     this.socketService.onEvent(ConnectEvent.CONNECT).subscribe(() => {
       console.log('connected');
+      this.messageSocketService.initIoConnectionMessages();
+      this.threadSocketService.initConnectThreads();
+      this.notificationSocketService.initIoConnectionNotification();
     });
   }
 

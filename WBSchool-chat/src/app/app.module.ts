@@ -189,4 +189,5 @@ const API_URL_PROVIDER: Provider = {
   providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {}
