@@ -48,6 +48,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
+  toggleEmoji: boolean = false;
   message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
@@ -60,6 +61,7 @@ export class MessageComponent implements OnInit {
   contacts: IUserData[] = [];
   userData: IUserData | undefined;
   imgInput = false;
+  emojiText: string = ''
 
   private chatGroup$: Observable<string> = this.store$.pipe(
     select(selectChatGroup)
@@ -271,5 +273,17 @@ export class MessageComponent implements OnInit {
     this.toggle = !this.toggle;
     this.imageOrFile = '';
     this.imgInput = false;
+  }
+
+  addEmoji(event: any) {
+    this.emojiText += event.emoji.native
+  }
+  
+  isEmoji() {
+    this.toggleEmoji = !this.toggleEmoji;
+  }
+
+  unActiveEmoji() {
+    this.toggleEmoji = false;
   }
 }

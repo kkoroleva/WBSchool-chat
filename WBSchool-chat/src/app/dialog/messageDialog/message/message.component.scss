@@ -337,3 +337,41 @@
 .mat-menu-panel {
   min-width: 320px;
 }
+
+.container__emoji {
+  position: relative;
+}
+
+.form__emoji {
+  position: absolute;
+  bottom: 14px;
+  right: -35px;
+}
+
+.icon-for-emoji {
+  margin: 0 0 5px 10px;
+}
+
+.isActive {
+  opacity: 1;
+  animation: emoji 0.3s forwards;
+}
+
+.unActive {
+  opacity: 0;
+  animation: unEmoji 0.3s forwards;
+}
+
+@keyframes emoji {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes unEmoji {
+  100% {opacity: 0;}
+  0% {opacity: 1;}
+}
+
+.mat-menu-content {
+  padding: 0;
+}

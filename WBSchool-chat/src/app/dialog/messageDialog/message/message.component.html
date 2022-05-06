@@ -43,14 +43,31 @@
       <div (click)="toggle = !toggle">
         <mat-icon class="btn" width="14px" height="13px"> attach_file</mat-icon>
       </div>
-      <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" #input
+      <input type="text" [(ngModel)]="emojiText" [formControl]="message" (keydown.enter)="sendMessage()" #input
         [ngClass]="{'input__link': itemFormat(input.value)}">
+
       <div class="smile__more" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu" yPosition="above">
           <app-smile></app-smile>
         </mat-menu>
         <mat-icon>tag_faces</mat-icon>
       </div>
+
+      <div class="container__emoji" id="emoji" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="emoji">
+        
+        <mat-menu
+          #emoji="matMenu"
+          class="form__emoji" 
+          (blur)="unActiveEmoji()"
+        >
+          <emoji-mart
+          title = "Select color"
+            (emojiSelect)="addEmoji($event)">
+          </emoji-mart>
+        </mat-menu>
+      <mat-icon class="icon-for-emoji" (click)="isEmoji()">tag_faces</mat-icon>
+      </div>
+
       <!-- <mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon> -->
     </div>
     <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>

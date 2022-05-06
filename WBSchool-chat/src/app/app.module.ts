@@ -77,6 +77,7 @@ import { DialogEffects } from './store/effects/dialog.effects';
 import { GroupEffects } from './store/effects/group.effects';
 import { NotificationEffects } from './store/effects/notification.effects';
 import { ThreadsEffects } from './store/effects/threads.effects';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -132,6 +133,7 @@ const API_URL_PROVIDER: Provider = {
     AuthModule,
     StorageModule,
     AngularResizeEventModule,
+    PickerModule,
 
     //Material UI
     BrowserAnimationsModule,
