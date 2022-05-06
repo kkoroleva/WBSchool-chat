@@ -15,7 +15,7 @@
                     <img class="modal__avatar" [src]="user.formatImage! + user.avatar! || '/assets/not-found.png'"
                         alt="User avatar">
                     <span class="modal__username">{{user.username}}</span>
-                    <mat-icon *ngIf="user._id === group.owner" color="primary">star</mat-icon>
+                    <mat-icon *ngIf="user._id === group.owners![0]" color="primary">star</mat-icon>
                 </div>
             </ng-container>
         </ng-container>

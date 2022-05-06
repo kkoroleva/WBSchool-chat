@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { map, Observable, startWith, Subscriber, Subscription } from 'rxjs';
-import { IGroup } from '../../group';
+import { IGroup } from '../../../../interfaces/group-interface';
 import { select, Store } from '@ngrx/store';
 import { IGroupsState } from './../../../store/reducers/groups.reducers';
 import {
@@ -29,9 +29,9 @@ import {
 } from './../../../store/selectors/groups.selectors';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipList } from '@angular/material/chips';
-import { IUser } from '../../user';
-import { INotification } from './../../../store/reducers/notifications.reducers';
-import { NotificationSocketService } from './../../../socket/notification-socket.service';
+import { IUser } from '../../../../interfaces/user.groups-interface';
+import { NotificationSocketService } from '../../../../app/socket/notification-socket.service';
+import { INotification } from '../../../../interfaces/notifications-interface';
 
 @Component({
   selector: 'groups-create-group-chat',

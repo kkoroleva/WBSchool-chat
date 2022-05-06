@@ -8,16 +8,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Actions, ofType } from '@ngrx/effects';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { IUser } from '../../user';
+import { IUser } from '../../../../interfaces/user.groups-interface';
 import { selectGroupUsers } from './../../../store/selectors/groups.selectors';
 import {
   changeChatGroup,
   exitFromGroup,
   getGroupUsers,
 } from './../../../store/actions/groups.actions';
-import { IGroup } from '../../group';
-import { selectUser } from './../../../store/selectors/auth.selectors';
+import { IGroup } from '../../../../interfaces/group-interface';
 import { Router } from '@angular/router';
+import { selectUser } from './../../../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-out-from-group',
@@ -102,7 +102,9 @@ export class OutFromGroupComponent implements OnInit {
         exitFromGroup({ id: this.chatId, owner: owners[0]._id })
       );
       this.router.navigateByUrl('/home');
-      this.store$.dispatch(changeChatGroup({ chatGroup: '' }));
+      this.store$.dispatch(
+        changeChatGroup({ chatGroup: '', isPrivate: false })
+      );
       localStorage.removeItem('chatID');
     }
   }

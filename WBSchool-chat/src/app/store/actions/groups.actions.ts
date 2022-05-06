@@ -1,8 +1,7 @@
-import { IMessage } from './../../dialog/dialog';
-import { IUser } from '../../groups/user';
+import { IUser } from '../../../interfaces/user.groups-interface';
 import { createAction, props } from '@ngrx/store';
-import { IPrivate } from './../../friends/private';
-import { IGroup } from './../../groups/group';
+import { IPrivate } from '../../../interfaces/private-interface';
+import { IGroup } from '../../../interfaces/group-interface';
 
 export const loadGroups = createAction('[GROUPS] loadGroups');
 export const changeLoadGroups = createAction(
@@ -12,7 +11,7 @@ export const changeLoadGroups = createAction(
 
 export const changeChatGroup = createAction(
   '[GROUPS] changeChatGroup',
-  props<{ chatGroup: string }>()
+  props<{ chatGroup: string; isPrivate: boolean }>()
 );
 
 export const createChatGroup = createAction(

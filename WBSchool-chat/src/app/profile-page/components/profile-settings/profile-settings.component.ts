@@ -7,20 +7,21 @@ import {
   IProfileData,
   IServerResponse,
   ISettingsList,
-} from '../../interfaces/profile-settings';
+} from '../../../../interfaces/profile.settings.interface';
+
 import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { IUserData } from '../../../auth/interfaces';
+import { IUserData } from '../../../../interfaces/auth-interface';
 import { select, Store } from '@ngrx/store';
 import { selectUser } from '../../../store/selectors/auth.selectors';
 import { selectContacts } from '../../../store/selectors/contacts.selectors';
-import { IContacts } from '../../../store/reducers/contacts.reducers';
+import { IContactsState } from '../../../store/reducers/contacts.reducers';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { initContacts } from '../../../store/actions/contacts.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { initAuth } from './../../../store/actions/auth.actions';
+import { initAuth } from '../../../../app/store/actions/auth.actions';
 
 @Component({
   selector: 'app-profile-settings',
@@ -28,7 +29,6 @@ import { initAuth } from './../../../store/actions/auth.actions';
   styleUrls: ['./profile-settings.component.scss'],
 })
 export class ProfileSettingsComponent implements OnInit {
-  private url = 'https://wbschool-chat.ru/api/users';
   profileData: IProfileData = {
     username: '',
     status: 'Не беспокоить',
@@ -128,21 +128,9 @@ export class ProfileSettingsComponent implements OnInit {
     this.store$.dispatch(initContacts());
     this.store$
       .pipe(select(selectContacts))
-      .subscribe((contacts: IContacts) => {
+      .subscribe((contacts: IContactsState) => {
         this.contacts = contacts.contacts;
       });
-    // this.profileServ.getContacts().pipe(
-    //   catchError((error) => {
-    //     return throwError(() => error);
-    //   })
-    // ).subscribe((contacts: any) => {
-    //   this.contacts = contacts.contacts;
-    //   console.log(contacts.contacts[4].username)
-    //   this.store$.dispatch(initContacts());
-    //   this.store$.pipe(select(selectContacts)).subscribe((contacts: IContacts) => {
-    //         this.contacts = contacts.contacts;
-    //   })
-    // })
   }
 
   getUsersData(): void {
@@ -317,7 +305,8 @@ export class ProfileSettingsComponent implements OnInit {
     this.store$
       .pipe(select(selectUser))
       .subscribe((user: IUserData) => (me = user.username));
-    if (userName.length === 0) {
+
+    if (!userName.length) {
       this.notFound = 'Поле ввода пустое, введите username пользователя.';
     } else if (userName === clone?.username) {
       this.notFound = 'Этот пользователь уже есть в списке контактов.';
