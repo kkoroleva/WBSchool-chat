@@ -142,6 +142,10 @@ export class SmileComponent implements OnInit {
 
   onClick(e: Event) {
     this.smileSRC = (e.target as HTMLImageElement).src;
-    this.messageSocketService.send(this.chatID, { text: this.smileSRC });
+    this.messageSocketService.send(
+      this.chatID,
+      { text: this.smileSRC },
+      JSON.parse(localStorage.getItem('isPrivate')!)
+    );
   }
 }

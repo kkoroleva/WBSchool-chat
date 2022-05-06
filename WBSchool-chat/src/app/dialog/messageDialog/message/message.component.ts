@@ -1,5 +1,4 @@
 import {
-  allGroupsMessages,
   deleteLastGroupMessage,
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
@@ -9,32 +8,23 @@ import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
-import {
-  IGroupsState,
-} from '../../../store/reducers/groups.reducers';
+import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import {
   selectChatGroup,
   selectLastGroupsMessages,
 } from '../../../store/selectors/groups.selectors';
 import { Validators } from '@angular/forms';
 import {
-  allChatsMessages,
   deleteMessage,
-  editMessage,
-  getAllChatsMessages,
   initDialogs,
   newEditMessage,
-  pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../../../interfaces/dialog-interface';
 import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
-import {
-  IDeleteMessage,
-  MessageSocketService,
-} from '../../../socket/message-socket.service';
+import { MessageSocketService } from '../../../socket/message-socket.service';
 import { IGroupsMessages } from '../../../../interfaces/group-interface';
 
 @Component({
@@ -117,7 +107,9 @@ export class MessageComponent implements OnInit {
     this.getMyInfo();
     this.chatGroup$.subscribe((chatGroup) => {
       this.chatID = chatGroup.chatGroup;
-      this.store$.dispatch(initDialogs({ id: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate }));
+      this.store$.dispatch(
+        initDialogs({ id: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate })
+      );
     });
     this.initIoConnection();
   }
@@ -194,10 +186,18 @@ export class MessageComponent implements OnInit {
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
         };
-        this.messageSocketService.send(this.chatID, message);
+        this.messageSocketService.send(
+          this.chatID,
+          message,
+          JSON.parse(localStorage.getItem('isPrivate')!)
+        );
       } else {
         let message: IMessage = { text: this.message.value };
-        this.messageSocketService.send(this.chatID, message);
+        this.messageSocketService.send(
+          this.chatID,
+          message,
+          JSON.parse(localStorage.getItem('isPrivate')!)
+        );
       }
       this.imageOrFile = '';
       this.formatImage = '';
@@ -228,32 +228,7 @@ export class MessageComponent implements OnInit {
     });
     return { url: pic, text: strArr.join(' ') };
   }
-  /*
-  sliceLinkImage(item: string) {
-    let empty = item.slice(0, item.indexOf(' '));
-    if (item.includes('.png')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.png') + 4);
-    } else if (item.includes('.jpg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.jpg') + 4);
-    } else if (item.includes('.jpeg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.jpeg') + 5);
-    } else if (item.includes('.svg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.svg') + 4);
-    } else if (item.includes('.gif')) {
-      if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".gif") + 4)
-    } else return
-  } */
+
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);
   }

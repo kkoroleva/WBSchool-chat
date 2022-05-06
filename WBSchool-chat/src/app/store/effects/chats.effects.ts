@@ -13,13 +13,7 @@ import {
   outFromChatFriend,
   returnIntoChatFriend,
 } from '../actions/groups.actions';
-import {
-  catchError,
-  map,
-  mergeMap,
-  of,
-  tap,
-} from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
 import { IPrivate } from '../../../interfaces/private-interface';
 
@@ -54,11 +48,14 @@ export class ChatsEffects {
       ofType(createChatFriend),
       mergeMap(({ username, ownerUsername, ownerFormatImage, ownerAvatar }) =>
         this.http
-          .post<IPrivate>(`${this.urlApi}/chats/privates/private?username=${username}`, {
-            ownerUsername,
-            ownerFormatImage,
-            ownerAvatar,
-          })
+          .post<IPrivate>(
+            `${this.urlApi}/chats/privates?username=${username}`,
+            {
+              ownerUsername,
+              ownerFormatImage,
+              ownerAvatar,
+            }
+          )
           .pipe(
             tap(
               (friend) => (friend.avatar = friend.formatImage! + friend.avatar)
@@ -75,13 +72,15 @@ export class ChatsEffects {
   returnIntoChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(returnIntoChatFriend),
-      mergeMap(({chatId, users}) =>
+      mergeMap(({ chatId, users }) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/privates/${chatId}`, {users})
-          .pipe(map((id) => updateChatFriends({chatId: id})),
+          .patch<string>(`${this.urlApi}/chats/privates/${chatId}`, { users })
+          .pipe(
+            map((id) => updateChatFriends({ chatId: id })),
             catchError((err) =>
-              of(chatGroupError({error: err.error.message}))
-            ))
+              of(chatGroupError({ error: err.error.message }))
+            )
+          )
       )
     );
   });
@@ -102,8 +101,10 @@ export class ChatsEffects {
       ofType(outFromChatFriend),
       mergeMap(({ chatId, owner }) =>
         this.http
-          .patch<string>(`${this.urlApi}/chats/privates/${chatId}/exit`, {owner: owner})
-          .pipe(map((id) => updateChatFriends({chatId: id})))
+          .patch<string>(`${this.urlApi}/chats/privates/${chatId}/exit`, {
+            owner: owner,
+          })
+          .pipe(map((id) => updateChatFriends({ chatId: id })))
       )
     );
   });
