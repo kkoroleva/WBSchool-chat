@@ -10,8 +10,6 @@ import { SocketService } from './socket/socket.service';
 import { ConnectEvent } from './socket/event';
 import { INotificationsState } from './store/reducers/notifications.reducers';
 import { loadNotifications } from './store/actions/notifications.actions';
-import { Action } from './socket-service/action';
-import { Event } from './socket-service/event';
 
 @Component({
   selector: 'app-root',
