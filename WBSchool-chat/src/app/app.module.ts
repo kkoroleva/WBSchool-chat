@@ -87,7 +87,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 const API_URL_PROVIDER: Provider = {
   provide: 'API_URL',
   // useValue: 'https://wbschool-chat.ru/',
-  useValue: 'http://localhost:3001'
+  useValue: 'https://wbschool-chat.ru/',
 };
 
 @NgModule({
@@ -169,7 +169,14 @@ const API_URL_PROVIDER: Provider = {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([ChatsEffects, ContactsEffects, DialogEffects, GroupEffects, NotificationEffects, ThreadsEffects]),
+    EffectsModule.forRoot([
+      ChatsEffects,
+      ContactsEffects,
+      DialogEffects,
+      GroupEffects,
+      NotificationEffects,
+      ThreadsEffects,
+    ]),
     StoreRouterConnectingModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
