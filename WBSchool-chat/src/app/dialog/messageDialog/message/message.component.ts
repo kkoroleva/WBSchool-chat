@@ -7,6 +7,7 @@ import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import {
@@ -37,6 +38,7 @@ import {
   MessageSocketService,
 } from '../../../socket/message-socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ModalWindowImgComponent } from '../modal-window-img/modal-window-img.component';
 
 @Component({
   selector: 'app-message',
@@ -46,6 +48,9 @@ import { MatMenuTrigger } from '@angular/material/menu';
 export class MessageComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef;
 
+  @ViewChild(MatMenuTrigger)  trigger!: MatMenuTrigger;
+
+ 
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
@@ -82,12 +87,13 @@ export class MessageComponent implements OnInit {
   );
 
   constructor(
+    public dialog: MatDialog,
     private service: DialogService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
     private messageSocketService: MessageSocketService,
     private modalServ: ModalProfileService,
-    private actions$: Actions
+    private actions$: Actions, 
   ) {}
 
   private initIoConnection(): void {
@@ -160,6 +166,9 @@ export class MessageComponent implements OnInit {
       this.wrapper.nativeElement.scrollTop =
         this.wrapper.nativeElement.scrollHeight;
     }
+  }
+  someMethod() {
+    this.trigger.openMenu();
   }
 
   getMyInfo(): void {
@@ -291,6 +300,13 @@ export class MessageComponent implements OnInit {
   } */
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);
+  }
+  openModalWindowImg(data:string):void{
+    console.log("i am working")
+    this.dialog.open(ModalWindowImgComponent, {
+      data : data,
+      panelClass:"img-in-modal"
+    })
   }
 
   onImgAdd() {

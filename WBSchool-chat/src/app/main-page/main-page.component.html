@@ -5,12 +5,11 @@
   <main class="main__content">
     <router-outlet></router-outlet>
   </main>
-  <footer class="main__footer">
-    <div class="footer__language">
+  <footer  class="main__footer">
+    <div  class="footer__language">
       <mat-icon>language</mat-icon>
-      <select>
-        <option value="">ENG</option>
-        <option value="">RUS</option>
+      <select   [formControl]="valueControl" >
+        <option  *ngFor="let item  of country ; let index = index" [value]="index">{{item.viewValue}}</option>
       </select>
     </div>
     <hr>

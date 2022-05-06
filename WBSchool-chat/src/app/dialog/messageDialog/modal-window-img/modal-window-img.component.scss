@@ -1,0 +1,71 @@
+.imgModalWindow{
+    // position: relative;
+    max-width: 100%;
+    max-height: 600px;
+    
+    
+    
+    img{
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    button{
+        background: #1A66FF;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        border: none;
+        color: white;
+       
+      }
+      button:hover{
+      animation: 1200ms ease 0s normal none 1 running shake;
+      border-radius: 50%;
+      border: none;
+      }
+      @keyframes shake {
+        0% {
+          transform: rotateZ(0deg);
+        }
+        10% {
+          transform: rotateZ(-30deg);
+        }
+        20% {
+          transform: rotateZ(15deg);
+        }
+        30% {
+            transform: rotateZ(-10deg);
+        }
+        40% {
+          transform: rotateZ(7.5deg);
+        }
+        50% {
+            transform: rotateZ(-6deg);
+        }
+        60% {
+            transform: rotateZ(5deg);
+        }
+        70% {
+            transform: rotateZ(-4.28571deg);
+        }
+        80% {
+            transform: rotateZ(3.75deg);
+          }
+        90% {
+            transform: rotateZ(-3.33333deg);
+          }
+        100% {
+            transform: rotateZ(0deg);
+          }
+        }
+        
+}

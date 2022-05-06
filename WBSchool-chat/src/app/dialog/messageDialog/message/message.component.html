@@ -8,8 +8,10 @@
         <ng-container *ngIf="separateTheLink(item.text) as messObj">
           <img *ngIf="messObj.url || !!item.imageOrFile"
             [src]="!!item.imageOrFile? item.formatImage+item.imageOrFile : messObj.url" alt="img-send"
-            class="message__img">
+            class="message__img"
+            (mouseout)="openModalWindowImg(item.formatImage! + item.imageOrFile!)">
           <p class="message__text">{{messObj.text}}</p>
+
         </ng-container>
       </div>
       <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>

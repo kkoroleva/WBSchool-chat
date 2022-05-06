@@ -72,6 +72,7 @@ import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-gr
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { SmileComponent } from './smile/smile.component';
+import { ModalWindowImgComponent } from './dialog/messageDialog/modal-window-img/modal-window-img.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -118,6 +119,7 @@ const API_URL_PROVIDER: Provider = {
     AboutGroupComponent,
     FeedbackComponent,
     SmileComponent,
+    ModalWindowImgComponent,
   ],
   imports: [
     BrowserModule,

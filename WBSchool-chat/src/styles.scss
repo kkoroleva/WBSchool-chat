@@ -241,3 +241,14 @@ mat-label,
     border-radius: 20px;
   }
 }
+
+.img-in-modal{
+  .mat-dialog-container {
+    padding: 0;
+    background-position: center;
+    background-size: cover;
+    border-radius: 21px;
+    // position: relative;
+  }
+
+}

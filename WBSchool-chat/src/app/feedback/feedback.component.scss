@@ -124,22 +124,27 @@
         font-family: 'Open Sans', sans-serif;
         font-size: 15px;
         color: white;
-        border-radius: 0px 20px 20px 0px / none;
+        border: none;
+        border-radius: 0px 20px 20px 0px ;
 
         &--active{
             background: #1A66FF;
             font-family: 'Open Sans', sans-serif;
             font-size: 15px;
             color: white;
-            border-radius: 0px 20px 20px 0px / none;
+            border-radius: 0px 20px 20px 0px ;
             display: flex;
             padding: 5px 20px;
             align-items: center;
+            border: none;
 
             small{
+                margin-right: 80px;
+                text-align: center;
                 font-weight: 700;
-                margin-right: 20px;
+                margin-left: 40px;
             }
+        
         }
         small{
             font-weight: 700;

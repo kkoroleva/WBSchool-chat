@@ -51,6 +51,7 @@ $max-width: 1440px;
     img{
       width: 25x;
       height: 25px;
+      fill: #1A66FF;
     }
     button{
       background: white;
@@ -59,7 +60,7 @@ $max-width: 1440px;
       border-radius: 50%;
       border: none;
       margin-left: 5px;
-      color: #765ffa;
+      color: #1A66FF;
     }
     button:hover{
     animation: 1200ms ease 0s normal none 1 running shake;
@@ -94,10 +95,10 @@ $max-width: 1440px;
       80% {
           transform: rotateZ(3.75deg);
         }
-        90% {
+      90% {
           transform: rotateZ(-3.33333deg);
         }
-        100% {
+      100% {
           transform: rotateZ(0deg);
         }
       }
@@ -106,7 +107,8 @@ $max-width: 1440px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding-bottom: 40px;
+
     hr{
       width: 100px;
       border: 0.5px solid #aca7a7;
@@ -114,6 +116,7 @@ $max-width: 1440px;
     img{
       width: 20px;
       height: 20px;
+      fill: #1A66FF;
     }
     button{
       background: white;
@@ -122,7 +125,7 @@ $max-width: 1440px;
       border-radius: 50%;
       border: none;
       margin-left: 5px;
-      color: #765ffa;
+      color: #1A66FF;
     }
     button:hover{
     animation: 1200ms ease 0s normal none 1 running shake;
