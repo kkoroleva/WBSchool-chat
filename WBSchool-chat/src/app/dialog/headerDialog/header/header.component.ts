@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
 import {
   changeChatGroup,
+  exitFromGroup,
   outFromChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
@@ -99,9 +100,18 @@ export class HeaderComponent implements OnInit {
       });
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
+      if (isPrivate) {
+        this.store$.dispatch(
+          outFromChatFriend({ chatId: chatInfo._id, owner: user._id })
+        );
+      } else {
+        this.store$.dispatch(exitFromGroup({ id: chatInfo._id }));
+      }
+
       this.store$.dispatch(
-        outFromChatFriend({ chatId: chatInfo._id, owner: user._id })
+        changeChatGroup({ chatGroup: '', isPrivate: false })
       );
+      localStorage.removeItem('chatID');
       setTimeout(() => {
         this.router.navigateByUrl('/home');
       }, 200);
