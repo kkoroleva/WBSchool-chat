@@ -1,5 +1,4 @@
 import {
-  allGroupsMessages,
   deleteLastGroupMessage,
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
@@ -9,36 +8,26 @@ import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
-import {
-  IGroupsMessages,
-  IGroupsState,
-} from '../../../store/reducers/groups.reducers';
+import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import {
   selectChatGroup,
   selectLastGroupsMessages,
 } from '../../../store/selectors/groups.selectors';
 import { Validators } from '@angular/forms';
 import {
-  allChatsMessages,
   deleteMessage,
-  editMessage,
-  getAllChatsMessages,
   initDialogs,
   newEditMessage,
-  pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
-import { IMessage } from '../../dialog';
-import { IUserData } from '../../../auth/interfaces';
+import { IMessage } from '../../../../interfaces/dialog-interface';
+import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
-import {
-  IDeleteMessage,
-  MessageSocketService,
-} from '../../../socket/message-socket.service';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { ThreadsService } from 'src/app/threads/threads.service';
 import { getMessage } from 'src/app/store/actions/threads.action';
+import { MessageSocketService } from '../../../socket/message-socket.service';
+import { IGroupsMessages } from '../../../../interfaces/group-interface';
 
 @Component({
   selector: 'app-message',
@@ -64,7 +53,7 @@ export class MessageComponent implements OnInit {
   userData: IUserData | undefined;
   imgInput = false;
 
-  private chatGroup$: Observable<string> = this.store$.pipe(
+  private chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -120,9 +109,11 @@ export class MessageComponent implements OnInit {
   ngOnInit(): void {
     // this.messageSocketService.offMessages();
     this.getMyInfo();
-    this.chatGroup$.subscribe((id) => {
-      this.chatID = id;
-      this.store$.dispatch(initDialogs({ id }));
+    this.chatGroup$.subscribe((chatGroup) => {
+      this.chatID = chatGroup.chatGroup;
+      this.store$.dispatch(
+        initDialogs({ id: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate })
+      );
     });
     this.initIoConnection();
   }
@@ -199,10 +190,18 @@ export class MessageComponent implements OnInit {
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
         };
-        this.messageSocketService.send(this.chatID, message);
+        this.messageSocketService.send(
+          this.chatID,
+          message,
+          JSON.parse(localStorage.getItem('isPrivate')!)
+        );
       } else {
         let message: IMessage = { text: this.message.value };
-        this.messageSocketService.send(this.chatID, message);
+        this.messageSocketService.send(
+          this.chatID,
+          message,
+          JSON.parse(localStorage.getItem('isPrivate')!)
+        );
       }
       this.imageOrFile = '';
       this.formatImage = '';

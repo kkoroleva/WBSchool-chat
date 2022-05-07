@@ -1,5 +1,5 @@
-import { IThread } from 'src/app/threads/thread';
 import { createReducer, on } from '@ngrx/store';
+import { IThread } from '../../../interfaces/thread-interface';
 import {
   createComment,
   deleteComment,

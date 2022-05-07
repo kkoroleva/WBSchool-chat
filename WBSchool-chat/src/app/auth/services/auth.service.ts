@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { INewUser, User } from '../interfaces';
+import { INewUser, User } from '../../../interfaces/auth-interface';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Injectable({

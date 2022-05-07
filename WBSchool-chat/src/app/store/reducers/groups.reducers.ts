@@ -17,58 +17,48 @@ import {
   changeLoadGroups,
   pushToGroups,
 } from '../actions/groups.actions';
-import { IPrivate } from './../../friends/private';
-import { IUser } from './../../groups/user';
-import { IMessage } from './../../dialog/dialog';
+import { IPrivate } from '../../../interfaces/private-interface';
+import { IUser } from '../../../interfaces/user.groups-interface';
+import { IGroup, IGroupsMessages } from '../../../interfaces/group-interface';
 
 export const groupsNode = 'Groups';
-
-export const groupsMessagesNode = 'Groups messages';
 
 export interface IGroupsState {
   groups: IGroup[];
   group: IGroup;
   groupUsers: IUser[];
   friends: IPrivate[];
-  chatGroup: string;
+  chatGroup: {
+    chatGroup: string;
+    isPrivate: boolean;
+  };
   error: string;
   lastMessages: IGroupsMessages[];
 }
 
-export interface IGroup {
-  _id?: string;
-  name: string;
-  about?: string;
-  owner?: string;
-  lastMessage?: string;
-  avatar?: string;
-  users?: string[];
-  formatImage?: string;
-}
-
 const chatIDFromLocalStorage = localStorage.getItem('chatID');
+const isPrivateFromLocalStorage = localStorage.getItem('isPrivate');
 
 const initialState: IGroupsState = {
   groups: [],
   group: { name: '' },
   groupUsers: [],
   friends: [],
-  chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
+  chatGroup: {
+    chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
+    isPrivate: isPrivateFromLocalStorage
+      ? JSON.parse(isPrivateFromLocalStorage)
+      : false,
+  },
   error: '',
   lastMessages: [],
 };
-
-export interface IGroupsMessages {
-  chatId: string;
-  lastMessage: string;
-  messageId: string;
-}
 
 export const groupsReducer = createReducer(
   initialState,
   on(changeChatGroup, (state, action) => ({
     ...state,
-    chatGroup: action.chatGroup,
+    chatGroup: { chatGroup: action.chatGroup, isPrivate: action.isPrivate },
   })),
   on(changeLoadGroups, (state, action) => ({
     ...state,

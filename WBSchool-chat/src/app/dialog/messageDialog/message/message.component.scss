@@ -165,6 +165,17 @@
         box-sizing: border-box;
         padding-left: 10px;
       }
+
+      textarea {
+        border: none;
+        background-color: #E0E0E0;
+        width: 100%;
+        box-sizing: border-box;
+        outline: none;
+        padding: 10px 15px 0 15px;
+        font-size: 14px;
+        resize: none;
+      }
     }
 
     .photo {

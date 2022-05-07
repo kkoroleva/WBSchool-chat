@@ -9,10 +9,10 @@ import { DialogService } from '../dialog/dialog.service';
 import { ThreadSocketService } from '../socket/thread-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { selectMessage } from '../store/selectors/thread.selector';
-import { IComment, IThread } from './thread';
 import { ThreadsService } from './threads.service';
 import { IMessage } from '../dialog/dialog';
 
+import { IThread } from '../../interfaces/thread-interface';
 
 @Component({
   selector: 'app-threads',

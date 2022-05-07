@@ -1,7 +1,7 @@
 import { IDeleteComment } from './../../socket/thread-socket.service';
 import { createAction, props } from '@ngrx/store';
-import { IComment, IThread } from 'src/app/threads/thread';
 import { IMessage } from 'src/app/dialog/dialog';
+import { IComment, IThread } from '../../../interfaces/thread-interface';
 
 export const initThread = createAction(
   '[THREAD] initThread',

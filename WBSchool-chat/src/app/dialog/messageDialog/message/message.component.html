@@ -46,8 +46,11 @@
       <div (click)="toggle = !toggle">
         <mat-icon class="btn" width="14px" height="13px"> attach_file</mat-icon>
       </div>
-      <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" #input
-        [ngClass]="{'input__link': itemFormat(input.value)}">
+      <!-- <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" #input
+        [ngClass]="{'input__link': itemFormat(input.value)}"> -->
+        <small *ngIf="input.value.length > 1000">Много</small>
+        <textarea [formControl]="message" (keydown.enter)="sendMessage()" #input
+        [ngClass]="{'input__link': itemFormat(input.value)}"></textarea>
       <div class="smile__more" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu" yPosition="above">
           <app-smile></app-smile>

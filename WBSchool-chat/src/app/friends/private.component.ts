@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IPrivate } from './private';
+import { Component, OnInit } from '@angular/core';
+import { IPrivate } from '../../interfaces/private-interface';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { selectFriends } from '../store/selectors/groups.selectors';
@@ -13,19 +13,12 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 import { selectUser } from '../store/selectors/auth.selectors';
-import { IUserData } from '../auth/interfaces';
-import {
-  allChatsMessages,
-  getAllChatsMessages,
-} from '../store/actions/dialog.action';
-import { IAllMessages } from '../store/reducers/dialog.reducer';
-import {
-  IDeleteMessage,
-  MessageSocketService,
-} from '../socket/message-socket.service';
+import { IUserData } from '../../interfaces/auth-interface';
+import { getAllChatsMessages } from '../store/actions/dialog.action';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
 import { IMessage } from '../dialog/dialog';
 import { ThreadsService } from '../threads/threads.service';
+import { IAllMessages } from '../../interfaces/lastMessages-interface';
 
 @Component({
   selector: 'app-private',
@@ -50,7 +43,6 @@ export class PrivateComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private store$: Store<IGroupsState>,
-    private messageSocketService: MessageSocketService,
     private threadService: ThreadsService
   ) {}
 
@@ -67,7 +59,6 @@ export class PrivateComponent implements OnInit {
       chatsLength = messages.length;
     });
     this.friendsState$.subscribe((chats: IPrivate[]) => {
-      // console.log(chats)
       if (chatsLength === 0) {
         chats.forEach((chat: IPrivate) => {
           this.store$.dispatch(getAllChatsMessages({ chatId: chat._id! }));
@@ -77,14 +68,17 @@ export class PrivateComponent implements OnInit {
   }
 
   goToChat(chatId: string): void {
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatId }));
+    this.store$.dispatch(
+      changeChatGroup({ chatGroup: chatId, isPrivate: true })
+    );
     localStorage.setItem('chatID', chatId);
+    localStorage.setItem('isPrivate', 'true');
     this.router.navigateByUrl('/chat');
   }
 
-  getFriend(data: IPrivate): string {
-    return data.users[0] === data.owner ? data.users[0] : data.users[1];
-  }
+  // getFriend(data: IPrivate): string {
+  //   return data.users[0] === data.owner ? data.users[0] : data.users[1];
+  // }
 
   createPrivateChat(): void {
     this.dialog.open(CreatePrivateChatComponent, {
@@ -93,13 +87,13 @@ export class PrivateComponent implements OnInit {
     });
   }
 
-  outFromChat(_id: string, owner: string) {
+  outFromChat(_id: string, userId: string) {
     let result = confirm('Вы точно хотите выйти из чата?');
     if (!!result) {
-      this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: owner }));
+      this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: userId }));
       setTimeout(() => {
         this.store$.dispatch(loadFriends());
-      }, 200)
+      }, 200);
     }
   }
 }
