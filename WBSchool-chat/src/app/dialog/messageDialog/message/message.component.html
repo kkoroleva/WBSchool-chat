@@ -48,7 +48,6 @@
       </div>
       <!-- <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" #input
         [ngClass]="{'input__link': itemFormat(input.value)}"> -->
-        <small *ngIf="input.value.length > 1000">Много</small>
         <textarea [formControl]="message" (keydown.enter)="sendMessage()" #input
         [ngClass]="{'input__link': itemFormat(input.value)}"></textarea>
       <div class="smile__more" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
