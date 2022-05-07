@@ -16,6 +16,7 @@ import {
   setGroupUsers,
   deleteGroup,
   deleteFromGroups,
+  exitFromGroup,
 } from '../actions/groups.actions';
 import { catchError, map, mergeMap, of, tap, switchMap } from 'rxjs';
 
@@ -65,13 +66,15 @@ export class GroupEffects {
     return this.actions$.pipe(
       ofType(editGroup),
       mergeMap(({ id, editGroup }) =>
-        this.http.patch<IGroup>(`${this.urlApi}/chats/groups/${id}`, editGroup).pipe(
-          tap((group) => (group.avatar = group.formatImage! + group.avatar)),
-          switchMap((group) => [
-            newGetInfoChat({ chatInfo: group as IChatInfo }),
-            editToGroups({ group }),
-          ])
-        )
+        this.http
+          .patch<IGroup>(`${this.urlApi}/chats/groups/${id}`, editGroup)
+          .pipe(
+            tap((group) => (group.avatar = group.formatImage! + group.avatar)),
+            switchMap((group) => [
+              newGetInfoChat({ chatInfo: group as IChatInfo }),
+              editToGroups({ group }),
+            ])
+          )
       )
     );
   });
@@ -95,6 +98,23 @@ export class GroupEffects {
           .get<IUser[]>(`${this.urlApi}/chats/groups/${id}/users`)
           .pipe(map((users) => setGroupUsers({ users })))
       )
+    );
+  });
+
+  exitFromGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(exitFromGroup),
+      mergeMap(({ id, owner }) => {
+        const newOwner: any = {};
+
+        if (owner) {
+          newOwner.owner = owner;
+        }
+
+        return this.http
+          .patch<IGroup>(`${this.urlApi}/chats/groups/${id}/exit`, newOwner)
+          .pipe(map(() => deleteFromGroups({ id })));
+      })
     );
   });
 }
