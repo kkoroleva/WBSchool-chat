@@ -2,17 +2,20 @@
   <ul class="message__wrapper" #wrapper>
     <li *ngFor="let item of messages$ | async"
       [ngClass]="item.owner === myId ? 'message__wrapperBlue' : 'message__wrapperGrey'">
-      <span *ngIf="item.owner === myId">{{userName}}</span>
-      <span *ngIf="item.owner !== myId" (click)="openProfile(item.username!)">{{(item.username)}}</span>
+      <div class="message__message-info">
+        <span *ngIf="item.owner === myId">{{userName}}</span>
+        <span *ngIf="item.owner !== myId" (click)="openProfile(item.username!)">{{(item.username)}}</span>
+        <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+      </div>
       <div [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
-        <ng-container *ngIf="separateTheLink(item.text) as messObj">
+        <ng-container *ngIf="separateTheLink(item.text) as messObj" >
           <img *ngIf="messObj.url || !!item.imageOrFile"
             [src]="!!item.imageOrFile? item.formatImage+item.imageOrFile : messObj.url" alt="img-send"
             class="message__img">
-          <p class="message__text">{{messObj.text}}</p>
+          <p class="message__text" >{{messObj.text}}</p>
         </ng-container>
       </div>
-      <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+      <a class="message__thread" (click)="openThreadComponent(item)">Comments</a>
       <mat-menu #block="matMenu">
         <button (click)="deleteMessage(item._id!)" mat-menu-item>
           <span>Удалить</span>

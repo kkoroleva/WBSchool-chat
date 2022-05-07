@@ -14,16 +14,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { IUserData } from '../../interfaces/auth-interface';
-import {
-  allChatsMessages,
-  getAllChatsMessages,
-} from '../store/actions/dialog.action';
-import {
-  IDeleteMessage,
-  MessageSocketService,
-} from '../socket/message-socket.service';
+import { getAllChatsMessages } from '../store/actions/dialog.action';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
-import { IMessage } from '../../interfaces/dialog-interface';
+import { ThreadsService } from '../threads/threads.service';
 import { IAllMessages } from '../../interfaces/lastMessages-interface';
 
 @Component({
@@ -32,6 +25,9 @@ import { IAllMessages } from '../../interfaces/lastMessages-interface';
   styleUrls: ['./private.component.scss'],
 })
 export class PrivateComponent implements OnInit {
+
+  isThreads: boolean = false;
+
   public friendsState$: Observable<IPrivate[]> = this.store$.pipe(
     select(selectFriends)
   );
@@ -46,10 +42,18 @@ export class PrivateComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private store$: Store<IGroupsState>,
-    private messageSocketService: MessageSocketService
-  ) {}
+    private threadService: ThreadsService
+  ) { }
 
   ngOnInit(): void {
+    if (this.router.url === '/chat') {
+      this.threadService.isThreads$.subscribe((isThreads) => {
+        console.log(isThreads);
+        this.isThreads = isThreads;
+      }
+      );
+    }
+
     this.store$.dispatch(loadFriends());
     let chatsLength: number | undefined = 0;
     this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {
@@ -65,7 +69,9 @@ export class PrivateComponent implements OnInit {
   }
 
   goToChat(chatId: string): void {
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatId, isPrivate: true }));
+    this.store$.dispatch(
+      changeChatGroup({ chatGroup: chatId, isPrivate: true })
+    );
     localStorage.setItem('chatID', chatId);
     localStorage.setItem('isPrivate', 'true');
     this.router.navigateByUrl('/chat');
@@ -88,7 +94,7 @@ export class PrivateComponent implements OnInit {
       this.store$.dispatch(outFromChatFriend({ chatId: _id, owner: userId }));
       setTimeout(() => {
         this.store$.dispatch(loadFriends());
-      }, 200)
+      }, 200);
     }
   }
 }
