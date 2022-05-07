@@ -83,38 +83,50 @@ export class CreatePrivateChatComponent implements OnInit {
 
   createPrivateChat(): void {
     const username: string = this.contactsControl.value.trim();
-      let clone: IPrivate | undefined;
-      this.store$.pipe(select(selectFriends))
-      .subscribe((chats: IPrivate[]) => {
-        clone = chats.find((chat: IPrivate) => chat.usernames[0] === username || chat.usernames[1] === username);
-      })
-      if (!clone) {
-        this.profileServ.getUsers(username).pipe(
-          concatMap((user: IUserData) => this.profileServ.getOwners(user._id)),
+    let clone: IPrivate | undefined;
+    this.store$.pipe(select(selectFriends)).subscribe((chats: IPrivate[]) => {
+      clone = chats.find(
+        (chat: IPrivate) =>
+          chat.usernames[0] === username || chat.usernames[1] === username
+      );
+    });
+    if (!clone) {
+      this.profileServ
+        .getUsers(username)
+        .pipe(
+          concatMap((user: IUserData) => this.profileServ.getOwners(user._id))
         )
         .subscribe((res: any) => {
           if (res) {
             this.user$.subscribe({
-              next: () => this.store$.dispatch(
-                returnIntoChatFriend({ chatId: res._id, users: res.owners})
-              ),
+              next: () =>
+                this.store$.dispatch(
+                  returnIntoChatFriend({ chatId: res._id, users: res.owners })
+                ),
             });
-          }
-          else {
+          } else {
             this.user$.subscribe({
-              next: user => this.store$.dispatch(
-                  createChatFriend({ username, ownerUsername: user.username, ownerFormatImage: user.formatImage!, ownerAvatar: user.avatar! })
-              )
+              next: (user) =>
+                this.store$.dispatch(
+                  createChatFriend({
+                    username,
+                    ownerUsername: user.username,
+                    ownerFormatImage: user.formatImage!,
+                    ownerAvatar: user.avatar!,
+                  })
+                ),
             });
           }
         });
-      } else {
-        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id!, isPrivate: true }));
-        this.router.navigateByUrl('/chat');
-      }
-      setTimeout(() => {
-        this.store$.dispatch(loadFriends());
-      }, 200)
+    } else {
+      this.store$.dispatch(
+        changeChatGroup({ chatGroup: clone._id!, isPrivate: true })
+      );
+      this.router.navigateByUrl('/chat');
+    }
+    setTimeout(() => {
+      this.store$.dispatch(loadFriends());
+    }, 200);
     this.dialogRef.close();
   }
 

@@ -12,21 +12,25 @@
     <ng-container *ngIf="user$ | async as user">
       <li class="friends__item" *ngFor="let friend of friendsState$ | async; index as i;">
         <a (click)="goToChat(friend._id!)" class="friends__chat-link">
-            <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
-              <img *ngIf="friend.avatars.length === 0" class="friends__thumbnail" [src]="friend.avatar || '/assets/not-found.png'" alt="Your best friend face"
-              width="52" height="52">
-              <img *ngIf="friend.usernames[0] === user.username && friend.avatars.length !== 0" class="friends__thumbnail" [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar || '/assets/not-found.png'" alt="Your best friend face"
-                width="52" height="52">
-              <img *ngIf="friend.usernames[1] === user.username && friend.avatars.length !== 0" class="friends__thumbnail" [src]="friend.avatars[1].formatImage + friend.avatars[1].avatar || '/assets/not-found.png'" alt="Your best friend face"
-              width="52" height="52">
-            </div>
-            <div class="friends__item-text">
-              <b class="friends__name">{{friend.usernames[0] === user.username ? friend.usernames[1] : friend.usernames[0]}}</b>
-              <p class="friends__last-active">{{friend.lastActive? 'friend.lastActive' : 'Unknown'}}</p>
-              <ng-container *ngFor="let lastMessage of allLastMessages$ | async;">
-                <p *ngIf="friend._id === lastMessage.chatId" class="friends__last-message">{{!lastMessage.lastMessage ? "Not messages" : lastMessage.lastMessage}}</p>
-              </ng-container>
-            </div>
+          <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
+            <img *ngIf="friend.avatars.length === 0" class="friends__thumbnail"
+              [src]="friend.avatar || '/assets/not-found.png'" alt="Your best friend face" width="52" height="52">
+            <img *ngIf="friend.usernames[0] === user.username && friend.avatars.length !== 0" class="friends__thumbnail"
+              [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar || '/assets/not-found.png'"
+              alt="Your best friend face" width="52" height="52">
+            <img *ngIf="friend.usernames[1] === user.username && friend.avatars.length !== 0" class="friends__thumbnail"
+              [src]="friend.avatars[1].formatImage + friend.avatars[1].avatar || '/assets/not-found.png'"
+              alt="Your best friend face" width="52" height="52">
+          </div>
+          <div class="friends__item-text">
+            <b class="friends__name">{{friend.usernames[0] === user.username ? friend.usernames[1] :
+              friend.usernames[0]}}</b>
+            <p class="friends__last-active">{{friend.lastActive? 'friend.lastActive' : 'Unknown'}}</p>
+            <ng-container *ngFor="let lastMessage of allLastMessages$ | async;">
+              <p *ngIf="friend._id === lastMessage.chatId" class="friends__last-message">{{!lastMessage.lastMessage ?
+                "Not messages" : lastMessage.lastMessage}}</p>
+            </ng-container>
+          </div>
         </a>
         <button class="friends__btn__deleteChat" (click)="outFromChat(friend._id!, user._id!)">Х</button>
       </li>

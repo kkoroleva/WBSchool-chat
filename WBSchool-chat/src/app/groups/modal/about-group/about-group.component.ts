@@ -28,7 +28,7 @@ export class AboutGroupComponent implements OnInit {
   );
 
   constructor(
-    private store$: Store<IGroupsState>, 
+    private store$: Store<IGroupsState>,
     private actions$: Actions,
     private modalServ: ModalProfileService
   ) {}

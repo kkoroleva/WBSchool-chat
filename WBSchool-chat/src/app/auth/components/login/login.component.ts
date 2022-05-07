@@ -4,7 +4,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { INewUser, IUserData, User } from '../../../../interfaces/auth-interface';
+import {
+  INewUser,
+  IUserData,
+  User,
+} from '../../../../interfaces/auth-interface';
 import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from '../../../store/actions/auth.actions';
@@ -27,7 +31,7 @@ export class LoginComponent implements OnInit {
   submitted!: boolean;
   errorMessage: string = '';
   notificationAuth: INotification = {
-    text: `Был выполнен вход в аккаунт.`
+    text: `Был выполнен вход в аккаунт.`,
   };
 
   constructor(

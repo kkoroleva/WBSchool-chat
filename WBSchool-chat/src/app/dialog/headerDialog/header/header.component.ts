@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditGroupChatComponent } from '../../../groups/modal/edit-group-chat/edit-group-chat.component';
 import {
   changeChatGroup,
+  exitFromGroup,
   outFromChatFriend,
   setGroup,
 } from '../../../store/actions/groups.actions';
@@ -49,12 +50,17 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatGroup$.subscribe((chatGroup) => {
-      this.store$.dispatch(getInfoChat({ chatId: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate }));
+      this.store$.dispatch(
+        getInfoChat({
+          chatId: chatGroup.chatGroup,
+          isPrivate: chatGroup.isPrivate,
+        })
+      );
     });
     this.chatInfo$.subscribe((data) => {
-        if (data) {
-          this.chatInfo = data;
-        }
+      if (data) {
+        this.chatInfo = data;
+      }
     });
   }
 
@@ -82,7 +88,11 @@ export class HeaderComponent implements OnInit {
     this.store$.dispatch(setGroup({ group: chatInfo }));
   }
 
-  leaveFromChat(chatInfo: IChatInfo, user: IUserData, isPrivate: boolean): void {
+  leaveFromChat(
+    chatInfo: IChatInfo,
+    user: IUserData,
+    isPrivate: boolean
+  ): void {
     if (chatInfo.owners[0] === user._id && !isPrivate) {
       this.modalWindow.open(OutFromGroupComponent, {
         panelClass: 'out-group-chat-modal',
@@ -90,14 +100,26 @@ export class HeaderComponent implements OnInit {
       });
       this.store$.dispatch(setGroup({ group: chatInfo }));
     } else {
-      this.store$.dispatch(outFromChatFriend({ chatId: chatInfo._id, owner: user._id }));
+      if (isPrivate) {
+        this.store$.dispatch(
+          outFromChatFriend({ chatId: chatInfo._id, owner: user._id })
+        );
+      } else {
+        this.store$.dispatch(exitFromGroup({ id: chatInfo._id }));
+      }
+
+      this.store$.dispatch(
+        changeChatGroup({ chatGroup: '', isPrivate: false })
+      );
+      localStorage.removeItem('chatID');
       setTimeout(() => {
         this.router.navigateByUrl('/home');
-      }, 200)
+      }, 200);
     }
   }
 
   modalClick() {
-    if (this.chatInfo && this.chatInfo.users.length < 3) this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
+    if (this.chatInfo && this.chatInfo.users.length < 3)
+      this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
   }
 }
