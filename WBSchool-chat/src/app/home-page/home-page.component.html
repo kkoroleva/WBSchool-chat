@@ -4,8 +4,7 @@
     При вставке заменить своим тегом, оставив класс-->
   <p class="" #help></p>
   <app-search class="home-page__search"></app-search>
-  <app-groups *ngIf="changeState.stateComponentMain.groups" class="home-page__groups main-grid-block"
-    [isThreads]="isThreads" (isThreads1)="method($event)">Groups
+  <app-groups *ngIf="changeState.stateComponentMain.groups" class="home-page__groups main-grid-block">Groups
   </app-groups>
   <app-private *ngIf="changeState.stateComponentMain.tetATet" class="home-page__friends main-grid-block">Friends
   </app-private>

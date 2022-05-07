@@ -173,11 +173,8 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  @Output() onClosed = new EventEmitter<boolean>();
   closeThreadComponent(): void {
-    this.onClosed.emit(this.isOpen);
-    this.threadsService.isThreads = false;
+    this.threadsService.isThreads$.next(false);
     localStorage.setItem('isThreads', '0');
   }
 

@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
   notificationAuth: INotification = {
     text: `Был выполнен вход в аккаунт. ${new Date(new Date().getTime())}`,
   };
+  messageSocketService: any;
+  threadSocketService: any;
 
   constructor(
     private auth: AuthService,
@@ -55,9 +57,11 @@ export class LoginComponent implements OnInit {
 
   private initIoConnection(): void {
     this.socketService.initSocket();
-
     this.socketService.onEvent(ConnectEvent.CONNECT).subscribe(() => {
       console.log('connected');
+      this.messageSocketService.initIoConnectionMessages();
+      this.threadSocketService.initConnectThreads();
+      this.notificationSocketService.initIoConnectionNotification();
     });
   }
 

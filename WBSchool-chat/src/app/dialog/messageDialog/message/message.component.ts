@@ -4,7 +4,7 @@ import {
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -233,32 +233,7 @@ export class MessageComponent implements OnInit {
     });
     return { url: pic, text: strArr.join(' ') };
   }
-  /*
-  sliceLinkImage(item: string) {
-    let empty = item.slice(0, item.indexOf(' '));
-    if (item.includes('.png')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.png') + 4);
-    } else if (item.includes('.jpg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.jpg') + 4);
-    } else if (item.includes('.jpeg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.jpeg') + 5);
-    } else if (item.includes('.svg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.svg') + 4);
-    } else if (item.includes('.gif')) {
-      if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".gif") + 4)
-    } else return
-  } */
+
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);
   }
@@ -278,14 +253,10 @@ export class MessageComponent implements OnInit {
     this.imgInput = false;
   }
 
-  openThread(message: IMessage) {
+  openThreadComponent(message: IMessage): void {
     this.store$.dispatch(getMessage({message}));
-    this.threadsService.createThread(message);
-
-    console.log(localStorage.getItem('isThreads'));
+    this.threadsService.isThreads$.next(true);
     localStorage.setItem('isThreads', '1');
-    console.log(localStorage.getItem('isThreads'));
-    this.threadsService.isThreads = true;
   }
 
 }

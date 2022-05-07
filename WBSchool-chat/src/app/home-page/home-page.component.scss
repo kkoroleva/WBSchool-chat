@@ -51,7 +51,7 @@ $max-width: 1440px;
 
 .home-page__groups {
   border-radius: 20px;
-  grid-row: 3/3;
+  grid-row: 2/3;
 
   @media (min-width: $tablet-width) {
     grid-row: 3/4;
@@ -95,7 +95,7 @@ $max-width: 1440px;
     grid-column: 3/4;
   }
 
-  
+
 }
 
 .home-page__nav-mobile {

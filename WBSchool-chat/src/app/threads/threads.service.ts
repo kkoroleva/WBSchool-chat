@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IMessage } from '../dialog/dialog';
 import { IThread } from './thread';
 
@@ -6,17 +7,10 @@ import { IThread } from './thread';
   providedIn: 'root'
 })
 export class ThreadsService {
-  isThreads: boolean = false;
 
-  basicPost: IMessage = {
-    text: '',
-  };
-  constructor() { }
+  isThreads$ = new BehaviorSubject<boolean>(!!JSON.parse(localStorage.getItem('isThreads')!)||false);
 
-  createThread(message: IMessage) {
-    this.basicPost = message;
-    console.log(this.basicPost);
+  constructor() {
   }
-
 
 }

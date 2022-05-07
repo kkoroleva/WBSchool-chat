@@ -15,7 +15,7 @@
           <p class="message__text" >{{messObj.text}}</p>
         </ng-container>
       </div>
-      <a class="message__thread" (click)="openThread(item)">Comments</a>
+      <a class="message__thread" (click)="openThreadComponent(item)">Comments</a>
       <mat-menu #block="matMenu">
         <button (click)="deleteMessage(item._id!)" mat-menu-item>
           <span>Удалить</span>

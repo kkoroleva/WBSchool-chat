@@ -7,13 +7,13 @@ import { ThreadsService } from '../threads/threads.service';
   selector: 'app-messages-page',
   templateUrl: './messages-page.component.html',
   styleUrls: ['./messages-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  
 })
 export class MessagesPageComponent implements OnInit {
-  isThreads: boolean;
+  isThreads: boolean = false;
 
   constructor(public changeState: ChangeComponentService, private threadService: ThreadsService) {
-    this.isThreads = threadService.isThreads;
+
   }
 
   stateMessages = this.changeState.stateComponentMessages;
@@ -26,6 +26,14 @@ export class MessagesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('isThreads')) {
+      this.isThreads = !!JSON.parse(localStorage.getItem('isThreads')!);
+    }
+    this.threadService.isThreads$.subscribe((isThreads) => {
+      this.isThreads = isThreads;
+    }
+    );
+
     if (window.innerWidth < 766) {
       this.stateMessages.groups = false;
       this.stateMessages.messanger = true;
@@ -37,10 +45,4 @@ export class MessagesPageComponent implements OnInit {
     this.changeState.hasThreadsInNavMobile = false;
   }
 
-  @ViewChild('messagePage') messagePage!: ElementRef;
-
-  onClosed(isClosed: boolean) {
-    let page = this.messagePage.nativeElement;
-    page.classList.remove('message-page__wrapper-with-threads');
-  }
 }

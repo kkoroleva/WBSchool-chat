@@ -25,6 +25,7 @@ import {
 } from '../socket/message-socket.service';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
 import { IMessage } from '../dialog/dialog';
+import { ThreadsService } from '../threads/threads.service';
 
 @Component({
   selector: 'app-private',
@@ -33,7 +34,7 @@ import { IMessage } from '../dialog/dialog';
 })
 export class PrivateComponent implements OnInit {
 
-
+  isThreads: boolean = false;
 
   public friendsState$: Observable<IPrivate[]> = this.store$.pipe(
     select(selectFriends)
@@ -49,10 +50,17 @@ export class PrivateComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private store$: Store<IGroupsState>,
-    private messageSocketService: MessageSocketService
+    private messageSocketService: MessageSocketService,
+    private threadService: ThreadsService
   ) {}
 
   ngOnInit(): void {
+    this.threadService.isThreads$.subscribe((isThreads) => {
+      console.log(isThreads);
+      this.isThreads = isThreads;
+    }
+    );
+
     this.store$.dispatch(loadFriends());
     let chatsLength: number | undefined = 0;
     this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {
