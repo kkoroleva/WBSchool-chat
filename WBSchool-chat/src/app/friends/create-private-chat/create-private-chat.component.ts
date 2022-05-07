@@ -97,14 +97,11 @@ export class CreatePrivateChatComponent implements OnInit {
           concatMap((user: IUserData) => this.profileServ.getOwners(user._id))
         )
         .subscribe((res: any) => {
-          if (res[0]) {
+          if (res) {
             this.user$.subscribe({
               next: () =>
                 this.store$.dispatch(
-                  returnIntoChatFriend({
-                    chatId: res[0]._id,
-                    users: res[0].owners,
-                  })
+                  returnIntoChatFriend({ chatId: res._id, users: res.owners })
                 ),
             });
           } else {
