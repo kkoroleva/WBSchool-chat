@@ -1,7 +1,7 @@
 import { IThreadState } from './../reducers/threads.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { threadNode } from '../reducers/threads.reducer';
-import { IMessage } from 'src/app/dialog/dialog';
+import { IMessage } from '../../../interfaces/dialog-interface';
 import { IThread } from '../../../interfaces/thread-interface';
 
 

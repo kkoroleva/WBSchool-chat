@@ -7,7 +7,7 @@ import {
   getMessage,
   loadThread,
 } from '../actions/threads.action';
-import { IMessage } from 'src/app/dialog/dialog';
+import { IMessage } from '../../../interfaces/dialog-interface';
 
 export const threadNode = 'Thread';
 export interface IThreadState {

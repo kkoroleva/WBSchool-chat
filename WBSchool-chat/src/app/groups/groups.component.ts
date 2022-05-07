@@ -38,11 +38,10 @@ export class GroupsComponent implements OnInit {
     private threadService: ThreadsService
   ) { }
 
-  route = this.router.url;
+
 
   ngOnInit(): void {
-
-    if (this.route === '/chat') {
+    if (this.router.url === '/chat') {
       this.threadService.isThreads$.subscribe((isThreads) => {
         this.isThreads = isThreads;
       }

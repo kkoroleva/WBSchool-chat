@@ -43,8 +43,6 @@ export class LoginComponent implements OnInit {
     private storage: StorageMap,
     private socketService: SocketService,
     private notificationSocketService: NotificationSocketService,
-    private threadSocketService: ThreadSocketService,
-    private messageSocketService: MessageSocketService
   ) {}
 
   ngOnInit(): void {

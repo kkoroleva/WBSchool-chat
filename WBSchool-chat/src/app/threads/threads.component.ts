@@ -10,7 +10,7 @@ import { ThreadSocketService } from '../socket/thread-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { selectMessage } from '../store/selectors/thread.selector';
 import { ThreadsService } from './threads.service';
-import { IMessage } from '../dialog/dialog';
+import { IMessage } from '../../interfaces/dialog-interface';
 
 import { IThread } from '../../interfaces/thread-interface';
 

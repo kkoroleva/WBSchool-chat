@@ -16,7 +16,6 @@ import { selectUser } from '../store/selectors/auth.selectors';
 import { IUserData } from '../../interfaces/auth-interface';
 import { getAllChatsMessages } from '../store/actions/dialog.action';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
-import { IMessage } from '../dialog/dialog';
 import { ThreadsService } from '../threads/threads.service';
 import { IAllMessages } from '../../interfaces/lastMessages-interface';
 
@@ -44,14 +43,16 @@ export class PrivateComponent implements OnInit {
     private router: Router,
     private store$: Store<IGroupsState>,
     private threadService: ThreadsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.threadService.isThreads$.subscribe((isThreads) => {
-      console.log(isThreads);
-      this.isThreads = isThreads;
+    if (this.router.url === '/chat') {
+      this.threadService.isThreads$.subscribe((isThreads) => {
+        console.log(isThreads);
+        this.isThreads = isThreads;
+      }
+      );
     }
-    );
 
     this.store$.dispatch(loadFriends());
     let chatsLength: number | undefined = 0;
