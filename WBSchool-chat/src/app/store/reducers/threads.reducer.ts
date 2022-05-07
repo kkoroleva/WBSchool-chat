@@ -4,15 +4,21 @@ import {
   createComment,
   deleteComment,
   editComment,
+  getMessage,
   loadThread,
 } from '../actions/threads.action';
+import { IMessage } from '../../../interfaces/dialog-interface';
 
 export const threadNode = 'Thread';
 export interface IThreadState {
   thread: IThread;
+  message: IMessage;
 }
 
 const initialState: IThreadState = {
+  message: {
+    text: '',
+  },
   thread: {
     _id: '',
     owner: '',
@@ -66,5 +72,9 @@ export const threadReducer = createReducer(
       ...state.thread,
       comments: [...state.thread.comments, action.comment],
     },
-  }))
+  })),
+  on(getMessage, (state, action) => ({
+    ...state,
+    message: action.message,
+  })),
 );

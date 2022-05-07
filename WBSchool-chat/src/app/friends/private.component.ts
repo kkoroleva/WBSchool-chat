@@ -16,6 +16,7 @@ import { selectUser } from '../store/selectors/auth.selectors';
 import { IUserData } from '../../interfaces/auth-interface';
 import { getAllChatsMessages } from '../store/actions/dialog.action';
 import { selectAllChatsMessages } from '../store/selectors/dialog.selector';
+import { ThreadsService } from '../threads/threads.service';
 import { IAllMessages } from '../../interfaces/lastMessages-interface';
 
 @Component({
@@ -24,6 +25,9 @@ import { IAllMessages } from '../../interfaces/lastMessages-interface';
   styleUrls: ['./private.component.scss'],
 })
 export class PrivateComponent implements OnInit {
+
+  isThreads: boolean = false;
+
   public friendsState$: Observable<IPrivate[]> = this.store$.pipe(
     select(selectFriends)
   );
@@ -37,10 +41,19 @@ export class PrivateComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private store$: Store<IGroupsState>
-  ) {}
+    private store$: Store<IGroupsState>,
+    private threadService: ThreadsService
+  ) { }
 
   ngOnInit(): void {
+    if (this.router.url === '/chat') {
+      this.threadService.isThreads$.subscribe((isThreads) => {
+        console.log(isThreads);
+        this.isThreads = isThreads;
+      }
+      );
+    }
+
     this.store$.dispatch(loadFriends());
     let chatsLength: number | undefined = 0;
     this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {

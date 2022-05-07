@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
 import { IGroupsState } from '../store/reducers/groups.reducers';
@@ -14,14 +14,18 @@ import {
   getAllGroupsMessages,
   loadGroups,
 } from '../store/actions/groups.actions';
+import { ThreadsService } from '../threads/threads.service';
 import { IGroup, IGroupsMessages } from '../../interfaces/group-interface';
 
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss'],
+
 })
 export class GroupsComponent implements OnInit {
+  isThreads: boolean = false;
+
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
   public lastMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
     select(selectLastGroupsMessages)
@@ -30,10 +34,21 @@ export class GroupsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
-    private router: Router
-  ) {}
+    private router: Router,
+    private threadService: ThreadsService
+  ) { }
+
+
 
   ngOnInit(): void {
+    if (this.router.url === '/chat') {
+      this.threadService.isThreads$.subscribe((isThreads) => {
+        this.isThreads = isThreads;
+      }
+      );
+    }
+
+
     this.getGroupChats();
     this.getLastMessages();
   }
