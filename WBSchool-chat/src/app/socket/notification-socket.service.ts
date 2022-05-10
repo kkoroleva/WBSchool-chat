@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { INotification } from '../../interfaces/notifications-interface';
 import {
   pushToNotification,
   removeNotification,
   clearNotifications,
 } from '../store/actions/notifications.actions';
-import { INotification } from '../store/reducers/notifications.reducers';
 import { SocketService } from './socket.service';
 
 @Injectable({

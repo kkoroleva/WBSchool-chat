@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { INotification } from '../../../interfaces/notifications-interface';
 import {
-  INotification,
   INotificationsState,
   notificationNode,
 } from '../reducers/notifications.reducers';

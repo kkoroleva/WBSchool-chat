@@ -1,15 +1,15 @@
 import { createReducer, on } from '@ngrx/store';
-import { IUserData } from '../../auth/interfaces';
+import { IUserData } from '../../../interfaces/auth-interface';
 import { initContacts, pushContacts } from '../actions/contacts.actions';
 
 export const contactsNode = 'Contacts';
 
-export interface IContacts {
+export interface IContactsState {
   _id: string;
   contacts: IUserData[];
 }
 
-const initialState: IContacts = {
+const initialState: IContactsState = {
   _id: '',
   contacts: [
     {

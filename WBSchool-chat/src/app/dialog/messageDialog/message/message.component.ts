@@ -1,42 +1,33 @@
 import {
-  allGroupsMessages,
   deleteLastGroupMessage,
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
-import {
-  IGroupsMessages,
-  IGroupsState,
-} from '../../../store/reducers/groups.reducers';
+import { IGroupsState } from '../../../store/reducers/groups.reducers';
 import {
   selectChatGroup,
   selectLastGroupsMessages,
 } from '../../../store/selectors/groups.selectors';
 import { Validators } from '@angular/forms';
 import {
-  allChatsMessages,
   deleteMessage,
-  editMessage,
-  getAllChatsMessages,
   initDialogs,
   newEditMessage,
-  pushToMessages,
 } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
-import { IMessage } from '../../dialog';
-import { IUserData } from '../../../auth/interfaces';
+import { IMessage } from '../../../../interfaces/dialog-interface';
+import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
-import {
-  IDeleteMessage,
-  MessageSocketService,
-} from '../../../socket/message-socket.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { ThreadsService } from 'src/app/threads/threads.service';
+import { getMessage } from 'src/app/store/actions/threads.action';
+import { MessageSocketService } from '../../../socket/message-socket.service';
+import { IGroupsMessages } from '../../../../interfaces/group-interface';
 
 @Component({
   selector: 'app-message',
@@ -62,7 +53,7 @@ export class MessageComponent implements OnInit {
   userData: IUserData | undefined;
   imgInput = false;
 
-  private chatGroup$: Observable<string> = this.store$.pipe(
+  private chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -88,30 +79,12 @@ export class MessageComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private messageSocketService: MessageSocketService,
     private modalServ: ModalProfileService,
-    private actions$: Actions
+    private actions$: Actions,
+
+    private threadsService: ThreadsService
   ) {}
 
   private initIoConnection(): void {
-    this.messageSocketService.onMessage().subscribe((message: IMessage) => {
-      this.store$.dispatch(pushToMessages({ message }));
-      this.store$.dispatch(
-        allGroupsMessages({
-          chatId: message.chatId!,
-          lastMessage: message.text,
-          messageId: message._id!,
-        })
-      );
-      this.store$.dispatch(
-        allChatsMessages({ chatId: message.chatId!, lastMessage: message.text })
-      );
-    });
-
-    this.messageSocketService
-      .onDeleteMessage()
-      .subscribe((message: IDeleteMessage) => {
-        this.store$.dispatch(deleteMessage({ id: message.messageId }));
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId }));
-      });
     this.actions$
       .pipe(
         ofType(deleteMessage),
@@ -128,30 +101,19 @@ export class MessageComponent implements OnInit {
               getAllGroupsMessages({ chatId: message.chatId })
             );
           }
-        })
+        });
         this.store$.dispatch(deleteLastGroupMessage({ id }));
-      });
-    this.messageSocketService
-      .onUpdateMessage()
-      .subscribe((message: IMessage) => {
-        this.store$.dispatch(editMessage({ message }));
-        this.store$.dispatch(
-          allGroupsMessages({
-            chatId: message.chatId!,
-            lastMessage: message.text,
-            messageId: message._id!,
-          })
-        );
-        this.store$.dispatch(getAllChatsMessages({ chatId: message.chatId! }));
       });
   }
 
   ngOnInit(): void {
-    this.messageSocketService.offMessages();
+    // this.messageSocketService.offMessages();
     this.getMyInfo();
-    this.chatGroup$.subscribe((id) => {
-      this.chatID = id;
-      this.store$.dispatch(initDialogs({ id }));
+    this.chatGroup$.subscribe((chatGroup) => {
+      this.chatID = chatGroup.chatGroup;
+      this.store$.dispatch(
+        initDialogs({ id: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate })
+      );
     });
     this.initIoConnection();
   }
@@ -210,8 +172,6 @@ export class MessageComponent implements OnInit {
     this.message.setValue(text);
   }
 
-
-
   sendMessage(): void {
     if (
       this.message.value.trim() ||
@@ -219,7 +179,7 @@ export class MessageComponent implements OnInit {
     ) {
       this.changeScroll();
       if (this.isEditMessage) {
-        this.socketService.updateMessage(this.chatID, {
+        this.messageSocketService.updateMessage(this.chatID, {
           text: this.message.value.trim(),
           _id: this.editMessageID,
         });
@@ -230,10 +190,18 @@ export class MessageComponent implements OnInit {
           imageOrFile: this.imageOrFile,
           formatImage: this.formatImage,
         };
-        this.messageSocketService.send(this.chatID, message);
+        this.messageSocketService.send(
+          this.chatID,
+          message,
+          JSON.parse(localStorage.getItem('isPrivate')!)
+        );
       } else {
         let message: IMessage = { text: this.message.value };
-        this.messageSocketService.send(this.chatID, message);
+        this.messageSocketService.send(
+          this.chatID,
+          message,
+          JSON.parse(localStorage.getItem('isPrivate')!)
+        );
       }
       this.imageOrFile = '';
       this.formatImage = '';
@@ -256,40 +224,15 @@ export class MessageComponent implements OnInit {
     let str = message.trim();
     let strArr = str.split(' ');
     let pic = '';
-    strArr.forEach(word => {
+    strArr.forEach((word) => {
       if (this.itemFormat(word)) {
         pic = word;
         strArr.splice(strArr.indexOf(word), 1);
       }
     });
-    return {url: pic, text: strArr.join(' ') };
+    return { url: pic, text: strArr.join(' ') };
   }
-/*
-  sliceLinkImage(item: string) {
-    let empty = item.slice(0, item.indexOf(' '));
-    if (item.includes('.png')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.png') + 4);
-    } else if (item.includes('.jpg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.jpg') + 4);
-    } else if (item.includes('.jpeg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.jpeg') + 5);
-    } else if (item.includes('.svg')) {
-      if (item.includes('album')) {
-        return empty;
-      } else return item.slice(0, item.indexOf('.svg') + 4);
-    } else if (item.includes('.gif')) {
-      if (item.includes('album')) {
-        return empty
-      }
-      else return item.slice(0, item.indexOf(".gif") + 4)
-    } else return
-  } */
+
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);
   }
@@ -308,4 +251,11 @@ export class MessageComponent implements OnInit {
     this.imageOrFile = '';
     this.imgInput = false;
   }
+
+  openThreadComponent(message: IMessage): void {
+    this.store$.dispatch(getMessage({message}));
+    this.threadsService.isThreads$.next(true);
+    localStorage.setItem('isThreads', '1');
+  }
+
 }

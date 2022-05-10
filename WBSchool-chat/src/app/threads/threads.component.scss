@@ -87,6 +87,9 @@ $main-blue: #1A66FF;
     }
 
     .threads__main-text {
+      color: black;
+      font-size: 20px;
+
       padding: 10px 5px;
       margin: 0;
       width: 100%;
@@ -127,7 +130,7 @@ $main-blue: #1A66FF;
   position: absolute;
   width: 15px;
   height: 15px;
-  bottom: 17px;
+  bottom: 0;
   left: 35px;
   background: #00FF75;
   border-radius: 50%;
@@ -227,6 +230,10 @@ $main-blue: #1A66FF;
     }
   }
 
+  .smile:last-child {
+    margin-left: 10px;
+  }
+
   @keyframes shake {
     0% {
       transform: rotateZ(0deg);
@@ -292,6 +299,10 @@ $main-blue: #1A66FF;
   .voice:hover {
     animation: 1200ms ease 0s normal none 1 running shake;
   }
+
+  // .smile{
+  //   margin: 0 5px;
+  // }
 
   .smile:hover {
     animation: 1200ms ease 0s normal none 1 running shake;
@@ -409,8 +420,8 @@ $main-blue: #1A66FF;
       color: #11b157;
       padding: 7px 10px;
       width: 40px;
-      text-decoration:none;
-      text-align:center;
+      text-decoration: none;
+      text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -448,8 +459,8 @@ $main-blue: #1A66FF;
       padding: 7px 10px;
       text-transform: uppercase;
       width: 40px;
-      text-decoration:none;
-      text-align:center;
+      text-decoration: none;
+      text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;

@@ -35,7 +35,7 @@
     "@ngrx/store": "^13.1.0",
     "@ngrx/store-devtools": "^13.1.0",
     "@ngx-pwa/local-storage": "^13.0.3",
-    "angular": "^1.8.2",
+    "angular": "^1.6.10",
     "angular-resize-event": "^3.1.1",
     "cordova-android": "^10.1.2",
     "gradle": "^1.2.4",

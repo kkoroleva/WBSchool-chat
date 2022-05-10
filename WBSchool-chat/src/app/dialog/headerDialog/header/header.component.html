@@ -1,40 +1,40 @@
 <header class="header" *ngIf="chatInfo$ | async as chatInfo">
-    <section class="header__info" (click)="modalClick()">
-        <ng-container *ngIf="user$ |async as user">
-            <div class="header__avatar" *ngIf="user$ |async as user">
-                <img *ngIf="chatInfo.avatars.length === 0" [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
-                <img *ngIf="chatInfo.avatars.length !== 0" 
-                [src]="chatInfo.usernames[0] === user.username ? chatInfo.avatars[0].ownerFormatImage + chatInfo.avatars[0].ownerAvatar : chatInfo.avatars[1].formatImage + chatInfo.avatars[1].avatar" 
-                alt="avatar" width="76px" height="75px" class="avatar_img">
-                    <span *ngIf="chatInfo.users.length === 2 "></span>
-            </div>        
-            <div class="header__name">
-                <p class="name" *ngIf="chatInfo.users.length > 2">{{chatInfo.name}}</p>
-                <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
-                <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
-                <span *ngIf="chatInfo.users.length === 2">Online</span>
-            </div>
-        </ng-container>
-    </section>
+    <ng-container *ngIf="user$ |async as user">
+        <section class="header__info" (click)="modalClick()">
+                <div class="header__avatar">
+                    <img *ngIf="!chatInfo.avatars" [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
+                    <img *ngIf="chatInfo.avatars" 
+                    [src]="chatInfo.usernames[0] === user.username ? chatInfo.avatars[0].ownerFormatImage! + chatInfo.avatars[0].ownerAvatar! : chatInfo.avatars[1].formatImage! + chatInfo.avatars[1].avatar!" 
+                    alt="avatar" width="76px" height="75px" class="avatar_img">
+                        <span *ngIf="chatInfo.users.length === 2 "></span>
+                </div>        
+                <div class="header__name">
+                    <p class="name" *ngIf="chatInfo.name && chatInfo.users.length > 2">{{chatInfo.name}}</p>
+                    <p class="name" *ngIf="chatInfo.usernames[0] === user.username">{{chatInfo.usernames[1]}}</p>
+                    <p class="name" *ngIf="chatInfo.usernames[1] === user.username">{{chatInfo.usernames[0]}}</p>
+                    <span *ngIf="chatInfo.users.length === 2">Online</span>
+                </div>
+        </section>
 
-    <section class="header__icon" *ngIf="user$ |async as user">
-        <mat-icon class="phone" width="20px" height="20px"> call</mat-icon>
-        <a [matMenuTriggerFor]="blockMenu" class="menu">
-            <mat-icon>more_vert</mat-icon>
-        </a>
-        <mat-menu #blockMenu="matMenu">
-            <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
-                <span>Удалить чат</span>
-            </button>
-            <button (click)="getModalWindow(chatInfo)" *ngIf="chatInfo.users.length > 2  && chatInfo.owner === user._id"  mat-menu-item>
-                <span>Редактировать чат</span>
-            </button>
-            <button (click)="aboutChat(chatInfo)" mat-menu-item>
-                <span>О чате</span>
-            </button>
-            <button (click)="leaveFromChat(chatInfo, user)" mat-menu-item>
-                <span>Выйти из чата</span>
-            </button>
-        </mat-menu>
-    </section>
+        <section class="header__icon" *ngIf="chatGroup$ | async as chatGroup">
+            <mat-icon class="phone" width="20px" height="20px"> call</mat-icon>
+            <a [matMenuTriggerFor]="blockMenu" class="menu">
+                <mat-icon>more_vert</mat-icon>
+            </a>
+            <mat-menu #blockMenu="matMenu">
+                <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
+                    <span>Удалить чат</span>
+                </button>
+                <button (click)="getModalWindow(chatInfo)" *ngIf="!chatGroup.isPrivate && chatInfo.owners[0]"  mat-menu-item>
+                    <span>Редактировать чат</span>
+                </button>
+                <button (click)="aboutChat(chatInfo)" mat-menu-item>
+                    <span>О чате</span>
+                </button>
+                <button (click)="leaveFromChat(chatInfo, user, chatGroup.isPrivate)" mat-menu-item>
+                    <span>Выйти из чата</span>
+                </button>
+            </mat-menu>
+        </section>
+    </ng-container>
 </header>

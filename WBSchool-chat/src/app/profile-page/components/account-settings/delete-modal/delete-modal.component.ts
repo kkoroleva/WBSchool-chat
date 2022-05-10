@@ -4,8 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../../../auth/services/auth.service';
-import { IProfileData, IServerResponse } from '../../../../profile-page/interfaces/profile-settings';
-import { IUserDeleteData } from '../../../interfaces/account-settings';
+import { IServerResponse } from '../../../../../interfaces/profile.settings.interface';
+import { IUserDeleteData } from '../../../../../interfaces/account.settings-interface';
 import { AccountSettingsService } from '../../../services/account-settings.service';
 
 @Component({
