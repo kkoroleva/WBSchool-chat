@@ -43,8 +43,8 @@ $thumbnail-size: 52px;
     margin: 0;
     overflow-y: auto;
 
-    @media (max-width: 1024px) {
-      max-height: 860px;
+    @media (max-width: 1023px) {
+      max-height: 345px;
     }
   }
 
@@ -119,7 +119,7 @@ $thumbnail-size: 52px;
 .modal {
   width: 600px;
   max-width: 100%;
-  
+
   &__current-group-avatar {
     width: 75px;
     height: 75px;
@@ -138,31 +138,31 @@ $thumbnail-size: 52px;
     font-family: "Open Sans", sans-serif;
     color: #f44336;
   }
-  
+
   &__btn {
     color: #fff;
     background-color: #1A66FF;
-  
+
     &--warn {
       background-color: #f44336;
     }
   }
-  
+
   &__image-name {
     font-family: "Open Sans", sans-serif;
     margin-top: 5px;
     word-break: break-all;
   }
-  
+
   &__option {
     color: #000;
   }
-  
+
   &__avatar {
     width: 25px;
     height: 25px;
   }
-  
+
   &__contact {
     font-family: "Open Sans", sans-serif;
     display: flex;
@@ -177,7 +177,7 @@ $thumbnail-size: 52px;
     color: #000;
     margin-top: 10px;
   }
-  
+
   &__username {
     font-weight: bold;
     padding-left: 10px;
@@ -231,7 +231,7 @@ $thumbnail-size: 52px;
     height: 55px;
     border: 3px dashed #000;
     cursor: pointer;
-    
+
     .modal__input-file {
       cursor: pointer;
       position: absolute;
@@ -244,7 +244,7 @@ $thumbnail-size: 52px;
     }
 
     .modal__drag-text {
-      font-family: "Open Sans", sans-serif;
+      font-family: "Raleway", 'Arial', sans-serif;
       font-weight: bold;
     }
   }
@@ -257,10 +257,10 @@ $thumbnail-size: 52px;
   }
 
   &__avatars-heading {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Raleway", 'Arial', sans-serif;
     margin-bottom: 5px;
   }
-  
+
   &__current-avatar {
     width: 200px;
     height: 200px;
@@ -269,5 +269,37 @@ $thumbnail-size: 52px;
   &__new-avatar {
     width: 200px;
     height: 200px;
+  }
+}
+
+.groups--with-threads {
+  display: block;
+
+  .groups__header {
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+  .groups__more-button,
+  .groups__last-message-text {
+    display: none;
+  }
+
+  .groups__list {
+    max-height: calc(420px*0.8);
+    overflow-x: hidden;
+  }
+
+  .groups__name {
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    max-width: 80px;
+    max-height: 54px;
+  }
+
+  .groups__is-no-groups {
+    padding-top: 20px;
+    text-align: center;
   }
 }

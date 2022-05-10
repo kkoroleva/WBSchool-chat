@@ -23,8 +23,9 @@
                     <input class="modal__input" placeholder="Add new owner" #ownersInput [formControl]="ownersControl"
                         [matAutocomplete]="auto" [matChipInputFor]="owners">
                 </mat-chip-list>
-                <mat-error *ngIf="form.get('owners')?.getError('required')">
-                    You must add new owner</mat-error>
+                <mat-error
+                    *ngIf="form.get('owners')?.getError('required') || form.get('owners')?.getError('maxlength')">
+                    You must add one owner</mat-error>
                 <mat-autocomplete class="modal__autocomplete" #auto="matAutocomplete"
                     (optionSelected)="selectOwner($event)">
                     <mat-option *ngFor="let user of groupUsers$ | async" [value]="user">
