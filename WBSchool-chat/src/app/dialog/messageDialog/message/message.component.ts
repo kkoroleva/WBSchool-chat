@@ -1,24 +1,13 @@
-import {
-  deleteLastGroupMessage,
-  getAllGroupsMessages,
-} from './../../../store/actions/groups.actions';
+import { deleteLastGroupMessage, getAllGroupsMessages, } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
-import {
-  selectChatGroup,
-  selectLastGroupsMessages,
-} from '../../../store/selectors/groups.selectors';
-import { Validators } from '@angular/forms';
-import {
-  deleteMessage,
-  initDialogs,
-  newEditMessage,
-} from '../../../store/actions/dialog.action';
+import { selectChatGroup, selectLastGroupsMessages, } from '../../../store/selectors/groups.selectors';
+import { deleteMessage, initDialogs, newEditMessage, } from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../../../interfaces/dialog-interface';
 import { IUserData } from '../../../../interfaces/auth-interface';
@@ -40,6 +29,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
+  toggleEmoji = false;
   message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
@@ -47,12 +37,10 @@ export class MessageComponent implements OnInit {
   chatID = '';
   imageOrFile = '';
   formatImage = '';
-  messageContent = '';
-  ioConnection: any;
   contacts: IUserData[] = [];
-  userData: IUserData | undefined;
   imgInput = false;
   infoMessage: string = '';
+  emojiText = '';
 
   public chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
@@ -214,14 +202,13 @@ export class MessageComponent implements OnInit {
     }
   }
 
-  itemFormat(item: string) {
-    return !!(
+  itemFormat(item: string):boolean {
+    return (
       item.includes('.png') ||
       item.includes('.jpg') ||
       item.includes('.jpeg') ||
       item.includes('.svg') ||
-      item.includes('.gif')
-    );
+      item.includes('.gif'))
   }
 
   separateTheLink(message: string) {
@@ -254,6 +241,19 @@ export class MessageComponent implements OnInit {
     this.toggle = !this.toggle;
     this.imageOrFile = '';
     this.imgInput = false;
+  }
+
+  addEmoji(event: any) {
+    this.emojiText += event.emoji.native
+    console.log(this.message.value);
+  }
+  
+  isEmoji() {
+    this.toggleEmoji = !this.toggleEmoji;
+  }
+
+  unActiveEmoji() {
+    this.toggleEmoji = false;
   }
 
   openThreadComponent(message: IMessage): void {
