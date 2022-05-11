@@ -80,6 +80,7 @@ import { NotificationEffects } from './store/effects/notification.effects';
 import { ThreadsEffects } from './store/effects/threads.effects';
 import { ModalWindowImgComponent } from './dialog/messageDialog/modal-window-img/modal-window-img.component';
 
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -137,6 +138,7 @@ const API_URL_PROVIDER: Provider = {
     AuthModule,
     StorageModule,
     AngularResizeEventModule,
+    PickerModule,
 
     //Material UI
     BrowserAnimationsModule,
