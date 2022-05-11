@@ -110,3 +110,19 @@ $max-width: 1440px;
   }
 
 }
+
+app-groups,
+app-private,
+app-threads {
+  @media (max-width: $tablet-width) {
+    display: none;
+  }
+}
+.nav-mobile__groups, .nav-mobile__privates, .nav-mobile__threads {
+  display: none;
+}
+.nav-mobile__groups:checked~app-groups,
+.nav-mobile__privates:checked~app-private,
+.nav-mobile__threads:checked~app-threads {
+  display: block;
+}

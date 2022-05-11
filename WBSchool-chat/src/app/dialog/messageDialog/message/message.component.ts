@@ -1,4 +1,7 @@
-import { deleteLastGroupMessage, getAllGroupsMessages, } from '../../../store/actions/groups.actions';
+import {
+  deleteLastGroupMessage,
+  getAllGroupsMessages,
+} from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
@@ -6,8 +9,15 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
-import { selectChatGroup, selectLastGroupsMessages, } from '../../../store/selectors/groups.selectors';
-import { deleteMessage, initDialogs, newEditMessage, } from '../../../store/actions/dialog.action';
+import {
+  selectChatGroup,
+  selectLastGroupsMessages,
+} from '../../../store/selectors/groups.selectors';
+import {
+  deleteMessage,
+  initDialogs,
+  newEditMessage,
+} from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../../../interfaces/dialog-interface';
 import { IUserData } from '../../../../interfaces/auth-interface';
@@ -40,8 +50,10 @@ export class MessageComponent implements OnInit {
   formatImage = '';
   contacts: IUserData[] = [];
   imgInput = false;
+  infoMessage: string = '';
+  emojiText = '';
 
-  private chatGroup$: Observable<any> = this.store$.pipe(
+  public chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -143,6 +155,7 @@ export class MessageComponent implements OnInit {
       }
     };
     reader.readAsDataURL(file);
+    this.infoMessage = 'Введите текст, чтобы отправить картинку';
   }
 
   deleteMessage(id: string): void {
@@ -161,7 +174,7 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(): void {
-    event?.preventDefault()
+    event?.preventDefault();
     if (
       this.message.value.trim() ||
       (this.message.value.trim() && this.imageOrFile.length > 0)
@@ -196,16 +209,18 @@ export class MessageComponent implements OnInit {
       this.formatImage = '';
       this.message.reset();
       this.imgInput = false;
+      this.infoMessage = '';
     }
   }
 
-  itemFormat(item: string):boolean {
+  itemFormat(item: string): boolean {
     return (
       item.includes('.png') ||
       item.includes('.jpg') ||
       item.includes('.jpeg') ||
       item.includes('.svg') ||
-      item.includes('.gif'))
+      item.includes('.gif')
+    );
   }
 
   separateTheLink(message: string) {
@@ -249,7 +264,7 @@ export class MessageComponent implements OnInit {
 
     console.log(this.message.value + 'message');
   }
-  
+
   isEmoji() {
     this.toggleEmoji = !this.toggleEmoji;
   }
@@ -259,9 +274,8 @@ export class MessageComponent implements OnInit {
   }
 
   openThreadComponent(message: IMessage): void {
-    this.store$.dispatch(getMessage({message}));
+    this.store$.dispatch(getMessage({ message }));
     this.threadsService.isThreads$.next(true);
     localStorage.setItem('isThreads', '1');
   }
-
 }

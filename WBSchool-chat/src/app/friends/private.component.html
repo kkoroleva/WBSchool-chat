@@ -1,5 +1,5 @@
 <div class="friends " [class]="isThreads? 'friends--with-threads' : ''" >
-  <h3 class="friends__header main-grid-block__header">One on&nbsp;one</h3>
+  <h3 class="friends__header main-grid-block__header">Chats</h3>
   <a class="friends__more-button" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
     <mat-menu #menu="matMenu">
       <button (click)="createPrivateChat()" mat-menu-item>Create chat</button>
@@ -13,13 +13,9 @@
       <li class="friends__item" *ngFor="let friend of friendsState$ | async; index as i;">
         <a (click)="goToChat(friend._id!)" class="friends__chat-link">
           <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
-            <img *ngIf="friend.avatars.length === 0" class="friends__thumbnail"
-              [src]="friend.avatar || '/assets/not-found.png'" alt="Your best friend face" width="52" height="52">
-            <img *ngIf="friend.usernames[0] === user.username && friend.avatars.length !== 0" class="friends__thumbnail"
-              [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar || '/assets/not-found.png'"
-              alt="Your best friend face" width="52" height="52">
-            <img *ngIf="friend.usernames[1] === user.username && friend.avatars.length !== 0" class="friends__thumbnail"
-              [src]="friend.avatars[1].formatImage + friend.avatars[1].avatar || '/assets/not-found.png'"
+            <img class="friends__thumbnail"
+              [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar === user.formatImage + user.avatar && friend.avatars.length !== 0 ? 
+              friend.avatars[1].formatImage + friend.avatars[1].avatar : friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar"
               alt="Your best friend face" width="52" height="52">
           </div>
           <div class="friends__item-text">
