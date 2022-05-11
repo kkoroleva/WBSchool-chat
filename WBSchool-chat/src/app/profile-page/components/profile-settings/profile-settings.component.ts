@@ -120,9 +120,9 @@ export class ProfileSettingsComponent implements OnInit {
       ]),
     });
     this.userDataForm = new FormGroup({
-      username: new FormControl('', [Validators.minLength(4)]),
-      about: new FormControl('', [Validators.minLength(4)]),
-      email: new FormControl('', [Validators.email]),
+      username: new FormControl('', [Validators.minLength(4), Validators.maxLength(30)]),
+      about: new FormControl('', [Validators.minLength(4), Validators.maxLength(100)]),
+      email: new FormControl('', [Validators.email, Validators.maxLength(60)]),
     });
     this.getUsersData();
     this.store$.dispatch(initContacts());
@@ -216,7 +216,7 @@ export class ProfileSettingsComponent implements OnInit {
     let reader = new FileReader();
     let file = input.files[0];
     reader.onloadend = () => {
-      if (typeof reader.result == 'string') {
+      if (typeof reader.result == 'string' && this.itemFormat(input.files[0].name)) {
         imageOrFile = reader.result;
         this.imageName = input.files[0]?.name;
         console.log(this.imageName);
@@ -255,7 +255,6 @@ export class ProfileSettingsComponent implements OnInit {
         })
       )
       .subscribe((user: IServerResponse) => {
-        console.log(user);
         const storeUser: { newUser: IUserData } = {
           newUser: {
             email: user.email,
@@ -270,7 +269,6 @@ export class ProfileSettingsComponent implements OnInit {
         };
         this.storage.set('user', user).subscribe(() => {});
         this.getUsersData();
-
         this.store$.dispatch(initAuth(storeUser));
       });
     this.formData = {};
@@ -280,10 +278,6 @@ export class ProfileSettingsComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalHelpComponent, {
       panelClass: 'modal-help',
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
     });
   }
 

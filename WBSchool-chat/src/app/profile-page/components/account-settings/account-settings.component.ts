@@ -78,10 +78,6 @@ export class AccountSettingsComponent {
     const dialogRef = this.dialog.open(DeleteModalComponent, {
       panelClass: 'delete-modal'
     });
-
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
   }
 
   openAccountDialog(): void {
@@ -89,20 +85,14 @@ export class AccountSettingsComponent {
       panelClass: 'password-modal',
       width: '250'
     });
-
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
   }
 
   click(str: string) {
     switch (str) {
       case 'Account':
-        console.log('Вызов Account')
         this.openAccountDialog()
         break;
       case 'Delete Account':
-        console.log('Вызов Delete Account')
         this.openDeleteDialog()
         break;
       default:
