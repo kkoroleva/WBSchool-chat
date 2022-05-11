@@ -7,7 +7,7 @@
         <span *ngIf="item.owner !== myId" (click)="openProfile(item.username!)">{{(item.username)}}</span>
         <span>{{item.expiresIn | date:'dd/MM/yyyy HH:mm:ss'}}</span>
       </div>
-      <div [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="block">
+      <div [ngClass]="item.owner === myId ? 'message__answer' : 'message__user'" [matMenuTriggerFor]="item.owner === myId ? block : none">
         <ng-container *ngIf="separateTheLink(item.text) as messObj" >
           <img *ngIf="messObj.url || !!item.imageOrFile"
             [src]="!!item.imageOrFile? item.formatImage+item.imageOrFile : messObj.url" alt="img-send"
@@ -15,7 +15,14 @@
           <p class="message__text" >{{messObj.text}}</p>
         </ng-container>
       </div>
-      <a class="message__thread" (click)="openThreadComponent(item)">Comments</a>
+      <ng-container *ngIf="chatGroup$ | async as chatGroup">
+        <a *ngIf="!chatGroup.isPrivate" class="message__thread" (click)="openThreadComponent(item)">Comments</a>
+      </ng-container>
+      <mat-menu #none="matMenu">
+        <button mat-menu-item>
+          <span>Скопировать текст</span>
+        </button>
+      </mat-menu>
       <mat-menu #block="matMenu">
         <button (click)="deleteMessage(item._id!)" mat-menu-item>
           <span>Удалить</span>
@@ -27,6 +34,8 @@
     </li>
   </ul>
   <hr>
+  <p *ngIf="message.invalid" class="message__validation">Сообщение слишком длинное &nbsp;</p>
+  <p *ngIf="infoMessage.length && !message.value.length" class="message__validation">{{infoMessage}}</p>
   <form class="message__send">
     <ng-container *ngIf="!isEditMessage">
       <div class="form_save_image" *ngIf="toggle">
@@ -48,17 +57,24 @@
       </div>
       <!-- <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" #input
         [ngClass]="{'input__link': itemFormat(input.value)}"> -->
-        <textarea [formControl]="message" (keydown.enter)="sendMessage()" #input
+        <textarea [(ngModel)]="emojiText" [formControl]="message" (keydown.enter)="sendMessage()" #input
         [ngClass]="{'input__link': itemFormat(input.value)}"></textarea>
-      <div class="smile__more" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
+      <div [matMenuTriggerFor]="menu" class="smile__more">
         <mat-menu #menu="matMenu" yPosition="above">
           <app-smile></app-smile>
         </mat-menu>
         <mat-icon>tag_faces</mat-icon>
       </div>
-      <!-- <mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon> -->
+      <div [matMenuTriggerFor]="emoji"  class="container__emoji">
+        <mat-menu #emoji="matMenu" (blur)="unActiveEmoji()" class="form__emoji">
+          <emoji-mart (emojiSelect)="addEmoji($event)" title = "Select color"></emoji-mart>
+        </mat-menu>
+      <mat-icon class="icon-for-emoji" (click)="isEmoji()">whatshot</mat-icon>
+      </div>
+
+      <!--<mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon>-->
+
     </div>
     <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>
   </form>
-
 </section>

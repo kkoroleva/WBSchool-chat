@@ -4,7 +4,8 @@
                 <div class="header__avatar">
                     <img *ngIf="!chatInfo.avatars" [src]="chatInfo.avatar || '/assets/not-found.png'" alt="avatar" width="76px" height="75px" class="avatar_img">
                     <img *ngIf="chatInfo.avatars" 
-                    [src]="chatInfo.usernames[0] === user.username ? chatInfo.avatars[0].ownerFormatImage! + chatInfo.avatars[0].ownerAvatar! : chatInfo.avatars[1].formatImage! + chatInfo.avatars[1].avatar!" 
+                    [src]="chatInfo.formatImage + chatInfo.avatar === user.formatImage + chatInfo.avatar ? 
+                    chatInfo.avatars[0].ownerFormatImage! + chatInfo.avatars[0].ownerAvatar! : chatInfo.avatars[1].formatImage! + chatInfo.avatars[1].avatar!" 
                     alt="avatar" width="76px" height="75px" class="avatar_img">
                         <span *ngIf="chatInfo.users.length === 2 "></span>
                 </div>        
@@ -22,13 +23,10 @@
                 <mat-icon>more_vert</mat-icon>
             </a>
             <mat-menu #blockMenu="matMenu">
-                <button (click)="deleteChat(chatInfo._id)" mat-menu-item>
-                    <span>Удалить чат</span>
-                </button>
                 <button (click)="getModalWindow(chatInfo)" *ngIf="!chatGroup.isPrivate && chatInfo.owners[0]"  mat-menu-item>
                     <span>Редактировать чат</span>
                 </button>
-                <button (click)="aboutChat(chatInfo)" mat-menu-item>
+                <button (click)="aboutChat(chatInfo)" *ngIf="!chatGroup.isPrivate && chatInfo.owners[0]" mat-menu-item>
                     <span>О чате</span>
                 </button>
                 <button (click)="leaveFromChat(chatInfo, user, chatGroup.isPrivate)" mat-menu-item>
