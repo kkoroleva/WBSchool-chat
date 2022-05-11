@@ -1,4 +1,4 @@
-import { deleteLastGroupMessage, getAllGroupsMessages, } from './../../../store/actions/groups.actions';
+import { deleteLastGroupMessage, getAllGroupsMessages, } from '../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
@@ -30,7 +30,7 @@ export class MessageComponent implements OnInit {
   isEditMessage = false;
   toggle!: boolean;
   toggleEmoji = false;
-  message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
+  message= new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
   myId = '';
@@ -39,7 +39,7 @@ export class MessageComponent implements OnInit {
   formatImage = '';
   contacts: IUserData[] = [];
   imgInput = false;
-  emojiText = '';
+  // emojiText = '';
 
   private chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
@@ -104,6 +104,7 @@ export class MessageComponent implements OnInit {
       );
     });
     this.initIoConnection();
+    debugger
   }
 
   changeScroll(): void {
@@ -194,7 +195,7 @@ export class MessageComponent implements OnInit {
       }
       this.imageOrFile = '';
       this.formatImage = '';
-      this.message.setValue('');
+      this.message.reset();
       this.imgInput = false;
     }
   }
@@ -240,10 +241,9 @@ export class MessageComponent implements OnInit {
     this.imgInput = false;
   }
 
-  addEmoji(event: any) {
-    this.emojiText += event.emoji.native
-    // input.value += event.emoji.native + ' '
-    console.log(this.message.value);
+  addEmoji(event:any /*TODO: сделай уже что-нибудь с типами */) {
+    this.message.patchValue( this.message.value + event.emoji.native)
+    console.log(this.message.value.trim(), 'trim?');
   }
   
   isEmoji() {
