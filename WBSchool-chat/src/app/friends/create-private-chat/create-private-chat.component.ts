@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { concatMap, map, Observable, startWith } from 'rxjs';
+import { concatMap, map, Observable, startWith, tap } from 'rxjs';
 import { IUserData } from '../../../interfaces/auth-interface';
 import {
   initContacts,
@@ -32,6 +32,8 @@ import { ProfileSettingsService } from '../../../app/profile-page/services/profi
 })
 export class CreatePrivateChatComponent implements OnInit {
   public contactsList: IUserData[] = [];
+  private chats$: Observable<IPrivate[]> = this.store$.pipe(select(selectFriends));
+  private chats!: IPrivate[];
   public contactsControl!: FormControl;
   public form: FormGroup;
   public contacts$: Observable<IUserData[]> = this.store$.pipe(
@@ -59,17 +61,31 @@ export class CreatePrivateChatComponent implements OnInit {
       this.dialogRef.close();
     });
 
+    this.getChats();
     this.getContacts();
-
+    
     this.contactsControl = this.form.get('username') as FormControl;
+  }
+
+  getChats(): void {
+    this.store$.dispatch(loadFriends())
   }
 
   getContacts(): void {
     this.store$.dispatch(initContacts());
-
-    this.actions$.pipe(ofType(pushContacts)).subscribe(({ contacts }) => {
-      this.contactsList = contacts.contacts;
+    this.chats$.subscribe(chats => this.chats = chats);
+    this.actions$.pipe(ofType(pushContacts))
+    .subscribe(({ contacts }) => {
       this.myContacts = contacts.contacts;
+
+      let cloneContacts = [...contacts.contacts];
+      let cloneChatUsers = [...new Set(this.chats.map(chat => chat.users).flat())];
+      
+      cloneChatUsers.forEach(user => {
+        cloneContacts = cloneContacts.filter(contact => contact._id !== user)
+      })
+
+      this.contactsList = cloneContacts;
       this.contactsIsLoaded = true;
 
       this.contacts$ = this.contactsControl.valueChanges.pipe(

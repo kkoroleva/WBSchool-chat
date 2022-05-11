@@ -26,7 +26,6 @@ import { PasswordModalComponent } from './profile-page/components/account-settin
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 import { ThreadsComponent } from './threads/threads.component';
 
-
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -129,8 +128,7 @@ const API_URL_PROVIDER: Provider = {
     AboutGroupComponent,
     FeedbackComponent,
     SmileComponent,
-    ModalWindowImgComponent
-
+    ModalWindowImgComponent,
   ],
   imports: [
     BrowserModule,
@@ -197,7 +195,4 @@ const API_URL_PROVIDER: Provider = {
   providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
-
 export class AppModule {}
-
-
