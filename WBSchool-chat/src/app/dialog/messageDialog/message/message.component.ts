@@ -17,6 +17,7 @@ import { ThreadsService } from 'src/app/threads/threads.service';
 import { getMessage } from 'src/app/store/actions/threads.action';
 import { MessageSocketService } from '../../../socket/message-socket.service';
 import { IGroupsMessages } from '../../../../interfaces/group-interface';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-message',
@@ -39,7 +40,6 @@ export class MessageComponent implements OnInit {
   formatImage = '';
   contacts: IUserData[] = [];
   imgInput = false;
-  // emojiText = '';
 
   private chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
@@ -104,7 +104,6 @@ export class MessageComponent implements OnInit {
       );
     });
     this.initIoConnection();
-    debugger
   }
 
   changeScroll(): void {
@@ -241,9 +240,14 @@ export class MessageComponent implements OnInit {
     this.imgInput = false;
   }
 
-  addEmoji(event:any /*TODO: сделай уже что-нибудь с типами */) {
-    this.message.patchValue( this.message.value + event.emoji.native)
-    console.log(this.message.value.trim(), 'trim?');
+  addEmoji(event: EmojiEvent) {
+    if (this.message.value) {
+      this.message.patchValue( this.message.value + event.emoji.native)
+    } else {
+      this.message.patchValue(event.emoji.native)
+    }
+
+    console.log(this.message.value + 'message');
   }
   
   isEmoji() {
