@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ChangeComponentService } from '../nav-mobile/change-component.service';
 import { ThreadsService } from '../threads/threads.service';
@@ -7,14 +7,14 @@ import { ThreadsService } from '../threads/threads.service';
   selector: 'app-messages-page',
   templateUrl: './messages-page.component.html',
   styleUrls: ['./messages-page.component.scss'],
-  
 })
 export class MessagesPageComponent implements OnInit {
   isThreads: boolean = false;
 
-  constructor(public changeState: ChangeComponentService, private threadService: ThreadsService) {
-
-  }
+  constructor(
+    public changeState: ChangeComponentService,
+    private threadService: ThreadsService
+  ) {}
 
   stateMessages = this.changeState.stateComponentMessages;
 
@@ -31,8 +31,7 @@ export class MessagesPageComponent implements OnInit {
     }
     this.threadService.isThreads$.subscribe((isThreads) => {
       this.isThreads = isThreads;
-    }
-    );
+    });
 
     if (window.innerWidth < 766) {
       this.stateMessages.groups = false;
@@ -44,5 +43,4 @@ export class MessagesPageComponent implements OnInit {
 
     this.changeState.hasThreadsInNavMobile = false;
   }
-
 }

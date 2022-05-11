@@ -3,7 +3,7 @@ import {
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -253,9 +253,8 @@ export class MessageComponent implements OnInit {
   }
 
   openThreadComponent(message: IMessage): void {
-    this.store$.dispatch(getMessage({message}));
+    this.store$.dispatch(getMessage({ message }));
     this.threadsService.isThreads$.next(true);
     localStorage.setItem('isThreads', '1');
   }
-
 }
