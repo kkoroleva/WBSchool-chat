@@ -97,7 +97,7 @@ const heroParty: HeroCoder[] = [
     name: 'Sasha',
     heroName: 'Red Hood',
     brief: 'The fastest learner in the world',
-    superpowers: 'FE with benefits; joking, hard; muting Harley, making frontend great again',
+    superpowers: 'FE with benefits; muting Harley, making frontend great again',
     img: 'https://i.pinimg.com/564x/14/55/ed/1455edf7fc59413c74b43cf95ff73b56.jpg',
     gitUrl: 'NaturalViking1999',
     socials: {
@@ -123,9 +123,23 @@ const heroParty: HeroCoder[] = [
     name: 'Pasha',
     heroName: 'Akvalad',
     brief: 'Bold enough to overcome his own weaknesses',
-    superpowers: 'Never gives up',
+    superpowers: 'FE, never gives up',
     img: 'https://i.pinimg.com/564x/d3/05/07/d305079effff6951dad31e9bc9a4a925.jpg',
     gitUrl: 'pashaaaaaaaaaa',
+    socials: {
+      github: '',
+      medium: '',
+      telega: '',
+    },
+  },
+
+  {
+    name: 'Sergey',
+    heroName: 'Superman',
+    brief: 'Too good to be real',
+    superpowers: 'Greatest support ever',
+    img: 'https://i.pinimg.com/564x/9e/ff/58/9eff58ac25f6d54ec411cf0c07f88119.jpg',
+    gitUrl: 'real3060',
     socials: {
       github: '',
       medium: '',

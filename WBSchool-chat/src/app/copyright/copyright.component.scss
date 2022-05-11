@@ -8,12 +8,12 @@
 }
 
 .superhero {
-  max-width: 22%;
+  max-width: 30%;
   position: relative;
 
   @media (max-width: 768px) {
     max-width: 45%;
-    max-height: 50%;
+    height: 500px;
   }
 
   @media (max-width: 495px) {
@@ -23,10 +23,14 @@
   }
 
   &__face-wrapper {
-    @media (max-width: 1024px) {}
+    @media (max-width: 768px) {
+      height: 50%;
+      overflow: hidden;
+    }
 
     @media (max-width: 495px) {
       max-width: 50%;
+      height: 100%;
     }
   }
 
@@ -37,6 +41,10 @@
   &__info-wrapper {
     padding: 20px 10px;
     font-family: 'Raleway', 'Arial', sans-serif;
+
+    @media (max-width: 495px) {
+      font-size: 14px;
+    }
   }
 
   &__name {
@@ -56,6 +64,11 @@
     height: 35px;
 
     background-size: cover;
+
+    @media (max-width: 495px) {
+      width: 25px;
+      height: 25px;
+    }
   }
 
   .github::after {
