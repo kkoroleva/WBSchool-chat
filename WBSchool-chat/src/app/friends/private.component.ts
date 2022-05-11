@@ -74,8 +74,12 @@ export class PrivateComponent implements OnInit {
     );
     localStorage.setItem('chatID', chatId);
     localStorage.setItem('isPrivate', 'true');
-    this.router.navigateByUrl('/chat');
-    (document.querySelector('#messages') as HTMLInputElement).checked = true;
+    if (this.router.url.includes('/chat')) {
+      (document.querySelector('#messages') as HTMLInputElement).checked = true;
+    }
+    else {
+      this.router.navigateByUrl('/chat');
+    }
   }
 
   // getFriend(data: IPrivate): string {
