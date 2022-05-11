@@ -23,17 +23,15 @@ import { IGroup, IGroupsMessages } from '../../../interfaces/group-interface';
 
 export const groupsNode = 'Groups';
 
-export const groupsMessagesNode = 'Groups messages';
-
 export interface IGroupsState {
   groups: IGroup[];
   group: IGroup;
   groupUsers: IUser[];
   friends: IPrivate[];
   chatGroup: {
-    chatGroup: string,
-    isPrivate: boolean,
-  },
+    chatGroup: string;
+    isPrivate: boolean;
+  };
   error: string;
   lastMessages: IGroupsMessages[];
 }
@@ -48,7 +46,9 @@ const initialState: IGroupsState = {
   friends: [],
   chatGroup: {
     chatGroup: chatIDFromLocalStorage ? chatIDFromLocalStorage : '',
-    isPrivate: isPrivateFromLocalStorage ? JSON.parse(isPrivateFromLocalStorage) : false,
+    isPrivate: isPrivateFromLocalStorage
+      ? JSON.parse(isPrivateFromLocalStorage)
+      : false,
   },
   error: '',
   lastMessages: [],
@@ -58,7 +58,7 @@ export const groupsReducer = createReducer(
   initialState,
   on(changeChatGroup, (state, action) => ({
     ...state,
-    chatGroup: {chatGroup: action.chatGroup, isPrivate: action.isPrivate}
+    chatGroup: { chatGroup: action.chatGroup, isPrivate: action.isPrivate },
   })),
   on(changeLoadGroups, (state, action) => ({
     ...state,

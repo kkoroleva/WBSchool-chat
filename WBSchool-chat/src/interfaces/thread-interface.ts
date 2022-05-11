@@ -1,6 +1,7 @@
 export interface IComment {
   authorID?: string;
   authorName?: string;
+
   date?: string;
   imageOrFile?: string;
   formatImage?: string;

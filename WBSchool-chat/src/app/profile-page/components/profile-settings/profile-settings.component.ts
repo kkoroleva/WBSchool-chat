@@ -8,6 +8,7 @@ import {
   IServerResponse,
   ISettingsList,
 } from '../../../../interfaces/profile.settings.interface';
+
 import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { IUserData } from '../../../../interfaces/auth-interface';
@@ -304,6 +305,7 @@ export class ProfileSettingsComponent implements OnInit {
     this.store$
       .pipe(select(selectUser))
       .subscribe((user: IUserData) => (me = user.username));
+
     if (!userName.length) {
       this.notFound = 'Поле ввода пустое, введите username пользователя.';
     } else if (userName === clone?.username) {
@@ -311,7 +313,9 @@ export class ProfileSettingsComponent implements OnInit {
     } else if (userName === me) {
       this.notFound = 'Вы не можете внести самого себя в список контактов.';
     } else {
-      this.profileServ.getUsers(userName).pipe(
+      this.profileServ
+        .getUsers(userName)
+        .pipe(
           concatMap((user: IUserData) => this.profileServ.addFriend(user._id)),
           catchError((error: HttpErrorResponse) => {
             this.notFound = 'Данного пользователя не существует.';

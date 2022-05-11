@@ -2,13 +2,13 @@
   position: relative;
 
   &__wrapper {
-    max-height: 720px;
+    // max-height: 40vh;
     padding: 10px 0;
     overflow-y: scroll;
-    min-height: 719px;
+    // min-height: 40vh;
 
     .comment{
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Raleway', 'Arial', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 12px;
@@ -17,8 +17,12 @@
     }
 
     @media (max-width:495px) {
-      min-height: 50vh;
-      max-height: 50vh;
+      min-height: 44vh;
+      max-height: 42vh;
+    }
+    @media (min-width:495px) and (max-width:767px) {
+      min-height: 44vh;
+      max-height: 42vh;
     }
 
   }
@@ -29,6 +33,7 @@
     max-width: max-content;
     flex-direction: column;
     margin-bottom: 15px;
+    align-items: flex-start;
 
     span {
       margin-top: 7px;
@@ -43,6 +48,11 @@
     }
   }
 
+  &__message-info {
+    display: flex;
+    gap: 10px;
+  }
+
   &__wrapperBlue {
     cursor: pointer;
     position: relative;
@@ -52,6 +62,7 @@
     margin-bottom: 15px;
     margin-left: auto;
     padding: 13px 20px;
+    align-items: flex-end;
 
     span {
       margin-top: 7px;
@@ -73,6 +84,7 @@
     border-radius: 10px;
     display: inline-block;
     padding: 13px 20px;
+    max-width: max-content;
 
     p {
       max-width: 400px;
@@ -88,7 +100,6 @@
 
     .message__img{
       max-width: 100%;
-      border: 2px solid red;
     }
   }
 
@@ -99,6 +110,7 @@
     padding: 13px 20px;
     overflow-wrap :break-word;
     color: white;
+    max-width: max-content;
 
     p{
       margin: 0;
@@ -168,6 +180,9 @@
         font-size: 14px;
         resize: none;
       }
+      @media (min-width:490px) and (max-width:767px) {
+        width: 100%;
+      }
     }
 
     .photo {
@@ -184,6 +199,31 @@
       height: 44px;
       border-radius: 5px;
     }
+    @media (min-width:320px) and (max-width:495px) {
+
+      margin-bottom: 20px;
+    }
+  }
+
+  &__thread-radio {
+    display: none;
+  }
+
+  &__thread-radio:checked {
+    display: block;
+
+  }
+
+  &__thread {
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: left;
+    font-family: "Raleway", "Arial", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: rgba(0, 0, 0, 0.5);
   }
 
   // =============form page
@@ -197,7 +237,6 @@
     top: 690px;
 
     @media (max-width:495px) {
-      top:450px;
       display: flex;
       flex-direction: column;
     }

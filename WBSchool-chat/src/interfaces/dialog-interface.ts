@@ -43,3 +43,8 @@ export interface IChatInfo {
     users: string[],
     usernames: string[]
   }
+
+export interface IChatGroup {
+  chatGroup: string,
+  isPrivate: boolean
+}

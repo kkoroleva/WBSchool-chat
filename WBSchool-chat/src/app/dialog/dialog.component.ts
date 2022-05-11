@@ -10,7 +10,7 @@ import { IGroupsState } from '../store/reducers/groups.reducers';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
-  public chatGroup$: Observable<string> = this.store$.pipe(
+  public chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 

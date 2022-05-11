@@ -1,0 +1,21 @@
+<ul class="superhero-coders-list">
+  <li class="superhero main-grid-block" *ngFor="let hero of heroes">
+    <div class="superhero__face-wrapper">
+      <img [src]="hero.img" alt="" class="superhero__face">
+    </div>
+    <div class="superhero__info-wrapper">
+      <p class="superhero__name">{{hero.name}} a.k.a. {{hero.heroName}}</p>
+      <p class="superhero__brief">{{hero.brief}}</p>
+      <p class="superhero__superpowers"><b>Superpowers: </b><br>{{hero.superpowers}}</p>
+
+      <ul class="superhero__contacts">
+        <li class="superhero__contact"><a [href]="hero.socials.github" class="superhero__contact-link github"
+            target="_blank">Github</a></li>
+        <li class="superhero__contact"><a  class="superhero__contact-link medium" target="_blank">Medium</a></li>
+        <li class="superhero__contact"><a  class="superhero__contact-link teleg" target="_blank">Telega</a></li>
+      </ul>
+    </div>
+
+  </li>
+
+</ul>

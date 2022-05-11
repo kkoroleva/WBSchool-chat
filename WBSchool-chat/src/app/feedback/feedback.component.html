@@ -4,16 +4,20 @@
     <button class="close" mat-dialog-close ><mat-icon>close</mat-icon></button>
     <div class="form__wrapper">
         <div class="name">
-            <label for=""><small>Имя</small><mat-icon class="user">account_circle</mat-icon></label>
-            <input type="text" formControlName="nameUser">
+            <label for=""><small>Name</small><mat-icon class="user">account_circle</mat-icon></label>
+            <input type="text"rel="to-replace" formControlName="nameUser">
+            <mat-error class="error" *ngIf="feedbackForm.get('nameUser')?.getError('required')">
+                enter a name</mat-error>
         </div>
         <div class="email">
-            <label><small>Email-адрес</small><mat-icon class="email">alternate_email</mat-icon></label>
-            <input type="email" formControlName="emailUser" required>
+            <label><small>Email-address</small><mat-icon class="email">alternate_email</mat-icon></label>
+            <input type="email" rel="to-replace" formControlName="emailUser" required>
+            <mat-error class="error" *ngIf="feedbackForm.get('emailUser')?.getError('required')">
+                enter a email-address</mat-error>
         </div>
     </div>
     <div class="comment">
-        <label>Сообщение (не менее 10 символов)</label>
+        <label>Message (at least 10 characters)</label>
         <textarea name=""   cols="30" rows="10" formControlName="textUser" required></textarea>
     </div>
     <div class="send-img">

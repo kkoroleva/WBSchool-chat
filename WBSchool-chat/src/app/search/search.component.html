@@ -1,8 +1,8 @@
 <div class="searchbar main-grid-block">
 	<mat-icon class="searchbar__search-icon">search</mat-icon>
-	<input type="text" 
-		   name="searchbar" 
-		   placeholder="Search" 
+	<input type="text"
+		   name="searchbar"
+		   placeholder="Search"
 		   [formControl]="searchQuery"
 		   [matAutocomplete]="auto"
 	>
@@ -10,8 +10,8 @@
 		<div class="searchbar__results-wrp" >
 			<div *ngIf="searchType == 'msg'; else grpChats">
 				<div *ngIf="(filteredPrvtChats | async)?.length! > 0 || searchQuery.value.length == 0; else notFound">
-					<mat-option *ngFor="let option of filteredPrvtChats | async | slice : 0 : 3" 
-							[value]="option.name" 
+					<mat-option *ngFor="let option of filteredPrvtChats | async | slice : 0 : 3"
+							[value]="option.name"
 							(click)="goToChat(option._id!, true)"
 					>
 						{{option.usernames[0]}}
@@ -25,8 +25,8 @@
 			</div>
 			<ng-template #grpChats>
 				<div *ngIf="(filteredGroups | async)?.length! > 0 || searchQuery.value.length == 0; else notFound">
-					<mat-option *ngFor="let option of filteredGroups | async | slice : 0 : 3" 
-							[value]="option.name" 
+					<mat-option *ngFor="let option of filteredGroups | async | slice : 0 : 3"
+							[value]="option.name"
 							(click)="goToChat(option._id!, false)"
 					>
 						{{option.name}}

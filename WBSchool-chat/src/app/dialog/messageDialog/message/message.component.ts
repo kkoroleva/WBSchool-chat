@@ -3,7 +3,7 @@ import {
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,6 +25,8 @@ import { IMessage } from '../../../../interfaces/dialog-interface';
 import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
+import { ThreadsService } from 'src/app/threads/threads.service';
+import { getMessage } from 'src/app/store/actions/threads.action';
 import { MessageSocketService } from '../../../socket/message-socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ModalWindowImgComponent } from '../modal-window-img/modal-window-img.component';
@@ -83,7 +85,9 @@ export class MessageComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private messageSocketService: MessageSocketService,
     private modalServ: ModalProfileService,
-    private actions$: Actions
+    private actions$: Actions,
+
+    private threadsService: ThreadsService
   ) {}
 
   private initIoConnection(): void {
@@ -263,4 +267,11 @@ export class MessageComponent implements OnInit {
     this.imageOrFile = '';
     this.imgInput = false;
   }
+
+  openThreadComponent(message: IMessage): void {
+    this.store$.dispatch(getMessage({message}));
+    this.threadsService.isThreads$.next(true);
+    localStorage.setItem('isThreads', '1');
+  }
+
 }

@@ -7,6 +7,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { authRoutes } from './auth/auth.module';
 import { AuthGuardService } from './auth/guards/auth-guard.service';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { CopyrightComponent } from './copyright/copyright.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -29,6 +30,11 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfilePageComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'gang',
+    component: CopyrightComponent,
     canActivate: [AuthGuardService],
   },
   { path: '**', component: NotFoundPageComponent },

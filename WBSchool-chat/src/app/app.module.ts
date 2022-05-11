@@ -1,4 +1,3 @@
-
 import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -72,6 +71,7 @@ import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-gr
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { SmileComponent } from './smile/smile.component';
+
 import { ChatsEffects } from './store/effects/chats.effects';
 import { ContactsEffects } from './store/effects/contacts.effects';
 import { DialogEffects } from './store/effects/dialog.effects';
@@ -79,6 +79,7 @@ import { GroupEffects } from './store/effects/group.effects';
 import { NotificationEffects } from './store/effects/notification.effects';
 import { ThreadsEffects } from './store/effects/threads.effects';
 import { ModalWindowImgComponent } from './dialog/messageDialog/modal-window-img/modal-window-img.component';
+
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -194,3 +195,4 @@ const API_URL_PROVIDER: Provider = {
 })
 
 export class AppModule {}
+
