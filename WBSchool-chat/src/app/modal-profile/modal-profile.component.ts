@@ -81,15 +81,11 @@ export class ModalProfileComponent implements OnInit {
           concatMap((user: IUserData) => this.profileServ.getOwners(user._id))
         )
         .subscribe((res: any) => {
-          if (res[0]) {
+          if (res) {
             this.user$.subscribe({
-              next: () =>
-                this.store$.dispatch(
-                  returnIntoChatFriend({
-                    chatId: res[0]._id,
-                    users: res[0].owner,
-                  })
-                ),
+              next: () => this.store$.dispatch(
+                returnIntoChatFriend({ chatId: res._id, users: res.owners})
+              ),
             });
           } else {
             this.user$.subscribe({
@@ -108,10 +104,10 @@ export class ModalProfileComponent implements OnInit {
             this.router.navigateByUrl('/home');
           }, 0);
         });
-    } else {
-      this.store$.dispatch(changeChatGroup({ chatGroup: clone._id! }));
-      this.router.navigateByUrl('/chat');
-    }
+      } else {
+        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id!, isPrivate: true }));
+        this.router.navigateByUrl('/chat');
+      }
     this.dialogRef.close();
   }
 

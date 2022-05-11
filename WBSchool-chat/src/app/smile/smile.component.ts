@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { MessageSocketService } from '../socket/message-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
 import { ISmile } from '../../interfaces/smile-interface';
+import { IChatGroup } from 'src/interfaces/dialog-interface';
 
 const elves = `https://i.ibb.co/JvXrJJV/CD195156-7-F41-4042-86-E9-46-A8-D1-F3-C634.png
 https://i.ibb.co/D7xKDcT/15464569-0958-4571-BAB2-FBF89556-EFE7.png
@@ -126,9 +127,9 @@ export class SmileComponent implements OnInit {
   allSmiles: ISmile[] = mockSmiles;
   smilesList: string[] = elves.split('\n');
 
-  chatID = '';
+  chatGroup!: IChatGroup;
   smileSRC = '';
-  private chatGroup$: Observable<string> = this.store$.pipe(
+  private chatGroup$: Observable<IChatGroup> = this.store$.pipe(
     select(selectChatGroup)
   );
   constructor(
@@ -137,11 +138,15 @@ export class SmileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.chatGroup$.subscribe((id) => (this.chatID = id));
+    this.chatGroup$.subscribe((chatGroup: IChatGroup) => (this.chatGroup = chatGroup));
   }
 
   onClick(e: Event) {
     this.smileSRC = (e.target as HTMLImageElement).src;
-    this.messageSocketService.send(this.chatID, { text: this.smileSRC });
+    this.messageSocketService.send(
+      this.chatGroup.chatGroup,
+      { text: this.smileSRC },
+      this.chatGroup.isPrivate
+    );
   }
 }

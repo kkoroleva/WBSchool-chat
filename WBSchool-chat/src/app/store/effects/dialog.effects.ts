@@ -35,9 +35,9 @@ export class DialogEffects {
   loadDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(initDialogs),
-      mergeMap(({ id }) =>
+      mergeMap(({ id, isPrivate }) =>
         this.http
-          .get<IMessage[]>(`${this.urlApi}/chats/${id}/messages`)
+          .get<IMessage[]>(`${this.urlApi}/chats/${isPrivate ? 'privates' : 'groups'}/${id}/messages`)
           .pipe(map((messages) => loadDialogs({ messages })))
       )
     );
@@ -48,14 +48,12 @@ export class DialogEffects {
       ofType(getAllChatsMessages),
       mergeMap(({ chatId }) =>
         this.http
-          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .get<IMessage[]>(`${this.urlApi}/chats/privates/${chatId}/messages`)
           .pipe(
             map((messages) =>
               allChatsMessages({
                 chatId: chatId,
-                lastMessage: !!messages[messages.length - 1]
-                  ? messages[messages.length - 1].text
-                  : '',
+                lastMessage: messages[messages.length - 1] ?.text || '',
               })
             )
           )
@@ -68,7 +66,7 @@ export class DialogEffects {
       ofType(getAllGroupsMessages),
       mergeMap(({ chatId }) =>
         this.http
-          .get<IMessage[]>(`${this.urlApi}/chats/${chatId}/messages`)
+          .get<IMessage[]>(`${this.urlApi}/chats/groups/${chatId}/messages`)
           .pipe(
             map((messages) =>
               allGroupsMessages({
@@ -89,8 +87,8 @@ export class DialogEffects {
   getInfoChats$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getInfoChat),
-      mergeMap(({ chatId }) =>
-        this.http.get<IChatInfo>(`${this.urlApi}/chats/${chatId}`).pipe(
+      mergeMap(({ chatId, isPrivate }) => 
+        this.http.get<IChatInfo>(`${this.urlApi}/chats/${isPrivate ? 'privates' : 'groups'}/${chatId}`).pipe(
           tap(
             (chatInfo) =>
               (chatInfo.avatar = chatInfo.formatImage! + chatInfo.avatar)

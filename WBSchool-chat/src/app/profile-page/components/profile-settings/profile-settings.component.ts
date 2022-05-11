@@ -8,6 +8,7 @@ import {
   IServerResponse,
   ISettingsList,
 } from '../../../../interfaces/profile.settings.interface';
+
 import { ProfilePageService } from '../../services/profile-page.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { IUserData } from '../../../../interfaces/auth-interface';
@@ -304,7 +305,8 @@ export class ProfileSettingsComponent implements OnInit {
     this.store$
       .pipe(select(selectUser))
       .subscribe((user: IUserData) => (me = user.username));
-    if (userName.length === 0) {
+
+    if (!userName.length) {
       this.notFound = 'Поле ввода пустое, введите username пользователя.';
     } else if (userName === clone?.username) {
       this.notFound = 'Этот пользователь уже есть в списке контактов.';

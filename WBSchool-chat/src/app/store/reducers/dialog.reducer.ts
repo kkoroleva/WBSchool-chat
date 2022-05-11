@@ -22,23 +22,21 @@ export interface IDialogState {
 const initialState: IDialogState = {
   messages: [],
   chatInfo: {
-    _id: '',
-    name: '',
-    avatars: [],
-    formatImage: '',
-    about: '',
-    isNotifications: false,
-    isRead: false,
-    isActive: false,
-    owners: [],
-    __v: 0,
-    chatGroup: '',
-    avatar: '',
-    users: [],
-    usernames: [],
-    isPrivate: false,
-  },
-};
+      _id: "",
+      name: "",
+      formatImage: "", 
+      about: "", 
+      isNotifications: false, 
+      isRead: false, 
+      isActive: false, 
+      owners: [], 
+      __v: 0,
+      chatGroup: "",
+      avatar: "",
+      users:[],
+      usernames: [],
+  }
+}
 
 export interface ILastMessagesState {
   chatsMessages: IAllMessages[];

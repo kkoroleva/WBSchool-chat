@@ -26,7 +26,8 @@ export class ProfileSettingsService {
   }
 
   getOwners(userId: string) {
-    return this.http.post(`${this.apiUrl}/api/chats/owners`, { userId });
+    // return this.http.post(`${this.apiUrl}/api/chats/owners`, {userId})
+    return this.http.post(`${this.apiUrl}/api/chats/privates/owners`, {userId})
   }
 
   getContacts() {

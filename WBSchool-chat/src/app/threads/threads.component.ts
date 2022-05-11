@@ -1,6 +1,6 @@
-import { selectThread } from './../store/selectors/thread.selector';
-import { initThread } from './../store/actions/threads.action';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
+import { selectThread } from '../store/selectors/thread.selector';
+import { initThread } from '../store/actions/threads.action';
 import { FormControl } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -8,63 +8,36 @@ import { Observable, tap } from 'rxjs';
 import { DialogService } from '../dialog/dialog.service';
 import { ThreadSocketService } from '../socket/thread-socket.service';
 import { selectChatGroup } from '../store/selectors/groups.selectors';
+import { selectMessage } from '../store/selectors/thread.selector';
+import { ThreadsService } from './threads.service';
+import { IMessage } from '../../interfaces/dialog-interface';
+
 import { IThread } from '../../interfaces/thread-interface';
 
-const mockThreads: IThread[] = [
-  {
-    _id: '123456',
-    owner: '12345678909876543',
-    ownerName: 'Kkoroleva',
-    avatar:
-      'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
-    isActive: true,
-    basicPost: {
-      date: '12/04/2022 12:44PM',
-      imageOrFile:
-        'https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg',
-      text: 'Me, when I do not have to do layout with Material UI',
-    },
-    comments: [
-      {
-        authorID: '12345678909876543',
-        authorName: 'Everyone',
-        date: '14/04/2022 12:04PM',
-        text: 'Funny. Not funny',
-      },
-      {
-        authorID: '12345678909876543',
-        authorName: 'Everyone',
-        date: '14/04/2022 12:04PM',
-        text: 'Funny. Not funny',
-      },
-      {
-        authorID: '12345678909876543',
-        authorName: 'Everyone',
-        date: '14/04/2022 12:04PM',
-        text: 'Funny. Not funny',
-      },
-    ],
-  },
-];
 @Component({
   selector: 'app-threads',
   templateUrl: './threads.component.html',
   styleUrls: ['./threads.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThreadsComponent implements OnInit, OnDestroy {
   @ViewChild('wrapper') wrapper!: ElementRef;
+  @ViewChild('threads') threads!: ElementRef;
 
+  isOpen: boolean = false;
   toggle!: boolean;
   imgInput = false;
   commentControl = new FormControl('');
   imageOrFile = '';
   formatImage = '';
-  threadsList: IThread[];
   username: string = '';
   idUser: string = '';
+
   threadId = '6272a27e6ee72e385c2dd141';
-  chatId = '62726b2be1a28d1067ec647c';
-  messageId = '6272a27e6ee72e385c2dd13f';
+
+  chatId = '6273e0eb8673651fddee2330';
+  messageId = '6273e8378673651fddee27de';
+
   avatar = '';
   isActive = false;
   basicPost = {
@@ -77,15 +50,21 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     select(selectChatGroup)
   );
 
+  public basicPostThread$: Observable<IMessage> = this.store$.pipe(
+    select(selectMessage)
+  );
+
   public thread$: Observable<IThread> = this.store$.pipe(select(selectThread));
 
   constructor(
     private imageCompress: NgxImageCompressService,
     private serviceDialog: DialogService,
     private threadSocketService: ThreadSocketService,
-    private store$: Store
+    private store$: Store,
+    private threadsService: ThreadsService
   ) {
-    this.threadsList = mockThreads;
+
+
   }
 
   ngOnInit(): void {
@@ -95,15 +74,23 @@ export class ThreadsComponent implements OnInit, OnDestroy {
           this.changeScroll();
         }, 300);
       });
-    this.store$.dispatch(
-      initThread({ chatId: this.chatId, messageId: this.messageId })
-    );
+
+    this.basicPostThread$.subscribe((bp) => {
+      if (bp.chatId) {
+        this.store$.dispatch(
+          initThread({ chatId: bp.chatId!, messageId: bp._id! })
+        );
+      }
+    });
+
+
     this.thread$.subscribe((thread) => {
       this.username = thread.ownerName!;
       this.avatar = thread.avatar!;
       this.isActive = thread.isActive!;
       this.formatImage = thread.formatImage!;
-      // this.threadId = thread._id;
+
+      this.threadId = thread._id;
     });
     this.threadSocketService.initConnectThreads();
   }
@@ -186,7 +173,38 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     }
   }
 
+  closeThreadComponent(): void {
+    this.threadsService.isThreads$.next(false);
+    localStorage.setItem('isThreads', '0');
+  }
+
   ngOnDestroy(): void {
     this.threadSocketService.offComments();
   }
+
+
+  itemFormat(item: string) {
+    return !!(
+      item.includes('.png') ||
+      item.includes('.jpg') ||
+      item.includes('.jpeg') ||
+      item.includes('.svg') ||
+      item.includes('.gif')
+    );
+  }
+
+  separateTheLink(message: string) {
+    let str = message.trim();
+    let strArr = str.split(' ');
+    let pic = '';
+    strArr.forEach(word => {
+      if (this.itemFormat(word)) {
+        pic = word;
+        strArr.splice(strArr.indexOf(word), 1);
+      }
+    });
+    return { url: pic, text: strArr.join(' ') };
+  }
+
+
 }

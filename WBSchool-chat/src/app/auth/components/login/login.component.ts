@@ -4,7 +4,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { INewUser, IUserData, User } from '../../../../interfaces/auth-interface';
+import {
+  INewUser,
+  IUserData,
+  User,
+} from '../../../../interfaces/auth-interface';
 import { IAuthState } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { initAuth } from '../../../store/actions/auth.actions';
@@ -14,6 +18,8 @@ import { SocketService } from '../../../../app/socket/socket.service';
 import { ConnectEvent } from '../../../../app/socket/event';
 import { NotificationSocketService } from '../../../../app/socket/notification-socket.service';
 import { INotification } from '../../../../interfaces/notifications-interface';
+import { ThreadSocketService } from '../../../../app/socket/thread-socket.service';
+import { MessageSocketService } from '../../../../app/socket/message-socket.service';
 
 @Component({
   selector: 'app-login',
@@ -25,8 +31,10 @@ export class LoginComponent implements OnInit {
   submitted!: boolean;
   errorMessage: string = '';
   notificationAuth: INotification = {
-    text: `Был выполнен вход в аккаунт.`
+    text: `Был выполнен вход в аккаунт.`,
   };
+  messageSocketService: any;
+  threadSocketService: any;
 
   constructor(
     private auth: AuthService,
@@ -34,7 +42,7 @@ export class LoginComponent implements OnInit {
     private store$: Store<IAuthState>,
     private storage: StorageMap,
     private socketService: SocketService,
-    private notificationSocketService: NotificationSocketService
+    private notificationSocketService: NotificationSocketService,
   ) {}
 
   ngOnInit(): void {
@@ -55,9 +63,11 @@ export class LoginComponent implements OnInit {
 
   private initIoConnection(): void {
     this.socketService.initSocket();
-
     this.socketService.onEvent(ConnectEvent.CONNECT).subscribe(() => {
       console.log('connected');
+      this.messageSocketService.initIoConnectionMessages();
+      this.threadSocketService.initConnectThreads();
+      this.notificationSocketService.initIoConnectionNotification();
     });
   }
 

@@ -1,4 +1,3 @@
-import { IMessage } from '../../../interfaces/dialog-interface';
 import { IUser } from '../../../interfaces/user.groups-interface';
 import { createAction, props } from '@ngrx/store';
 import { IPrivate } from '../../../interfaces/private-interface';
@@ -12,7 +11,7 @@ export const changeLoadGroups = createAction(
 
 export const changeChatGroup = createAction(
   '[GROUPS] changeChatGroup',
-  props<{ chatGroup: string }>()
+  props<{ chatGroup: string; isPrivate: boolean }>()
 );
 
 export const createChatGroup = createAction(
@@ -75,7 +74,12 @@ export const changeLoadFriends = createAction(
 export const createChatFriend = createAction(
   '[FRIENDS] createChatFriend',
   // props<{ username: string; ownerUsername: string }>()
-  props<{ username: string; ownerUsername: string, ownerFormatImage: string, ownerAvatar: string }>()
+  props<{
+    username: string;
+    ownerUsername: string;
+    ownerFormatImage: string;
+    ownerAvatar: string;
+  }>()
 );
 
 export const deleteChatFriend = createAction(
@@ -85,12 +89,12 @@ export const deleteChatFriend = createAction(
 
 export const outFromChatFriend = createAction(
   '[FRIENDS] outFromChatFriend',
-  props<{ chatId: string, owners: string[] }>()
+  props<{ chatId: string; owner: string }>()
 );
 
 export const returnIntoChatFriend = createAction(
   '[FRIENDS] returnIntoChatFriend',
-  props<{ chatId: string, users: string[] }>()
+  props<{ chatId: string; users: string[] }>()
 );
 
 export const updateChatFriends = createAction(
@@ -103,11 +107,22 @@ export const pushToFriends = createAction(
   props<{ friend: IPrivate }>()
 );
 
-export const getAllGroupsMessages = createAction('[GROUPS] getAllGroupsMessages',
-  props<{chatId: string}>());
+export const getAllGroupsMessages = createAction(
+  '[GROUPS] getAllGroupsMessages',
+  props<{ chatId: string }>()
+);
 
-export const allGroupsMessages = createAction('[GROUPS] allGroupsMessages',
-  props<{chatId: string, lastMessage: string, messageId: string}>());
+export const allGroupsMessages = createAction(
+  '[GROUPS] allGroupsMessages',
+  props<{ chatId: string; lastMessage: string; messageId: string }>()
+);
 
-export const deleteLastGroupMessage = createAction('[GROUPS] deleteLastGroupMessage',
-  props<{id: string}>());
+export const deleteLastGroupMessage = createAction(
+  '[GROUPS] deleteLastGroupMessage',
+  props<{ id: string }>()
+);
+
+export const exitFromGroup = createAction(
+  '[GROUPS] exitFromGroup',
+  props<{ id: string; owner?: string }>()
+);
