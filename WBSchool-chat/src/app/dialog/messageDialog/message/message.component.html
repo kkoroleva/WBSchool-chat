@@ -15,7 +15,7 @@
           <p class="message__text" >{{messObj.text}}</p>
         </ng-container>
       </div>
-      <a class="message__thread" (click)="openThread(item)">Comments</a>
+      <a class="message__thread" (click)="openThreadComponent(item)">Comments</a>
       <mat-menu #block="matMenu">
         <button (click)="deleteMessage(item._id!)" mat-menu-item>
           <span>Удалить</span>
@@ -46,8 +46,10 @@
       <div (click)="toggle = !toggle">
         <mat-icon class="btn" width="14px" height="13px"> attach_file</mat-icon>
       </div>
-      <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" #input
-        [ngClass]="{'input__link': itemFormat(input.value)}">
+      <!-- <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" #input
+        [ngClass]="{'input__link': itemFormat(input.value)}"> -->
+        <textarea [formControl]="message" (keydown.enter)="sendMessage()" #input
+        [ngClass]="{'input__link': itemFormat(input.value)}"></textarea>
       <div class="smile__more" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu" yPosition="above">
           <app-smile></app-smile>

@@ -1,14 +1,20 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ChangeComponentService } from '../nav-mobile/change-component.service';
+import { ThreadsService } from '../threads/threads.service';
 
 @Component({
   selector: 'app-messages-page',
   templateUrl: './messages-page.component.html',
   styleUrls: ['./messages-page.component.scss'],
+
 })
 export class MessagesPageComponent implements OnInit {
-  constructor(public changeState: ChangeComponentService) {}
+  isThreads: boolean = false;
+
+  constructor(public changeState: ChangeComponentService, private threadService: ThreadsService) {
+
+  }
 
   stateMessages = this.changeState.stateComponentMessages;
 
@@ -20,6 +26,14 @@ export class MessagesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('isThreads')) {
+      this.isThreads = !!JSON.parse(localStorage.getItem('isThreads')!);
+    }
+    this.threadService.isThreads$.subscribe((isThreads) => {
+      this.isThreads = isThreads;
+    }
+    );
+
     if (window.innerWidth < 766) {
       this.stateMessages.groups = false;
       this.stateMessages.messanger = true;
@@ -31,11 +45,4 @@ export class MessagesPageComponent implements OnInit {
     this.changeState.hasThreadsInNavMobile = false;
   }
 
-  @ViewChild('messagePage') messagePage!: ElementRef;
-
-  onClosed(isClosed: boolean) {
-
-    let page = this.messagePage.nativeElement;
-    page.classList.remove('message-page__wrapper-with-threads');
-  }
 }

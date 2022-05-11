@@ -12,9 +12,9 @@
 				<div *ngIf="(filteredPrvtChats | async)?.length! > 0 || searchQuery.value.length == 0; else notFound">
 					<mat-option *ngFor="let option of filteredPrvtChats | async | slice : 0 : 3"
 							[value]="option.name"
-							(click)="goToChat(option._id!)"
+							(click)="goToChat(option._id!, true)"
 					>
-						{{option.name}}
+						{{option.usernames[0]}}
 					</mat-option>
 				</div>
 				<ng-template #notFound>
@@ -27,7 +27,7 @@
 				<div *ngIf="(filteredGroups | async)?.length! > 0 || searchQuery.value.length == 0; else notFound">
 					<mat-option *ngFor="let option of filteredGroups | async | slice : 0 : 3"
 							[value]="option.name"
-							(click)="goToChat(option._id!)"
+							(click)="goToChat(option._id!, false)"
 					>
 						{{option.name}}
 					</mat-option>

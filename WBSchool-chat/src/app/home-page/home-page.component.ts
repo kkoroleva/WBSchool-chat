@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, Output, ViewChild, ViewChildren } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ChangeComponentService } from '../nav-mobile/change-component.service';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'app-home-page',
@@ -9,6 +10,12 @@ import { ChangeComponentService } from '../nav-mobile/change-component.service';
 })
 
 export class HomePageComponent implements OnInit {
+
+  isThreads: boolean = true;
+
+  method(boo: boolean) {
+    console.log(boo);
+  }
 
   constructor(public changeState: ChangeComponentService) {}
 
@@ -22,14 +29,8 @@ export class HomePageComponent implements OnInit {
     }
   }
 
-
-  @ViewChild('homePage') homePage!: ElementRef;
-  onClosed(isClosed: boolean) {
-    let page = this.homePage.nativeElement;
-    page.classList.remove('home-page__wrapper-with-threads');
-  }
-
   ngOnInit(): void {
+
     if(window.innerWidth < 766) {
       this.stateMain.groups = true
       this.stateMain.tetATet = false

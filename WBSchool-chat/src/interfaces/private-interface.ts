@@ -1,6 +1,6 @@
 export interface IPrivate {
   _id?: string;
-  owner?: string;
+  owners?: string[];
   isActive?: boolean;
   isRead: boolean;
   avatars: any[];
@@ -11,4 +11,5 @@ export interface IPrivate {
   name?: string;
   formatImage?: string;
   usernames: string[];
+  isPrivate: boolean;
 }

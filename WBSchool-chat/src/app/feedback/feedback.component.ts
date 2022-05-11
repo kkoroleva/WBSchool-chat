@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup , Validators} from '@angular/forms';
-import { IFeedBackMessage } from './feedBack';
+import { IFeedBackMessage } from '../../interfaces/feedBack-interface';
 
 @Component({
   selector: 'app-feedback',

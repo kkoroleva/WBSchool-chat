@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
-import { IMessage } from '../dialog/dialog';
-import { IThread } from './thread';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThreadsService {
 
-  basicPost: IMessage = {
-    text: '',
-  };
-  constructor() { }
+  isThreads$ = new BehaviorSubject<boolean>(!!JSON.parse(localStorage.getItem('isThreads')!)||false);
 
-  createThread(message: IMessage) {
-    this.basicPost = message;
-    console.log(this.basicPost.avatar);
+  constructor() {
   }
+
 }
