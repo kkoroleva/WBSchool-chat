@@ -1,15 +1,15 @@
-<div (resized)="onResized($event)" [ngClass]="isThreads? 'message-page__wrapper-with-threads' : ''"
+<div [ngClass]="isThreads? 'message-page__wrapper-with-threads' : ''"
   class="messages-page__wrapper" >
   <!--TO DO: Блоки компонентов временно будут обозначены div.
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="messages-page__search"></app-search>
-  <app-groups *ngIf="changeState.stateComponentMessages.groups" class="messages-page__groups main-grid-block">
+  <app-groups class="messages-page__groups main-grid-block">
   </app-groups>
-  <app-dialog *ngIf="changeState.stateComponentMessages.messanger" class="messages-page__chat main-grid-block"
+  <app-dialog class="messages-page__chat main-grid-block"
     ></app-dialog>
-  <app-private *ngIf="changeState.stateComponentMain.tetATet" class="message-page__private main-grid-block">
+  <app-private class="message-page__private main-grid-block">
   </app-private>
-  <app-threads *ngIf="changeState.stateComponentMain.threads" class="message-page__threads main-grid-block"
+  <app-threads class="message-page__threads main-grid-block"
   ></app-threads>
   <app-nav-mobile class="messages-page__nav-mobile"></app-nav-mobile>
 </div>
