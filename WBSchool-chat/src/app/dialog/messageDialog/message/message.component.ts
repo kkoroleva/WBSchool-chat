@@ -266,7 +266,7 @@ export class MessageComponent implements OnInit {
   unActiveEmoji() {
     this.toggleEmoji = false;
   }
-  
+
   openThreadComponent(message: IMessage): void {
     this.store$.dispatch(getMessage({message}));
     this.threadsService.isThreads$.next(true);
