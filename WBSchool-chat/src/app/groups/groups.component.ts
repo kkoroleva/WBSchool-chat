@@ -11,11 +11,16 @@ import {
 } from '../store/selectors/groups.selectors';
 import {
   changeChatGroup,
+  exitFromGroup,
   getAllGroupsMessages,
   loadGroups,
+  setGroup,
 } from '../store/actions/groups.actions';
 import { ThreadsService } from '../threads/threads.service';
 import { IGroup, IGroupsMessages } from '../../interfaces/group-interface';
+import { OutFromGroupComponent } from './modal/out-from-group/out-from-group.component';
+import { IUserData } from './../../interfaces/auth-interface';
+import { selectUser } from '../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-groups',
@@ -23,8 +28,9 @@ import { IGroup, IGroupsMessages } from '../../interfaces/group-interface';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
-  isThreads: boolean = false;
-
+  public isThreads: boolean = false;
+  private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
+  private user!: IUserData;
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
   public lastMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
     select(selectLastGroupsMessages)
@@ -38,6 +44,8 @@ export class GroupsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.user$.subscribe((user) => (this.user = user));
+
     if (this.router.url === '/chat') {
       this.threadService.isThreads$.subscribe((isThreads) => {
         this.isThreads = isThreads;
@@ -66,6 +74,23 @@ export class GroupsComponent implements OnInit {
 
   getGroupChats(): void {
     this.store$.dispatch(loadGroups());
+  }
+
+  leaveFromChat(group: IGroup): void {
+    if (group.owners![0] === this.user._id) {
+      this.dialog.open(OutFromGroupComponent, {
+        panelClass: 'out-group-chat-modal',
+        maxWidth: '100vw',
+      });
+      this.store$.dispatch(setGroup({ group }));
+    } else {
+      this.store$.dispatch(exitFromGroup({ id: group._id! }));
+      this.store$.dispatch(
+        changeChatGroup({ chatGroup: '', isPrivate: false })
+      );
+      localStorage.removeItem('chatID');
+      this.router.navigateByUrl('/home');
+    }
   }
 
   createGroupChat(): void {
