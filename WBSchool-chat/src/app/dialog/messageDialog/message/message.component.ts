@@ -242,7 +242,6 @@ export class MessageComponent implements OnInit {
 
   addEmoji(event: any) {
     this.emojiText += event.emoji.native
-    // input.value += event.emoji.native + ' '
     console.log(this.message.value);
   }
   
