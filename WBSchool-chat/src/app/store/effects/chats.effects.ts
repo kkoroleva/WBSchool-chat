@@ -85,17 +85,6 @@ export class ChatsEffects {
     );
   });
 
-  // deleteChat$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(deleteChatFriend),
-  //     mergeMap(({ chatId }) =>
-  //       this.http
-  //         .delete<string>(`${this.urlApi}/chats/${chatId}`)
-  //         .pipe(map((id) => updateChatFriends({ chatId: id })))
-  //     )
-  //   );
-  // });
-
   outFromChat$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(outFromChatFriend),

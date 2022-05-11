@@ -1,5 +1,6 @@
 .message {
   position: relative;
+  // min-height: 80vh;
 
   &__wrapper {
     max-height: 720px;
@@ -133,14 +134,21 @@
   }
   // ========send
 
+  &__validation {
+    margin-top: 5px;
+    color: red;
+    text-align: center;
+    font-size: small;
+  }
+
   &__send {
     display: flex;
     padding: 0;
     margin-bottom: 34px;
-    margin-top: 30px;
+    margin-top: 10px;
     align-items: center;
     position: static;
-    @media  screen and(max-width:495px) {
+    @media screen and(max-width:495px) {
       margin-bottom: 0;
       margin-top: 30px;
     }

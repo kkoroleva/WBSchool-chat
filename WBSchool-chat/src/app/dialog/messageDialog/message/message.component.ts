@@ -52,8 +52,9 @@ export class MessageComponent implements OnInit {
   contacts: IUserData[] = [];
   userData: IUserData | undefined;
   imgInput = false;
+  infoMessage: string = '';
 
-  private chatGroup$: Observable<any> = this.store$.pipe(
+  public chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -155,6 +156,7 @@ export class MessageComponent implements OnInit {
       }
     };
     reader.readAsDataURL(file);
+    this.infoMessage = 'Введите текст, чтобы отправить картинку';
   }
 
   deleteMessage(id: string): void {
@@ -173,6 +175,7 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(): void {
+    event?.preventDefault();
     if (
       this.message.value.trim() ||
       (this.message.value.trim() && this.imageOrFile.length > 0)
@@ -207,6 +210,7 @@ export class MessageComponent implements OnInit {
       this.formatImage = '';
       this.message.setValue('');
       this.imgInput = false;
+      this.infoMessage = '';
     }
   }
 
