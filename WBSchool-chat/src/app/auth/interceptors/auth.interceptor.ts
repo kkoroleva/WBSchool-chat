@@ -16,18 +16,24 @@ export class AuthInterceptor implements HttpInterceptor {
     private router: Router,
     private auth: AuthService,
     @Inject('API_URL') public apiUrl: string
-  ) {}
+  ) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const newReq = req.clone({
-      headers: req.headers.set(
-        'Authorization',
-        `Bearer ${localStorage.getItem('token')}`
-      ),
-    });
+
+    let newReq = req;
+
+    if (!req.url.includes('github.com')) {
+      newReq = req.clone({
+        headers: req.headers.set(
+          'Authorization',
+          `Bearer ${localStorage.getItem('token')}`
+        ),
+      });
+    }
+
     return next.handle(newReq).pipe(
       catchError((err: HttpErrorResponse) => {
         if (
