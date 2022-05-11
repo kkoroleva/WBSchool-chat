@@ -79,6 +79,7 @@ import { CopyrightComponent } from './copyright/copyright.component';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DragAndDropDirective } from './groups/drag-and-drop.directive';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -136,6 +137,7 @@ const API_URL_PROVIDER: Provider = {
     AuthModule,
     StorageModule,
     AngularResizeEventModule,
+    PickerModule,
 
     //Material UI
     BrowserAnimationsModule,
