@@ -1,4 +1,7 @@
-import { deleteLastGroupMessage, getAllGroupsMessages, } from './../../../store/actions/groups.actions';
+import {
+  deleteLastGroupMessage,
+  getAllGroupsMessages,
+} from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
@@ -6,8 +9,15 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
-import { selectChatGroup, selectLastGroupsMessages, } from '../../../store/selectors/groups.selectors';
-import { deleteMessage, initDialogs, newEditMessage, } from '../../../store/actions/dialog.action';
+import {
+  selectChatGroup,
+  selectLastGroupsMessages,
+} from '../../../store/selectors/groups.selectors';
+import {
+  deleteMessage,
+  initDialogs,
+  newEditMessage,
+} from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../../../interfaces/dialog-interface';
 import { IUserData } from '../../../../interfaces/auth-interface';
@@ -17,6 +27,7 @@ import { ThreadsService } from 'src/app/threads/threads.service';
 import { getMessage } from 'src/app/store/actions/threads.action';
 import { MessageSocketService } from '../../../socket/message-socket.service';
 import { IGroupsMessages } from '../../../../interfaces/group-interface';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-message',
@@ -30,7 +41,7 @@ export class MessageComponent implements OnInit {
   isEditMessage = false;
   toggle!: boolean;
   toggleEmoji = false;
-  message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
+  message= new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
   myId = '';
@@ -196,19 +207,20 @@ export class MessageComponent implements OnInit {
       }
       this.imageOrFile = '';
       this.formatImage = '';
-      this.message.setValue('');
+      this.message.reset();
       this.imgInput = false;
       this.infoMessage = '';
     }
   }
 
-  itemFormat(item: string):boolean {
+  itemFormat(item: string): boolean {
     return (
       item.includes('.png') ||
       item.includes('.jpg') ||
       item.includes('.jpeg') ||
       item.includes('.svg') ||
-      item.includes('.gif'))
+      item.includes('.gif')
+    );
   }
 
   separateTheLink(message: string) {
@@ -243,11 +255,16 @@ export class MessageComponent implements OnInit {
     this.imgInput = false;
   }
 
-  addEmoji(event: any) {
-    this.emojiText += event.emoji.native
-    console.log(this.message.value);
+  addEmoji(event: EmojiEvent) {
+    if (this.message.value) {
+      this.message.patchValue( this.message.value + event.emoji.native)
+    } else {
+      this.message.patchValue(event.emoji.native)
+    }
+
+    console.log(this.message.value + 'message');
   }
-  
+
   isEmoji() {
     this.toggleEmoji = !this.toggleEmoji;
   }
@@ -257,9 +274,8 @@ export class MessageComponent implements OnInit {
   }
 
   openThreadComponent(message: IMessage): void {
-    this.store$.dispatch(getMessage({message}));
+    this.store$.dispatch(getMessage({ message }));
     this.threadsService.isThreads$.next(true);
     localStorage.setItem('isThreads', '1');
   }
-
 }

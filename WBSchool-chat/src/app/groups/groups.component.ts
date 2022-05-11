@@ -106,6 +106,12 @@ export class GroupsComponent implements OnInit {
     );
     localStorage.setItem('chatID', group._id!);
     localStorage.setItem('isPrivate', 'false');
-    this.router.navigateByUrl('/chat');
+
+    if (this.router.url.includes('/chat')) {
+      (document.querySelector('#messages') as HTMLInputElement).checked = true;
+    }
+    else {
+      this.router.navigateByUrl('/chat');
+    }
   }
 }
