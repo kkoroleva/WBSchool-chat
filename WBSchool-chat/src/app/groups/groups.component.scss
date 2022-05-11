@@ -18,6 +18,18 @@ $thumbnail-size: 52px;
     box-sizing: border-box;
   }
 
+  &__leave {
+    border: none;
+    background: none;
+    color: grey;
+    font-size: 10px;
+
+    &:hover {
+      color: red;
+      font-size: 18px;
+    }
+  }
+
   &__header {
     padding: 0;
     color: $main-text-color;
@@ -37,15 +49,13 @@ $thumbnail-size: 52px;
   }
 
   &__list {
-    max-height: 545px;
     width: 100%;
     padding: 0;
     margin: 0;
-    overflow-y: auto;
-
-    @media (max-width: 1023px) {
-      max-height: 345px;
-    }
+    overflow-y: scroll;
+    max-height: calc(420px*0.7);
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   &__item {

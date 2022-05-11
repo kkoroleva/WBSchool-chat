@@ -53,7 +53,7 @@ export class DialogEffects {
             map((messages) =>
               allChatsMessages({
                 chatId: chatId,
-                lastMessage: messages[messages.length - 1] ?.text || '',
+                lastMessage: messages[messages.length - 1] ?.text || 'No messages yet',
               })
             )
           )
@@ -71,12 +71,8 @@ export class DialogEffects {
             map((messages) =>
               allGroupsMessages({
                 chatId: chatId,
-                lastMessage: !!messages[messages.length - 1]
-                  ? messages[messages.length - 1].text
-                  : 'No messages yet',
-                messageId: !!messages[messages.length - 1]
-                  ? messages[messages.length - 1]._id!
-                  : '',
+                lastMessage: messages[messages.length - 1]?.text || 'No messages yet',
+                messageId: messages[messages.length - 1]?._id! || '',
               })
             )
           )
