@@ -6,6 +6,7 @@ import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
@@ -24,8 +25,10 @@ import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { ThreadsService } from 'src/app/threads/threads.service';
-import { getMessage } from 'src/app/store/actions/threads.action';
+import { getMessage } from '../../../store/actions/threads.action';
 import { MessageSocketService } from '../../../socket/message-socket.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { ModalWindowImgComponent } from '../modal-window-img/modal-window-img.component';
 import { IGroupsMessages } from '../../../../interfaces/group-interface';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
@@ -37,11 +40,13 @@ import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 export class MessageComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef;
 
+  @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
   toggleEmoji = false;
-  message= new FormControl('', [Validators.maxLength(1000)]);
+  message = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
   myId = '';
@@ -74,6 +79,7 @@ export class MessageComponent implements OnInit {
   socketService: any;
 
   constructor(
+    public dialog: MatDialog,
     private service: DialogService,
     private imageCompress: NgxImageCompressService,
     private store$: Store<IGroupsState>,
@@ -123,6 +129,9 @@ export class MessageComponent implements OnInit {
       this.wrapper.nativeElement.scrollTop =
         this.wrapper.nativeElement.scrollHeight;
     }
+  }
+  someMethod() {
+    this.trigger.openMenu();
   }
 
   getMyInfo(): void {
@@ -239,6 +248,13 @@ export class MessageComponent implements OnInit {
   openProfile(user: string | undefined) {
     if (user) this.modalServ.searchAndOpenDialog(user);
   }
+  openModalWindowImg($event: Event, data: string): void {
+    $event.stopPropagation();
+    this.dialog.open(ModalWindowImgComponent, {
+      data: data,
+      panelClass: 'img-in-modal',
+    });
+  }
 
   onImgAdd() {
     this.imgInput = true;
@@ -257,12 +273,10 @@ export class MessageComponent implements OnInit {
 
   addEmoji(event: EmojiEvent) {
     if (this.message.value) {
-      this.message.patchValue( this.message.value + event.emoji.native)
+      this.message.patchValue(this.message.value + event.emoji.native);
     } else {
-      this.message.patchValue(event.emoji.native)
+      this.message.patchValue(event.emoji.native);
     }
-
-    console.log(this.message.value + 'message');
   }
 
   isEmoji() {

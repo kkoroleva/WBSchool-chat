@@ -11,8 +11,10 @@
         <ng-container *ngIf="separateTheLink(item.text) as messObj" >
           <img *ngIf="messObj.url || !!item.imageOrFile"
             [src]="!!item.imageOrFile? item.formatImage+item.imageOrFile : messObj.url" alt="img-send"
-            class="message__img">
-          <p class="message__text" >{{messObj.text}}</p>
+            class="message__img"
+            (click)="openModalWindowImg($event, item.formatImage! + item.imageOrFile!)">
+          <p class="message__text">{{messObj.text}}</p>
+
         </ng-container>
       </div>
       <ng-container *ngIf="chatGroup$ | async as chatGroup">
@@ -69,12 +71,7 @@
         </mat-menu>
       <mat-icon class="icon-for-emoji" (click)="isEmoji()">whatshot</mat-icon>
       </div>
-<<<<<<< HEAD
-=======
-
       <!--<mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon>-->
-
->>>>>>> 32136dc2afb9c382f8f822f28e10402e1586c449
     </div>
     <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>
   </form>

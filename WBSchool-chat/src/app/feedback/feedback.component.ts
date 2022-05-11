@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup , Validators} from '@angular/forms';
-import { IFeedBackMessage } from '../../interfaces/feedBack-interface';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IFeedBackMessage } from './feedBack';
+
 
 @Component({
   selector: 'app-feedback',
@@ -9,49 +10,57 @@ import { IFeedBackMessage } from '../../interfaces/feedBack-interface';
 })
 export class FeedbackComponent implements OnInit {
   imgInput = false;
-  feedBackForm!: FormGroup;
+  feedbackForm!: FormGroup;
   imageOrFile = '';
-  
-  test:IFeedBackMessage[] = [{
-    user:"pasha", 
-    email:"pasha@gmail.com", 
-    text:"helllo world 2022 wbschool"
+  imageName = 'Click to add files to the message.';
+
+
+  arrFeedBack: IFeedBackMessage[] = [{
+    user: "pasha",
+    email: "pasha@gmail.com",
+    text: "helllo world 2022 wbschool"
   }];
 
 
   constructor() { }
 
   ngOnInit(): void {
-    this.feedBackForm = new FormGroup({
-      nameUser: new FormControl(''),
-      emailUser: new FormControl('',[
+    this.feedbackForm = new FormGroup({
+      nameUser: new FormControl('',[
+      Validators.required,
+      ]
+      ),
+      emailUser: new FormControl('', [
+        Validators.required,
         Validators.pattern(
           '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
         ),
-      ]), 
+      ]),
       textUser: new FormControl('', [
         Validators.minLength(10),
       ]),
     })
   }
-  onImgAdd() {
+  onImgAdd(event: Event) {
+    console.log(event)
     this.imgInput = true
   }
-  closeWindow(){
- 
-  }
-  sendFeedBack(){
-    console.log(this.test)
 
-    if (this.feedBackForm.value.emailUser.trim() || (this.feedBackForm.value.textUser.trim() && this.imageOrFile.length > 0)) {
-     
+
+  sendFeedBack() {
+    console.log(this.arrFeedBack)
+
+    if (this.feedbackForm.value.emailUser.trim()
+      || (this.feedbackForm.value.textUser.trim()
+        && this.imageOrFile.length > 0)) {
+
       let feedBack: IFeedBackMessage = {
-        user: this.feedBackForm.value.nameUser,
-        email: this.feedBackForm.value.emailUser,
-        text: this.feedBackForm.value.textUser,
+        user: this.feedbackForm.value.nameUser,
+        email: this.feedbackForm.value.emailUser,
+        text: this.feedbackForm.value.textUser,
       }
-      this.test.push(feedBack)
-      this.feedBackForm.reset()
+      this.arrFeedBack.push(feedBack)
+      this.feedbackForm.reset()
     }
   }
 }

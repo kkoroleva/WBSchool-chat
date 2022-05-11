@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { selectThread } from '../store/selectors/thread.selector';
 import { initThread } from '../store/actions/threads.action';
 import { FormControl } from '@angular/forms';
@@ -33,10 +40,10 @@ export class ThreadsComponent implements OnInit, OnDestroy {
   username: string = '';
   idUser: string = '';
 
-  threadId = '6272a27e6ee72e385c2dd141';
+  threadId = '';
 
-  chatId = '6273e0eb8673651fddee2330';
-  messageId = '6273e8378673651fddee27de';
+  chatId = '';
+  messageId = '';
 
   avatar = '';
   isActive = false;
@@ -62,10 +69,7 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     private threadSocketService: ThreadSocketService,
     private store$: Store,
     private threadsService: ThreadsService
-  ) {
-
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getMyInfo(),
@@ -82,7 +86,6 @@ export class ThreadsComponent implements OnInit, OnDestroy {
         );
       }
     });
-
 
     this.thread$.subscribe((thread) => {
       this.username = thread.ownerName!;
@@ -182,7 +185,6 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     this.threadSocketService.offComments();
   }
 
-
   itemFormat(item: string) {
     return !!(
       item.includes('.png') ||
@@ -197,7 +199,7 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     let str = message.trim();
     let strArr = str.split(' ');
     let pic = '';
-    strArr.forEach(word => {
+    strArr.forEach((word) => {
       if (this.itemFormat(word)) {
         pic = word;
         strArr.splice(strArr.indexOf(word), 1);
@@ -205,6 +207,4 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     });
     return { url: pic, text: strArr.join(' ') };
   }
-
-
 }

@@ -242,6 +242,15 @@ mat-label,
   }
 }
 
+.img-in-modal{
+  .mat-dialog-container {
+    padding: 0;
+    background-position: center;
+    background-size: cover;
+    border-radius: 21px;
+    // position: relative;
+  }
+}
 .mat-menu-panel .mat-menu-content:not(:empty) {
   padding: 0;
 }
