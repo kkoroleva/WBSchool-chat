@@ -25,7 +25,7 @@ import { IUserData } from '../../../../interfaces/auth-interface';
 import { ModalProfileService } from '../../../modal-profile/service/modal-profile.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { ThreadsService } from 'src/app/threads/threads.service';
-import { getMessage } from 'src/app/store/actions/threads.action';
+import { getMessage } from '../../../store/actions/threads.action';
 import { MessageSocketService } from '../../../socket/message-socket.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ModalWindowImgComponent } from '../modal-window-img/modal-window-img.component';
