@@ -1,4 +1,7 @@
-import { deleteLastGroupMessage, getAllGroupsMessages, } from './../../../store/actions/groups.actions';
+import {
+  deleteLastGroupMessage,
+  getAllGroupsMessages,
+} from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
@@ -6,8 +9,15 @@ import { select, Store } from '@ngrx/store';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable, tap } from 'rxjs';
 import { IGroupsState } from '../../../store/reducers/groups.reducers';
-import { selectChatGroup, selectLastGroupsMessages, } from '../../../store/selectors/groups.selectors';
-import { deleteMessage, initDialogs, newEditMessage, } from '../../../store/actions/dialog.action';
+import {
+  selectChatGroup,
+  selectLastGroupsMessages,
+} from '../../../store/selectors/groups.selectors';
+import {
+  deleteMessage,
+  initDialogs,
+  newEditMessage,
+} from '../../../store/actions/dialog.action';
 import { selectDialog } from '../../../store/selectors/dialog.selector';
 import { IMessage } from '../../../../interfaces/dialog-interface';
 import { IUserData } from '../../../../interfaces/auth-interface';
@@ -202,13 +212,14 @@ export class MessageComponent implements OnInit {
     }
   }
 
-  itemFormat(item: string):boolean {
+  itemFormat(item: string): boolean {
     return (
       item.includes('.png') ||
       item.includes('.jpg') ||
       item.includes('.jpeg') ||
       item.includes('.svg') ||
-      item.includes('.gif'))
+      item.includes('.gif')
+    );
   }
 
   separateTheLink(message: string) {
@@ -244,10 +255,10 @@ export class MessageComponent implements OnInit {
   }
 
   addEmoji(event: any) {
-    this.emojiText += event.emoji.native
+    this.emojiText += event.emoji.native;
     console.log(this.message.value);
   }
-  
+
   isEmoji() {
     this.toggleEmoji = !this.toggleEmoji;
   }
@@ -257,9 +268,8 @@ export class MessageComponent implements OnInit {
   }
 
   openThreadComponent(message: IMessage): void {
-    this.store$.dispatch(getMessage({message}));
+    this.store$.dispatch(getMessage({ message }));
     this.threadsService.isThreads$.next(true);
     localStorage.setItem('isThreads', '1');
   }
-
 }
