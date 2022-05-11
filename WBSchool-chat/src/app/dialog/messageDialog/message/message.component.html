@@ -50,32 +50,22 @@
         [ngClass]="{'input__link': itemFormat(input.value)}"> -->
         <textarea [(ngModel)]="emojiText" [formControl]="message" (keydown.enter)="sendMessage()" #input
         [ngClass]="{'input__link': itemFormat(input.value)}"></textarea>
-      <div class="smile__more" #blockTrigger="matMenuTrigger"[matMenuTriggerFor]="menu">
+      <div [matMenuTriggerFor]="menu" class="smile__more">
         <mat-menu #menu="matMenu" yPosition="above">
           <app-smile></app-smile>
         </mat-menu>
         <mat-icon>tag_faces</mat-icon>
       </div>
-
-      <div class="container__emoji" id="emoji" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="emoji">
-        
-        <mat-menu
-        id="emoji"
-          #emoji="matMenu"
-          class="form__emoji"
-          (blur)="unActiveEmoji()"
-        >
-          <emoji-mart
-          title = "Select color"
-            (emojiSelect)="addEmoji($event)">
-          </emoji-mart>
+      <div [matMenuTriggerFor]="emoji"  class="container__emoji">
+        <mat-menu #emoji="matMenu" (blur)="unActiveEmoji()" class="form__emoji">
+          <emoji-mart (emojiSelect)="addEmoji($event)" title = "Select color"></emoji-mart>
         </mat-menu>
       <mat-icon class="icon-for-emoji" (click)="isEmoji()">whatshot</mat-icon>
       </div>
 
       <!--<mat-icon class="photo" width="19px" height="15px">photo_camera</mat-icon>-->
+
     </div>
     <mat-icon class="voice" width="45px" height="45px">mic</mat-icon>
   </form>
-
 </section>
