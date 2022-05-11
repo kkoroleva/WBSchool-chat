@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { IPrivate } from '../../interfaces/private-interface';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -75,6 +75,7 @@ export class PrivateComponent implements OnInit {
     localStorage.setItem('chatID', chatId);
     localStorage.setItem('isPrivate', 'true');
     this.router.navigateByUrl('/chat');
+    (document.querySelector('#messages') as HTMLInputElement).checked = true;
   }
 
   // getFriend(data: IPrivate): string {
