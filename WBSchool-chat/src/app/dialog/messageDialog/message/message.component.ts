@@ -27,6 +27,7 @@ import { ThreadsService } from 'src/app/threads/threads.service';
 import { getMessage } from 'src/app/store/actions/threads.action';
 import { MessageSocketService } from '../../../socket/message-socket.service';
 import { IGroupsMessages } from '../../../../interfaces/group-interface';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-message',
@@ -40,7 +41,7 @@ export class MessageComponent implements OnInit {
   isEditMessage = false;
   toggle!: boolean;
   toggleEmoji = false;
-  message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
+  message= new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
   myId = '';
@@ -206,7 +207,7 @@ export class MessageComponent implements OnInit {
       }
       this.imageOrFile = '';
       this.formatImage = '';
-      this.message.setValue('');
+      this.message.reset();
       this.imgInput = false;
       this.infoMessage = '';
     }
@@ -254,9 +255,14 @@ export class MessageComponent implements OnInit {
     this.imgInput = false;
   }
 
-  addEmoji(event: any) {
-    this.emojiText += event.emoji.native;
-    console.log(this.message.value);
+  addEmoji(event: EmojiEvent) {
+    if (this.message.value) {
+      this.message.patchValue( this.message.value + event.emoji.native)
+    } else {
+      this.message.patchValue(event.emoji.native)
+    }
+
+    console.log(this.message.value + 'message');
   }
 
   isEmoji() {
