@@ -27,14 +27,14 @@ $max-width: 1440px;
     max-width: 100%;
     margin: 0 auto;
     grid-template-columns: minmax(300px, 320px) minmax(300px, 640px);
-    grid-template-rows: repeat(3, auto);
+    grid-template-rows: 60px 45vh 45vh;
 
   }
 
   @media (min-width: $desktop-width) {
     padding: 30px 0;
     grid-template-columns: minmax(300px, 500px) minmax(600px, 900px);
-    grid-template-rows: 60px minmax(300px, 420px) minmax(300px, 420px);
+    grid-template-rows: 60px 40vh 40vh;
 
   }
 }
@@ -54,7 +54,7 @@ $max-width: 1440px;
   @media (min-width: $desktop-width) {
     padding: 30px 0;
     grid-template-columns: 120px minmax(350px, 900px) minmax(350px, 900px);
-    grid-template-rows: 60px minmax(300px, 420px) minmax(300px, 420px);
+    grid-template-rows: 60px 40vh 40vh;
 
   }
 
@@ -158,8 +158,9 @@ app-groups,
 app-private,
 app-threads,
 app-dialog {
-  @media (max-width: $tablet-width) {
-    display: none;
+  display: none;
+  @media (min-width: $tablet-width) {
+    display: block;
   }
 }
 

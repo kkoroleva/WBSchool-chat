@@ -27,7 +27,7 @@ $max-width: 1440px;
   }
 
   @media (min-width: $desktop-width) {
-    padding: 30px 0 0;
+    padding: 30px 0;
     grid-template-columns: minmax(300px, 450px) minmax(300px, 450px) minmax(300px, 450px);
   }
 }
@@ -115,8 +115,9 @@ $max-width: 1440px;
 app-groups,
 app-private,
 app-threads {
-  @media (max-width: $tablet-width) {
-    display: none;
+  display: none;
+  @media (min-width: $tablet-width) {
+    display: block;
   }
 }
 .nav-mobile__groups, .nav-mobile__privates, .nav-mobile__threads {
