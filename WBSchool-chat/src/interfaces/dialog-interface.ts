@@ -9,6 +9,7 @@ export interface IMessage {
     username?: string;
     avatar?: string;
     lastMessage?: string;
+    isPrivate?: boolean
 }
 
 export interface User {

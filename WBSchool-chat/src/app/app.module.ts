@@ -26,18 +26,6 @@ import { PasswordModalComponent } from './profile-page/components/account-settin
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 import { ThreadsComponent } from './threads/threads.component';
 
-import { HeaderComponent } from './dialog/headerDialog/header/header.component';
-import { MessageComponent } from './dialog/messageDialog/message/message.component';
-import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
-import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
-import { ModalProfileComponent } from './modal-profile/modal-profile.component';
-import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
-import { PrivateComponent } from './friends/private.component';
-import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
-import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
-import { FeedbackComponent } from './feedback/feedback.component';
-import { SmileComponent } from './smile/smile.component';
 
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
@@ -70,6 +58,22 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { HeaderComponent } from './dialog/headerDialog/header/header.component';
+import { MessageComponent } from './dialog/messageDialog/message/message.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { NavMobileComponent } from './nav-mobile/nav-mobile.component';
+import { CreatePrivateChatComponent } from './friends/create-private-chat/create-private-chat.component';
+import { ModalProfileComponent } from './modal-profile/modal-profile.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { DragAndDropDirective } from './groups/drag-and-drop.directive';
+import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-group-chat.component';
+import { PrivateComponent } from './friends/private.component';
+import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
+import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { SmileComponent } from './smile/smile.component';
+
+import { ChatsEffects } from './store/effects/chats.effects';
 import { ContactsEffects } from './store/effects/contacts.effects';
 import { DialogEffects } from './store/effects/dialog.effects';
 import { GroupEffects } from './store/effects/group.effects';
@@ -77,9 +81,7 @@ import { NotificationEffects } from './store/effects/notification.effects';
 import { ThreadsEffects } from './store/effects/threads.effects';
 import { ModalWindowImgComponent } from './dialog/messageDialog/modal-window-img/modal-window-img.component';
 
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { DragAndDropDirective } from './groups/drag-and-drop.directive';
-import { ChatsEffects } from './store/effects/chats.effects';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -127,7 +129,8 @@ const API_URL_PROVIDER: Provider = {
     AboutGroupComponent,
     FeedbackComponent,
     SmileComponent,
-    ModalWindowImgComponent,
+    ModalWindowImgComponent
+
   ],
   imports: [
     BrowserModule,
@@ -137,6 +140,7 @@ const API_URL_PROVIDER: Provider = {
     AuthModule,
     StorageModule,
     AngularResizeEventModule,
+    PickerModule,
 
     //Material UI
     BrowserAnimationsModule,
@@ -193,4 +197,7 @@ const API_URL_PROVIDER: Provider = {
   providers: [INTERCEPTOR_PROVIDER, NgxImageCompressService, API_URL_PROVIDER],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {}
+
+

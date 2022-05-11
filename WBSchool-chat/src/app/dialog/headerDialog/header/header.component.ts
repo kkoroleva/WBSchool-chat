@@ -72,14 +72,6 @@ export class HeaderComponent implements OnInit {
     this.store$.dispatch(setGroup({ group: chatInfo }));
   }
 
-  deleteChat(_id: string) {
-    this.store$.dispatch(deleteChatFriend({ chatId: _id }));
-    this.store$.dispatch(loadFriends());
-    setTimeout(() => {
-      this.router.navigateByUrl('/home');
-    }, 0);
-  }
-
   aboutChat(chatInfo: IChatInfo): void {
     this.modalWindow.open(AboutGroupComponent, {
       panelClass: 'about-group-chat-modal',

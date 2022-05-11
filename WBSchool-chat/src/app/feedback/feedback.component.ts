@@ -12,7 +12,7 @@ export class FeedbackComponent implements OnInit {
   imgInput = false;
   feedbackForm!: FormGroup;
   imageOrFile = '';
-  imageName = ' Нажмите чтобы добавить файлы к сообщению.';
+  imageName = 'Click to add files to the message.';
 
 
   arrFeedBack: IFeedBackMessage[] = [{
@@ -26,8 +26,12 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit(): void {
     this.feedbackForm = new FormGroup({
-      nameUser: new FormControl(''),
+      nameUser: new FormControl('',[
+      Validators.required,
+      ]
+      ),
       emailUser: new FormControl('', [
+        Validators.required,
         Validators.pattern(
           '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
         ),

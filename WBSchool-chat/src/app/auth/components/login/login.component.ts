@@ -33,8 +33,6 @@ export class LoginComponent implements OnInit {
   notificationAuth: INotification = {
     text: `Был выполнен вход в аккаунт.`,
   };
-  messageSocketService: any;
-  threadSocketService: any;
 
   constructor(
     private auth: AuthService,
@@ -43,6 +41,8 @@ export class LoginComponent implements OnInit {
     private storage: StorageMap,
     private socketService: SocketService,
     private notificationSocketService: NotificationSocketService,
+    private messageSocketService: MessageSocketService,
+    private threadSocketService: ThreadSocketService
   ) {}
 
   ngOnInit(): void {

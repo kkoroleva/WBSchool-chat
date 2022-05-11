@@ -153,3 +153,26 @@ $max-width: 1440px;
   }
 
 }
+
+app-groups,
+app-private,
+app-threads,
+app-dialog {
+  @media (max-width: $tablet-width) {
+    display: none;
+  }
+}
+
+.nav-mobile__groups,
+.nav-mobile__privates,
+.nav-mobile__threads,
+.nav-mobile__messages {
+  display: none;
+}
+
+.nav-mobile__groups:checked~app-groups,
+.nav-mobile__privates:checked~app-private,
+.nav-mobile__threads:checked~app-threads,
+.nav-mobile__messages:checked~app-dialog {
+  display: block;
+}

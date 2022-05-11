@@ -3,15 +3,8 @@ import {
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -21,7 +14,6 @@ import {
   selectChatGroup,
   selectLastGroupsMessages,
 } from '../../../store/selectors/groups.selectors';
-import { Validators } from '@angular/forms';
 import {
   deleteMessage,
   initDialogs,
@@ -52,6 +44,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
+  toggleEmoji = false;
   message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
@@ -59,13 +52,12 @@ export class MessageComponent implements OnInit {
   chatID = '';
   imageOrFile = '';
   formatImage = '';
-  messageContent = '';
-  ioConnection: any;
   contacts: IUserData[] = [];
-  userData: IUserData | undefined;
   imgInput = false;
+  infoMessage: string = '';
+  emojiText = '';
 
-  private chatGroup$: Observable<any> = this.store$.pipe(
+  public chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
   );
 
@@ -171,6 +163,7 @@ export class MessageComponent implements OnInit {
       }
     };
     reader.readAsDataURL(file);
+    this.infoMessage = 'Введите текст, чтобы отправить картинку';
   }
 
   deleteMessage(id: string): void {
@@ -189,6 +182,7 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(): void {
+    event?.preventDefault();
     if (
       this.message.value.trim() ||
       (this.message.value.trim() && this.imageOrFile.length > 0)
@@ -223,11 +217,12 @@ export class MessageComponent implements OnInit {
       this.formatImage = '';
       this.message.setValue('');
       this.imgInput = false;
+      this.infoMessage = '';
     }
   }
 
-  itemFormat(item: string) {
-    return !!(
+  itemFormat(item: string): boolean {
+    return (
       item.includes('.png') ||
       item.includes('.jpg') ||
       item.includes('.jpeg') ||
@@ -273,6 +268,18 @@ export class MessageComponent implements OnInit {
     this.toggle = !this.toggle;
     this.imageOrFile = '';
     this.imgInput = false;
+  }
+
+  addEmoji(event: any) {
+    this.emojiText += event.emoji.native;
+  }
+
+  isEmoji() {
+    this.toggleEmoji = !this.toggleEmoji;
+  }
+
+  unActiveEmoji() {
+    this.toggleEmoji = false;
   }
 
   openThreadComponent(message: IMessage): void {

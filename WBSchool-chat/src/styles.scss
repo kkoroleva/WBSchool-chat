@@ -250,5 +250,11 @@ mat-label,
     border-radius: 21px;
     // position: relative;
   }
-  position: relative;
 }
+.mat-menu-panel .mat-menu-content:not(:empty) {
+  padding: 0;
+}
+
+.cdk-overlay-pane .mat-menu-panel {
+  max-width: 360px;
+} 
