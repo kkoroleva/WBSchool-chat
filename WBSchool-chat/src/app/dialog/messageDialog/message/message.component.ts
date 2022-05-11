@@ -40,7 +40,7 @@ export class MessageComponent implements OnInit {
   editMessageID = '';
   isEditMessage = false;
   toggle!: boolean;
-  toggleEmoji: boolean = false;
+  toggleEmoji = false;
   message: FormControl = new FormControl('', [Validators.maxLength(1000)]);
   userName = '';
   userID = '';
@@ -53,7 +53,7 @@ export class MessageComponent implements OnInit {
   contacts: IUserData[] = [];
   userData: IUserData | undefined;
   imgInput = false;
-  emojiText: string = ''
+  emojiText = '';
 
   private chatGroup$: Observable<any> = this.store$.pipe(
     select(selectChatGroup)
@@ -175,6 +175,7 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(): void {
+    event?.preventDefault()
     if (
       this.message.value.trim() ||
       (this.message.value.trim() && this.imageOrFile.length > 0)
@@ -256,7 +257,8 @@ export class MessageComponent implements OnInit {
 
   addEmoji(event: any) {
     this.emojiText += event.emoji.native
-    console.log(this.emojiText);
+    // input.value += event.emoji.native + ' '
+    console.log(this.message.value);
   }
   
   isEmoji() {

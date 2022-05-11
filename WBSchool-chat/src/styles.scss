@@ -242,10 +242,10 @@ mat-label,
   }
 }
 
-.emoji-mart {
-  width: 270px!important;
+.mat-menu-panel .mat-menu-content:not(:empty) {
+  padding: 0;
 }
 
-.mat-menu-content:not(:empty) {
-  padding: 0!important;
-}
+.cdk-overlay-pane .mat-menu-panel {
+  max-width: 360px;
+} 

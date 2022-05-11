@@ -50,7 +50,7 @@
         [ngClass]="{'input__link': itemFormat(input.value)}"> -->
         <textarea [(ngModel)]="emojiText" [formControl]="message" (keydown.enter)="sendMessage()" #input
         [ngClass]="{'input__link': itemFormat(input.value)}"></textarea>
-      <div class="smile__more" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">
+      <div class="smile__more" #blockTrigger="matMenuTrigger"[matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu" yPosition="above">
           <app-smile></app-smile>
         </mat-menu>
@@ -60,8 +60,9 @@
       <div class="container__emoji" id="emoji" #blockTrigger="matMenuTrigger" [matMenuTriggerFor]="emoji">
         
         <mat-menu
+        id="emoji"
           #emoji="matMenu"
-          class="form__emoji" 
+          class="form__emoji"
           (blur)="unActiveEmoji()"
         >
           <emoji-mart

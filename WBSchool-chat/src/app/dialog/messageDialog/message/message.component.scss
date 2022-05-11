@@ -375,8 +375,12 @@
   color: #1A66FF;
 }
 
-.mat-menu-panel {
-  min-width: 320px;
+.emoji-mart, .emoji-mart-dark {
+  width: 280px;
+}
+
+#emoji {
+  padding: 0;
 }
 
 .container__emoji {
