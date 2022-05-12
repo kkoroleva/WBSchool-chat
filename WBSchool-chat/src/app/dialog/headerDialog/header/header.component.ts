@@ -14,10 +14,6 @@ import {
 } from '../../../store/actions/groups.actions';
 import { IUserData } from '../../../../interfaces/auth-interface';
 import { selectUser } from '../../../store/selectors/auth.selectors';
-import {
-  deleteChatFriend,
-  loadFriends,
-} from '../../../store/actions/groups.actions';
 import { Router } from '@angular/router';
 import { AboutGroupComponent } from './../../../groups/modal/about-group/about-group.component';
 import { OutFromGroupComponent } from './../../../groups/modal/out-from-group/out-from-group.component';
