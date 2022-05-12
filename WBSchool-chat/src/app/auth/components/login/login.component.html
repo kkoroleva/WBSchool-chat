@@ -7,7 +7,7 @@
       <mat-label>Enter your username or email</mat-label>
       <input matInput placeholder="Bill_Clinton" formControlName="username">
       <mat-hint *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.invalid">
-        <small *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.errors!['minlength']">Username is too
+        <small *ngIf="loginForm.get('username')!.touched || loginForm.get('username')!.errors!['minlength']">Username is too
           short &nbsp;</small>
         <small *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.errors!['pattern']">Enter only latin
           or cyrillic symbols and numbers</small>
