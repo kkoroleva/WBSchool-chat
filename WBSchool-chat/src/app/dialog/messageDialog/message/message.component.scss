@@ -3,10 +3,9 @@
   // min-height: 80vh;
 
   &__wrapper {
-    max-height: 720px;
+    max-height: 67vh;
     padding: 10px 0;
     overflow-y: scroll;
-    min-height: 719px;
 
     .comment{
       font-family: 'Raleway', 'Arial', sans-serif;
@@ -17,13 +16,8 @@
       color: rgba(0, 0, 0, 0.25);
     }
 
-    @media (max-width:495px) {
-      min-height: 44vh;
-      max-height: 42vh;
-    }
-    @media (min-width:495px) and (max-width:768px) {
-      min-height: 44vh;
-      max-height: 42vh;
+    @media (max-width:767px) {
+      max-height: 53vh;
     }
 
   }
