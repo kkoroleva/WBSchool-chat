@@ -3,10 +3,9 @@
   // min-height: 80vh;
 
   &__wrapper {
-    max-height: 720px;
+    max-height: 67vh;
     padding: 10px 0;
     overflow-y: scroll;
-    min-height: 719px;
 
     .comment{
       font-family: 'Raleway', 'Arial', sans-serif;
@@ -17,9 +16,8 @@
       color: rgba(0, 0, 0, 0.25);
     }
 
-    @media (max-width:495px) {
-      min-height: 50vh;
-      max-height: 50vh;
+    @media (max-width:767px) {
+      max-height: 53vh;
     }
 
   }
@@ -184,6 +182,9 @@
         font-size: 14px;
         resize: none;
       }
+      @media (min-width:490px) and (max-width:767px) {
+        width: 100%;
+      }
     }
 
     .photo {
@@ -199,6 +200,10 @@
       width: 45px;
       height: 44px;
       border-radius: 5px;
+    }
+    @media (min-width:320px) and (max-width:495px) {
+
+      margin-bottom: 20px;
     }
   }
 
@@ -234,7 +239,6 @@
     top: 690px;
 
     @media (max-width:495px) {
-      top:450px;
       display: flex;
       flex-direction: column;
     }

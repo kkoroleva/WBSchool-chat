@@ -22,7 +22,7 @@ export class ThreadsEffects {
       mergeMap(({ chatId, messageId }) =>
         this.http
           .get<IThread>(
-            `${this.urlApi}/chats/${chatId}/messages/${messageId}/thread`
+            `${this.urlApi}/chats/groups/${chatId}/messages/${messageId}/thread`
           )
           .pipe(map((thread) => loadThread({ thread })))
       )

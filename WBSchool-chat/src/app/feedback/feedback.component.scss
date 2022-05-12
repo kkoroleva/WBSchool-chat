@@ -1,4 +1,4 @@
-.form__container{
+.form__container {
     position: relative;
     font-family: 'Open Sans', sans-serif;
     width: 450px;
@@ -8,22 +8,26 @@
     background: white;
     box-sizing: border-box;
     z-index: 10000;
+
     // box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-    label{
+    label {
         color: rgba(77, 77, 77, 0.75);
         margin-bottom: 5px;
     }
-    h2{
+
+    h2 {
         color: #1A66FF;
         font-family: 'Raleway', Arial, sans-serif;
         text-align: left;
         margin: 0;
     }
-    p{
+
+    p {
         font-family: 'Raleway', Arial, sans-serif;
         color: rgba(77, 77, 77, 0.75);
         margin-bottom: 20px;
     }
+
     @media (min-width:320px) and (max-width:495px) {
         display: flex;
         flex-direction: column;
@@ -32,99 +36,167 @@
         box-sizing: border-box;
         padding: 10px;
     }
-    
-    .form__wrapper{
+
+    .form__wrapper {
         display: flex;
         margin: auto;
         margin-bottom: 20px;
-        label{
+
+        label {
             display: flex;
             align-items: center;
         }
-        .name{
+
+        .name {
             display: flex;
             flex-direction: column;
             margin-right: 25px;
-            input{
+
+            .user {
+                color: #1A66FF;
+            }
+
+            input {
                 padding: 10px;
                 cursor: pointer;
                 border: none;
-                border-bottom: 2px solid rgba(77, 77, 77, 0.75) ;
+                border-bottom: 2px solid rgba(77, 77, 77, 0.75);
                 outline: none;
             }
-        @media (min-width:320px) and (max-width:495px) {
-            margin-bottom: 10px;
-        }
+            .error{
+                font-size: 10px;
+                font-family: 'Raleway', Arial, sans-serif;
+                color: rgb(225, 90, 90);
+            }
+
+            @media (min-width:320px) and (max-width:495px) {
+                margin-bottom: 10px;
+                input{
+                    width: 200px;
+                }
+            }
 
         }
-        .email{
+
+        .email {
             display: flex;
             flex-direction: column;
-            label{
+
+            label {
                 display: flex;
                 align-items: center;
+
+                .email {
+                    color: rgb(228, 173, 54);
+                }
+
             }
-            input{
+
+            input {
                 padding: 10px;
                 cursor: pointer;
                 border: none;
-                border-bottom: 2px solid rgba(77, 77, 77, 0.75) ;
+                border-bottom: 2px solid rgba(77, 77, 77, 0.75);
                 outline: none;
             }
+            .error{
+                font-size: 10px;
+                color: rgb(225, 90, 90);
+                font-family: 'Raleway', Arial, sans-serif;
+
+            }
         }
+
         @media (min-width:320px) and (max-width:495px) {
-          display: flex;
-          flex-direction: column;
+            display: flex;
+            flex-direction: column;
+            input{
+                width: 200px;
+            }
         }
     }
-    .comment{
+
+    .comment {
         display: flex;
         flex-direction: column;
         margin-bottom: 15px;
-        textarea{
+
+        textarea {
             width: 100%;
-            border: 2px solid rgba(77, 77, 77, 0.75) ;
+            border: 2px solid rgba(77, 77, 77, 0.75);
 
         }
     }
-    .send-img{
+
+    .send-img {
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        border: dashed rgba(77, 77, 77, 0.75);
+        border: 1px dashed rgba(77, 77, 77, 0.75);
         margin-bottom: 15px;
+        position: relative;
 
-        label{
+        label {
             font-weight: bold;
             padding: 10px;
             text-align: center;
         }
+
+        input {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
     }
-    .send-feedback{
+
+    .send-feedback {
         display: flex;
         padding: 5px 20px;
         align-items: center;
-        background: #1A66FF;
-        filter: grayscale(100);
+        background: #3b3d41;
         font-family: 'Open Sans', sans-serif;
         font-size: 15px;
         color: white;
         border: none;
         border-radius: 0px 20px 20px 0px;
-        small{
+
+        &--active {
+            background: #1A66FF;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 15px;
+            color: white;
+            border-radius: 0px 20px 20px 0px;
+            display: flex;
+            padding: 5px 20px;
+            align-items: center;
+            border: none;
+
+            small {
+                margin-right: 80px;
+                text-align: center;
+                font-weight: 700;
+                margin-left: 40px;
+            }
+
+        }
+
+        small {
             font-weight: 700;
             margin-right: 20px;
         }
+
         @media (min-width:320px) and (max-width:495px) {
-            small{
+            small {
                 width: 150px;
                 margin-right: 40px;
             }
         }
 
     }
-    .close{
+
+    .close {
         position: absolute;
         right: -4px;
         top: -7px;
@@ -138,43 +210,56 @@
         border: none;
         background: #1A66FF;
     }
-    .close:hover{
+
+    .close:hover {
         cursor: pointer;
         animation: 1200ms ease 0s normal none 1 running shake;
     }
+
     @keyframes shake {
         0% {
-          transform: rotateZ(0deg);
+            transform: rotateZ(0deg);
         }
+
         10% {
-          transform: rotateZ(-30deg);
+            transform: rotateZ(-30deg);
         }
+
         20% {
-          transform: rotateZ(15deg);
+            transform: rotateZ(15deg);
         }
+
         30% {
             transform: rotateZ(-10deg);
         }
+
         40% {
-          transform: rotateZ(7.5deg);
+            transform: rotateZ(7.5deg);
         }
+
         50% {
             transform: rotateZ(-6deg);
         }
+
         60% {
             transform: rotateZ(5deg);
         }
+
         70% {
             transform: rotateZ(-4.28571deg);
         }
+
         80% {
             transform: rotateZ(3.75deg);
-          }
-          90% {
-            transform: rotateZ(-3.33333deg);
-          }
-          100% {
-            transform: rotateZ(0deg);
-          }
         }
+
+        90% {
+            transform: rotateZ(-3.33333deg);
+        }
+
+        100% {
+
+            transform: rotateZ(0deg);
+        }
+    }
 }

@@ -5,7 +5,6 @@ import { ThreadsService } from '../threads/threads.service';
   selector: 'app-messages-page',
   templateUrl: './messages-page.component.html',
   styleUrls: ['./messages-page.component.scss'],
-
 })
 export class MessagesPageComponent implements OnInit {
   isThreads: boolean = false;
@@ -24,8 +23,6 @@ export class MessagesPageComponent implements OnInit {
     }
     this.threadService.isThreads$.subscribe((isThreads) => {
       this.isThreads = isThreads;
-    }
-    );
+    });
   }
-
 }
