@@ -3,7 +3,7 @@
 <form [formGroup]="loginForm" (ngSubmit)="submit()">
   <p class="small"><small>If you haven't an account, you can register new account</small></p>
   <p>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" [ngClass]="loginForm.get('username')!.touched && loginForm.get('username')!.invalid ? 'has__error' : ''">
       <mat-label>Enter your username or email</mat-label>
       <input matInput placeholder="Bill_Clinton" formControlName="username">
       <mat-hint *ngIf="loginForm.get('username')!.touched && loginForm.get('username')!.invalid">

@@ -10,7 +10,7 @@
     </mat-form-field>
   </p>
   <p>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" [ngClass]="registerForm.get('username')!.touched && registerForm.get('username')!.invalid ? 'has__error' : ''">
       <mat-label>Enter your username</mat-label>
       <input matInput placeholder="Bill_Clinton" formControlName="username" autocomplete="off">
       <mat-hint *ngIf="registerForm.get('username')!.touched && registerForm.get('username')!.invalid">
