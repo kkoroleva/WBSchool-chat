@@ -5,11 +5,11 @@
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="home-page__search" #help></app-search>
 
-  <input class="nav-mobile__groups" type="radio" name="nav-mobile" id="groups" checked>
+  <input class="nav-mobile__groups" type="radio" name="nav-mobile" id="groups" [checked] = "navMobile === 'groups'? true : false">
   <app-groups class="home-page__groups main-grid-block">Groups
   </app-groups>
 
-  <input class="nav-mobile__privates" type="radio" name="nav-mobile" id="privates">
+  <input class="nav-mobile__privates" type="radio" name="nav-mobile" id="privates" [checked] = "navMobile === 'privates'? true : false">
   <app-private  class="home-page__friends main-grid-block">Friends
   </app-private>
 
