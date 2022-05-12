@@ -29,7 +29,7 @@ export class PasswordModalComponent implements OnInit {
   ) {}
 
   form = this.fb.group({
-    oldPsw: ["", [Validators.required, Validators.minLength(8)]],
+    oldPsw: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(100)]],
     newPsw: ["", [Validators.required, Validators.minLength(8)]]
   })
 
@@ -66,11 +66,7 @@ export class PasswordModalComponent implements OnInit {
           this.pswChanged = false;
         }, 1500);
       })
-    } 
-    
-    console.log(this.profileData.email)
-    console.log(this.form.value.oldPsw)
-    console.log(this.form.value.newPsw)
+    }
   }
 
   getUsersData() {
