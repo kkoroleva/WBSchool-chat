@@ -8,11 +8,12 @@ import { FeedbackComponent } from '../feedback/feedback.component';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
-  urlGitHub = "https://github.com/kkoroleva/WBSchool-chat"
-  
+  urlGitHub = "https://github.com/kkoroleva/WBSchool-chat";
+
   constructor(public dialog: MatDialog,) { }
-  
+
   ngOnInit(): void {
+
   }
   sendFeedBack():void {
     this.dialog.open(FeedbackComponent, {
