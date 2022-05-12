@@ -1,13 +1,19 @@
 <nav class="nav">
-    <ul class="nav__list">
-        <li class="nav__list-item nav__list-link">
-          <mat-icon (click)="openGroup()">group</mat-icon></li>
-        <li class="nav__list-item nav__list-link">
-          <mat-icon (click)="openTetATet()">mail outline</mat-icon>
-        </li>
-        <li *ngIf="changeState.hasThreadsInNavMobile" class="nav__list-item nav__list-link">
-          <mat-icon (click)="openThreads()">add_comment</mat-icon>
-        </li>
-    </ul>
-  </nav>
-  
+  <ul class="nav__list">
+    <li class="nav__list-item nav__list-link">
+      <label class="groups" for="groups" (click)="onLabelClick($event)">
+        <mat-icon>group</mat-icon>
+      </label>
+    </li>
+    <li class="nav__list-item nav__list-link">
+      <label class="privates" for="privates" (click)="onLabelClick($event)">
+        <mat-icon>mail outline</mat-icon>
+      </label>
+    </li>
+    <li class="nav__list-item nav__list-link">
+      <label class="messages" for="messages" (click)="onLabelClick($event)">
+        <mat-icon>add_comment</mat-icon>
+      </label>
+    </li>
+  </ul>
+</nav>

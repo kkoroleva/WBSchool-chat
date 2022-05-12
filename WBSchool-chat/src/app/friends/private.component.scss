@@ -17,10 +17,21 @@ $main-blue: #1A66FF;
 
 .friends {
   width: 100%;
+  height: calc(100% - 50px);
+  max-height: 75vh;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-content: flex-start;
+
+  @media screen and (max-width: 1023px) {
+    max-height: 50vh;
+  }
+
+  @media screen and (max-width: 767px) {
+    max-height: 75vh;
+  }
 
   * {
     box-sizing: border-box;
@@ -29,7 +40,6 @@ $main-blue: #1A66FF;
   &__is-no-friends {
     margin: 0;
   }
-
 }
 
 .friends__header {
@@ -50,12 +60,8 @@ $main-blue: #1A66FF;
   padding: 0;
   margin: 0;
   overflow-y: scroll;
-  max-height: 400px;
-
-  @media (min-width: $desktop-width) {
-    max-height: 100%;
-    overflow-y: hidden;
-  }
+  overflow-x: hidden;
+  max-height: 100%;
 }
 
 .friends__item {
@@ -67,13 +73,12 @@ $main-blue: #1A66FF;
 
   position: relative;
 
-  .friends__item-text {
-    display: flex;
+}
 
-    flex-wrap: wrap;
-    justify-content: space-between;
-    flex: 1;
-  }
+.friends__item-text {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: 1;
 }
 
 .friends__item::after {
@@ -93,7 +98,6 @@ $main-blue: #1A66FF;
 
 .friends__chat-link {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
   flex: 1;
   cursor: pointer;
@@ -168,4 +172,53 @@ $main-blue: #1A66FF;
 .friends__btn__deleteChat:hover {
   color: red;
   font-size: 18px;
+}
+
+
+.friends--with-threads {
+  .friends__header {
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+  .friends__more-button,
+  .friends__last-active,
+  .friends__btn__deleteChat,
+  .friends__last-message {
+    display: none;
+  }
+
+
+  .friends__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+
+  }
+
+  .friends__item {
+    padding: 10px 0;
+  }
+
+  .friends__chat-link {
+    justify-content: center;
+  }
+
+  .friends__thumbnail {
+    width: 80px;
+    height: 80px;
+  }
+
+  .friends__name {
+    display: block;
+    text-align: center;
+    max-width: 100px;
+    overflow-x: hidden;
+  }
+
+  .friends__is-no-friends {
+    padding-top: 20px;
+    text-align: center;
+  }
 }

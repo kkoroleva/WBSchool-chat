@@ -5,7 +5,21 @@
   <main class="main__content">
     <router-outlet></router-outlet>
   </main>
-  <footer class="main__footer">
-    <p class="copyright">WB First Grade Gang, 2022</p>
+  <footer  class="main__footer">
+    <div  class="footer__language">
+      <mat-icon>language</mat-icon>
+      <select  class="lang"  [formControl]="valueControl" >
+        <option  *ngFor="let item  of country ; let index = index" [value]="index">{{item.viewValue}}</option>
+      </select>
+    </div>
+    <hr>
+    <a class="copyright" routerLink="/gang"><mat-icon>copyright</mat-icon>WB First Grade Gang, 2022</a>
+    <hr>
+    <div class="footer__btn">
+      <!-- <button title="to share"><mat-icon>share</mat-icon></button> -->
+      <!-- <button title="settings"><mat-icon>settings</mat-icon></button> -->
+      <button title="feedback" (click)="sendFeedBack()"><mat-icon>headset_mic</mat-icon></button>
+      <button title="GitHub" (click)="gitHub()"><img src="../../assets/github.svg"></button>
+    </div>
   </footer>
 </div>

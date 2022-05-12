@@ -25,6 +25,7 @@ import { DeleteModalComponent } from './profile-page/components/account-settings
 import { PasswordModalComponent } from './profile-page/components/account-settings/password-modal/password-modal.component';
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 import { ThreadsComponent } from './threads/threads.component';
+import { CopyrightComponent } from './copyright/copyright.component';
 
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
@@ -53,7 +54,6 @@ import { StorageModule } from '@ngx-pwa/local-storage';
 /*Store*/
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
-import { AppEffects } from './store/effects/app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
@@ -70,7 +70,18 @@ import { EditGroupChatComponent } from './groups/modal/edit-group-chat/edit-grou
 import { PrivateComponent } from './friends/private.component';
 import { OutFromGroupComponent } from './groups/modal/out-from-group/out-from-group.component';
 import { AboutGroupComponent } from './groups/modal/about-group/about-group.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { SmileComponent } from './smile/smile.component';
+
+import { ChatsEffects } from './store/effects/chats.effects';
+import { ContactsEffects } from './store/effects/contacts.effects';
+import { DialogEffects } from './store/effects/dialog.effects';
+import { GroupEffects } from './store/effects/group.effects';
+import { NotificationEffects } from './store/effects/notification.effects';
+import { ThreadsEffects } from './store/effects/threads.effects';
+import { ModalWindowImgComponent } from './dialog/messageDialog/modal-window-img/modal-window-img.component';
+
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -81,6 +92,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 const API_URL_PROVIDER: Provider = {
   provide: 'API_URL',
   useValue: 'https://wbschool-chat.ru',
+  // useValue: 'http://localhost:3001'
 };
 
 @NgModule({
@@ -115,7 +127,10 @@ const API_URL_PROVIDER: Provider = {
     EditGroupChatComponent,
     OutFromGroupComponent,
     AboutGroupComponent,
+    FeedbackComponent,
     SmileComponent,
+    ModalWindowImgComponent,
+    CopyrightComponent,
   ],
   imports: [
     BrowserModule,
@@ -125,6 +140,7 @@ const API_URL_PROVIDER: Provider = {
     AuthModule,
     StorageModule,
     AngularResizeEventModule,
+    PickerModule,
 
     //Material UI
     BrowserAnimationsModule,
@@ -161,7 +177,14 @@ const API_URL_PROVIDER: Provider = {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([
+      ChatsEffects,
+      ContactsEffects,
+      DialogEffects,
+      GroupEffects,
+      NotificationEffects,
+      ThreadsEffects,
+    ]),
     StoreRouterConnectingModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,

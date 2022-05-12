@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChangeComponentService } from './change-component.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-mobile',
@@ -8,32 +8,14 @@ import { ChangeComponentService } from './change-component.service';
 })
 export class NavMobileComponent {
 
-  constructor(public changeState: ChangeComponentService) {}
+  constructor(private router: Router) {}
 
-  stateMain = this.changeState.stateComponentMain
-  stateMessages = this.changeState.stateComponentMessages
-
-  openGroup(): void {
-    this.stateMain.groups = true
-    this.stateMain.tetATet = false
-    this.stateMain.threads = false
-
-    this.stateMessages.groups = true
-    this.stateMessages.messanger = false
-  }
-
-  openTetATet(): void {
-    this.stateMain.groups = false
-    this.stateMain.tetATet = true
-    this.stateMain.threads = false
-
-    this.stateMessages.groups = false
-    this.stateMessages.messanger = true
-  }
-
-  openThreads(): void {
-    this.stateMain.groups = false
-    this.stateMain.tetATet = false
-    this.stateMain.threads = true
+  onLabelClick(e: Event) {
+    if (this.router.url.includes('/home')) {
+      localStorage.setItem('navMobileHome', (e.target as HTMLElement).parentElement?.classList[0]!);
+    }
+    else {
+      localStorage.setItem('navMobileMessage', (e.target as HTMLElement).parentElement?.classList[0]!);
+    }
   }
 }

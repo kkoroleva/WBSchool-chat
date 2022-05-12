@@ -1,0 +1,31 @@
+<form class="form__container" [formGroup]="feedbackForm">
+    <h2>Feedback</h2>
+    <p>You can leave your comments here</p>
+    <button class="close" mat-dialog-close ><mat-icon>close</mat-icon></button>
+    <div class="form__wrapper">
+        <div class="name">
+            <label for=""><small>Name</small><mat-icon class="user">account_circle</mat-icon></label>
+            <input type="text"rel="to-replace" formControlName="nameUser">
+            <mat-error class="error" *ngIf="feedbackForm.get('nameUser')?.getError('required')">
+                enter a name</mat-error>
+        </div>
+        <div class="email">
+            <label><small>Email-address</small><mat-icon class="email">alternate_email</mat-icon></label>
+            <input type="email" rel="to-replace" formControlName="emailUser" required>
+            <mat-error class="error" *ngIf="feedbackForm.get('emailUser')?.getError('required')">
+                enter a email-address</mat-error>
+        </div>
+    </div>
+    <div class="comment">
+        <label>Message (at least 10 characters)</label>
+        <textarea name=""   cols="30" rows="10" formControlName="textUser" required></textarea>
+    </div>
+    <div class="send-img">
+        <label for="" *ngIf="imageName">{{imageName}}</label>
+        <input class="inp-file" type="file" id="fileElem" multiple accept="image/*" (change)="onImgAdd($event)" #input>
+    </div>
+    <button (click)="sendFeedBack()" [class]="feedbackForm.valid ? 'send-feedback--active' : 'send-feedback'" [disabled]="feedbackForm.invalid">
+        <small> Отправить</small> 
+        <mat-icon>send</mat-icon>
+    </button>
+</form>

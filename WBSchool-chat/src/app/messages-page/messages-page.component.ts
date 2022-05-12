@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ResizedEvent } from 'angular-resize-event';
-import { ChangeComponentService } from '../nav-mobile/change-component.service';
+import { ThreadsService } from '../threads/threads.service';
 
 @Component({
   selector: 'app-messages-page',
@@ -8,26 +7,22 @@ import { ChangeComponentService } from '../nav-mobile/change-component.service';
   styleUrls: ['./messages-page.component.scss'],
 })
 export class MessagesPageComponent implements OnInit {
-  constructor(public changeState: ChangeComponentService) {}
+  isThreads: boolean = false;
+  navMobile: string = 'groups';
 
-  stateMessages = this.changeState.stateComponentMessages;
+  constructor(private threadService: ThreadsService) {}
 
-  onResized(event: ResizedEvent) {
-    if (window.innerWidth >= 766) {
-      this.stateMessages.groups = true;
-      this.stateMessages.messanger = true;
-    }
-  }
 
   ngOnInit(): void {
-    if (window.innerWidth < 766) {
-      this.stateMessages.groups = false;
-      this.stateMessages.messanger = true;
-    } else {
-      this.stateMessages.groups = true;
-      this.stateMessages.messanger = true;
+    if (localStorage.getItem('navMobileMessage')) {
+      this.navMobile = localStorage.getItem('navMobileMessage')!;
     }
 
-    this.changeState.hasThreadsInNavMobile = false;
+    if (localStorage.getItem('isThreads')) {
+      this.isThreads = !!JSON.parse(localStorage.getItem('isThreads')!);
+    }
+    this.threadService.isThreads$.subscribe((isThreads) => {
+      this.isThreads = isThreads;
+    });
   }
 }

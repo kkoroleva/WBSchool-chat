@@ -11,11 +11,16 @@ import {
 } from '../store/selectors/groups.selectors';
 import {
   changeChatGroup,
+  exitFromGroup,
   getAllGroupsMessages,
   loadGroups,
+  setGroup,
 } from '../store/actions/groups.actions';
-import { IGroup } from './group';
-import { IGroupsMessages } from '../store/reducers/groups.reducers';
+import { ThreadsService } from '../threads/threads.service';
+import { IGroup, IGroupsMessages } from '../../interfaces/group-interface';
+import { OutFromGroupComponent } from './modal/out-from-group/out-from-group.component';
+import { IUserData } from './../../interfaces/auth-interface';
+import { selectUser } from '../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-groups',
@@ -23,6 +28,9 @@ import { IGroupsMessages } from '../store/reducers/groups.reducers';
   styleUrls: ['./groups.component.scss'],
 })
 export class GroupsComponent implements OnInit {
+  public isThreads: boolean = false;
+  private user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
+  private user!: IUserData;
   public groups$: Observable<IGroup[]> = this.store$.pipe(select(selectGroups));
   public lastMessages$: Observable<IGroupsMessages[]> = this.store$.pipe(
     select(selectLastGroupsMessages)
@@ -31,10 +39,19 @@ export class GroupsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
-    private router: Router
+    private router: Router,
+    private threadService: ThreadsService
   ) {}
 
   ngOnInit(): void {
+    this.user$.subscribe((user) => (this.user = user));
+
+    if (this.router.url === '/chat') {
+      this.threadService.isThreads$.subscribe((isThreads) => {
+        this.isThreads = isThreads;
+      });
+    }
+
     this.getGroupChats();
     this.getLastMessages();
   }
@@ -59,6 +76,23 @@ export class GroupsComponent implements OnInit {
     this.store$.dispatch(loadGroups());
   }
 
+  leaveFromChat(group: IGroup): void {
+    if (group.owners![0] === this.user._id) {
+      this.dialog.open(OutFromGroupComponent, {
+        panelClass: 'out-group-chat-modal',
+        maxWidth: '100vw',
+      });
+      this.store$.dispatch(setGroup({ group }));
+    } else {
+      this.store$.dispatch(exitFromGroup({ id: group._id! }));
+      this.store$.dispatch(
+        changeChatGroup({ chatGroup: '', isPrivate: false })
+      );
+      localStorage.removeItem('chatID');
+      this.router.navigateByUrl('/home');
+    }
+  }
+
   createGroupChat(): void {
     this.dialog.open(CreateGroupChatComponent, {
       panelClass: 'create-group-chat-modal',
@@ -67,9 +101,17 @@ export class GroupsComponent implements OnInit {
   }
 
   openGroupChat(group: IGroup): void {
-    this.store$.dispatch(changeChatGroup({ chatGroup: group._id! }));
+    this.store$.dispatch(
+      changeChatGroup({ chatGroup: group._id!, isPrivate: false })
+    );
     localStorage.setItem('chatID', group._id!);
+    localStorage.setItem('isPrivate', 'false');
 
-    this.router.navigateByUrl('/chat');
+    if (this.router.url.includes('/chat')) {
+      (document.querySelector('#messages') as HTMLInputElement).checked = true;
+    }
+    else {
+      this.router.navigateByUrl('/chat');
+    }
   }
 }

@@ -1,8 +1,20 @@
-<div (resized)="onResized($event)" class="messages-page__wrapper">
+<div [ngClass]="isThreads? 'message-page__wrapper-with-threads' : ''"
+  class="messages-page__wrapper" >
   <!--TO DO: Блоки компонентов временно будут обозначены div.
     При вставке заменить своим тегом, оставив класс-->
   <app-search class="messages-page__search"></app-search>
-  <app-groups *ngIf="changeState.stateComponentMessages.groups" class="messages-page__groups main-grid-block"></app-groups>
-  <app-dialog *ngIf="changeState.stateComponentMessages.messanger" class="messages-page__chat main-grid-block"></app-dialog>
+
+  <input class="nav-mobile__groups" type="radio" name="nav-mobile" id="groups" [checked]="navMobile === 'groups'? true : false" >
+  <app-groups class="messages-page__groups main-grid-block"></app-groups>
+
+  <input class="nav-mobile__messages" type="radio" name="nav-mobile" id="messages" [checked]="navMobile === 'messages'? true : false">
+  <app-dialog  class="messages-page__chat main-grid-block"></app-dialog>
+
+  <input class="nav-mobile__privates" type="radio" name="nav-mobile" id="privates" [checked]="navMobile === 'privates'? true : false">
+  <app-private class="message-page__private main-grid-block"></app-private>
+
+  <input class="nav-mobile__threads" type="radio" name="nav-mobile" id="threads">
+  <app-threads class="message-page__threads main-grid-block"></app-threads>
+
   <app-nav-mobile class="messages-page__nav-mobile"></app-nav-mobile>
 </div>

@@ -37,7 +37,8 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": [],
             "serviceWorker": true,
@@ -110,7 +111,8 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": []
           }

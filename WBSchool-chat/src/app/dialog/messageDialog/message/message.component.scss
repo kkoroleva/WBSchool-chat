@@ -1,14 +1,14 @@
 .message {
   position: relative;
+  // min-height: 80vh;
 
   &__wrapper {
-    max-height: 720px;
+    max-height: 65vh;
     padding: 10px 0;
     overflow-y: scroll;
-    min-height: 719px;
 
     .comment{
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Raleway', 'Arial', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 12px;
@@ -16,11 +16,45 @@
       color: rgba(0, 0, 0, 0.25);
     }
 
-    @media (max-width:495px) {
-      min-height: 50vh;
-      max-height: 50vh;
+    // @media (max-height: 1000px) {
+    //   max-height: 55vh;
+    // }
+
+    // @media (max-height: 800px) {
+    //   max-height: 48vh;
+    // }
+
+    // @media (min-width: 1024px) and (max-height: 800px) {
+    //   max-height: 65vh;
+    // }
+
+    // @media (min-width: 700px) and (max-height: 1200px) {
+    //   max-height: 62vh;
+    // }
+
+    // @media (max-height: 600px) {
+    //   max-height: 63vh;
+    // }
+
+    @media (min-width: 1281px) {
+      max-height: 68vh;
     }
 
+    @media (max-width: 1023px) {
+      max-height: 73vh;
+    }
+
+    @media (max-width:767px) {
+      max-height: 60vh;
+    }
+
+    @media (max-width: 495px) {
+      max-height: 53vh;
+    }
+
+    @media (max-width: 380px) {
+      max-height: 48vh;
+    }
   }
 
   &__wrapperGrey {
@@ -29,6 +63,7 @@
     max-width: max-content;
     flex-direction: column;
     margin-bottom: 15px;
+    align-items: flex-start;
 
     span {
       margin-top: 7px;
@@ -43,6 +78,11 @@
     }
   }
 
+  &__message-info {
+    display: flex;
+    gap: 10px;
+  }
+
   &__wrapperBlue {
     cursor: pointer;
     position: relative;
@@ -52,6 +92,7 @@
     margin-bottom: 15px;
     margin-left: auto;
     padding: 13px 20px;
+    align-items: flex-end;
 
     span {
       margin-top: 7px;
@@ -73,6 +114,7 @@
     border-radius: 10px;
     display: inline-block;
     padding: 13px 20px;
+    max-width: max-content;
 
     p {
       max-width: 400px;
@@ -98,6 +140,7 @@
     padding: 13px 20px;
     overflow-wrap :break-word;
     color: white;
+    max-width: max-content;
 
     p{
       margin: 0;
@@ -124,14 +167,21 @@
   }
   // ========send
 
+  &__validation {
+    margin-top: 5px;
+    color: red;
+    text-align: center;
+    font-size: small;
+  }
+
   &__send {
     display: flex;
     padding: 0;
     margin-bottom: 34px;
-    margin-top: 30px;
+    margin-top: 10px;
     align-items: center;
     position: static;
-    @media  screen and(max-width:495px) {
+    @media screen and(max-width:495px) {
       margin-bottom: 0;
       margin-top: 30px;
     }
@@ -156,6 +206,20 @@
         box-sizing: border-box;
         padding-left: 10px;
       }
+
+      textarea {
+        border: none;
+        background-color: #E0E0E0;
+        width: 100%;
+        box-sizing: border-box;
+        outline: none;
+        padding: 10px 15px 0 15px;
+        font-size: 14px;
+        resize: none;
+      }
+      @media (min-width:490px) and (max-width:767px) {
+        width: 100%;
+      }
     }
 
     .photo {
@@ -172,6 +236,31 @@
       height: 44px;
       border-radius: 5px;
     }
+    @media (min-width:320px) and (max-width:495px) {
+
+      margin-bottom: 20px;
+    }
+  }
+
+  &__thread-radio {
+    display: none;
+  }
+
+  &__thread-radio:checked {
+    display: block;
+
+  }
+
+  &__thread {
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: left;
+    font-family: "Raleway", "Arial", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: rgba(0, 0, 0, 0.5);
   }
 
   // =============form page
@@ -182,10 +271,9 @@
     padding: 10px 15px;
     border: 0.5px solid #1A66FF;
     box-shadow: 0 5px 30px 0 rgba(0,0,0,0.2);
-    top: 690px;
+    bottom: 40px;
 
     @media (max-width:495px) {
-      top:450px;
       display: flex;
       flex-direction: column;
     }
@@ -334,6 +422,48 @@
   color: #1A66FF;
 }
 
-.mat-menu-panel {
-  min-width: 320px;
+.emoji-mart, .emoji-mart-dark {
+  width: 280px;
+}
+
+#emoji {
+  padding: 0;
+}
+
+.container__emoji {
+  position: relative;
+}
+
+.form__emoji {
+  position: absolute;
+  bottom: 14px;
+  right: -35px;
+}
+
+.icon-for-emoji {
+  margin: 0 0 5px 10px;
+}
+
+.isActive {
+  opacity: 1;
+  animation: emoji 0.3s forwards;
+}
+
+.unActive {
+  opacity: 0;
+  animation: unEmoji 0.3s forwards;
+}
+
+@keyframes emoji {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes unEmoji {
+  100% {opacity: 0;}
+  0% {opacity: 1;}
+}
+
+.mat-menu-content {
+  padding: 0;
 }

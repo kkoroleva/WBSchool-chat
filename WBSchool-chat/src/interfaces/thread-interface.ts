@@ -1,6 +1,7 @@
 export interface IComment {
   authorID?: string;
   authorName?: string;
+
   date?: string;
   imageOrFile?: string;
   formatImage?: string;
@@ -9,14 +10,18 @@ export interface IComment {
 
 export interface IThread {
   _id: string;
-  ownerID: string;
-  ownerName: string;
-  ownerThumbnail: string;
-  isActive: true;
+  owner: string;
+  ownerName?: string;
+  avatar?: string;
+  formatImage?: string;
+  isActive?: boolean;
   basicPost: {
     date: string;
-    img?: string;
+    imageOrFile?: string;
+    formatImage?: string;
     text?: string;
   };
   comments: IComment[];
 }
+
+

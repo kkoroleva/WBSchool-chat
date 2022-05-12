@@ -24,9 +24,142 @@ $max-width: 1440px;
 }
 
 .main__footer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: auto;
+  padding: 20px 50px;
+  background: white;
   text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  .footer__language{
+    display: flex;
+    align-items: center;
+    select{
+      border: none;
+    }
+  }
+  .lang{
+    font-size: 10px;
+    font-weight: bold;
+  }
+
+  hr{
+    border: 0.5px solid #aca7a7;
+    height: auto;
+    margin: 0;
+  }
+  .footer__btn{
+    display: flex;
+    align-items: center;
+    img{
+      width: 25x;
+      height: 25px;
+      fill: #1A66FF;
+
+    }
+    button{
+      background: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      margin-left: 5px;
+      color: #1A66FF;
+
+    }
+    button:hover{
+    animation: 1200ms ease 0s normal none 1 running shake;
+    border: 4px double #1A66FF;
+    border-radius: 50%;
+    }
+    @keyframes shake {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      10% {
+        transform: rotateZ(-30deg);
+      }
+      20% {
+        transform: rotateZ(15deg);
+      }
+      30% {
+          transform: rotateZ(-10deg);
+      }
+      40% {
+        transform: rotateZ(7.5deg);
+      }
+      50% {
+          transform: rotateZ(-6deg);
+      }
+      60% {
+          transform: rotateZ(5deg);
+      }
+      70% {
+          transform: rotateZ(-4.28571deg);
+      }
+      80% {
+          transform: rotateZ(3.75deg);
+        }
+      90% {
+          transform: rotateZ(-3.33333deg);
+        }
+      100% {
+
+          transform: rotateZ(0deg);
+        }
+      }
+  }
+  @media (min-width:320px) and (max-width:495px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 40px;
+
+    hr{
+      width: 100px;
+      border: 0.5px solid #aca7a7;
+      margin: 0;
+    }
+    img{
+      width: 20px;
+      height: 20px;
+      fill: #1A66FF;
+
+    }
+    button{
+      background: white;
+      width: 20x;
+      height: 20px;
+      border-radius: 50%;
+      border: none;
+      margin-left: 5px;
+      color: #1A66FF;
+
+    }
+    button:hover{
+    animation: 1200ms ease 0s normal none 1 running shake;
+    border: 4px double #1A66FF;
+    border-radius: 50%;
+    }
+  }
+  @media (min-width:495px) and (max-width:680px) {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    align-items: center;
+    hr{
+      width: 150px;
+      border: 0.5px solid #aca7a7;
+    }
+  }
 }
 
 .copyright {
+  display: flex;
+  align-items: center;
   font-family: 'Raleway', Arial, sans-serif;
+  color: black;
+  text-decoration: none;
 }
