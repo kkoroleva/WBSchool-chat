@@ -55,7 +55,7 @@
     </ng-container>
     <div class="wrapper__send">
       <div (click)="toggle = !toggle">
-        <mat-icon class="btn" width="14px" height="13px"> attach_file</mat-icon>
+        <mat-icon class="btn" width="14px" height="13px">attach_file</mat-icon>
       </div>
         <textarea #input (keydown.enter)="sendMessage()" [formControl]="message"
         [ngClass]="{'input__link': itemFormat(input.value)}"></textarea>

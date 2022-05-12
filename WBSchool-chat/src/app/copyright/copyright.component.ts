@@ -26,7 +26,6 @@ interface heroGitApi {
   name?: string;
 }
 
-
 const heroParty: HeroCoder[] = [
   {
     name: 'Karina',
@@ -148,20 +147,17 @@ const heroParty: HeroCoder[] = [
   },
 ];
 
-
 const gitApiUrl = 'https://api.github.com/users/';
 
 @Component({
   selector: 'app-copyright',
   templateUrl: './copyright.component.html',
-  styleUrls: ['./copyright.component.scss']
+  styleUrls: ['./copyright.component.scss'],
 })
 export class CopyrightComponent implements OnInit {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   heroes: HeroCoder[] = [];
-
 
   ngOnInit(): void {
     this.heroes = heroParty;
@@ -173,7 +169,5 @@ export class CopyrightComponent implements OnInit {
         hero.gitInfo = res;
       });
     });
-
   }
-
 }
