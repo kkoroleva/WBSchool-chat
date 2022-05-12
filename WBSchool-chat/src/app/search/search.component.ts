@@ -71,8 +71,9 @@ export class SearchComponent implements OnInit {
 
   private _filterChats(value: string): IPrivate[] {
     const filterValue = value.toLowerCase();
-    return this.chats.filter((chat: IPrivate) => chat.usernames[0].toLowerCase().includes(filterValue)
-    );
+    // this.chats.filter((chat: IPrivate) => chat.usernames)
+    console.log(this.chats)
+    return this.chats.filter((chat: IPrivate) => chat.usernames[0].toLowerCase().includes(filterValue));
   }
 
   private _filterGroups(value: string): IGroup[] {
