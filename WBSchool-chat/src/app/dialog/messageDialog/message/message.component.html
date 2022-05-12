@@ -12,7 +12,7 @@
           <img *ngIf="messObj.url || !!item.imageOrFile"
             [src]="!!item.imageOrFile? item.formatImage+item.imageOrFile : messObj.url" alt="img-send"
             class="message__img"
-            (click)="openModalWindowImg($event, item.formatImage! + item.imageOrFile!)">
+            (click)="openModalWindowImg($event, (item.formatImage! + item.imageOrFile! || messObj.url))">
           <p class="message__text">{{messObj.text}}</p>
 
         </ng-container>

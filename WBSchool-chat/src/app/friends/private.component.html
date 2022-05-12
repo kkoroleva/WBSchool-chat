@@ -8,13 +8,13 @@
   </a>
   <p class="friends__is-no-friends" *ngIf="(friendsState$ | async)?.length === 0">Sorry. No private chats detected.
     Please, create one.</p>
-  <ul class="friends__list">
+  <ul class="friends__list" *ngIf="(friendsState$ | async)?.length !== 0">
     <ng-container *ngIf="user$ | async as user">
       <li class="friends__item" *ngFor="let friend of friendsState$ | async; index as i;">
         <a (click)="goToChat(friend._id!)" class="friends__chat-link">
           <div class="friends__online" [ngClass]="{friends__online:friend.isActive}">
             <img class="friends__thumbnail"
-              [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar === user.formatImage + user.avatar && friend.avatars.length !== 0 ? 
+              [src]="friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar === user.formatImage + user.avatar && friend.avatars.length !== 0 ?
               friend.avatars[1].formatImage + friend.avatars[1].avatar : friend.avatars[0].ownerFormatImage + friend.avatars[0].ownerAvatar"
               alt="Your best friend face" width="52" height="52">
           </div>
