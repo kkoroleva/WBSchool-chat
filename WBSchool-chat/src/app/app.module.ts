@@ -25,6 +25,7 @@ import { DeleteModalComponent } from './profile-page/components/account-settings
 import { PasswordModalComponent } from './profile-page/components/account-settings/password-modal/password-modal.component';
 import { CreateGroupChatComponent } from './groups/modal/create-group-chat/create-group-chat.component';
 import { ThreadsComponent } from './threads/threads.component';
+import { CopyrightComponent } from './copyright/copyright.component';
 
 /*Material UI modules */
 import { MatButtonModule } from '@angular/material/button';
@@ -129,6 +130,7 @@ const API_URL_PROVIDER: Provider = {
     FeedbackComponent,
     SmileComponent,
     ModalWindowImgComponent,
+    CopyrightComponent,
   ],
   imports: [
     BrowserModule,
