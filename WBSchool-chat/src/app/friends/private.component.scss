@@ -18,11 +18,12 @@ $main-blue: #1A66FF;
 .friends {
   width: 100%;
   height: calc(100% - 50px);
-  max-height: 80vh;
+  max-height: 75vh;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-content: flex-start;
 
   @media screen and (max-width: 1023px) {
     max-height: 50vh;

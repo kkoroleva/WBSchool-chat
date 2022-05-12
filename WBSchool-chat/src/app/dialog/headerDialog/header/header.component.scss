@@ -4,7 +4,7 @@
     align-items: center;
     margin-bottom: 24px;
 
-   
+
     &__info {
       display: flex;
       align-items: center;
@@ -125,7 +125,7 @@
           right: 10px;
           position: absolute;
         }
-        
+
         .menu {
           width: 3px;
           height: 25px;
@@ -133,7 +133,11 @@
       }
     }
 
+    @media (max-width: 1023px) {
+      margin-bottom: 16px;
+    }
+
     @media (max-width: 495px) {
-      margin-bottom: 12px;
+      margin-bottom: 4px;
     }
   }

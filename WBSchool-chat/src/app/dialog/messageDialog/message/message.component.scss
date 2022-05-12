@@ -3,7 +3,7 @@
   // min-height: 80vh;
 
   &__wrapper {
-    max-height: 67vh;
+    max-height: 65vh;
     padding: 10px 0;
     overflow-y: scroll;
 
@@ -16,10 +16,45 @@
       color: rgba(0, 0, 0, 0.25);
     }
 
+    // @media (max-height: 1000px) {
+    //   max-height: 55vh;
+    // }
+
+    // @media (max-height: 800px) {
+    //   max-height: 48vh;
+    // }
+
+    // @media (min-width: 1024px) and (max-height: 800px) {
+    //   max-height: 65vh;
+    // }
+
+    // @media (min-width: 700px) and (max-height: 1200px) {
+    //   max-height: 62vh;
+    // }
+
+    // @media (max-height: 600px) {
+    //   max-height: 63vh;
+    // }
+
+    @media (min-width: 1281px) {
+      max-height: 68vh;
+    }
+
+    @media (max-width: 1023px) {
+      max-height: 73vh;
+    }
+
     @media (max-width:767px) {
+      max-height: 60vh;
+    }
+
+    @media (max-width: 495px) {
       max-height: 53vh;
     }
 
+    @media (max-width: 380px) {
+      max-height: 48vh;
+    }
   }
 
   &__wrapperGrey {
