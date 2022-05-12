@@ -27,12 +27,13 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initIoConnection();
     this.storage.get('user').subscribe((newUser: any) => {
       this.store$.dispatch(initAuth({ newUser }));
     });
-    this.initIoConnection();
-    this.store$.dispatch(loadNotifications());
+    if (localStorage.getItem('token')) {
+      this.initIoConnection();
+      this.store$.dispatch(loadNotifications());
+    }
   }
 
   private initIoConnection(): void {

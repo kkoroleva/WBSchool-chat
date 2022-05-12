@@ -42,7 +42,7 @@
 							  <p>{{contact.username}}</p>
 						</div>
 						<div class="contacts__form">
-							<mat-form-field [formGroup]="form" (ngSubmit)="addFriend()"> <!-- " --> 
+							<mat-form-field [formGroup]="form" (ngSubmit)="addFriend()" (keyup.enter)="addFriend()"> <!-- " --> 
 								<!-- <div *ngIf="lookContacts" class="contacts__form_wrp"> -->	
 								<mat-label>Friend's name</mat-label>
 								<input matInput color='warn' *ngIf="lookContacts" type="text" formControlName="contactInput">
@@ -51,6 +51,7 @@
 							<button *ngIf="lookContacts" mat-raised-button 
 									color="primary" type="submit" 
 									(click)="addFriend()"
+									(keyup.enter)="addFriend()"
 							>
 						<mat-icon>add</mat-icon></button>
 						</div>
@@ -79,12 +80,17 @@
 								   type="text" id={{item.id}} 
 								   value={{item.description}} 
 								   formControlName={{item.type}}
+								   (keyup.enter)="addToFormData(input)"
 								   #input>
 							<mat-error *ngIf=userDataForm.controls[item.type].invalid>{{item.type}} error</mat-error>
 						</mat-form-field>
 
 						<div class="form-field__btn-wrapper">
-							<button mat-raised-button color="primary" (click)="addToFormData(input)" [disabled]="userDataForm.controls[item.type].invalid || userDataForm.controls[item.type].value == item.description">
+							<button mat-raised-button color="primary" 
+									(click)="addToFormData(input)"
+									(keyup.enter)="addToFormData(input)" 
+									[disabled]="userDataForm.controls[item.type].invalid || userDataForm.controls[item.type].value == item.description"
+									>
 								<mat-icon>done</mat-icon>
 							</button>
 							<button mat-raised-button color="warn" (click)="toggle = !toggle">
