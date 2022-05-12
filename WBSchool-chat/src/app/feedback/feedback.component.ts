@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { select, Store, USER_RUNTIME_CHECKS } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { IUserData } from 'src/interfaces/auth-interface';
+import { IUser } from 'src/interfaces/user.groups-interface';
+import { selectUser } from '../store/selectors/auth.selectors';
 import { IFeedBackMessage } from './feedBack';
 
 
@@ -14,6 +19,10 @@ export class FeedbackComponent implements OnInit {
   imageOrFile = '';
   imageName = 'Click to add files to the message.';
 
+  public user$: Observable<IUserData> = this.store$.pipe(
+    select(selectUser)
+  );
+
 
   arrFeedBack: IFeedBackMessage[] = [{
     user: "pasha",
@@ -22,24 +31,28 @@ export class FeedbackComponent implements OnInit {
   }];
 
 
-  constructor() { }
+  constructor(private store$: Store) { }
 
   ngOnInit(): void {
-    this.feedbackForm = new FormGroup({
-      nameUser: new FormControl('',[
-      Validators.required,
-      ]
-      ),
-      emailUser: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
-        ),
-      ]),
-      textUser: new FormControl('', [
-        Validators.minLength(10),
-      ]),
-    })
+    this.user$.subscribe(
+      (user)=>{
+        this.feedbackForm = new FormGroup({
+          nameUser: new FormControl(user.username,[
+          Validators.required,
+          ]
+          ),
+          emailUser: new FormControl(user.email, [
+            Validators.required,
+            Validators.pattern(
+              '^[a-zA-Z0-9а-яёА-ЯЁ]*[-_— .@]?[a-zA-Z0-9а-яёА-ЯЁ]*\.?[a-zA-Z0-9а-яёА-ЯЁ]*$'
+            ),
+          ]),
+          textUser: new FormControl('', [
+            Validators.minLength(10),
+          ]),
+        })
+      }
+    )
   }
   onImgAdd(event: Event) {
     console.log(event)
