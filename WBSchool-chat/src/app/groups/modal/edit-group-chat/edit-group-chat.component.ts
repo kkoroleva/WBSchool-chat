@@ -5,7 +5,14 @@ import {
   selectGroup,
   selectGroupUsers,
 } from './../../../store/selectors/groups.selectors';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith, Subscriber, tap, zip } from 'rxjs';
@@ -31,6 +38,7 @@ import { Router } from '@angular/router';
   selector: 'app-edit-group-chat',
   templateUrl: './edit-group-chat.component.html',
   styleUrls: ['./../../groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditGroupChatComponent implements OnInit {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
@@ -60,11 +68,15 @@ export class EditGroupChatComponent implements OnInit {
     private dialogRef: MatDialogRef<EditGroupChatComponent>,
     private store$: Store<IGroupsState>,
     private actions$: Actions,
-    private router: Router
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.user$.subscribe((user) => (this.user = user));
+    this.user$.subscribe((user) => {
+      this.user = user;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.group$.subscribe((group) => {
       this.chatId = group._id!;
@@ -84,10 +96,12 @@ export class EditGroupChatComponent implements OnInit {
           Validators.minLength(2),
         ]),
       });
+      this.changeDetectorRef.markForCheck();
     });
 
     this.actions$.pipe(ofType(editToGroups, deleteFromGroups)).subscribe(() => {
       this.dialogRef.close();
+      this.changeDetectorRef.markForCheck();
     });
 
     this.getContacts();
@@ -112,6 +126,7 @@ export class EditGroupChatComponent implements OnInit {
         tap(() => {
           this.actions$.pipe(ofType(setGroupUsers)).subscribe(() => {
             this.contactsIsLoaded = true;
+            this.changeDetectorRef.markForCheck();
           });
         })
       )
@@ -139,6 +154,7 @@ export class EditGroupChatComponent implements OnInit {
             username ? this.filterContacts(username) : this.contactsList
           )
         );
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -213,6 +229,7 @@ export class EditGroupChatComponent implements OnInit {
 
       this.formatImage = splitImage[0] + ',';
       this.imageInBase64 = splitImage[1];
+      this.changeDetectorRef.markForCheck();
     });
   }
 

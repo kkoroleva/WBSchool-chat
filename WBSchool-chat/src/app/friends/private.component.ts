@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { IPrivate } from '../../interfaces/private-interface';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -23,9 +29,9 @@ import { IAllMessages } from '../../interfaces/lastMessages-interface';
   selector: 'app-private',
   templateUrl: './private.component.html',
   styleUrls: ['./private.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrivateComponent implements OnInit {
-
   isThreads: boolean = false;
 
   public friendsState$: Observable<IPrivate[]> = this.store$.pipe(
@@ -42,22 +48,23 @@ export class PrivateComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private store$: Store<IGroupsState>,
-    private threadService: ThreadsService
-  ) { }
+    private threadService: ThreadsService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     if (this.router.url === '/chat') {
       this.threadService.isThreads$.subscribe((isThreads) => {
-        console.log(isThreads);
         this.isThreads = isThreads;
-      }
-      );
+        this.changeDetectorRef.markForCheck();
+      });
     }
 
     this.store$.dispatch(loadFriends());
     let chatsLength: number | undefined = 0;
     this.store$.pipe(select(selectAllChatsMessages)).subscribe((messages) => {
       chatsLength = messages.length;
+      this.changeDetectorRef.markForCheck();
     });
     this.friendsState$.subscribe((chats: IPrivate[]) => {
       if (chatsLength === 0) {
@@ -65,6 +72,7 @@ export class PrivateComponent implements OnInit {
           this.store$.dispatch(getAllChatsMessages({ chatId: chat._id! }));
         });
       }
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -76,8 +84,7 @@ export class PrivateComponent implements OnInit {
     localStorage.setItem('isPrivate', 'true');
     if (this.router.url.includes('/chat')) {
       (document.querySelector('#messages') as HTMLInputElement).checked = true;
-    }
-    else {
+    } else {
       this.router.navigateByUrl('/chat');
     }
   }

@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { selectThread } from '../store/selectors/thread.selector';
 import { initThread } from '../store/actions/threads.action';
@@ -68,7 +69,8 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     private serviceDialog: DialogService,
     private threadSocketService: ThreadSocketService,
     private store$: Store,
-    private threadsService: ThreadsService
+    private threadsService: ThreadsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +87,7 @@ export class ThreadsComponent implements OnInit, OnDestroy {
           initThread({ chatId: bp.chatId!, messageId: bp._id! })
         );
       }
+      this.changeDetectorRef.markForCheck();
     });
 
     this.thread$.subscribe((thread) => {
@@ -94,6 +97,7 @@ export class ThreadsComponent implements OnInit, OnDestroy {
       this.formatImage = thread.formatImage!;
 
       this.threadId = thread._id;
+      this.changeDetectorRef.markForCheck();
     });
     this.threadSocketService.initConnectThreads();
   }
@@ -102,6 +106,7 @@ export class ThreadsComponent implements OnInit, OnDestroy {
     this.serviceDialog.getMyInfo().subscribe((item) => {
       this.username = item.username;
       this.idUser = item._id;
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -171,6 +176,7 @@ export class ThreadsComponent implements OnInit, OnDestroy {
             text: this.commentControl.value,
           });
         }
+        this.changeDetectorRef.markForCheck();
       });
       this.commentControl.reset();
     }

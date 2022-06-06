@@ -1,5 +1,9 @@
 import { ConnectEvent } from './../socket/event';
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
@@ -9,9 +13,7 @@ import { AuthService } from '../auth/services/auth.service';
 import { SocketService } from '../socket/socket.service';
 import { loadGroups } from '../store/actions/groups.actions';
 import { IGroupsState } from '../store/reducers/groups.reducers';
-import {
-  INotificationsState,
-} from '../store/reducers/notifications.reducers';
+import { INotificationsState } from '../store/reducers/notifications.reducers';
 import { selectUser } from '../store/selectors/auth.selectors';
 import { selectElNotifications } from '../store/selectors/notifications.selectors';
 
@@ -19,6 +21,7 @@ import { selectElNotifications } from '../store/selectors/notifications.selector
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
   path: string = window.location.pathname.substring(1);

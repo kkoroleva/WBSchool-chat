@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -21,6 +26,7 @@ import {
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent implements OnInit {
   searchType = 'msg';
@@ -31,7 +37,11 @@ export class SearchComponent implements OnInit {
   chats: IPrivate[] = [];
   groups: IGroup[] = [];
 
-  constructor(private router: Router, private store$: Store<IGroupsState>) {}
+  constructor(
+    private router: Router,
+    private store$: Store<IGroupsState>,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   public friendsState$: Observable<IPrivate[]> = this.store$.pipe(
     select(selectFriends)
@@ -63,17 +73,21 @@ export class SearchComponent implements OnInit {
     );
     this.friendsState$.subscribe((chats) => {
       this.chats = chats;
+      this.changeDetectorRef.markForCheck();
     });
     this.groups$.subscribe((chats) => {
       this.groups = chats;
+      this.changeDetectorRef.markForCheck();
     });
   }
 
   private _filterChats(value: string): IPrivate[] {
     const filterValue = value.toLowerCase();
     // this.chats.filter((chat: IPrivate) => chat.usernames)
-    console.log(this.chats)
-    return this.chats.filter((chat: IPrivate) => chat.usernames[0].toLowerCase().includes(filterValue));
+    console.log(this.chats);
+    return this.chats.filter((chat: IPrivate) =>
+      chat.usernames[0].toLowerCase().includes(filterValue)
+    );
   }
 
   private _filterGroups(value: string): IGroup[] {
@@ -84,7 +98,9 @@ export class SearchComponent implements OnInit {
   }
 
   goToChat(chatId: string, isPrivate: boolean) {
-    this.store$.dispatch(changeChatGroup({ chatGroup: chatId, isPrivate: isPrivate }));
+    this.store$.dispatch(
+      changeChatGroup({ chatGroup: chatId, isPrivate: isPrivate })
+    );
     localStorage.setItem('chatID', chatId);
     this.router.navigateByUrl('/chat');
   }

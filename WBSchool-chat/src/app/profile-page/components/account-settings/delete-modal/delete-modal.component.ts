@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -11,49 +16,58 @@ import { AccountSettingsService } from '../../../services/account-settings.servi
 @Component({
   selector: 'app-delete-modal',
   templateUrl: './delete-modal.component.html',
-  styleUrls: ['./delete-modal.component.scss']
+  styleUrls: ['./delete-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteModalComponent implements OnInit {
   hide: boolean = true;
   profileData: IUserDeleteData = {
     id: '',
-    password: ''
+    password: '',
   };
 
   constructor(
     public dialogRef: MatDialogRef<DeleteModalComponent>,
-    private accService: AccountSettingsService, 
-    private router: Router, 
-    private auth: AuthService
+    private accService: AccountSettingsService,
+    private router: Router,
+    private auth: AuthService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  password = new FormControl("", [Validators.required, Validators.minLength(8)])
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+  ]);
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   getUsersData() {
-    this.accService.getUsersData()
-    .subscribe((response: IServerResponse) => {
-      console.log(response)
-      this.profileData = Object.assign({}, {
-        id: response['_id'],
-        password: this.password.value
-      })
-    })
+    this.accService.getUsersData().subscribe((response: IServerResponse) => {
+      console.log(response);
+      this.profileData = Object.assign(
+        {},
+        {
+          id: response['_id'],
+          password: this.password.value,
+        }
+      );
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   isPasswordInvalid(): boolean {
-    return this.password.invalid
+    return this.password.invalid;
   }
 
   deleteAcc() {
-    this.profileData.password = this.password.value
-    this.accService.deleteUser(this.profileData)
+    this.profileData.password = this.password.value;
+    this.accService
+      .deleteUser(this.profileData)
       .pipe(
         catchError((error) => {
-          console.log(error)
+          console.log(error);
           this.dialogRef.close();
           this.auth.logout();
           this.router.navigateByUrl('/login');
@@ -61,12 +75,13 @@ export class DeleteModalComponent implements OnInit {
         })
       )
       .subscribe((response: IServerResponse) => {
-        console.log(response)
+        console.log(response);
         this.dialogRef.close();
-      })
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   ngOnInit(): void {
-    this.getUsersData()
+    this.getUsersData();
   }
 }

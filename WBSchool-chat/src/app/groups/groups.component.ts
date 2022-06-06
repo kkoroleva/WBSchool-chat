@@ -1,5 +1,10 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupChatComponent } from './modal/create-group-chat/create-group-chat.component';
 import { IGroupsState } from '../store/reducers/groups.reducers';
@@ -26,6 +31,7 @@ import { selectUser } from '../store/selectors/auth.selectors';
   selector: 'app-groups',
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsComponent implements OnInit {
   public isThreads: boolean = false;
@@ -40,15 +46,20 @@ export class GroupsComponent implements OnInit {
     public dialog: MatDialog,
     private store$: Store<IGroupsState>,
     private router: Router,
-    private threadService: ThreadsService
+    private threadService: ThreadsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.user$.subscribe((user) => (this.user = user));
+    this.user$.subscribe((user) => {
+      this.user = user;
+      this.changeDetectorRef.markForCheck();
+    });
 
     if (this.router.url === '/chat') {
       this.threadService.isThreads$.subscribe((isThreads) => {
         this.isThreads = isThreads;
+        this.changeDetectorRef.markForCheck();
       });
     }
 
@@ -61,6 +72,7 @@ export class GroupsComponent implements OnInit {
 
     this.store$.pipe(select(selectLastGroupsMessages)).subscribe((messages) => {
       chatsLength = messages.length;
+      this.changeDetectorRef.markForCheck();
     });
 
     this.groups$.subscribe((groups) => {
@@ -69,6 +81,7 @@ export class GroupsComponent implements OnInit {
           this.store$.dispatch(getAllGroupsMessages({ chatId: group._id! }));
         });
       }
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -109,8 +122,7 @@ export class GroupsComponent implements OnInit {
 
     if (this.router.url.includes('/chat')) {
       (document.querySelector('#messages') as HTMLInputElement).checked = true;
-    }
-    else {
+    } else {
       this.router.navigateByUrl('/chat');
     }
   }

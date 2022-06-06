@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { MessageSocketService } from '../socket/message-socket.service';
@@ -122,6 +127,7 @@ const mockSmiles: ISmile[] = [
   selector: 'app-smile',
   templateUrl: './smile.component.html',
   styleUrls: ['./smile.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmileComponent implements OnInit {
   allSmiles: ISmile[] = mockSmiles;
@@ -134,11 +140,15 @@ export class SmileComponent implements OnInit {
   );
   constructor(
     private store$: Store,
-    private messageSocketService: MessageSocketService
+    private messageSocketService: MessageSocketService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.chatGroup$.subscribe((chatGroup: IChatGroup) => (this.chatGroup = chatGroup));
+    this.chatGroup$.subscribe((chatGroup: IChatGroup) => {
+      this.chatGroup = chatGroup;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   onClick(e: Event) {

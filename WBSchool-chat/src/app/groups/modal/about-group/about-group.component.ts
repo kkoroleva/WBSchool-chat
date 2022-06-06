@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
@@ -19,6 +24,7 @@ import { ModalProfileService } from '../../../../app/modal-profile/service/modal
   selector: 'app-about-group',
   templateUrl: './about-group.component.html',
   styleUrls: ['./../../groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutGroupComponent implements OnInit {
   public usersIsLoaded = false;
@@ -30,17 +36,20 @@ export class AboutGroupComponent implements OnInit {
   constructor(
     private store$: Store<IGroupsState>,
     private actions$: Actions,
-    private modalServ: ModalProfileService
+    private modalServ: ModalProfileService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.group$.subscribe((group) =>
-      this.store$.dispatch(getGroupUsers({ id: group._id! }))
-    );
+    this.group$.subscribe((group) => {
+      this.store$.dispatch(getGroupUsers({ id: group._id! }));
+      this.changeDetectorRef.markForCheck();
+    });
 
-    this.actions$
-      .pipe(ofType(setGroupUsers))
-      .subscribe(() => (this.usersIsLoaded = true));
+    this.actions$.pipe(ofType(setGroupUsers)).subscribe(() => {
+      this.usersIsLoaded = true;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   checkUser(user: IUser): void {

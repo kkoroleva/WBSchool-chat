@@ -3,7 +3,14 @@ import {
   getAllGroupsMessages,
 } from './../../../store/actions/groups.actions';
 import { DialogService } from '../../dialog.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,6 +43,7 @@ import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef;
@@ -86,7 +94,7 @@ export class MessageComponent implements OnInit {
     private messageSocketService: MessageSocketService,
     private modalServ: ModalProfileService,
     private actions$: Actions,
-
+    private changeDetectorRef: ChangeDetectorRef,
     private threadsService: ThreadsService
   ) {}
 
@@ -95,9 +103,10 @@ export class MessageComponent implements OnInit {
       .pipe(
         ofType(deleteMessage),
         tap(() =>
-          this.lastGroupsMessages$.subscribe(
-            (messages) => (this.lastGroupsMessages = messages)
-          )
+          this.lastGroupsMessages$.subscribe((messages) => {
+            this.lastGroupsMessages = messages;
+            this.changeDetectorRef.markForCheck();
+          })
         )
       )
       .subscribe(({ id }) => {
@@ -109,6 +118,7 @@ export class MessageComponent implements OnInit {
           }
         });
         this.store$.dispatch(deleteLastGroupMessage({ id }));
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -120,6 +130,7 @@ export class MessageComponent implements OnInit {
       this.store$.dispatch(
         initDialogs({ id: chatGroup.chatGroup, isPrivate: chatGroup.isPrivate })
       );
+      this.changeDetectorRef.markForCheck();
     });
     this.initIoConnection();
   }
@@ -138,6 +149,7 @@ export class MessageComponent implements OnInit {
     this.service.getMyInfo().subscribe((response) => {
       this.myId = response._id;
       this.userName = response.username;
+      this.changeDetectorRef.markForCheck();
     });
   }
 

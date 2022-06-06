@@ -1,7 +1,13 @@
 import { NotificationSocketService } from 'src/app/socket/notification-socket.service';
 import { MessageSocketService } from './socket/message-socket.service';
 import { ThreadSocketService } from './socket/thread-socket.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { initAuth } from './store/actions/auth.actions';
 import { IAuthState } from './store/reducers/auth.reducers';
@@ -15,6 +21,7 @@ import { loadNotifications } from './store/actions/notifications.actions';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
@@ -23,12 +30,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private socketService: SocketService,
     private threadSocketService: ThreadSocketService,
     private messageSocketService: MessageSocketService,
-    private notificationSocketService: NotificationSocketService
+    private notificationSocketService: NotificationSocketService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.storage.get('user').subscribe((newUser: any) => {
       this.store$.dispatch(initAuth({ newUser }));
+      this.changeDetectorRef.markForCheck();
     });
     if (localStorage.getItem('token')) {
       this.initIoConnection();
@@ -46,12 +55,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.messageSocketService.initIoConnectionMessages();
       this.threadSocketService.initConnectThreads();
       this.notificationSocketService.initIoConnectionNotification();
+      this.changeDetectorRef.markForCheck();
     });
   }
 
   ngOnDestroy(): void {
     this.socketService.onEvent(ConnectEvent.DISCONNECT).subscribe(() => {
       console.log('disconnected');
+      this.changeDetectorRef.markForCheck();
     });
   }
 }
