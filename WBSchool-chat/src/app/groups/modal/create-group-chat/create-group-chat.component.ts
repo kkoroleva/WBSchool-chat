@@ -6,6 +6,8 @@ import {
 import { Actions, ofType } from '@ngrx/effects';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DoCheck,
   ElementRef,
@@ -37,6 +39,7 @@ import { INotification } from '../../../../interfaces/notifications-interface';
   selector: 'groups-create-group-chat',
   templateUrl: './create-group-chat.component.html',
   styleUrls: ['./../../groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('contactsInput') contactsInput!: ElementRef<HTMLInputElement>;
@@ -65,7 +68,8 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
     private dialogRef: MatDialogRef<CreateGroupChatComponent>,
     private store$: Store<IGroupsState>,
     private actions$: Actions,
-    private notificationSocketService: NotificationSocketService
+    private notificationSocketService: NotificationSocketService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +91,7 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
 
     this.actions$.pipe(ofType(pushToGroups)).subscribe(() => {
       this.dialogRef.close();
+      this.changeDetectorRef.markForCheck();
     });
 
     this.getContacts();
@@ -116,6 +121,7 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
           username ? this.filterContacts(username) : this.contactsList
         )
       );
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -139,9 +145,11 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
             currentGroup.users!
           );
         }
+        this.changeDetectorRef.markForCheck();
       });
       this.dialogRef.afterClosed().subscribe(() => {
         this.store$.dispatch(chatGroupError({ error: '' }));
+        this.changeDetectorRef.markForCheck();
       });
     }
   }
@@ -202,6 +210,7 @@ export class CreateGroupChatComponent implements OnInit, DoCheck, OnDestroy {
 
       this.formatImage = splitImage[0] + ',';
       this.imageInBase64 = splitImage[1];
+      this.changeDetectorRef.markForCheck();
     });
   }
 

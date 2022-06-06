@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -22,6 +28,7 @@ import { ModalProfileService } from './service/modal-profile.service';
   selector: 'app-modal-profile',
   templateUrl: './modal-profile.component.html',
   styleUrls: ['./modal-profile.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalProfileComponent implements OnInit {
   userData: IUserData = {
@@ -46,7 +53,8 @@ export class ModalProfileComponent implements OnInit {
     private store$: Store,
     private router: Router,
     @Inject('API_URL') public apiUrl: string,
-    private profileServ: ProfileSettingsService
+    private profileServ: ProfileSettingsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   onNoClick(): void {
@@ -62,6 +70,7 @@ export class ModalProfileComponent implements OnInit {
           (user: IUserData) => user.username === this.userData.username
         );
         this.contacts = contacts.contacts;
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -73,6 +82,7 @@ export class ModalProfileComponent implements OnInit {
         (chat: IPrivate) =>
           chat.usernames[0] === username || chat.usernames[1] === username
       );
+      this.changeDetectorRef.markForCheck();
     });
     if (!clone) {
       this.profileServ
@@ -83,13 +93,16 @@ export class ModalProfileComponent implements OnInit {
         .subscribe((res: any) => {
           if (res) {
             this.user$.subscribe({
-              next: () => this.store$.dispatch(
-                returnIntoChatFriend({ chatId: res._id, users: res.owners})
-              ),
+              next: () => {
+                this.store$.dispatch(
+                  returnIntoChatFriend({ chatId: res._id, users: res.owners })
+                ),
+                  this.changeDetectorRef.markForCheck();
+              },
             });
           } else {
             this.user$.subscribe({
-              next: (user) =>
+              next: (user) => {
                 this.store$.dispatch(
                   createChatFriend({
                     username,
@@ -98,22 +111,27 @@ export class ModalProfileComponent implements OnInit {
                     ownerAvatar: user.avatar!,
                   })
                 ),
+                  this.changeDetectorRef.markForCheck();
+              },
             });
           }
           setTimeout(() => {
             this.router.navigateByUrl('/home');
           }, 0);
         });
-      } else {
-        this.store$.dispatch(changeChatGroup({ chatGroup: clone._id!, isPrivate: true }));
-        this.router.navigateByUrl('/chat');
-      }
+    } else {
+      this.store$.dispatch(
+        changeChatGroup({ chatGroup: clone._id!, isPrivate: true })
+      );
+      this.router.navigateByUrl('/chat');
+    }
     this.dialogRef.close();
   }
 
   deleteContact(_id: string) {
     this.modalServ.deleteContact(_id).subscribe(() => {
       this.store$.dispatch(initContacts());
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -125,6 +143,7 @@ export class ModalProfileComponent implements OnInit {
     if (!this.contacts.find((userCont) => userCont._id === userId)) {
       this.profileServ.addFriend(userId).subscribe(() => {
         this.store$.dispatch(initContacts());
+        this.changeDetectorRef.markForCheck();
       });
     }
   }

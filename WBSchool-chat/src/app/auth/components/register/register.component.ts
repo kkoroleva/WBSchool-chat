@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
@@ -9,13 +14,18 @@ import { User } from '../../../../interfaces/auth-interface';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   submitted!: boolean;
   errorMessage: string = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -63,15 +73,16 @@ export class RegisterComponent implements OnInit {
           return throwError(() => error);
         })
       )
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.registerForm.reset();
           this.router.navigateByUrl('/auth/login');
           this.submitted = false;
+          this.changeDetectorRef.markForCheck();
         },
-        () => {
+        error: () => {
           this.submitted = false;
-        }
-      );
+        },
+      });
   }
 }

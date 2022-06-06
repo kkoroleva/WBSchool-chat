@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { catchError, concatMap, Subscription, throwError } from 'rxjs';
 import { ProfileSettingsService } from '../../services/profile-settings.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,6 +32,7 @@ import { initAuth } from '../../../../app/store/actions/auth.actions';
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileSettingsComponent implements OnInit {
   profileData: IProfileData = {
@@ -109,7 +115,8 @@ export class ProfileSettingsComponent implements OnInit {
     private storage: StorageMap,
     private store$: Store,
     private imageCompress: NgxImageCompressService,
-    public modalProfileServ: ModalProfileService
+    public modalProfileServ: ModalProfileService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -120,8 +127,14 @@ export class ProfileSettingsComponent implements OnInit {
       ]),
     });
     this.userDataForm = new FormGroup({
-      username: new FormControl('', [Validators.minLength(4), Validators.maxLength(30)]),
-      about: new FormControl('', [Validators.minLength(4), Validators.maxLength(100)]),
+      username: new FormControl('', [
+        Validators.minLength(4),
+        Validators.maxLength(30),
+      ]),
+      about: new FormControl('', [
+        Validators.minLength(4),
+        Validators.maxLength(100),
+      ]),
       email: new FormControl('', [Validators.email, Validators.maxLength(60)]),
     });
     this.getUsersData();
@@ -130,6 +143,7 @@ export class ProfileSettingsComponent implements OnInit {
       .pipe(select(selectContacts))
       .subscribe((contacts: IContactsState) => {
         this.contacts = contacts.contacts;
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -147,6 +161,7 @@ export class ProfileSettingsComponent implements OnInit {
       this.userDataForm.controls['username'].setValue(user.username);
       this.userDataForm.controls['about'].setValue(user.about);
       this.userDataForm.controls['email'].setValue(user.email);
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -179,6 +194,7 @@ export class ProfileSettingsComponent implements OnInit {
         )
         .subscribe(() => {
           this.errorMsg = 'Username taken';
+          this.changeDetectorRef.markForCheck();
         });
     } else if (inputData.id == 3) {
       this.formData.avatar = btoa(inputData.value);
@@ -216,7 +232,10 @@ export class ProfileSettingsComponent implements OnInit {
     let reader = new FileReader();
     let file = input.files[0];
     reader.onloadend = () => {
-      if (typeof reader.result == 'string' && this.itemFormat(input.files[0].name)) {
+      if (
+        typeof reader.result == 'string' &&
+        this.itemFormat(input.files[0].name)
+      ) {
         imageOrFile = reader.result;
         this.imageName = input.files[0]?.name;
         console.log(this.imageName);
@@ -267,9 +286,12 @@ export class ProfileSettingsComponent implements OnInit {
             formatImage: user.formatImage,
           },
         };
-        this.storage.set('user', user).subscribe(() => {});
+        this.storage.set('user', user).subscribe(() => {
+          this.changeDetectorRef.markForCheck();
+        });
         this.getUsersData();
         this.store$.dispatch(initAuth(storeUser));
+        this.changeDetectorRef.markForCheck();
       });
     this.formData = {};
     this.imgInput = false;
@@ -296,9 +318,10 @@ export class ProfileSettingsComponent implements OnInit {
       (user) => user.username === userName
     );
     let me: string | undefined;
-    this.store$
-      .pipe(select(selectUser))
-      .subscribe((user: IUserData) => (me = user.username));
+    this.store$.pipe(select(selectUser)).subscribe((user: IUserData) => {
+      me = user.username;
+      this.changeDetectorRef.markForCheck();
+    });
 
     if (!userName.length) {
       this.notFound = 'Поле ввода пустое, введите username пользователя.';
@@ -318,6 +341,7 @@ export class ProfileSettingsComponent implements OnInit {
         )
         .subscribe(() => {
           this.store$.dispatch(initContacts());
+          this.changeDetectorRef.markForCheck();
         });
     }
     this.form.reset();

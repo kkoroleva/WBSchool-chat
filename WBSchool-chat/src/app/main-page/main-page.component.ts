@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -11,38 +18,41 @@ interface ICountry {
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss']
+  styleUrls: ['./main-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class MainPageComponent implements OnInit {
-
   @ViewChild('sortID') sortID!: ElementRef;
 
-  urlGitHub = "https://github.com/kkoroleva/WBSchool-chat";
+  urlGitHub = 'https://github.com/kkoroleva/WBSchool-chat';
 
   country: ICountry[] = [
     {
-      value: 'RUS', viewValue: 'RUS'
+      value: 'RUS',
+      viewValue: 'RUS',
     },
     {
-      value: 'ENG', viewValue: 'ENG'
-    }
-  ]
- 
+      value: 'ENG',
+      viewValue: 'ENG',
+    },
+  ];
 
-  valueControl = new FormControl(JSON.parse(localStorage.getItem('languageSelector')!) || 0);
+  valueControl = new FormControl(
+    JSON.parse(localStorage.getItem('languageSelector')!) || 0
+  );
 
-  constructor(public dialog: MatDialog) {
-
-    console.log(localStorage.getItem('languageSelector'), "this")
+  constructor(
+    public dialog: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
+    console.log(localStorage.getItem('languageSelector'), 'this');
   }
 
   ngOnInit(): void {
-    this.valueControl.valueChanges.subscribe(
-      (element: number) => {
-        localStorage.setItem('languageSelector', JSON.stringify(element))
-      }
-    )
+    this.valueControl.valueChanges.subscribe((element: number) => {
+      localStorage.setItem('languageSelector', JSON.stringify(element));
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   sendFeedBack(): void {
@@ -52,7 +62,6 @@ export class MainPageComponent implements OnInit {
     });
   }
   gitHub() {
-    window.open(this.urlGitHub)
+    window.open(this.urlGitHub);
   }
- 
 }

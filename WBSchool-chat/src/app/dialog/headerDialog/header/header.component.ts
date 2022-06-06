@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectChatGroup } from '../../../store/selectors/groups.selectors';
@@ -24,6 +29,7 @@ import { IChatInfo } from '../../../../interfaces/dialog-interface';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
   chatInfo: IChatInfo | undefined;
@@ -41,7 +47,8 @@ export class HeaderComponent implements OnInit {
     private store$: Store<IChatInfo>,
     private modalServ: ModalProfileService,
     private router: Router,
-    private modalWindow: MatDialog
+    private modalWindow: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
   public user$: Observable<IUserData> = this.store$.pipe(select(selectUser));
 
@@ -53,14 +60,22 @@ export class HeaderComponent implements OnInit {
           isPrivate: chatGroup.isPrivate,
         })
       );
+      this.changeDetectorRef.markForCheck();
     });
     this.chatInfo$.subscribe((data) => {
       if (data) {
         this.chatInfo = data;
       }
+      this.changeDetectorRef.markForCheck();
     });
-    this.chatInfo$.subscribe((data) => (this.chatInfo = data));
-    this.user$.subscribe(user => this.myName = user.username)
+    this.chatInfo$.subscribe((data) => {
+      this.chatInfo = data;
+      this.changeDetectorRef.markForCheck();
+    });
+    this.user$.subscribe((user) => {
+      this.myName = user.username;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   getModalWindow(chatInfo: IChatInfo): void {
@@ -112,9 +127,12 @@ export class HeaderComponent implements OnInit {
   modalClick() {
     if (this.chatInfo && this.chatInfo.users.length < 3)
       this.modalServ.searchAndOpenDialog(this.chatInfo?.name);
-    const searchName = this.myName == this.chatInfo?.usernames[0] ? 
-                       this.chatInfo?.usernames[1] : this.chatInfo?.usernames[0];
+    const searchName =
+      this.myName == this.chatInfo?.usernames[0]
+        ? this.chatInfo?.usernames[1]
+        : this.chatInfo?.usernames[0];
 
-    if (this.chatInfo && this.chatInfo.users.length < 3) this.modalServ.searchAndOpenDialog(searchName!);
+    if (this.chatInfo && this.chatInfo.users.length < 3)
+      this.modalServ.searchAndOpenDialog(searchName!);
   }
 }

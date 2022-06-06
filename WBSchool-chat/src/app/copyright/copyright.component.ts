@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 interface HeroCoder {
@@ -153,9 +158,13 @@ const gitApiUrl = 'https://api.github.com/users/';
   selector: 'app-copyright',
   templateUrl: './copyright.component.html',
   styleUrls: ['./copyright.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CopyrightComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   heroes: HeroCoder[] = [];
 
@@ -167,6 +176,7 @@ export class CopyrightComponent implements OnInit {
         let gitProfile = res;
         hero.socials.github = gitProfile.html_url;
         hero.gitInfo = res;
+        this.changeDetectorRef.markForCheck();
       });
     });
   }

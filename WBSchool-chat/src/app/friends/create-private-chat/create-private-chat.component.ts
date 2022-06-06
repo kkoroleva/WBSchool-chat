@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -29,10 +34,13 @@ import { ProfileSettingsService } from '../../../app/profile-page/services/profi
   selector: 'app-create-private-chat',
   templateUrl: './create-private-chat.component.html',
   styleUrls: ['./create-private-chat.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePrivateChatComponent implements OnInit {
   public contactsList: IUserData[] = [];
-  private chats$: Observable<IPrivate[]> = this.store$.pipe(select(selectFriends));
+  private chats$: Observable<IPrivate[]> = this.store$.pipe(
+    select(selectFriends)
+  );
   private chats!: IPrivate[];
   public contactsControl!: FormControl;
   public form: FormGroup;
@@ -49,7 +57,8 @@ export class CreatePrivateChatComponent implements OnInit {
     private store$: Store<IGroupsState>,
     private actions$: Actions,
     private router: Router,
-    private profileServ: ProfileSettingsService
+    private profileServ: ProfileSettingsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.form = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -59,31 +68,36 @@ export class CreatePrivateChatComponent implements OnInit {
   ngOnInit(): void {
     this.actions$.pipe(ofType(pushToFriends)).subscribe(() => {
       this.dialogRef.close();
+      this.changeDetectorRef.markForCheck();
     });
 
     this.getChats();
     this.getContacts();
-    
+
     this.contactsControl = this.form.get('username') as FormControl;
   }
 
   getChats(): void {
-    this.store$.dispatch(loadFriends())
+    this.store$.dispatch(loadFriends());
   }
 
   getContacts(): void {
     this.store$.dispatch(initContacts());
-    this.chats$.subscribe(chats => this.chats = chats);
-    this.actions$.pipe(ofType(pushContacts))
-    .subscribe(({ contacts }) => {
+    this.chats$.subscribe((chats) => {
+      this.chats = chats;
+      this.changeDetectorRef.markForCheck();
+    });
+    this.actions$.pipe(ofType(pushContacts)).subscribe(({ contacts }) => {
       this.myContacts = contacts.contacts;
 
       let cloneContacts = [...contacts.contacts];
-      let cloneChatUsers = [...new Set(this.chats.map(chat => chat.users).flat())];
-      
-      cloneChatUsers.forEach(user => {
-        cloneContacts = cloneContacts.filter(contact => contact._id !== user)
-      })
+      let cloneChatUsers = [
+        ...new Set(this.chats.map((chat) => chat.users).flat()),
+      ];
+
+      cloneChatUsers.forEach((user) => {
+        cloneContacts = cloneContacts.filter((contact) => contact._id !== user);
+      });
 
       this.contactsList = cloneContacts;
       this.contactsIsLoaded = true;
@@ -94,6 +108,7 @@ export class CreatePrivateChatComponent implements OnInit {
           username ? this.filterContacts(username) : this.contactsList
         )
       );
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -105,6 +120,7 @@ export class CreatePrivateChatComponent implements OnInit {
         (chat: IPrivate) =>
           chat.usernames[0] === username || chat.usernames[1] === username
       );
+      this.changeDetectorRef.markForCheck();
     });
     if (!clone) {
       this.profileServ
@@ -122,7 +138,7 @@ export class CreatePrivateChatComponent implements OnInit {
             });
           } else {
             this.user$.subscribe({
-              next: (user) =>
+              next: (user) => {
                 this.store$.dispatch(
                   createChatFriend({
                     username,
@@ -131,8 +147,11 @@ export class CreatePrivateChatComponent implements OnInit {
                     ownerAvatar: user.avatar!,
                   })
                 ),
+                  this.changeDetectorRef.markForCheck();
+              },
             });
           }
+          this.changeDetectorRef.markForCheck();
         });
     } else {
       this.store$.dispatch(

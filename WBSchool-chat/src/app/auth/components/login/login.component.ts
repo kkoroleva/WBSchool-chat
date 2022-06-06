@@ -1,5 +1,10 @@
 import { loadNotifications } from './../../../store/actions/notifications.actions';
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
@@ -25,6 +30,7 @@ import { MessageSocketService } from '../../../../app/socket/message-socket.serv
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -42,7 +48,8 @@ export class LoginComponent implements OnInit {
     private socketService: SocketService,
     private notificationSocketService: NotificationSocketService,
     private messageSocketService: MessageSocketService,
-    private threadSocketService: ThreadSocketService
+    private threadSocketService: ThreadSocketService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +75,7 @@ export class LoginComponent implements OnInit {
       this.messageSocketService.initIoConnectionMessages();
       this.threadSocketService.initConnectThreads();
       this.notificationSocketService.initIoConnectionNotification();
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -105,6 +113,7 @@ export class LoginComponent implements OnInit {
             addAuthNotification({ notification: this.notificationAuth })
           );
           this.store$.dispatch(loadNotifications());
+          this.changeDetectorRef.markForCheck();
         },
         error: () => {
           this.submitted = false;

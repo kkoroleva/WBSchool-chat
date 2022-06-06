@@ -1,7 +1,14 @@
 import { selectGroup } from './../../../store/selectors/groups.selectors';
 import { MatChipList } from '@angular/material/chips';
 import { IGroupsState } from './../../../store/reducers/groups.reducers';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { map, Observable, startWith } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -23,6 +30,7 @@ import { selectUser } from './../../../store/selectors/auth.selectors';
   selector: 'app-out-from-group',
   templateUrl: './out-from-group.component.html',
   styleUrls: ['./../../groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OutFromGroupComponent implements OnInit {
   @ViewChild('ownersInput') ownersInput!: ElementRef<HTMLInputElement>;
@@ -44,14 +52,19 @@ export class OutFromGroupComponent implements OnInit {
     private dialogRef: MatDialogRef<OutFromGroupComponent>,
     private actions$: Actions,
     private store$: Store<IGroupsState>,
-    private router: Router
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.user$.subscribe((user) => (this.user = user));
+    this.user$.subscribe((user) => {
+      this.user = user;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.group$.subscribe((group) => {
       this.chatId = group._id!;
+      this.changeDetectorRef.markForCheck();
     });
 
     this.form = new FormGroup({
@@ -65,6 +78,7 @@ export class OutFromGroupComponent implements OnInit {
 
     this.actions$.pipe(ofType(exitFromGroup)).subscribe(() => {
       this.dialogRef.close();
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -91,6 +105,7 @@ export class OutFromGroupComponent implements OnInit {
           username ? this.filterUsers(username) : this.usersList
         )
       );
+      this.changeDetectorRef.markForCheck();
     });
   }
 
